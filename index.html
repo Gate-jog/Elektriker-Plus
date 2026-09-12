@@ -1283,27 +1283,108 @@
             loadQuestion();
         }
 
+        // DYNAMISCHE KI GENERIERUNGS-ENGINE
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
             answered = false;
 
-            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Generiere...</span><br>Lade dynamische Aufgabe...';
+            const selectedTopic = document.getElementById('ai-topic-select').value;
+            const selectedDiff = document.getElementById('ai-diff-select').value;
+
+            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere maßgeschneiderte Fachaufgabe...';
             document.getElementById('options').innerHTML = '';
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
             
             setTimeout(() => {
-                quizData = [{
-                    question: `Berechnen Sie den Schleifenwiderstand (Zs) für einen Leitungsschutzschalter B16, damit im TN-System rechtzeitig abgeschaltet wird. (U0 = 230V, Ia = 80A)`,
-                    options: ["1.44 Ω", "2.87 Ω", "4.00 Ω", "5.10 Ω"],
-                    answer: 1,
-                    explanation: "Nach ÖVE/DIN VDE gilt: Zs ≤ U0 / Ia. Bei B16 ist der Auslösestrom Ia = 5 x 16A = 80A. Zs = 230V / 80A = 2,875 Ω.",
-                    aiGenerated: true
-                }];
+                const generatedQuestion = buildDynamicQuestion(selectedTopic, selectedDiff);
+                quizData = [generatedQuestion];
                 currentQuestion = 0;
                 score = 0;
                 loadQuestion();
-            }, 600);
+            }, 450);
+        }
+
+        function buildDynamicQuestion(topicKey, diffKey) {
+            let topic = topicKey;
+            if (topic === 'auto') {
+                const topics = ['ohm', 'motor', 'protection', 'cables'];
+                topic = topics[Math.floor(Math.random() * topics.length)];
+            }
+
+            let level = diffKey;
+            if (level === 'adaptive') {
+                if (stats.level < 3) level = 'easy';
+                else if (stats.level < 6) level = 'medium';
+                else level = 'hard';
+            }
+
+            const generators = {
+                ohm: () => {
+                    const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
+                    const r = Math.floor(Math.random() * 45) + 5;
+                    const i = (u / r).toFixed(2);
+                    const p = ((u * u) / r).toFixed(0);
+                    
+                    if (level === 'easy') {
+                        return {
+                            question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
+                            options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
+                            answer: 0,
+                            explanation: `Nach dem Ohmsche Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
+                            aiGenerated: true
+                        };
+                    } else {
+                        return {
+                            question: `Ein Heizstab (${r} Ω) wird an <b>${u}V</b> betrieben. Welche elektrische Leistung P wird aufgenommen?`,
+                            options: [`${(p * 1.3).toFixed(0)} W`, `${p} W`, `${(p * 0.7).toFixed(0)} W`, `${(p * 2).toFixed(0)} W`],
+                            answer: 1,
+                            explanation: `Die Leistung berechnet sich durch P = U² / R.<br>Berechnung: (${u}V × ${u}V) / ${r}Ω = <b>${p} W</b>.`,
+                            aiGenerated: true
+                        };
+                    }
+                },
+                motor: () => {
+                    const i = [10, 16, 25, 32][Math.floor(Math.random() * 4)];
+                    const cos = 0.85;
+                    const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
+                    return {
+                        question: `Ein Drehstrommotor nimmt einen Strom von <b>${i} A</b> bei cos φ = ${cos} an 400V auf. Wie hoch ist die Wirkleistung P?`,
+                        options: [`${(p * 1.2).toFixed(2)} kW`, `${(p * 0.8).toFixed(2)} kW`, `${p} kW`, `${(p * 1.5).toFixed(2)} kW`],
+                        answer: 2,
+                        explanation: `Formel: P = √3 × U × I × cos φ.<br>Berechnung: 1,732 × 400V × ${i}A × ${cos} = <b>${p} kW</b>.`,
+                        aiGenerated: true
+                    };
+                },
+                protection: () => {
+                    const lss = [10, 16, 32][Math.floor(Math.random() * 3)];
+                    const ia = lss * 5; // B-Charakteristik
+                    const zs = (230 / ia).toFixed(2);
+                    return {
+                        question: `Wie hoch darf der maximale Schleifenwiderstand (Zs) bei einem Leitungsschutzschalter <b>B${lss}</b> im TN-System (230V) sein?`,
+                        options: [`${zs} Ω`, `${(zs * 1.5).toFixed(2)} Ω`, `${(zs * 0.5).toFixed(2)} Ω`, `${(zs * 2.2).toFixed(2)} Ω`],
+                        answer: 0,
+                        explanation: `B-Charakteristik schaltet beim 5-fachen Nennstrom aus: Ia = 5 × ${lss}A = ${ia}A.<br>Zs ≤ U0 / Ia = 230V / ${ia}A = <b>${zs} Ω</b>.`,
+                        aiGenerated: true
+                    };
+                },
+                cables: () => {
+                    const len = [15, 25, 40, 50][Math.floor(Math.random() * 4)];
+                    const current = 16;
+                    const q = 2.5;
+                    const du = ((2 * len * current) / (56 * q)).toFixed(2);
+                    return {
+                        question: `Berechnen Sie den Spannungsfall ΔU für eine 1-phasige Kupferleitung (2,5 mm²) bei <b>${len}m Länge</b> und 16A Belastung.`,
+                        options: [`${(du * 1.4).toFixed(2)} V`, `${du} V`, `${(du * 0.7).toFixed(2)} V`, `${(du * 2.0).toFixed(2)} V`],
+                        answer: 1,
+                        explanation: `Formel: ΔU = (2 × l × I) / (κ × A).<br>Berechnung: (2 × ${len}m × 16A) / (56 × 2,5mm²) = <b>${du} V</b>.`,
+                        aiGenerated: true
+                    };
+                }
+            };
+
+            const selectedGen = generators[topic] || generators['ohm'];
+            return selectedGen();
         }
 
         // Navigation Modes
