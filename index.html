@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elektriker Plus - Quiz & Lernmodus (OVE E 8101)</title>
+    <title>Elektriker Plus - Quiz & Lernmodus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -553,7 +553,7 @@
     <div class="container">
         <!-- Brand Header -->
         <div class="header">
-            <div class="brand-badge">⚡ OVE E 8101 Konform</div>
+            <div class="brand-badge">⚡ Fachgerechte Standards</div>
             <h1>Elektriker Plus</h1>
             <p>Interaktives Schulungs- & Testportal für Elektrotechnik (Österreich)</p>
         </div>
@@ -573,14 +573,14 @@
                     <div class="menu-option" onclick="startMode('learn')">
                         <div class="menu-icon">📚</div>
                         <div class="menu-title">Lernmodus</div>
-                        <div class="menu-description">Vertiefe dein Wissen nach aktuellen Vorgaben der OVE E 8101</div>
+                        <div class="menu-description">Vertiefe dein Wissen nach aktuellen elektrotechnischen Vorgaben</div>
                     </div>
                 </div>
 
                 <div class="feature-badges">
                     <div class="badge"><span class="badge-icon">✓</span> 25 Fachfragen</div>
                     <div class="badge"><span class="badge-icon">✓</span> 6 Kernbereiche</div>
-                    <div class="badge"><span class="badge-icon">✓</span> OVE E 8101 Aktualisiert</div>
+                    <div class="badge"><span class="badge-icon">✓</span> Aktualisierte Vorschriften</div>
                 </div>
             </div>
         </div>
@@ -623,7 +623,7 @@
             <div class="glass-card">
                 <div id="topics-view">
                     <div class="quiz-top">
-                        <div class="quiz-title">📚 Themenübersicht (OVE E 8101)</div>
+                        <div class="quiz-title">📚 Themenübersicht</div>
                     </div>
                     <div class="topics-grid" id="topics-container"></div>
                 </div>
@@ -693,7 +693,7 @@
                 description: "Die 5 Sicherheitsregeln zum Schutz von Personen",
                 content: `
                     <h2>Die 5 Sicherheitsregeln</h2>
-                    <div class="info-callout">Zwingende Reihenfolge vor Beginn aller Arbeiten an elektrischen Anlagen (gemäß ÖVE/ÖNORM EN 50110 & OVE E 8101)!</div>
+                    <div class="info-callout">Zwingende Reihenfolge vor Beginn aller Arbeiten an elektrischen Anlagen (gemäß EN 50110)!</div>
                     <div class="article-section">
                         <h3>1. Freischalten</h3>
                         <p>Allpoliges Trennen der Anlage von der Spannungsversorgung.</p>
@@ -709,11 +709,11 @@
                 `
             },
             cables: {
-                title: "Leitungen & Kennzeichnung (OVE E 8101)",
+                title: "Leitungen & Kennzeichnung",
                 icon: "🔌",
                 description: "Farbcodierung, Querschnitt und Dimensionierung",
                 content: `
-                    <h2>Leiterfarben & Dimensionierung nach OVE E 8101</h2>
+                    <h2>Leiterfarben & Dimensionierung</h2>
                     <div class="article-section">
                         <table class="custom-table">
                             <thead>
@@ -732,18 +732,18 @@
                     <div class="article-section">
                         <h3>Wichtige Dimensionierungsregeln:</h3>
                         <ul>
-                            <li><strong>PEN-Mindestquerschnitt:</strong> Mindestens 10 mm² Kupfer oder 16 mm² Aluminium (Österreich-Spezifikum OVE E 8101).</li>
+                            <li><strong>PEN-Mindestquerschnitt:</strong> Mindestens 10 mm² Kupfer oder 16 mm² Aluminium (Spezifikum in Österreich).</li>
                             <li><strong>Spannungsabfall:</strong> Darf von der Hauptspeisung bis zum Verbraucher max. 4% (bzw. 3% für Lichtstromkreise) betragen.</li>
                         </ul>
                     </div>
                 `
             },
             protection: {
-                title: "Schutzkonzepte & RCD-Pflicht (OVE E 8101)",
+                title: "Schutzkonzepte & RCD-Pflicht",
                 icon: "⚙️",
                 description: "Zusatzschutz, RCD-Typen und automatische Abschaltung",
                 content: `
-                    <h2>Schutzmaßnahmen nach OVE E 8101</h2>
+                    <h2>Schutzmaßnahmen</h2>
                     <div class="article-section">
                         <h3>1. Zusatzschutz durch RCDs (FI-Schutzschalter)</h3>
                         <p>In Österreich gilt eine umfassende RCD-Pflicht:</p>
@@ -767,7 +767,7 @@
                     </div>
                     <div class="article-section">
                         <h3>3. Schleifenimpedanz (Z<sub>s</sub>) & Temperaturfaktor</h3>
-                        <p>Bei der messtechnischen Überprüfung der Schleifenimpedanz gilt nach OVE E 8101 die <strong>2/3-Regel</strong> (Berücksichtigung der Leitererwärmung im Fehlerfall):</p>
+                        <p>Bei der messtechnischen Überprüfung der Schleifenimpedanz gilt die <strong>2/3-Regel</strong> (Berücksichtigung der Leitererwärmung im Fehlerfall):</p>
                         <div class="info-callout"><strong>Z<sub>s</sub> × I<sub>a</sub> ≤ U<sub>0</sub> × ⅔</strong><br>Wobei U<sub>0</sub> = 230 V und I<sub>a</sub> der Auslösestrom des Schutzorgans ist.</div>
                     </div>
                 `
@@ -777,7 +777,7 @@
                 icon: "🚿",
                 description: "Bäder, Baustellen und landwirtschaftliche Betriebsstätten",
                 content: `
-                    <h2>Sonderanforderungen nach OVE E 8101 Teil 7</h2>
+                    <h2>Sonderanforderungen nach Teil 7</h2>
                     <div class="article-section">
                         <h3>🛁 Bade- und Duschräume (Abschnitt 701)</h3>
                         <ul>
@@ -814,7 +814,7 @@
                     </div>
                     <div class="article-section">
                         <h3>2. Hauptpotentialausgleich (HPA) / Schutzpotenzialausgleich</h3>
-                        <p>Nach OVE E 8101 müssen folgende fremde leitfähige Teile direkt mit der Haupterdungsschiener (HES) verbunden werden:</p>
+                        <p>Es müssen folgende fremde leitfähige Teile direkt mit der Haupterdungsschiene (HES) verbunden werden:</p>
                         <ul>
                             <li>Metallene Rohrleitungen von Gebäudeverpflegungen (Wasser, Gas, Fernwärme)</li>
                             <li>Zentrale Heizungs- und Klimasysteme</li>
