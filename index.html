@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Pro - Schulung & KI Modus</title>
+    <title>Elektriker Pro - Schulung, Schaltsymbole & KI Modus</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
@@ -436,8 +436,30 @@
             font-size: 1.3rem;
             font-weight: 600;
             line-height: 1.5;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             color: #fff;
+        }
+
+        /* Schaltsymbol SVG Container */
+        .symbol-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .symbol-container svg {
+            max-width: 180px;
+            max-height: 140px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .ai-tag {
@@ -632,6 +654,44 @@
             font-size: 1.1rem;
         }
 
+        /* Symbol Uebersicht Grid */
+        .symbol-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .symbol-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .symbol-card svg {
+            width: 80px;
+            height: 80px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            margin-bottom: 12px;
+        }
+
+        .symbol-card h4 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .symbol-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
         /* Article / Content View Styling */
         .article-view h2 {
             font-size: 2rem;
@@ -769,17 +829,17 @@
                 <div class="menu-option" onclick="startMode('quiz')">
                     <div class="menu-icon">📝</div>
                     <div class="menu-title">Standard Quiz</div>
-                    <div class="menu-description">Praxisnahe Fachfragen nach aktuellen ÖVE/DIN Standards.</div>
+                    <div class="menu-description">Praxisnahe Fachfragen & Schaltsymbole nach ÖVE/DIN Standards.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
                     <div class="menu-title">KI Modus</div>
-                    <div class="menu-description">Dynamische Theorie- & Rechenaufgaben, angepasst an dein Skill-Level.</div>
+                    <div class="menu-description">Dynamische Theorie-, Symbol- & Rechenaufgaben, angepasst an dein Skill-Level.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
                     <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Umfangreiches Nachschlagewerk & Profi-Rechner.</div>
+                    <div class="menu-description">Umfangreiches Nachschlagewerk, Symbolkartei & Profi-Rechner.</div>
                 </div>
             </div>
         </div>
@@ -803,7 +863,8 @@
                     <div class="config-group">
                         <label>Themenbereich</label>
                         <select id="ai-topic-select" class="config-select">
-                            <option value="auto">🤖 Automatisch (Theorie & Praxis)</option>
+                            <option value="auto">🤖 Automatisch (Alle Themen & Symbole)</option>
+                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen, Normen & RCD</option>
@@ -833,6 +894,7 @@
 
                     <div id="question-content">
                         <div class="question-box" id="question">Frage wird geladen...</div>
+                        <div class="symbol-container" id="symbol-display" style="display: none;"></div>
                         <div class="options-grid" id="options"></div>
                         <div class="explanation-box" id="explanation"></div>
                         <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
@@ -852,7 +914,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, PV, Wallbox, Netzformen, Zonen)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Schaltsymbole, RCD, PV, Wallbox, Netzformen)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -944,7 +1006,7 @@
         // State Management
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0,
-            topicSkills: { ohm: 1, motor: 1, protection: 1, cables: 1 }
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1 }
         };
 
         let currentMode = 'quiz';
@@ -954,8 +1016,43 @@
         let timerInterval = null;
         let timeLeft = 30;
 
+        // SVG Schaltsymbole Library
+        const svgSymbols = {
+            switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
+            push_button: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30" stroke-dasharray="2,2"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            lamp: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><circle cx="50" cy="30" r="20"/><line x1="36" y1="16" x2="64" y2="44"/><line x1="36" y1="44" x2="64" y2="16"/></svg>`,
+            resistor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
+            capacitor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="45" y2="30"/><line x1="55" y1="30" x2="90" y2="30"/><line x1="45" y1="12" x2="45" y2="48"/><line x1="55" y1="12" x2="55" y2="48"/></svg>`,
+            diode: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><polygon points="35,15 35,45 65,30"/><line x1="65" y1="15" x2="65" y2="45"/></svg>`,
+            transformer: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="40" cy="30" r="15"/><circle cx="60" cy="30" r="15"/></svg>`,
+            rcd: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><path d="M 35 30 Q 42 20 50 30 T 65 30"/><line x1="50" y1="15" x2="50" y2="20"/><text x="50" y="44" font-size="10" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">IΔn</text></svg>`,
+            fuse: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
+            ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
+        };
+
         // Erweiterte Lerninhalte
         const learningContent = {
+            symbols_overview: {
+                title: "Schaltsymbole Kartei",
+                icon: "📐",
+                description: "Normsymbole nach DIN EN 60617 / IEC 60617 im Überblick",
+                content: `
+                    <h2>Übersicht der wichtigsten Schaltsymbole</h2>
+                    <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
+                    <div class="symbol-gallery">
+                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Schalter (Ausschalter)</h4><p>Mechanischer Schalter</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt bei Betätigung</p></div>
+                        <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
+                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmscher Widerstand</p></div>
+                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitives Bauelement</p></div>
+                        <div class="symbol-card">${svgSymbols.diode}<h4>Diode</h4><p>Halbleiter-Bauelement</p></div>
+                        <div class="symbol-card">${svgSymbols.transformer}<h4>Transformator</h4><p>Spannungswandler</p></div>
+                        <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
+                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
+                        <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
+                    </div>
+                `
+            },
             basics: {
                 title: "Grundlagen & Formeln",
                 icon: "⚡",
@@ -1103,14 +1200,14 @@
         };
 
         const initialQuizData = [
+            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbole für eine Leuchte/Lampe." },
+            { question: "Welches elektrotechnische Bauelement wird hier dargestellt?", symbol: svgSymbols.resistor, options: ["Spule", "Sicherung", "Ohmscher Widerstand", "Diode"], answer: 2, explanation: "Ein einfaches Rechteck steht im Schaltplan für einen ohmschen Widerstand." },
             { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
+            { question: "Welches Schaltsymbol ist hier abgebildet?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) gekennzeichnet durch das Wandlersymbol mit IΔn." },
             { question: "Welche Farbe hat der Schutzleiter (PE)?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter (PE) ist international zwingend grün-gelb." },
+            { question: "Welches Schaltsymbol stellt einen Taster (Schließer) dar?", symbol: svgSymbols.push_button, options: ["Ausschalter", "Taster (Schließer)", "Wechselschalter", "Serienschalter"], answer: 1, explanation: "Der Taster ist durch die unterbrochene Linie mit dem Betätigungskopf oben gekennzeichnet." },
             { question: "Welcher RCD-Typ ist für glatte Gleichfehlerströme (z.B. Wallbox) nötig?", options: ["Typ A", "Typ AC", "Typ F", "Typ B"], answer: 3, explanation: "Typ B ist allstromsensitiv und erkennt glatte Gleichfehlerströme." },
-            { question: "Wie viel mA Auslösestrom (IΔn) darf ein FI für den Personenschutz maximal haben?", options: ["10 mA", "30 mA", "100 mA", "300 mA"], answer: 1, explanation: "Für den Personenschutz sind maximal 30 mA zulässig." },
-            { question: "Was bedeutet die Schutzklasse II?", options: ["Schutzerdung", "Schutzisolierung", "Schutzkleinspannung", "Spritzwasserschutz"], answer: 1, explanation: "Schutzklasse II bedeutet doppelte oder verstärkte Isolierung (Schutzisolierung)." },
-            { question: "Welche Netzform hat den N und PE ab dem Trafo komplett getrennt (5-adrig)?", options: ["TN-C", "TN-C-S", "TN-S", "TT"], answer: 2, explanation: "Im TN-S System (S = Separated) werden PE und N durchgehend getrennt geführt." },
-            { question: "Welche IP-Schutzart wird mindestens für Außensteckdosen gefordert?", options: ["IP20", "IP44", "IP67", "IP68"], answer: 1, explanation: "IP44 (Spritzwassergeschützt) ist der übliche Mindeststandard im Außenbereich." },
-            { question: "Wie hoch ist die Netzfrequenz in Europa?", options: ["60 Hz", "50 Hz", "100 Hz", "16,7 Hz"], answer: 1, explanation: "Die europäische Netzfrequenz beträgt konstant 50 Hertz." }
+            { question: "Wie viel mA Auslösestrom (IΔn) darf ein FI für den Personenschutz maximal haben?", options: ["10 mA", "30 mA", "100 mA", "300 mA"], answer: 1, explanation: "Für den Personenschutz sind maximal 30 mA zulässig." }
         ];
 
         let quizData = [...initialQuizData];
@@ -1199,6 +1296,15 @@
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
+            // Schaltsymbol-Anzeige steuern
+            const symbolDisp = document.getElementById('symbol-display');
+            if (current.symbol) {
+                symbolDisp.innerHTML = current.symbol;
+                symbolDisp.style.display = 'flex';
+            } else {
+                symbolDisp.style.display = 'none';
+            }
+
             const optsDiv = document.getElementById('options');
             optsDiv.innerHTML = '';
             
@@ -1283,7 +1389,7 @@
             loadQuestion();
         }
 
-        // KI MODUS GENERIERUNGS-ENGINE (THEORIE + RECHNUNG)
+        // KI MODUS GENERIERUNGS-ENGINE (THEORIE, SYMBOLE & RECHNUNG)
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
             answered = true;
@@ -1292,6 +1398,7 @@
             const selectedDiff = document.getElementById('ai-diff-select').value;
 
             document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere maßgeschneiderte Aufgabe...';
+            document.getElementById('symbol-display').style.display = 'none';
             document.getElementById('options').innerHTML = '';
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
@@ -1310,7 +1417,7 @@
         function buildDynamicQuestion(topicKey, diffKey) {
             let topic = topicKey;
             if (topic === 'auto') {
-                const topics = ['ohm', 'motor', 'protection', 'cables'];
+                const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables'];
                 topic = topics[Math.floor(Math.random() * topics.length)];
             }
 
@@ -1321,10 +1428,38 @@
                 else level = 'hard';
             }
 
-            // Zufallsentscheidung: Theorie-Frage oder Rechen-Frage (50/50 Chance)
             const isTheory = Math.random() < 0.5;
 
             const generators = {
+                symbols: () => {
+                    const symbolList = [
+                        { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
+                        { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Schließt den Kontakt nur solange die Betätigung erfolgt." },
+                        { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Standard-Schaltsymbole für ein optisches Leuchtmittel." },
+                        { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Standardreiechteck für Festwiderstände in Schaltplänen." },
+                        { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Platten symbolisieren die Kapazität." },
+                        { name: "Diode", svg: svgSymbols.diode, desc: "Pfeil zeigt die Durchlassrichtung des Stroms an." },
+                        { name: "Transformator", svg: svgSymbols.transformer, desc: "Zwei überlappende Kreise symbolisieren die induktive Kopplung." },
+                        { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Zeigt das Gehäuse mit Summenstromwandler und Fehlerstromangabe." },
+                        { name: "Sicherung", svg: svgSymbols.fuse, desc: "Rechteck mit durchgehender Kennlinie für Überstromschutz." },
+                        { name: "Erder / Masse", svg: svgSymbols.ground, desc: "Kennzeichnet das Potenzial der Erde bzw. der Schutzerdung." }
+                    ];
+
+                    const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
+                    let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
+                    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+                    const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
+                    const correctIndex = allOptions.indexOf(correctSymbol.name);
+
+                    return {
+                        question: `Welche elektrotechnische Funktion/Komponente gehört zu diesem Norm-Schaltsymbol?`,
+                        symbol: correctSymbol.svg,
+                        options: allOptions,
+                        answer: correctIndex,
+                        explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
+                        aiGenerated: true
+                    };
+                },
                 ohm: () => {
                     if (isTheory) {
                         return {
@@ -1446,7 +1581,7 @@
                 }
             };
 
-            const selectedGen = generators[topic] || generators['ohm'];
+            const selectedGen = generators[topic] || generators['symbols'];
             return selectedGen();
         }
 
