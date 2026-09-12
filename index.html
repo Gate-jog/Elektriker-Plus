@@ -1027,10 +1027,15 @@
         let timerInterval = null;
         let timeLeft = 30;
 
-        // SVG Schaltsymbole Library
+        // SVG Schaltsymbole Library (Erweitert um alle Schalter & Taster Typen)
         const svgSymbols = {
             switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
+            switch_series: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="30" y1="15" x2="50" y2="15"/><line x1="30" y1="45" x2="50" y2="45"/><line x1="70" y1="15" x2="90" y2="15"/><line x1="70" y1="45" x2="90" y2="45"/><circle cx="30" cy="30" r="3" fill="#06b6d4"/><line x1="30" y1="30" x2="47" y2="15"/><line x1="30" y1="30" x2="47" y2="45"/></svg>`,
+            switch_change: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="15" x2="90" y2="15"/><line x1="70" y1="45" x2="90" y2="45"/><circle cx="30" cy="30" r="3" fill="#06b6d4"/><circle cx="70" cy="15" r="2" fill="#06b6d4"/><circle cx="70" cy="45" r="2" fill="#06b6d4"/><line x1="30" y1="30" x2="67" y2="15"/></svg>`,
+            switch_cross: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="25" y2="30"/><line x1="75" y1="30" x2="90" y2="30"/><line x1="25" y1="15" x2="75" y2="45"/><line x1="25" y1="45" x2="75" y2="15"/><rect x="25" y="10" width="50" height="40" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="2,2"/></svg>`,
             push_button: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30" stroke-dasharray="2,2"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            push_button_nc: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            impulse_switch: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><line x1="10" y1="30" x2="25" y2="30"/><line x1="75" y1="30" x2="90" y2="30"/><text x="50" y="35" font-size="12" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">K</text></svg>`,
             lamp: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><circle cx="50" cy="30" r="20"/><line x1="36" y1="16" x2="64" y2="44"/><line x1="36" y1="44" x2="64" y2="16"/></svg>`,
             resistor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
             capacitor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="45" y2="30"/><line x1="55" y1="30" x2="90" y2="30"/><line x1="45" y1="12" x2="45" y2="48"/><line x1="55" y1="12" x2="55" y2="48"/></svg>`,
@@ -1041,7 +1046,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive RCD, Taster, Netze, Netzpläne & Fehlerschutzmaßnahmen
+        // Erweiterte Lerninhalte inklusive aller Schalter, Taster, Pläne und Symbole
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1051,114 +1056,80 @@
                     <h2>Übersicht der wichtigsten Schaltsymbole</h2>
                     <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
                     <div class="symbol-gallery">
-                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Schalter (Ausschalter)</h4><p>Mechanischer Schalter</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt bei Betätigung</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Ausschalter (1-polig)</h4><p>Ein / Aus Schalter</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_series}<h4>Serienschalter</h4><p>Zwei Kreise unabhängig</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_change}<h4>Wechselschalter</h4><p>Wechselkontakt</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_cross}<h4>Kreuzschalter</h4><p>Kreuzung f. Wechselschaltung</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Momentkontakt Schließer</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Momentkontakt Öffner</p></div>
+                        <div class="symbol-card">${svgSymbols.impulse_switch}<h4>Stromstoßschalter</h4><p>Fernschalter / Eltako</p></div>
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
-                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmscher Widerstand</p></div>
-                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitives Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.diode}<h4>Diode</h4><p>Halbleiter-Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.transformer}<h4>Transformator</h4><p>Spannungswandler</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
-                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
                         <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
                     </div>
                 `
             },
             schalter_taster: {
-                title: "Schalter & Taster in Schaltplänen",
+                title: "Alle Schalter, Taster, Pläne & Symbole",
                 icon: "🔘",
-                description: "Alle Schalter und Taster, ihre Symbole und aufgelösten Darstellungen",
+                description: "Vollständige Übersicht aller Schaltungsarten, Schaltpläne und Symbole (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
                 content: `
-                    <h2>Vollständige Übersicht: Alle Schalter, Taster, Symbole & Aufgelöste Darstellungen</h2>
-                    <p class="article-desc">Detaillierte Gegenüberstellung sämtlicher gängiger Schalter- und Tastertypen inklusive ihrer genormten Schaltsymbole und aufgelösten Stromlaufpläne.</p>
-                    
+                    <h2>Sämtliche Schalter und Taster in der Elektrotechnik</h2>
+                    <p class="article-desc">Detaillierte Schaltpläne, Funktionsweisen und genormte Symbole für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE.</p>
+
                     <div class="article-section">
-                        <h3>1. Grundprinzip: Schalter vs. Taster</h3>
-                        <p><strong>Schalter (rastend):</strong> Bleiben nach dem Betätigen mechanisch in ihrer geschalteten Position, bis sie aktiv zurückgeschaltet werden.</p>
-                        <p><strong>Taster (tastend):</strong> Kehren sofort nach dem Loslassen durch interne Federkraft in ihre Ausgangsstellung zurück.</p>
+                        <h3>1. Ausschaltung (1-polig)</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte oder Verbrauchergruppe von einer einzigen Stelle aus.</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Der Außenleiter (L) wird über den 1-poligen Ausschalter zur Leuchte geführt. Der Neutralleiter (N) und Schutzleiter (PE) werden direkt zur Leuchte durchgeschleift.</p>
+                        <div class="symbol-container">${svgSymbols.switch_off}</div>
                     </div>
 
                     <div class="article-section">
-                        <h3>2. 1-poliger Ausschalter</h3>
-                        <p><strong>Verwendung:</strong> Zum Ein- und Ausschalten eines Verbrauchers von einer Stelle aus.</p>
-                        <p><strong>Schaltsymbol & Aufgelöste Darstellung:</strong></p>
-                        <svg viewBox="0 0 500 150" style="width:100%; max-width:500px; background:rgba(0,0,0,0.5); border-radius:10px; padding:12px; border:1px solid rgba(6,182,212,0.3); margin:10px 0;">
-                            <text x="250" y="20" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">1-POLIGER AUSSCHALTER</text>
-                            <line x1="30" y1="75" x2="80" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="80" cy="75" r="3" fill="#06b6d4"/>
-                            <line x1="80" y1="75" x2="120" y2="45" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="140" cy="75" r="3" fill="#06b6d4"/>
-                            <line x1="140" y1="75" x2="190" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <text x="110" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">Schaltsymbol</text>
-                            
-                            <line x1="220" y1="30" x2="220" y2="120" stroke="rgba(255,255,255,0.2)" stroke-dasharray="3,3"/>
-
-                            <line x1="250" y1="75" x2="300" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="300" cy="75" r="3" fill="#fff"/>
-                            <line x1="300" y1="75" x2="330" y2="50" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="360" cy="75" r="3" fill="#fff"/>
-                            <line x1="360" y1="75" x2="410" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <text x="355" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">Aufgelöster Arbeitskontakt</text>
-                        </svg>
+                        <h3>2. Serienschaltung (Doppelausschalter)</h3>
+                        <p><strong>Verwendung:</strong> Schalten von zwei verschiedenen Leuchten (oder Leuchtengruppen) von einer gemeinsamen Stelle aus (z.B. Deckenleuchte und Wandleuchte getrennt über eine Wippe mit zwei getrennten Kontakten).</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Ein gemeinsamer Eingang für L, zwei separate Ausgänge zu den jeweiligen Verbrauchern.</p>
+                        <div class="symbol-container">${svgSymbols.switch_series}</div>
                     </div>
 
                     <div class="article-section">
-                        <h3>3. Aus- und Kontrollschalter</h3>
-                        <p><strong>Verwendung:</strong> Schalter mit integrierter Kontrollleuchte (Glimmlampe), die anzeigt, ob der Verbraucher eingeschaltet ist (z.B. für Außenbeleuchtung oder Keller).</p>
-                        <p><strong>Aufgelöste Darstellung:</strong> Parallel zum Schaltkontakt wird eine Glimmlampe mit Vorwiderstand geschaltet, die bei geöffnetem Schalter den Stromkreis über den Verbraucher schließt (Glimmen) oder bei geschlossenem Schalter leuchtet.</p>
+                        <h3>3. Wechselschaltung</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte von zwei verschiedenen Orten aus (z.B. Flur, Schlafzimmer am Eingang und am Bett).</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Es werden zwei Wechselschalter verwendet. Die beiden Wechselschalter sind über zwei Korrespondierende Leiter miteinander verbunden. Der Eingang des ersten Schalters erhält L, der Ausgang des zweiten Schalters führt zur Lampe.</p>
+                        <div class="symbol-container">${svgSymbols.switch_change}</div>
                     </div>
 
                     <div class="article-section">
-                        <h3>4. Serienschalter (Doppelausschalter)</h3>
-                        <p><strong>Verwendung:</strong> Schaltet zwei verschiedene Stromkreise unabhängig voneinander von einer gemeinsamen Einspeisung aus (z.B. getrennte Leuchten in einem Raum).</p>
-                        <p><strong>Aufgelöste Darstellung:</strong> Ein gemeinsamer Eingang (P) verzweigt auf zwei separate Schaltelemente mit jeweils eigenem Ausgang.</p>
+                        <h3>4. Kreuzschaltung</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte von drei oder mehr verschiedenen Orten aus.</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Zwischen zwei Wechselschalter wird ein oder mehrere Kreuzschalter eingefügt. Der Kreuzschalter kreuzt oder verbindet die Korrespondierenden geradlinig durch.</p>
+                        <div class="symbol-container">${svgSymbols.switch_cross}</div>
                     </div>
 
                     <div class="article-section">
-                        <h3>5. Wechselschalter</h3>
-                        <p><strong>Verwendung:</strong> Leitet den Strom wahlweise auf einen von zwei Ausgängen um. Basis für die klassische Wechselschaltung von zwei Orten aus.</p>
-                        <svg viewBox="0 0 500 150" style="width:100%; max-width:500px; background:rgba(0,0,0,0.5); border-radius:10px; padding:12px; border:1px solid rgba(6,182,212,0.3); margin:10px 0;">
-                            <text x="250" y="20" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">WECHSELSCHALTER</text>
-                            <line x1="30" y1="75" x2="70" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="70" cy="75" r="3" fill="#06b6d4"/>
-                            <line x1="70" y1="75" x2="110" y2="45" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="110" cy="45" r="3" fill="#06b6d4"/>
-                            <circle cx="110" cy="105" r="3" fill="#06b6d4"/>
-                            <line x1="110" y1="45" x2="150" y2="45" stroke="#f59e0b" stroke-width="2.5"/>
-                            <line x1="110" y1="105" x2="150" y2="105" stroke="#f59e0b" stroke-width="2.5"/>
-                            <text x="110" y="130" fill="#94a3b8" font-size="10" text-anchor="middle">Schaltsymbol</text>
-                        </svg>
+                        <h3>5. Taster & Tasterstromstoßschaltung (Eltako / Fernschalter)</h3>
+                        <p><strong>Verwendung:</strong> Schalten von Leuchten von beliebig vielen Stellen aus über Taster (Rückstellfeder, Schließer) und ein Stromstoßrelais.</p>
+                        <p><strong>Funktionsweise:</strong> Jeder Tastendruck gibt einen kurzen Steuerimpuls auf das Relais, welches den Hauptstromkontakt mechanisch oder magnetisch von Ein auf Aus umschaltet.</p>
+                        <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 16px 0;">
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Standard Lichttaster</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Unterbricht bei Druck</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.impulse_switch}<h4>Stromstoßrelais</h4><p>Schaltrelais (Eltako)</p></div>
+                        </div>
                     </div>
 
                     <div class="article-section">
-                        <h3>6. Kreuzschalter</h3>
-                        <p><strong>Verwendung:</strong> Wird zwischen zwei Wechselschalter gesetzt, um das Schalten einer Lampe von <strong>drei oder mehr</strong> verschiedenen Orten aus zu ermöglichen. Kreuzt intern zwei Korrespondenzleitungen.</p>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>7. Taster als Schließer (Arbeitskontakt)</h3>
-                        <p><strong>Verwendung:</strong> Schließt den Stromkreis nur so lange er gedrückt wird (z.B. Klingel, Treppenlichtautomat, Stromstoßrelais).</p>
-                        <svg viewBox="0 0 500 140" style="width:100%; max-width:500px; background:rgba(0,0,0,0.5); border-radius:10px; padding:12px; border:1px solid rgba(6,182,212,0.3); margin:10px 0;">
-                            <text x="250" y="20" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">TASTER SCHLIESSER</text>
-                            <line x1="40" y1="75" x2="100" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <line x1="180" y1="75" x2="240" y2="75" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="100" cy="75" r="3" fill="#06b6d4"/>
-                            <circle cx="180" cy="75" r="3" fill="#06b6d4"/>
-                            <line x1="100" y1="75" x2="180" y2="75" stroke-dasharray="3,3"/>
-                            <line x1="140" y1="35" x2="140" y2="68" stroke="#f59e0b" stroke-width="2"/>
-                            <line x1="125" y1="35" x2="155" y2="35" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="140" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">Tast-Kontaktelement</text>
-                        </svg>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>8. Taster als Öffner (Ruhekontakt)</h3>
-                        <p><strong>Verwendung:</strong> Unterbricht den Stromkreis beim Drücken (z.B. Not-Aus-Schalter, Klingelunterbrecher, Sicherheitsverriegelungen).</p>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>9. Serienschalter-Taster & Jalousietaster</h3>
-                        <p><strong>Verwendung:</strong> Jalousietaster verfügen über zwei mechanisch oder elektrisch verriegelte Taster (Auf / Ab), um gleichzeitiges Schalten beider Richtungen und damit einen Kurzschluss am Rolladenmotor zuverlässig zu verhindern.</p>
+                        <h3>Übersichtstabelle der Schalt- und Tastertypen</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schaltungsart</th><th>Anzahl Bedienstellen</th><th>Typische Anwendung</th><th>Besonderheit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Ausschaltung</strong></td><td>1 Stelle</td><td>Wohnzimmer, kleine Räume</td><td>Einfachster Stromkreis</td></tr>
+                                <tr><td><strong>Serienschaltung</strong></td><td>1 Stelle (2 Wippen)</td><td>Bad, Kronleuchter</td><td>Zwei Kreise unabhängig</td></tr>
+                                <tr><td><strong>Wechselschaltung</strong></td><td>2 Stellen</td><td>Flur, Treppenabsatz</td><td>Zwei Wechselschalter + Korrespondierende</td></tr>
+                                <tr><td><strong>Kreuzschaltung</strong></td><td>3+ Stellen</td><td>Große Flure, Stiegenhaus</td><td>Erfordert Kreuzschalter dazwischen</td></tr>
+                                <tr><td><strong>Tasterschaltung</strong></td><td>Beliebig viele</td><td>Mehrgeschoßiges Stiegenhaus</td><td>Spart Kupfer (dünne Steuerleitung)</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 `
             },
@@ -1781,8 +1752,13 @@
 
         function generateDynamicSymbolQuestion() {
             const symbolList = [
-                { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
+                { name: "Ausschalter (1-polig)", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
+                { name: "Serienschalter", svg: svgSymbols.switch_series, desc: "Schaltet zwei Verbraucher von einer Stelle unabhängig voneinander." },
+                { name: "Wechselschalter", svg: svgSymbols.switch_change, desc: "Leitet den Strom wahlweise auf einen von zwei Ausgängen um." },
+                { name: "Kreuzschalter", svg: svgSymbols.switch_cross, desc: "Wird zwischen zwei Wechselschalter gesetzt für Schaltung von 3+ Stellen." },
                 { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Schließt den Kontakt nur solange die Betätigung erfolgt." },
+                { name: "Taster (Öffner)", svg: svgSymbols.push_button_nc, desc: "Öffnet den Kontakt beim Drücken." },
+                { name: "Stromstoßschalter", svg: svgSymbols.impulse_switch, desc: "Fernschalter / Eltako für Tasterschaltungen." },
                 { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Standard-Schaltsymbole für ein optisches Leuchtmittel." },
                 { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Standardrechteck für Festwiderstände in Schaltplänen." },
                 { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Platten symbolisieren die Kapazität." },
@@ -1937,80 +1913,36 @@
                     };
                 },
                 protection: () => {
-                    const pool = [
-                        { q: `Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`, opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s." },
-                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B ist allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." }
-                    ];
-                    const item = pool[Math.floor(Math.random() * pool.length)];
-                    return { question: `[Erweiterte KI] ${item.q}`, options: item.opts, answer: item.ans, explanation: item.exp, aiGenerated: true };
+                    return {
+                        question: `[Erweiterte KI] Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`,
+                        options: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"],
+                        answer: 1,
+                        explanation: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s.",
+                        aiGenerated: true
+                    };
                 },
                 cables: () => {
                     return {
-                        question: `[Erweiterte KI] Welcher Korrekturfaktor ist bei der Häufung (mehrere belastete PVC-Kabel nebeneinander in einem Kanal) von 3 Stromkreisen gemäß DIN VDE 0298-4 näherungsweise anzusetzen?`,
-                        options: ["0.70", "0.85", "0.95", "1.00"],
-                        answer: 0,
-                        explanation: `Bei 3 nebeneinander verlegten Stromkreisen beträgt der Häufungsfaktor normativ <b>0.70</b>, wodurch die Stromtragfähigkeit reduziert wird.`,
+                        question: `[Erweiterte KI] Warum müssen Leitungsroller (Kabeltrommeln) im unbelüfteten, aufgerollten Zustand bei hoher Last unbedingt komplett abgerollt werden?`,
+                        options: ["Wegen induktiver Wirbelströme im Trommelkern", "Wegen thermischer Überhitzung (Stauwärme / Kabelbrandgefahr)", "Wegen Spannungsabfall durch den Spuleneffekt", "Wegen erhöhter Blindleistung im Kupfer"],
+                        answer: 1,
+                        explanation: "Aufgerollte Kabeltrommeln können die Wärme nicht an die Umgebung abgeben, was zu gefährlicher thermischer Überhitzung bis hin zum Schmelzen der Isolierung führt.",
                         aiGenerated: true
                     };
                 },
                 ip: () => {
                     return {
-                        question: `[Erweiterte KI] Was bedeutet die Schutzartangabe <b>IP65</b> für ein elektrisches Gehäuse exakt?`,
-                        options: ["Vollständig staubdicht und Schutz gegen Strahlwasser aus allen Richtungen", "Nur spritzwassergeschützt und gegen große Fremdkörper", "Wasserdicht beim Untertauchen bis 1 Meter Tiefe", "Kein Berührungsschutz, nur gegen Fremdkörper >12mm"],
-                        answer: 0,
-                        explanation: `Die Kennziffer 6 steht für 'staubdicht' (vollständiger Schutz gegen Berührung), die Kennziffer 5 für Schutz gegen 'Strahlwasser' aus einer Düse.`,
+                        question: `[Erweiterte KI] Welche Schutzart nach DIN EN 60529 (IP) garantiert vollständigen Schutz gegen Berührung (Staubdicht) und Schutz gegen zeitweiliges Untertauchen in Wasser?`,
+                        options: ["IP 44", "IP 54", "IP 67", "IP 21"],
+                        answer: 2,
+                        explanation: "IP 67 bedeutet: 6 = staubdicht (vollst. Berührungsschutz), 7 = Schutz gegen Schutz bei zeitweiligem Untertauchen in Wasser.",
                         aiGenerated: true
                     };
                 }
             };
 
-            const generator = neuralGenerators[topicKey] || neuralGenerators.ohm;
-            return generator();
-        }
-
-        // Learning & Search Logic
-        function loadTopics() {
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            
-            Object.keys(learningContent).forEach(key => {
-                const item = learningContent[key];
-                const div = document.createElement('div');
-                div.className = 'topic-card';
-                div.dataset.key = key;
-                div.innerHTML = `
-                    <div class="topic-icon-box">${item.icon}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                `;
-                div.onclick = () => openArticle(key);
-                container.appendChild(div);
-            });
-        }
-
-        function filterTopics() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.querySelectorAll('.topic-card');
-            cards.forEach(card => {
-                const key = card.dataset.key;
-                const item = learningContent[key];
-                const match = item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query) || item.content.toLowerCase().includes(query);
-                card.style.display = match ? 'block' : 'none';
-            });
-        }
-
-        function openArticle(key) {
-            document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
-            document.getElementById('content-container').innerHTML = learningContent[key].content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function backToTopics() {
-            document.getElementById('content-view').style.display = 'none';
-            document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const genFn = neuralGenerators[topicKey] || neuralGenerators.ohm;
+            return genFn();
         }
 
         // Calculators
@@ -2031,20 +1963,64 @@
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Kupfer Leitfähigkeit
-            const deltaU = (2 * l * i) / (kappa * q);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const gamma = 56; // Kupfer
+            const du = (2 * l * i) / (gamma * q);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            const a = (2 * l * i) / (kappa * maxU);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const gamma = 56;
+            const q = (2 * l * i) / (gamma * du);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+        }
+
+        // Topics & Learning Area
+        function loadTopics(filter = "") {
+            const container = document.getElementById('topics-container');
+            container.innerHTML = "";
+
+            Object.keys(learningContent).forEach(key => {
+                const item = learningContent[key];
+                if (filter && !item.title.toLowerCase().includes(filter.toLowerCase()) && !item.description.toLowerCase().includes(filter.toLowerCase())) {
+                    return;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => openTopic(key);
+                card.innerHTML = `
+                    <div class="topic-icon-box">${item.icon}</div>
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterTopics() {
+            const query = document.getElementById('search-input').value;
+            loadTopics(query);
+        }
+
+        function openTopic(key) {
+            const item = learningContent[key];
+            if (!item) return;
+            document.getElementById('topics-view').style.display = 'none';
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
+            document.getElementById('content-container').innerHTML = item.content;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToTopics() {
+            document.getElementById('content-view').style.display = 'none';
+            document.getElementById('topics-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
