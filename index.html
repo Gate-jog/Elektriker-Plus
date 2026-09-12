@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elektrotechnik Quiz App</title>
+    <title>Elektriker Plus - Quiz & Lernmodus</title>
     <style>
         :root {
-            --bg-color: #121826;
+            --bg-color: #0f172a;
             --card-bg: #1e293b;
             --primary: #38bdf8;
+            --secondary: #0ea5e9;
+            --accent: #f97316;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --correct: #22c55e;
             --incorrect: #ef4444;
             --btn-hover: #0284c7;
+            --border: #334155;
         }
 
         * {
@@ -24,72 +27,151 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             padding: 16px;
         }
 
-        .quiz-card {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 480px;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 32px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 14px 28px;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+        }
+
+        .content-area {
+            display: none;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        .quiz-card, .learn-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 12px;
+            margin-bottom: 28px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
 
-        .title {
-            font-size: 1.25rem;
+        .quiz-title {
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .progress {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
         }
 
         .question-text {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 28px;
             font-weight: 600;
         }
 
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            margin-bottom: 28px;
         }
 
         .option-btn {
             background-color: #334155;
             color: var(--text-main);
             border: 2px solid transparent;
-            padding: 14px 16px;
-            border-radius: 10px;
+            padding: 18px 20px;
+            border-radius: 12px;
             font-size: 1rem;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-weight: 500;
         }
 
         .option-btn:hover:not(:disabled) {
             background-color: #475569;
             border-color: var(--primary);
+            transform: translateX(4px);
         }
 
         .option-btn.correct {
@@ -104,23 +186,30 @@
             color: #f87171;
         }
 
-        .next-btn, .restart-btn {
+        .btn {
             margin-top: 24px;
             width: 100%;
-            padding: 14px;
-            background-color: var(--primary);
+            padding: 16px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
             color: #0f172a;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             display: none;
-            transition: background 0.2s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .next-btn:hover, .restart-btn:hover {
-            background-color: var(--btn-hover);
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn.show {
+            display: block;
         }
 
         .result-screen {
@@ -128,48 +217,293 @@
             display: none;
         }
 
+        .result-screen.show {
+            display: block;
+        }
+
         .result-title {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
+            font-size: 2rem;
+            margin-bottom: 16px;
+            font-weight: 800;
         }
 
         .score-display {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 16px 0;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 24px 0;
         }
 
         .feedback-text {
             color: var(--text-muted);
+            margin-bottom: 32px;
+            font-size: 1.1rem;
+        }
+
+        /* Learning Mode Styles */
+        .learn-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .topic-card {
+            background: rgba(56, 189, 248, 0.1);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .topic-icon {
+            font-size: 2rem;
+            min-width: 40px;
+        }
+
+        .topic-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .topic-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .learn-content {
+            display: none;
+        }
+
+        .learn-content.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .learn-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .learn-back-btn {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .learn-back-btn:hover {
+            background: var(--primary);
+            color: #0f172a;
+        }
+
+        .learn-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .learn-section {
+            margin-bottom: 32px;
+        }
+
+        .learn-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .learn-section p, .learn-section li {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .learn-section ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .learn-section li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: rgba(249, 115, 22, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(56, 189, 248, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .quiz-card, .learn-card {
+                padding: 20px;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+            }
+
+            .mode-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .learn-topics {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="quiz-card">
-        <!-- Quiz Bildschirm -->
-        <div id="quiz-screen">
-            <div class="header">
-                <span class="title">⚡ Elektrotechnik Quiz</span>
-                <span class="progress" id="progress">Frage 1 von 5</span>
-            </div>
-            <div class="question-text" id="question">Lade Frage...</div>
-            <div class="options-container" id="options"></div>
-            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>⚡ Elektriker Plus</h1>
+            <p>Quiz & Lernmodus für Elektrotechnik</p>
         </div>
 
-        <!-- Ergebnis Bildschirm -->
-        <div class="result-screen" id="result-screen">
-            <h2 class="result-title">Quiz Abgeschlossen!</h2>
-            <div class="score-display" id="score">0 / 5</div>
-            <p class="feedback-text" id="feedback">Gut gemacht!</p>
-            <button class="restart-btn" id="restart-btn" style="display: block;" onclick="restartQuiz()">Erneut starten</button>
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="switchMode('quiz')">📝 Quiz-Modus</button>
+            <button class="mode-btn" onclick="switchMode('learn')">📚 Lernmodus (ÖVE 8101)</button>
+        </div>
+
+        <!-- Quiz Mode -->
+        <div id="quiz-mode" class="content-area active">
+            <div class="quiz-card">
+                <!-- Quiz Screen -->
+                <div id="quiz-screen">
+                    <div class="quiz-header">
+                        <span class="quiz-title">⚡ Elektrotechnik Quiz</span>
+                        <span class="progress" id="progress">Frage 1 von 5</span>
+                    </div>
+                    <div class="question-text" id="question">Lade Frage...</div>
+                    <div class="options-container" id="options"></div>
+                    <button class="btn show" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+                </div>
+
+                <!-- Result Screen -->
+                <div class="result-screen" id="result-screen">
+                    <h2 class="result-title">🎉 Quiz Abgeschlossen!</h2>
+                    <div class="score-display" id="score">0 / 5</div>
+                    <p class="feedback-text" id="feedback">Gut gemacht!</p>
+                    <button class="btn show" id="restart-btn" onclick="restartQuiz()">Erneut starten</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Mode -->
+        <div id="learn-mode" class="content-area">
+            <div class="learn-card">
+                <div id="topics-view">
+                    <div class="quiz-header">
+                        <span class="quiz-title">📚 Lernmodus - ÖVE 8101</span>
+                    </div>
+                    <div class="learn-topics" id="topics-container"></div>
+                </div>
+
+                <div id="content-view" style="display: none;">
+                    <div class="learn-header">
+                        <button class="learn-back-btn" onclick="backToTopics()">← Zurück</button>
+                        <span id="content-title" class="quiz-title"></span>
+                    </div>
+                    <div id="content-container"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        // Quiz Data
         const quizData = [
             {
                 question: "Wie lautet das Ohmsche Gesetz?",
@@ -198,6 +532,362 @@
             }
         ];
 
+        // Learning Content for ÖVE 8101
+        const learningContent = {
+            basics: {
+                title: "⚡ Grundlagen der Elektrotechnik",
+                icon: "⚡",
+                description: "Grundkonzepte und physikalische Gesetze",
+                content: `
+                    <h2>Grundlagen der Elektrotechnik</h2>
+                    
+                    <div class="learn-section">
+                        <h3>🔌 Grundbegriffe</h3>
+                        <p>Die Elektrotechnik beschäftigt sich mit der Erzeugung, Verteilung und Anwendung von Elektrizität. Folgende Grundbegriffe sind essentiell:</p>
+                        <ul>
+                            <li><strong>Spannung (U)</strong>: Elektrische Potentialdifferenz, gemessen in Volt (V)</li>
+                            <li><strong>Stromstärke (I)</strong>: Bewegung von Ladungsträgern, gemessen in Ampere (A)</li>
+                            <li><strong>Widerstand (R)</strong>: Opposition gegen Stromfluss, gemessen in Ohm (Ω)</li>
+                            <li><strong>Leistung (P)</strong>: Energieumsatzrate, gemessen in Watt (W)</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>📐 Ohmisches Gesetz</h3>
+                        <div class="info-box">
+                            <strong>U = R × I</strong><br>
+                            Spannung = Widerstand × Stromstärke
+                        </div>
+                        <p>Das Ohmsche Gesetz beschreibt die Beziehung zwischen Spannung, Stromstärke und Widerstand. Es ist das fundamentalste Gesetz in der Elektrotechnik.</p>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>⚙️ Leistungsformeln</h3>
+                        <div class="info-box">
+                            <strong>P = U × I</strong> (Leistung aus Spannung und Strom)<br>
+                            <strong>P = I² × R</strong> (Leistung aus Strom und Widerstand)<br>
+                            <strong>P = U² / R</strong> (Leistung aus Spannung und Widerstand)
+                        </div>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🔄 Stromarten</h3>
+                        <ul>
+                            <li><strong>Gleichstrom (DC)</strong>: Konstante Stromrichtung, Batterie oder Elektronik</li>
+                            <li><strong>Wechselstrom (AC)</strong>: Periodisch wechselnde Richtung, 50 Hz in Europa</li>
+                            <li><strong>Drehstrom (3-Phase AC)</strong>: Drei phasenverschobene Wechselströme, für Industrie</li>
+                        </ul>
+                    </div>
+                `
+            },
+            safety: {
+                title: "🛡️ Sicherheitsregeln der Elektrotechnik",
+                icon: "🛡️",
+                description: "Die 5 Sicherheitsregeln und Schutzmaßnahmen",
+                content: `
+                    <h2>Die 5 Sicherheitsregeln der Elektrotechnik</h2>
+                    
+                    <div class="info-box">
+                        <strong>⚠️ Wichtig:</strong> Diese fünf Regeln müssen streng befolgt werden, um Stromschläge und Unfälle zu vermeiden!
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>1️⃣ Freischalten</h3>
+                        <p>Den betreffenden Stromkreis mit einem Schalter oder Trennschalter allpolig abschalten. Der Stromkreis muss vollständig unterbrochen sein.</p>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>2️⃣ Gegen Wiedereinschalten sichern</h3>
+                        <p>Sichern Sie den Schalter gegen unbeabsichtigtes Wieder-Einschalten durch:</p>
+                        <ul>
+                            <li>Herausziehen des Schlüssels oder Verschluss</li>
+                            <li>Verwenden von Sperrketten oder Schlössern</li>
+                            <li>Anbringung eines Warnschildes</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>3️⃣ Spannungsfreiheit feststellen</h3>
+                        <p>Mit einem Spannungsprüfer oder Multimeter überprüfen, dass die Anlage spannungsfrei ist:</p>
+                        <ul>
+                            <li>Prüfgerät zuerst an bekannter Spannung testen</li>
+                            <li>Alle Leiter prüfen (Phase, Nulleiter, wenn vorhanden)</li>
+                            <li>Prüfgerät nach der Prüfung erneut testen</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>4️⃣ Erden und Kurzschließen</h3>
+                        <p>Alle noch vorhandenen elektrischen Ladungen durch Erden und Kurzschließen ablassen:</p>
+                        <ul>
+                            <li>Alle Phasen untereinander kurzschließen</li>
+                            <li>Alle Phasen plus Nulleiter gegen Erde erden</li>
+                            <li>Schutzvorrichtungen verwenden</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>5️⃣ Benachbarte Teile abdecken</h3>
+                        <p>Benachbarte, nicht freischaltbare Teile unter Spannung mit isolierenden Stoffen abdecken oder abgrenzen:</p>
+                        <ul>
+                            <li>Isoliertapes verwenden</li>
+                            <li>Abschrankungen anbringen</li>
+                            <li>Isoliermatte als Untergrund</li>
+                        </ul>
+                    </div>
+                `
+            },
+            cables: {
+                title: "🔌 Leitungen und Farbekennzeichnung",
+                icon: "🔌",
+                description: "ÖVE-Norm für Leiterfarben und -querschnitte",
+                content: `
+                    <h2>Leitungen nach ÖVE 8101</h2>
+                    
+                    <div class="learn-section">
+                        <h3>🎨 Farbekennzeichnung nach ÖVE</h3>
+                        <p>Die Farbekennzeichnung macht schnelle und sichere Identifikation der Leiter möglich:</p>
+                        
+                        <div class="table-wrapper">
+                            <table>
+                                <tr>
+                                    <th>Leiter-Funktion</th>
+                                    <th>Farbe</th>
+                                    <th>Symbol</th>
+                                    <th>Beschreibung</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phase (L1)</strong></td>
+                                    <td>Braun</td>
+                                    <td>L1</td>
+                                    <td>Stromführender Leiter in Ein-Phase-Systemen</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phase (L2)</strong></td>
+                                    <td>Schwarz</td>
+                                    <td>L2</td>
+                                    <td>Zweite Phase in Mehrphasen-Systemen</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phase (L3)</strong></td>
+                                    <td>Grau</td>
+                                    <td>L3</td>
+                                    <td>Dritte Phase in Drehstrom-Systemen</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Nulleiter</strong></td>
+                                    <td>Blau</td>
+                                    <td>N</td>
+                                    <td>Rückführung des Stroms</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutzleiter</strong></td>
+                                    <td>Grün-Gelb</td>
+                                    <td>PE</td>
+                                    <td>Sicherheitsleiter gegen Stromschlag</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>📏 Leiterquerschnitte</h3>
+                        <p>Der richtige Querschnitt ist essentiell für Sicherheit und Effizienz:</p>
+                        <ul>
+                            <li><strong>1,5 mm²</strong>: Leuchten, kleine Verbraucher</li>
+                            <li><strong>2,5 mm²</strong>: Steckdosen, Heizgeräte</li>
+                            <li><strong>4 mm²</strong>: Große Geräte, Kochfelder</li>
+                            <li><strong>6 mm²</strong>: Starke Verbraucher, Boiler</li>
+                            <li><strong>10 mm² und mehr</strong>: Industrielle Anwendungen</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🔗 Leitungsarten nach ÖVE</h3>
+                        <ul>
+                            <li><strong>NYM-J</strong>: Kunststoff-Installationsleitung für Festeinbau</li>
+                            <li><strong>NYY</strong>: Erdkabel, stark belastet</li>
+                            <li><strong>H05VV-F</strong>: Flexible Anschlussleitung für mobile Geräte</li>
+                            <li><strong>NYIF</strong>: Isolierte Installationsleitung</li>
+                        </ul>
+                    </div>
+                `
+            },
+            protection: {
+                title: "⚡ Schutzvorrichtungen",
+                icon: "⚡",
+                description: "RCD, Sicherungen und Schutzschalter",
+                content: `
+                    <h2>Schutzvorrichtungen nach ÖVE 8101</h2>
+                    
+                    <div class="learn-section">
+                        <h3>🔒 Schmelzsicherungen (Sicherungen)</h3>
+                        <p>Ältere Schutzart, in modernen Anlagen durch Leitungsschutzschalter ersetzt:</p>
+                        <ul>
+                            <li>Unterbrechen den Stromkreis bei Überladung</li>
+                            <li>Typischerweise: 6A, 10A, 13A, 16A, 20A, 25A</li>
+                            <li>Nachteil: Müssen nach Auslösen ersetzt werden</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>⚙️ Leitungsschutzschalter (LSS / LS)</h3>
+                        <div class="info-box">
+                            <strong>Moderne Standardlösung für Überstromunschutz</strong>
+                        </div>
+                        <p>Unterbrechen automatisch bei Überstrom oder Kurzschluss:</p>
+                        <ul>
+                            <li><strong>Charakteristik B</strong>: Für private Wohnungen (Standard)</li>
+                            <li><strong>Charakteristik C</strong>: Für Industrieanwendungen mit höheren Einschaltstömen</li>
+                            <li>Nennströme: 6A bis 63A in Wohnungen</li>
+                            <li>Können beliebig oft aus- und eingeschaltet werden</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🛡️ Fehlerstromschutzschalter (RCD / FI)</h3>
+                        <div class="info-box">
+                            <strong>Schützt vor Stromschlag durch fehlerhafte Isolation!</strong>
+                        </div>
+                        <p>Erkennt und unterbreitet Stromverluste zu Erde:</p>
+                        <ul>
+                            <li><strong>30 mA</strong>: Personenschutz in Wohnräumen (MUSS in Badezimmern sein)</li>
+                            <li><strong>100 mA - 300 mA</strong>: Brandschutz für Gruppen von Stromkreisen</li>
+                            <li><strong>Auslösezeit</strong>: Typisch < 100 ms</li>
+                            <li>Regelmäßige Funktionstests notwendig (monatlich empfohlen)</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🔌 Kombinierte Schutzgeräte</h3>
+                        <p>Kombinieren Überstromunschutz (LSS) und Fehlerstromschutz (RCD):</p>
+                        <ul>
+                            <li><strong>RCBO</strong> (RCD + LSS kombiniert): Moderne, platzsparende Lösung</li>
+                            <li>Typisch in modernen Schaltanlagen</li>
+                            <li>Kostet etwas mehr, spart aber Platz</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🔥 Überspannungsschutz</h3>
+                        <ul>
+                            <li><strong>Überspannungsableiter</strong>: Schützen vor Blitzschlag und Netzfehler</li>
+                            <li><strong>Typ 1</strong>: Für externe Blitzschutzanlagen</li>
+                            <li><strong>Typ 2</strong>: Für Verteilerschränke</li>
+                            <li><strong>Typ 3</strong>: Für endgeräte-nahe Montage</li>
+                        </ul>
+                    </div>
+                `
+            },
+            installation: {
+                title: "🔧 Installationsmethoden",
+                icon: "🔧",
+                description: "Kabelkanäle, Rohre und Rohrbäume",
+                content: `
+                    <h2>Installationsmethoden nach ÖVE 8101</h2>
+                    
+                    <div class="learn-section">
+                        <h3>📦 Oberflächeninstallation</h3>
+                        <p>Leitungen sichtbar auf der Oberfläche montiert:</p>
+                        <ul>
+                            <li><strong>Kabelkanäle</strong>: Kunststoff- oder Metallkanäle an Wand/Decke</li>
+                            <li><strong>Installationsrohre</strong>: Für flexiblere Verlegung</li>
+                            <li>Vorteil: Leicht zu prüfen, zu ändern und zu reparieren</li>
+                            <li>Nachteil: Sichtbar, daher weniger ästhetisch</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🏠 Unterflur-/Unterputzinstallation</h3>
+                        <p>Leitungen in Wänden oder Boden verlegbar:</p>
+                        <ul>
+                            <li><strong>Unterputzrohre</strong>: In Mauerwerk eingelassen (vor Verputz)</li>
+                            <li><strong>Leerrohre</strong>: Vorbereitung für spätere Verlegung</li>
+                            <li>Vorteil: Unsichtbar, ästhetisch besser</li>
+                            <li>Nachteil: Schwer zugänglich, teuer, ändert schädlich das Mauerwerk</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🌳 Rohrbäume und Kabeltrassen</h3>
+                        <p>Für Gewerbe und Industrie:</p>
+                        <ul>
+                            <li><strong>Rohrbaum / Rohrbündel</strong>: Mehrere Rohre zusammengefasst</li>
+                            <li><strong>Kabeltrasse</strong>: Gitterrinnensystem für Bündelleitungen</li>
+                            <li><strong>Kabelrinnen</strong>: Flache Rinnen für breite Leitermengen</li>
+                            <li>Ermöglichen Belüftung und einfachen Austausch</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>📐 Installationszonen nach ÖVE</h3>
+                        <p>Leitungen müssen in dafür vorgesehenen Zonen verlegt werden:</p>
+                        <ul>
+                            <li><strong>Horizontal</strong>: 150 mm von oben oder unten</li>
+                            <li><strong>Vertikal</strong>: 150 mm von Ecken, in Ecken oder Laufmarke</li>
+                            <li>Vermeidung von elektromagnetischen Interferenzen (EMI)</li>
+                            <li>Mindestabstand zwischen Leitungsgruppen beachten</li>
+                        </ul>
+                    </div>
+                `
+            },
+            grounding: {
+                title: "⏚ Erdung und Equipotentialausgleich",
+                icon: "⏚",
+                description: "Schutz und Potentialausgleich",
+                content: `
+                    <h2>Erdung und Equipotentialausgleich</h2>
+                    
+                    <div class="learn-section">
+                        <h3>⏚ Erdungsarten</h3>
+                        <p>Die Erdung ist essentiell für die Sicherheit in Elektroinstallationen:</p>
+                        <ul>
+                            <li><strong>TT-System</strong>: Separates Erdungssystem (ältere Systeme)</li>
+                            <li><strong>TN-S System</strong>: Trennung von N und PE</li>
+                            <li><strong>TN-C-S System</strong>: N und PE teilweise kombiniert (modern)</li>
+                            <li><strong>IT-System</strong>: Verwendet Isolierung statt direkter Erdung (Industrie)</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>🔗 Schutzleiter (PE)</h3>
+                        <div class="info-box">
+                            <strong>Farbe: Grün-Gelb</strong> | <strong>Symbol: PE</strong>
+                        </div>
+                        <ul>
+                            <li>Notwendig für alle Geräte mit metallischen Teilen</li>
+                            <li>Verbindung aller leitenden Teile zur Erdung</li>
+                            <li>Muss immer vorhanden sein (KEINE Unterbrechung erlaubt!)</li>
+                            <li>Querschnitte nach Phasenleiter bestimmt</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>↔️ Equipotentialausgleich</h3>
+                        <p>Verbindung aller leitenden Teile zum gleichen Potential:</p>
+                        <ul>
+                            <li><strong>Haupt-EPB</strong>: Verbindung aller Erdungssysteme</li>
+                            <li><strong>Zusatz-EPB</strong>: In Badezimmern, Küchen und nassräumen (WICHTIG!)</li>
+                            <li>Verhindert gefährliche Spannungsdifferenzen</li>
+                            <li>In Badezimmern: Alle Metallteile (Rohre, Armaturen, Heizkörper)</li>
+                        </ul>
+                    </div>
+
+                    <div class="learn-section">
+                        <h3>⚠️ Erdungsmessung</h3>
+                        <p>Die Erdungsanlage muss regelmäßig überprüft werden:</p>
+                        <ul>
+                            <li><strong>Erdungswiderstand</strong>: Sollte typisch < 2-4 Ω sein</li>
+                            <li><strong>Messung mit Erdungswiderstandsmessgerät</strong></li>
+                            <li><strong>Alle 5-6 Jahre Überprüfung erforderlich</strong></li>
+                            <li>Nach Umwelteinflüssen (Trockenheit) nachprüfen</li>
+                        </ul>
+                    </div>
+                `
+            }
+        };
+
+        // Quiz functionality
         let currentQuestion = 0;
         let score = 0;
         let answered = false;
@@ -213,7 +903,7 @@
 
         function loadQuestion() {
             answered = false;
-            nextBtn.style.display = 'none';
+            nextBtn.classList.remove('show');
             const data = quizData[currentQuestion];
             
             progressEl.textContent = `Frage ${currentQuestion + 1} von ${quizData.length}`;
@@ -246,12 +936,7 @@
                 buttons[correctIndex].classList.add('correct');
             }
 
-            if (currentQuestion < quizData.length - 1) {
-                nextBtn.style.display = 'block';
-            } else {
-                nextBtn.textContent = 'Ergebnis anzeigen';
-                nextBtn.style.display = 'block';
-            }
+            nextBtn.classList.add('show');
         }
 
         function nextQuestion() {
@@ -265,28 +950,81 @@
 
         function showResults() {
             quizScreen.style.display = 'none';
-            resultScreen.style.display = 'block';
+            resultScreen.classList.add('show');
             scoreEl.textContent = `${score} / ${quizData.length}`;
 
             if (score === quizData.length) {
-                feedbackEl.textContent = "Perfekt! Alle Fragen richtig beantwortet.";
+                feedbackEl.textContent = "🎯 Perfekt! Alle Fragen richtig beantwortet.";
             } else if (score >= quizData.length / 2) {
-                feedbackEl.textContent = "Gute Arbeit! Ein solides Basiswissen.";
+                feedbackEl.textContent = "✨ Gute Arbeit! Ein solides Basiswissen.";
             } else {
-                feedbackEl.textContent = "Das geht noch besser! Wiederhole die Grundlagen.";
+                feedbackEl.textContent = "📚 Das geht noch besser! Wiederhole die Grundlagen.";
             }
         }
 
         function restartQuiz() {
             currentQuestion = 0;
             score = 0;
-            nextBtn.textContent = 'Nächste Frage';
-            resultScreen.style.display = 'none';
+            resultScreen.classList.remove('show');
             quizScreen.style.display = 'block';
+            nextBtn.classList.remove('show');
             loadQuestion();
         }
 
-        // Quiz beim Laden starten
+        // Mode switching
+        function switchMode(mode) {
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (mode === 'quiz') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.querySelectorAll('.mode-btn')[0].classList.add('active');
+            } else {
+                document.getElementById('learn-mode').classList.add('active');
+                document.querySelectorAll('.mode-btn')[1].classList.add('active');
+                loadTopics();
+            }
+        }
+
+        function loadTopics() {
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+
+            Object.entries(learningContent).forEach(([key, value]) => {
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => loadContent(key);
+                card.innerHTML = `
+                    <div class="topic-icon">${value.icon}</div>
+                    <div class="topic-info">
+                        <h3>${value.title}</h3>
+                        <p>${value.description}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function loadContent(key) {
+            const topicsView = document.getElementById('topics-view');
+            const contentView = document.getElementById('content-view');
+            const contentContainer = document.getElementById('content-container');
+            const contentTitle = document.getElementById('content-title');
+
+            topicsView.style.display = 'none';
+            contentView.style.display = 'block';
+
+            const content = learningContent[key];
+            contentTitle.textContent = content.title;
+            contentContainer.innerHTML = content.content;
+        }
+
+        function backToTopics() {
+            document.getElementById('topics-view').style.display = 'block';
+            document.getElementById('content-view').style.display = 'none';
+        }
+
+        // Initialize
         loadQuestion();
     </script>
 </body>
