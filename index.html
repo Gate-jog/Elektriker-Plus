@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Pro - Schulung & Adaptive KI</title>
+    <title>Elektriker Pro - Schulung & KI Modus</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
@@ -729,7 +729,7 @@
             <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
             <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
             <h1>Elektriker Pro</h1>
-            <p>Schulungsportal, Elektro-Rechner & Adaptiver KI-Simulator</p>
+            <p>Schulungsportal, Elektro-Rechner & KI Modus</p>
         </div>
 
         <!-- Dashboard Bar -->
@@ -773,8 +773,8 @@
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
-                    <div class="menu-title">Lernende KI</div>
-                    <div class="menu-description">Dynamische Aufgaben, die sich deinem Wissensstand anpassen.</div>
+                    <div class="menu-title">KI Modus</div>
+                    <div class="menu-description">Dynamische Theorie- & Rechenaufgaben, angepasst an dein Skill-Level.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -790,7 +790,7 @@
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI-Simulator</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI Modus</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                 </div>
             </div>
@@ -803,11 +803,11 @@
                     <div class="config-group">
                         <label>Themenbereich</label>
                         <select id="ai-topic-select" class="config-select">
-                            <option value="auto">🤖 Automatisch (Lernend)</option>
+                            <option value="auto">🤖 Automatisch (Theorie & Praxis)</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
                             <option value="motor">Drehstrom & Asynchronmotor</option>
-                            <option value="protection">Schutzmaßnahmen & RCD</option>
-                            <option value="cables">Leitungsbemessung</option>
+                            <option value="protection">Schutzmaßnahmen, Normen & RCD</option>
+                            <option value="cables">Leitungsbemessung & Zonen</option>
                         </select>
                     </div>
                     <div class="config-group">
@@ -1283,15 +1283,15 @@
             loadQuestion();
         }
 
-        // DYNAMISCHE KI GENERIERUNGS-ENGINE (KORRIGIERT & REPARIERT)
+        // KI MODUS GENERIERUNGS-ENGINE (THEORIE + RECHNUNG)
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
-            answered = true; // Sperrt Eingaben während des Ladens
+            answered = true;
 
             const selectedTopic = document.getElementById('ai-topic-select').value;
             const selectedDiff = document.getElementById('ai-diff-select').value;
 
-            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere maßgeschneiderte Fachaufgabe...';
+            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere maßgeschneiderte Aufgabe...';
             document.getElementById('options').innerHTML = '';
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
@@ -1321,67 +1321,128 @@
                 else level = 'hard';
             }
 
+            // Zufallsentscheidung: Theorie-Frage oder Rechen-Frage (50/50 Chance)
+            const isTheory = Math.random() < 0.5;
+
             const generators = {
                 ohm: () => {
-                    const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
-                    const r = Math.floor(Math.random() * 45) + 5;
-                    const i = (u / r).toFixed(2);
-                    const p = ((u * u) / r).toFixed(0);
-                    
-                    if (level === 'easy') {
+                    if (isTheory) {
                         return {
-                            question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
-                            options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
-                            answer: 0,
-                            explanation: `Nach dem Ohmsche Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
+                            question: `Wie verhält sich die elektrische Leistung P eines ohmschen Verbrauchers, wenn bei konstanter Spannung U der Widerstand R <b>halbierte</b> wird?`,
+                            options: [
+                                `Die Leistung halbiert sich`,
+                                `Die Leistung verdoppelt sich`,
+                                `Die Leistung vervierfacht sich`,
+                                `Die Leistung bleibt unverändert`
+                            ],
+                            answer: 1,
+                            explanation: `Nach der Formel P = U² / R ist die Leistung umgekehrt proportional zum Widerstand. Wird R halbiert, verdoppelt sich die Leistung P.`,
                             aiGenerated: true
                         };
                     } else {
+                        const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
+                        const r = Math.floor(Math.random() * 45) + 5;
+                        const i = (u / r).toFixed(2);
+                        const p = ((u * u) / r).toFixed(0);
+                        
+                        if (level === 'easy') {
+                            return {
+                                question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
+                                options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
+                                answer: 0,
+                                explanation: `Nach dem Ohmsche Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
+                                aiGenerated: true
+                            };
+                        } else {
+                            return {
+                                question: `Ein Heizstab (${r} Ω) wird an <b>${u}V</b> betrieben. Welche elektrische Leistung P wird aufgenommen?`,
+                                options: [`${(p * 1.3).toFixed(0)} W`, `${p} W`, `${(p * 0.7).toFixed(0)} W`, `${(p * 2).toFixed(0)} W`],
+                                answer: 1,
+                                explanation: `Die Leistung berechnet sich durch P = U² / R.<br>Berechnung: (${u}V × ${u}V) / ${r}Ω = <b>${p} W</b>.`,
+                                aiGenerated: true
+                            };
+                        }
+                    }
+                },
+                motor: () => {
+                    if (isTheory) {
                         return {
-                            question: `Ein Heizstab (${r} Ω) wird an <b>${u}V</b> betrieben. Welche elektrische Leistung P wird aufgenommen?`,
-                            options: [`${(p * 1.3).toFixed(0)} W`, `${p} W`, `${(p * 0.7).toFixed(0)} W`, `${(p * 2).toFixed(0)} W`],
-                            answer: 1,
-                            explanation: `Die Leistung berechnet sich durch P = U² / R.<br>Berechnung: (${u}V × ${u}V) / ${r}Ω = <b>${p} W</b>.`,
+                            question: `Was versteht man unter dem <b>Schlupf</b> bei einem Drehstrom-Asynchronmotor?`,
+                            options: [
+                                `Die relative Differenz zwischen Ständerdrehfeld und Läuferdrehzahl`,
+                                `Der mechanische Verlust in den Wälzlagern`,
+                                `Das Ausrutschen des Keilriemens am Antrieb`,
+                                `Der Spannungsabfall an den Ständerwicklungen`
+                            ],
+                            answer: 0,
+                            explanation: `Der Schlupf beschreibt die prozentuale Abweichung der Läuferdrehzahl gegenüber der Drehzahl des umlaufenden Ständerdrehfelds.`,
+                            aiGenerated: true
+                        };
+                    } else {
+                        const i = [10, 16, 25, 32][Math.floor(Math.random() * 4)];
+                        const cos = 0.85;
+                        const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
+                        return {
+                            question: `Ein Drehstrommotor nimmt einen Strom von <b>${i} A</b> bei cos φ = ${cos} an 400V auf. Wie hoch ist die Wirkleistung P?`,
+                            options: [`${(p * 1.2).toFixed(2)} kW`, `${(p * 0.8).toFixed(2)} kW`, `${p} kW`, `${(p * 1.5).toFixed(2)} kW`],
+                            answer: 2,
+                            explanation: `Formel: P = √3 × U × I × cos φ.<br>Berechnung: 1,732 × 400V × ${i}A × ${cos} = <b>${p} kW</b>.`,
                             aiGenerated: true
                         };
                     }
                 },
-                motor: () => {
-                    const i = [10, 16, 25, 32][Math.floor(Math.random() * 4)];
-                    const cos = 0.85;
-                    const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
-                    return {
-                        question: `Ein Drehstrommotor nimmt einen Strom von <b>${i} A</b> bei cos φ = ${cos} an 400V auf. Wie hoch ist die Wirkleistung P?`,
-                        options: [`${(p * 1.2).toFixed(2)} kW`, `${(p * 0.8).toFixed(2)} kW`, `${p} kW`, `${(p * 1.5).toFixed(2)} kW`],
-                        answer: 2,
-                        explanation: `Formel: P = √3 × U × I × cos φ.<br>Berechnung: 1,732 × 400V × ${i}A × ${cos} = <b>${p} kW</b>.`,
-                        aiGenerated: true
-                    };
-                },
                 protection: () => {
-                    const lss = [10, 16, 32][Math.floor(Math.random() * 3)];
-                    const ia = lss * 5; // B-Charakteristik
-                    const zs = (230 / ia).toFixed(2);
-                    return {
-                        question: `Wie hoch darf der maximale Schleifenwiderstand (Zs) bei einem Leitungsschutzschalter <b>B${lss}</b> im TN-System (230V) sein?`,
-                        options: [`${zs} Ω`, `${(zs * 1.5).toFixed(2)} Ω`, `${(zs * 0.5).toFixed(2)} Ω`, `${(zs * 2.2).toFixed(2)} Ω`],
-                        answer: 0,
-                        explanation: `B-Charakteristik schaltet beim 5-fachen Nennstrom aus: Ia = 5 × ${lss}A = ${ia}A.<br>Zs ≤ U0 / Ia = 230V / ${ia}A = <b>${zs} Ω</b>.`,
-                        aiGenerated: true
-                    };
+                    if (isTheory) {
+                        const theoryPool = [
+                            {
+                                question: `Welcher Schritt gehört <b>NICHT</b> zu den 5 Sicherheitsregeln nach ÖVE/DIN VDE?`,
+                                options: [`Freischalten`, `Gegen Wiedereinschalten sichern`, `Isolationswiderstand messen`, `Spannungsfreiheit feststellen`],
+                                answer: 2,
+                                explanation: `Die 5 Sicherheitsregeln lauten: 1. Freischalten, 2. Gegen Wiedereinschalten sichern, 3. Spannungsfreiheit feststellen, 4. Erden und Kurzschließen, 5. Benachbarte unter Spannung stehende Teile abdecken.`
+                            },
+                            {
+                                question: `Welche Eigenschaft zeichnet ein <b>IT-Netzsystem</b> aus?`,
+                                options: [`Direkte Erdung des Neutralleiters an der Quelle`, `Isolierter oder hochohmig geerdeter Sternpunkt der Quelle`, `PEN-Leiterführung bis zum Verbraucher`, `Kein Schutzleiter vorhanden`],
+                                answer: 1,
+                                explanation: `Im IT-Netz ist die Spannungsquelle isoliert. Ein erster Isolationsfehler führt daher nicht zur Abschaltung der Anlage.`
+                            }
+                        ];
+                        return { ...theoryPool[Math.floor(Math.random() * theoryPool.length)], aiGenerated: true };
+                    } else {
+                        const lss = [10, 16, 32][Math.floor(Math.random() * 3)];
+                        const ia = lss * 5; // B-Charakteristik
+                        const zs = (230 / ia).toFixed(2);
+                        return {
+                            question: `Wie hoch darf der maximale Schleifenwiderstand (Zs) bei einem Leitungsschutzschalter <b>B${lss}</b> im TN-System (230V) sein?`,
+                            options: [`${zs} Ω`, `${(zs * 1.5).toFixed(2)} Ω`, `${(zs * 0.5).toFixed(2)} Ω`, `${(zs * 2.2).toFixed(2)} Ω`],
+                            answer: 0,
+                            explanation: `B-Charakteristik schaltet beim 5-fachen Nennstrom aus: Ia = 5 × ${lss}A = ${ia}A.<br>Zs ≤ U0 / Ia = 230V / ${ia}A = <b>${zs} Ω</b>.`,
+                            aiGenerated: true
+                        };
+                    }
                 },
                 cables: () => {
-                    const len = [15, 25, 40, 50][Math.floor(Math.random() * 4)];
-                    const current = 16;
-                    const q = 2.5;
-                    const du = ((2 * len * current) / (56 * q)).toFixed(2);
-                    return {
-                        question: `Berechnen Sie den Spannungsfall ΔU für eine 1-phasige Kupferleitung (2,5 mm²) bei <b>${len}m Länge</b> und 16A Belastung.`,
-                        options: [`${(du * 1.4).toFixed(2)} V`, `${du} V`, `${(du * 0.7).toFixed(2)} V`, `${(du * 2.0).toFixed(2)} V`],
-                        answer: 1,
-                        explanation: `Formel: ΔU = (2 × l × I) / (κ × A).<br>Berechnung: (2 × ${len}m × 16A) / (56 × 2,5mm²) = <b>${du} V</b>.`,
-                        aiGenerated: true
-                    };
+                    if (isTheory) {
+                        return {
+                            question: `Welcher Schutzbereich/Zone gilt im Badezimmer direkt für den <b>Innenraum der Badewanne</b>?`,
+                            options: [`Bereich 0`, `Bereich 1`, `Bereich 2`, `Bereich 3`],
+                            answer: 0,
+                            explanation: `Der direkte Innenraum einer Bade- oder Duschwanne ist als Bereich 0 definiert (Sonderanforderungen: max. 12V SELV, IPX7).`,
+                            aiGenerated: true
+                        };
+                    } else {
+                        const len = [15, 25, 40, 50][Math.floor(Math.random() * 4)];
+                        const current = 16;
+                        const q = 2.5;
+                        const du = ((2 * len * current) / (56 * q)).toFixed(2);
+                        return {
+                            question: `Berechnen Sie den Spannungsfall ΔU für eine 1-phasige Kupferleitung (2,5 mm²) bei <b>${len}m Länge</b> und 16A Belastung.`,
+                            options: [`${(du * 1.4).toFixed(2)} V`, `${du} V`, `${(du * 0.7).toFixed(2)} V`, `${(du * 2.0).toFixed(2)} V`],
+                            answer: 1,
+                            explanation: `Formel: ΔU = (2 × l × I) / (κ × A).<br>Berechnung: (2 × ${len}m × 16A) / (56 × 2,5mm²) = <b>${du} V</b>.`,
+                            aiGenerated: true
+                        };
+                    }
                 }
             };
 
@@ -1408,6 +1469,7 @@
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
             
             document.getElementById(`${mode === 'ai' ? 'quiz' : mode}-mode`).classList.add('active');
+            document.getElementById(`toggle-${mode}`).classList.active;
             document.getElementById(`toggle-${mode}`).classList.add('active');
             currentMode = mode;
             clearInterval(timerInterval);
@@ -1420,7 +1482,7 @@
                 restartQuiz();
             } else if (mode === 'ai') {
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = "✨ KI-Simulator";
+                document.getElementById('quiz-heading').textContent = "✨ KI Modus";
                 document.getElementById('quiz-screen').style.display = 'block';
                 document.getElementById('result-screen').style.display = 'none';
                 generateCustomAIQuestion();
