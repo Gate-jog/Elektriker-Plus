@@ -540,7 +540,7 @@
         /* Interactive Calculator Tool */
         .calc-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
@@ -568,7 +568,7 @@
             margin-bottom: 4px;
         }
 
-        .input-field input {
+        .input-field input, .input-field select {
             width: 100%;
             padding: 10px;
             background: rgba(0, 0, 0, 0.4);
@@ -604,6 +604,8 @@
             font-size: 1.2rem;
             color: #fff;
             margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 6px;
         }
 
         .article-section p, .article-section li {
@@ -612,9 +614,19 @@
             font-size: 0.95rem;
         }
 
-        .article-section ul {
+        .article-section ul, .article-section ol {
             margin-left: 20px;
             margin-top: 8px;
+        }
+
+        .info-badge {
+            background: rgba(139, 92, 246, 0.15);
+            border-left: 4px solid var(--secondary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+            color: var(--text-main);
+            font-size: 0.9rem;
         }
 
         .custom-table {
@@ -638,9 +650,19 @@
             color: var(--primary);
         }
 
+        .color-badge {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
         /* Responsive */
         @media (max-width: 850px) {
-            .menu-options, .topics-grid, .calc-grid { grid-template-columns: 1fr; }
+            .menu-options, .topics-grid { grid-template-columns: 1fr; }
             .ai-config-panel { grid-template-columns: 1fr; }
             .stats-bar { grid-template-columns: repeat(3, 1fr); }
         }
@@ -693,7 +715,7 @@
                 <div class="menu-option" onclick="startMode('quiz')">
                     <div class="menu-icon">📝</div>
                     <div class="menu-title">Standard Quiz</div>
-                    <div class="menu-description">25 praxisnahe Fachfragen nach aktuellen ÖVE/DIN Standards</div>
+                    <div class="menu-description">Praxisnahe Fachfragen nach aktuellen ÖVE/DIN Standards</div>
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
@@ -703,7 +725,7 @@
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
                     <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Kompaktes Nachschlagewerk & Rechner für die Praxis</div>
+                    <div class="menu-description">Erweitertes Nachschlagewerk & Profi-Rechner</div>
                 </div>
             </div>
         </div>
@@ -723,7 +745,7 @@
         <!-- Quiz Area -->
         <div id="quiz-mode" class="content-area">
             <div class="glass-card">
-                <!-- AI Generator Config (visible in AI Mode) -->
+                <!-- AI Generator Config -->
                 <div id="ai-config" class="ai-config-panel" style="display: none;">
                     <div class="config-group">
                         <label>Themenbereich</label>
@@ -747,7 +769,7 @@
                 <div id="quiz-screen">
                     <div class="quiz-top">
                         <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
-                        <div class="progress-pill" id="progress">Frage 1 / 25</div>
+                        <div class="progress-pill" id="progress">Frage 1 / 10</div>
                     </div>
 
                     <div id="question-content">
@@ -760,7 +782,7 @@
 
                 <div class="result-box" id="result-screen">
                     <h2>Quiz Abgeschlossen!</h2>
-                    <div class="score-number" id="score">0 / 25</div>
+                    <div class="score-number" id="score">0 / 10</div>
                     <p style="color: var(--text-muted); margin-bottom: 24px;" id="feedback">Ergebnis ausgewertet.</p>
                     <button class="btn-action show" onclick="restartQuiz()" style="max-width: 280px; margin: 0 auto;">Neuer Versuch</button>
                 </div>
@@ -771,12 +793,12 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen oder Begriffe suchen (z.B. RCD, Ohm, TN-S)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Ohm, Netzformen, Drehstrom, Kabel)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
                     <!-- Embedded Interactive Calculator Tools -->
-                    <h2 style="margin: 32px 0 16px 0; color: var(--primary);">🧮 Interaktive Schnellrechner</h2>
+                    <h2 style="margin: 40px 0 16px 0; color: var(--primary);">🧮 Interaktive Elektro-Rechner</h2>
                     <div class="calc-grid">
                         <div class="calc-box">
                             <h3>Ohmsches Gesetz (U, I, R)</h3>
@@ -792,7 +814,7 @@
                         </div>
 
                         <div class="calc-box">
-                            <h3>Drehstrom-Wirkleistung (P)</h3>
+                            <h3>Drehstrom-Leistung (P)</h3>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
                                 <input type="number" id="calc-i3" placeholder="16" oninput="calculate3Phase()">
@@ -802,6 +824,29 @@
                                 <input type="number" id="calc-cos" placeholder="0.85" step="0.05" oninput="calculate3Phase()">
                             </div>
                             <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
+                        </div>
+
+                        <div class="calc-box">
+                            <h3>Spannungsfall (ΔU) - Wechselstrom</h3>
+                            <div class="input-field">
+                                <label>Leitungslänge l (Meter, einfach)</label>
+                                <input type="number" id="calc-len" placeholder="25" oninput="calculateVoltageDrop()">
+                            </div>
+                            <div class="input-field">
+                                <label>Strom I (Ampere)</label>
+                                <input type="number" id="calc-i-drop" placeholder="16" oninput="calculateVoltageDrop()">
+                            </div>
+                            <div class="input-field">
+                                <label>Querschnitt A (mm² Cu)</label>
+                                <select id="calc-q" onchange="calculateVoltageDrop()">
+                                    <option value="1.5">1.5 mm²</option>
+                                    <option value="2.5" selected>2.5 mm²</option>
+                                    <option value="4">4.0 mm²</option>
+                                    <option value="6">6.0 mm²</option>
+                                    <option value="10">10.0 mm²</option>
+                                </select>
+                            </div>
+                            <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
                         </div>
                     </div>
                 </div>
@@ -821,7 +866,6 @@
         let currentQuestion = 0;
         let score = 0;
         let answered = false;
-        let isAIModeActive = false;
 
         const initialQuizData = [
             { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
@@ -838,49 +882,219 @@
 
         let quizData = [...initialQuizData];
 
+        // Massiv erweiterte Lerninhalte
         const learningContent = {
             basics: {
                 title: "Grundlagen & Formeln",
                 icon: "⚡",
-                description: "Physikalische Grundgesetze, Einheiten & Wechselstrom",
+                description: "Physikalische Grundgesetze, Einheiten, Wechselstrom & Leistungskreis",
                 content: `
                     <h2>Grundlagen der Elektrotechnik</h2>
                     <div class="article-section">
-                        <h3>Physikalische Einheiten</h3>
-                        <ul>
-                            <li><strong>Spannung (U):</strong> Volt (V)</li>
-                            <li><strong>Stromstärke (I):</strong> Ampere (A)</li>
-                            <li><strong>Widerstand (R):</strong> Ohm (Ω)</li>
-                            <li><strong>Leistung (P):</strong> Watt (W) | P = U × I</li>
-                        </ul>
+                        <h3>Physikalische Grundgrößen</h3>
+                        <p>Die Grundlagen der Elektrotechnik basieren auf dem Zusammenspiel von Spannung, Stromstärke und Widerstand.</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formel</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Spannung</td><td>U</td><td>Volt (V)</td><td>U = I × R</td></tr>
+                                <tr><td>Stromstärke</td><td>I</td><td>Ampere (A)</td><td>I = U / R</td></tr>
+                                <tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>R = U / I</td></tr>
+                                <tr><td>Wirkleistung</td><td>P</td><td>Watt (W)</td><td>P = U × I × cos φ</td></tr>
+                                <tr><td>Blindleistung</td><td>Q</td><td>Var (var)</td><td>Q = U × I × sin φ</td></tr>
+                                <tr><td>Scheinleistung</td><td>S</td><td>Voltampere (VA)</td><td>S = U × I</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Reihen- vs. Parallelschaltung</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Eigenschaft</th><th>Reihenschaltung</th><th>Parallelschaltung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Spannung</strong></td><td>Teilt sich auf: U_ges = U1 + U2</td><td>Überall gleich: U_ges = U1 = U2</td></tr>
+                                <tr><td><strong>Strom</strong></td><td>Überall gleich: I_ges = I1 = I2</td><td>Teilt sich auf: I_ges = I1 + I2</td></tr>
+                                <tr><td><strong>Gesamtwiderstand</strong></td><td>R_ges = R1 + R2 (wird größer)</td><td>1/R_ges = 1/R1 + 1/R2 (wird kleiner)</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 `
             },
             safety: {
-                title: "5 Sicherheitsregeln (EN 50110)",
+                title: "5 Sicherheitsregeln",
                 icon: "🛡️",
-                description: "Schutzkonzepte vor Beginn elektrischer Arbeiten",
+                description: "Lebenswichtige Schutzmaßnahmen vor Beginn elektrischer Arbeiten (EN 50110 / ÖVE/DIN VDE)",
                 content: `
                     <h2>Die 5 Sicherheitsregeln</h2>
+                    <p>Vor allen Arbeiten an elektrischen Anlagen muss die Spannungsfreiheit gemäß den 5 Sicherheitsregeln hergestellt werden. Die Regeln 1 bis 3 müssen immer eingehalten werden, 4 und 5 gelten für Hochspannung sowie bei Gefährdungen.</p>
+
                     <div class="article-section">
-                        <ol style="margin-left:20px; color: var(--text-muted); line-height: 1.8;">
-                            <li><strong>Freischalten</strong></li>
-                            <li><strong>Gegen Wiedereinschalten sichern</strong></li>
-                            <li><strong>Spannungsfreiheit feststellen (zweipolig!)</strong></li>
-                            <li><strong>Erden und Kurzschließen</strong></li>
-                            <li><strong>Benachbarte unter Spannung stehende Teile abdecken</strong></li>
+                        <ol style="margin-left:20px; line-height: 1.8;">
+                            <li><strong>1. Freischalten:</strong> Allpolige Trennung der Anlage von der Spannungsquelle (z. B. LS-Schalter ausschalten, Sicherungen herausdrehen).</li>
+                            <li><strong>2. Gegen Wiedereinschalten sichern:</strong> Verhindern, dass Dritte die Anlage versehentlich einschalten (z. B. Schaltsperre, Schloss anbringen, Warnschild aufhängen).</li>
+                            <li><strong>3. Spannungsfreiheit feststellen:</strong> Allpolig mit einem zugelassenen <strong>zweipoligen Spannungsprüfer</strong> (z. B. Duspol) die Spannungsfreiheit prüfen. <em>Achtung: Einpolige Phasenprüfer ("Lügenstifte") sind unzulässig!</em></li>
+                            <li><strong>4. Erden und Kurzschließen:</strong> Verbinden der Leiter mit dem Schutzleiter/Erder. Bei Niederspannungsanlagen (unter 1000V) erforderlich bei Freileitungen oder Wiederkehrspannung.</li>
+                            <li><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder abschranken:</strong> Schutz gegen zufälliges Berühren benachbarter aktiver Teile anbringen.</li>
                         </ol>
+                    </div>
+
+                    <div class="info-badge">
+                        <strong>Arbeitsreihenfolge:</strong> Nach dem Arbeiten werden die Sicherheitsregeln in genau <strong>umgekehrter Reihenfolge (5 bis 1)</strong> wieder aufgehoben!
                     </div>
                 `
             },
             protection: {
-                title: "Schutzmaßnahmen & RCDs",
+                title: "Schutzmaßnahmen & RCD",
                 icon: "⚙️",
-                description: "Zusatzschutz, Fehlerströme und Abschaltzeiten",
+                description: "Personenschutz, RCD-Typen, Abschaltzeiten & Überstromschutzorgane",
                 content: `
-                    <h2>Fehlerstromschutzschalter (RCD)</h2>
+                    <h2>Schutzmaßnahmen gegen elektrischen Schlag</h2>
+                    
                     <div class="article-section">
-                        <p>Standard-Personenschutz erfordert Auslöse-Differenzströme von maximal <strong>30 mA</strong> in allen Steckdosen- und Beleuchtungsstromkreisen.</p>
+                        <h3>Fehlerstromschutzschalter (RCD)</h3>
+                        <p>Ein RCD vergleicht den zufließenden Strom über die Phasen mit dem zurückfließenden Strom über den Neutralleiter. Bei einer Differenz (Fehlerstrom fließt über die Erde ab) schaltet er ab.</p>
+                        
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>RCD-Typ</th><th>Erfassbare Fehlerstromformen</th><th>Typischer Einsatzbereich</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td>In vielen Ländern mittlerweile verboten/veraltet</td></tr>
+                                <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard in der Hausinstallation</td></tr>
+                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen</td><td>Waschmaschinen mit Invertersteuerung, Wärmepumpen</td></tr>
+                                <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (auch glatte Gleichfehlerströme)</td><td>Photovoltaik, EV-Ladestationen (Wallboxen), Frequenzumrichter</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Vorgeschriebene Auslöseströme & Zeiten</h3>
+                        <ul>
+                            <li><strong>Personenschutz (Zusatzschutz):</strong> I_Δn ≤ 30 mA (Pflicht für Steckdosen bis 32A und Außenbereiche).</li>
+                            <li><strong>Brandschutz:</strong> I_Δn ≤ 300 mA.</li>
+                            <li><strong>Maximale Abschaltzeit im TN-System (230V Endstromkreis):</strong> Max. 0.4 Sekunden.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            netze: {
+                title: "Netzformen (TN, TT, IT)",
+                icon: "🌐",
+                description: "Erdungskonzepte, Systemvergleiche und Netzstrukturen",
+                content: `
+                    <h2>Netzsysteme nach ÖVE / DIN VDE</h2>
+                    <p>Die Buchstaben beschreiben die Erdungsverhältnisse der Stromquelle (1. Buchstabe) und der Körper der elektrischen Betriebsmittel (2. Buchstabe).</p>
+                    
+                    <div class="article-section">
+                        <h3>Erklärung der Kürzel</h3>
+                        <ul>
+                            <li><strong>T (Terre):</strong> Direkt geerdet.</li>
+                            <li><strong>N (Neutre):</strong> Körper direkt mit dem Betriebserder der Stromquelle verbunden.</li>
+                            <li><strong>I (Isolé):</strong> Isoliert von Erde oder hochohmig geerdet.</li>
+                            <li><strong>C (Combined):</strong> Neutral- und Schutzleiter kombiniert (PEN).</li>
+                            <li><strong>S (Separated):</strong> Neutral- und Schutzleiter getrennt.</li>
+                        </ul>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Vergleich der Systemarten</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Netzform</th><th>Beschreibung</th><th>Eigenschaften</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>TN-C-S</strong></td>
+                                    <td>Bis zum Hauptverteiler kombiniert (PEN), danach getrennt in N und PE.</td>
+                                    <td>Standard bei Gebäude-Einspeisungen. Höchste Wirtschaftlichkeit.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TT-System</strong></td>
+                                    <td>Betriebserdung und Anlagenerdung sind vollständig getrennt.</td>
+                                    <td>RCD zwingend erforderlich, da der Schleifenwiderstand oft zu hoch ist.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IT-System</strong></td>
+                                    <td>Keine direkte Verbindung zwischen aktiven Leitern und Erde.</td>
+                                    <td>Maximale Ausfallsicherheit (1. Fehler führt nicht zur Abschaltung). Einsatz in OP-Räumen & Industrie.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            cables: {
+                title: "Kabel, Farben & Leitungen",
+                icon: "🔌",
+                description: "Farbcodierung, Leitungsquerschnitte & Verlegearten nach Norm",
+                content: `
+                    <h2>Aderfarben & Leitungsdimensionierung</h2>
+                    
+                    <div class="article-section">
+                        <h3>Normierte Aderfarben (DIN VDE 0293-308)</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Funktion</th><th>Kürzel</th><th>Farbe</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Schutzleiter</td><td>PE</td><td><span class="color-badge" style="background: linear-gradient(135deg, green 50%, yellow 50%);"></span>Grün-Gelb</td></tr>
+                                <tr><td>Neutralleiter</td><td>N</td><td><span class="color-badge" style="background: #3b82f6;"></span>Blau</td></tr>
+                                <tr><td>Außenleiter 1</td><td>L1</td><td><span class="color-badge" style="background: #78350f;"></span>Braun</td></tr>
+                                <tr><td>Außenleiter 2</td><td>L2</td><td><span class="color-badge" style="background: #000000;"></span>Schwarz</td></tr>
+                                <tr><td>Außenleiter 3</td><td>L3</td><td><span class="color-badge" style="background: #6b7280;"></span>Grau</td></tr>
+                                <tr><td>PEN-Leiter</td><td>PEN</td><td><span class="color-badge" style="background: linear-gradient(135deg, green 50%, yellow 50%);"></span>Grün-Gelb mit blauer Endmarkierung</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Richtwerte für Leitungsquerschnitte (Kupfer)</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Querschnitt</th><th>Typische Absicherung</th><th>Einsatzbeispiel</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1.5 mm²</td><td>B10A - B16A</td><td>Beleuchtung, Standard-Steckdosen (kurze Wege)</td></tr>
+                                <tr><td>2.5 mm²</td><td>B16A - B20A</td><td>Geschirrspüler, Waschmaschine, lange Steckdosenstrecken</td></tr>
+                                <tr><td>4.0 / 6.0 mm²</td><td>B25A - B32A</td><td>Herdanschluss, Elektroautoladestation (Wallbox)</td></tr>
+                                <tr><td>10.0 / 16.0 mm²</td><td>35A - 63A</td><td>Zuleitung Hauptverteilung / Zählerplatz</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            motors: {
+                title: "Drehstrom & Motoren",
+                icon: "🔄",
+                description: "Asynchronmotoren, Stern-Dreieck-Schaltung & Schleifenwiderstand",
+                content: `
+                    <h2>Antriebstechnik & Drehstrom</h2>
+                    
+                    <div class="article-section">
+                        <h3>Stern- vs. Dreieckschaltung</h3>
+                        <p>Ein Drehstrommotor mit der Angabe <strong>400V/690V</strong> kann am 400V-Netz in Dreieck geschaltet werden. Bei <strong>230V/400V</strong> darf er am 400V-Netz nur in Stern betrieben werden!</p>
+                        
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schaltungsart</th><th>Spannung an der Wicklung</th><th>Stromaufnahme</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Stern (Y)</strong></td><td>U_Str = 230 V (U_Netz / √3)</td><td>Geringer (Anlaufschaltung)</td></tr>
+                                <tr><td><strong>Dreieck (Δ)</strong></td><td>U_Str = 400 V (U_Netz)</td><td>Höher (Volle Leistung, I_Δ = 3 × I_Y)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Synchrone Drehfelddrehzahl (n_s)</h3>
+                        <p>Die Drehzahl des Statordrehfeldes berechnet sich aus Netzfrequenz f und Polpaarzahl p:</p>
+                        <div class="info-badge">
+                            <strong>Formel:</strong> n_s = (f × 60) / p
+                        </div>
+                        <p><em>Beispiel: Bei f = 50 Hz und p = 2 (4-poliger Motor) beträgt n_s = 1500 U/min. Der Läufer läuft wegen des Schlupfs etwas langsamer.</em></p>
                     </div>
                 `
             }
@@ -892,6 +1106,7 @@
             loadTopics();
             calculateOhm();
             calculate3Phase();
+            calculateVoltageDrop();
         };
 
         function updateStatsUI() {
@@ -1082,6 +1297,19 @@
             const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
             const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
             document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
+        }
+
+        function calculateVoltageDrop() {
+            const l = parseFloat(document.getElementById('calc-len').value) || 25;
+            const i = parseFloat(document.getElementById('calc-i-drop').value) || 16;
+            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const kappa = 56; // Leitfähigkeit Kupfer m/(Ω*mm²)
+            
+            // ΔU = (2 * l * I) / (kappa * A)
+            const drop = (2 * l * i) / (kappa * q);
+            const dropPct = (drop / 230) * 100;
+            
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop.toFixed(2)} V (${dropPct.toFixed(2)}%)`;
         }
 
         /* Learning & Topics Filter */
