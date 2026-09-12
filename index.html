@@ -1813,7 +1813,7 @@
                 protection: () => {
                     const pool = [
                         { q: `Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`, opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s." },
-                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B is allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." },
+                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B ist allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." },
                         { q: `Welches Schutzziel verfolgt die Schutzmaßnahme 'Schutztrennung' nach ÖVE / VDE?`, opts: ["Die galvanische Trennung des Sekundärkreises von der Erde, um bei erstem Berühren eines aktiven Leiters keinen geschlossenen Fehlerstromkreis über den Boden zu erzeugen", "Die automatische Abschaltung innerhalb von 0,01 Sekunden durch Schmelzsicherungen", "Die Begrenzung des Kurzschlussstroms auf maximal 10 Ampere", "Das Erden aller berührbaren Metallteile über einen Tiefenerder"], ans: 0, exp: "Schutztrennung trennt den Stromkreis galvanisch vom Netz, weshalb ein Berühren eines spannungsführenden Leiters bei fehlender Erdung des Sekundärkreises ungefährlich ist." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
@@ -1899,37 +1899,38 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
+        // Calculation Functions
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = u / r;
-            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i.toFixed(2)} A`;
+            const i = r > 0 ? (u / r).toFixed(2) : 0;
+            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
-            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
-            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
+            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const gamma = 56;
-            const deltaU = (2 * l * i) / (gamma * q);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const kappa = 56;
+            const drop = ((2 * l * i) / (kappa * q)).toFixed(2);
+            const pct = ((drop / 230) * 100).toFixed(2);
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop} V (${pct}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const uMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const gamma = 56;
-            const qMin = (2 * l * i) / (gamma * uMax);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${qMin.toFixed(2)} mm²`;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const kappa = 56;
+            const q = du > 0 ? ((2 * l * i) / (kappa * du)).toFixed(2) : 0;
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q} mm²`;
         }
     </script>
 </body>
