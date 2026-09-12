@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Elektriker Plus Pro - Schulung & KI-Simulator</title>
+    <title>Elektriker Plus - Schulung & Adaptive KI</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#06b6d4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ElektrikerPro">
+    <meta name="apple-mobile-web-app-title" content="ElektrikerPlus">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2983/2983780.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,7 +128,7 @@
 
         .stats-bar {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -142,14 +142,14 @@
         }
 
         .stat-val {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary);
             font-family: var(--font-code);
         }
 
         .stat-lbl {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -669,7 +669,7 @@
         @media (max-width: 850px) {
             .menu-options, .topics-grid { grid-template-columns: 1fr; }
             .ai-config-panel { grid-template-columns: 1fr; }
-            .stats-bar { grid-template-columns: repeat(3, 1fr); }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 600px) {
@@ -690,9 +690,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="brand-badge">⚡ Normenkonform & Interaktiv</div>
-            <h1>Elektriker Plus Pro</h1>
-            <p>Schulungsportal & KI-Prüfungssimulator für Elektrotechnik</p>
+            <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
+            <h1>Elektriker Plus</h1>
+            <p>Schulungsportal & Adaptiver KI-Prüfungssimulator</p>
         </div>
 
         <!-- Dashboard Bar -->
@@ -704,6 +704,10 @@
             <div class="stat-card">
                 <div class="stat-val" id="stat-completed">0</div>
                 <div class="stat-lbl">Gelöste Fragen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-level">Lvl 1</div>
+                <div class="stat-lbl">KI-Skill Level</div>
             </div>
             <div class="stat-card">
                 <div class="stat-val" id="stat-high">0</div>
@@ -724,8 +728,8 @@
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
-                    <div class="menu-title">KI-Simulator</div>
-                    <div class="menu-description">Generiere unendliche dynamische Rechen- und Praxisaufgaben</div>
+                    <div class="menu-title">Lernende KI</div>
+                    <div class="menu-description">Dynamische Aufgaben, die sich deinem Wissensstand anpassen</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -741,7 +745,7 @@
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI-Simulator</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Adaptiver KI-Simulator</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                 </div>
             </div>
@@ -754,20 +758,23 @@
                     <div class="config-group">
                         <label>Themenbereich</label>
                         <select id="ai-topic-select" class="config-select">
+                            <option value="auto">🤖 Automatisch (Lernend)</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen & RCD</option>
+                            <option value="cables">Leitungsbemessung & Spannungsfall</option>
                         </select>
                     </div>
                     <div class="config-group">
                         <label>Schwierigkeit</label>
                         <select id="ai-diff-select" class="config-select">
+                            <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
                             <option value="easy">Leicht (Grundlagen)</option>
-                            <option value="medium" selected>Mittel (Facharbeiter)</option>
+                            <option value="medium">Mittel (Facharbeiter)</option>
                             <option value="hard">Schwer (Meister/Techniker)</option>
                         </select>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">⚡ Frage Generieren</button>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ KI-Frage Generieren</button>
                 </div>
 
                 <div id="quiz-screen">
@@ -872,8 +879,16 @@
             });
         }
 
-        // State Management
-        let stats = JSON.parse(localStorage.getItem('elek_stats')) || { total: 0, correct: 0, highscore: 0 };
+        // State & Learner Profile Management (Lernende KI Engine)
+        let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
+            total: 0, 
+            correct: 0, 
+            highscore: 0, 
+            level: 1, 
+            xp: 0,
+            topicSkills: { ohm: 1, motor: 1, protection: 1, cables: 1 }
+        };
+
         let currentMode = 'quiz';
         let currentQuestion = 0;
         let score = 0;
@@ -1053,47 +1068,121 @@
         function updateStatsUI() {
             document.getElementById('stat-completed').textContent = stats.total;
             document.getElementById('stat-high').textContent = stats.highscore;
+            document.getElementById('stat-level').textContent = `Lvl ${stats.level}`;
             const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
             document.getElementById('stat-score').textContent = `${pct}%`;
-            localStorage.setItem('elek_stats', JSON.stringify(stats));
+            localStorage.setItem('elek_plus_stats', JSON.stringify(stats));
         }
 
-        function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            const diff = document.getElementById('ai-diff-select').value;
-            let mult = diff === 'easy' ? 1 : diff === 'medium' ? 2 : 3;
-            let generated = {};
+        function shuffleArray(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
 
-            if (topic === 'ohm') {
-                const u = (Math.floor(Math.random() * 10 * mult) + 5) * 10;
-                const r = (Math.floor(Math.random() * 5 * mult) + 1) * 5;
-                const ans = (u / r).toFixed(1);
+        // Adaptive KI Generator Engine
+        function generateCustomAIQuestion() {
+            let selectedTopic = document.getElementById('ai-topic-select').value;
+            let selectedDiff = document.getElementById('ai-diff-select').value;
+
+            if (selectedTopic === 'auto') {
+                const keys = Object.keys(stats.topicSkills);
+                // Wähle bevorzugt Themen mit schwächerem Skill-Level
+                selectedTopic = keys.sort((a,b) => stats.topicSkills[a] - stats.topicSkills[b])[0];
+            }
+
+            let effectiveLevel = stats.level;
+            if (selectedDiff === 'easy') effectiveLevel = 1;
+            if (selectedDiff === 'medium') effectiveLevel = 3;
+            if (selectedDiff === 'hard') effectiveLevel = 5;
+
+            let generated = {};
+            const lastTopicKey = selectedTopic;
+
+            if (selectedTopic === 'ohm') {
+                if (effectiveLevel <= 2) {
+                    const u = (Math.floor(Math.random() * 20) + 5) * 10;
+                    const r = (Math.floor(Math.random() * 40) + 10);
+                    const ans = (u / r).toFixed(2);
+                    generated = {
+                        topicKey: 'ohm',
+                        isAI: true,
+                        question: `[KI Level ${effectiveLevel}] Eine Last wird mit U = ${u} V betrieben. Gemessener Widerstand: R = ${r} Ω. Berechne den Strom I.`,
+                        options: shuffleArray([`${ans} A`, `${(ans * 1.3).toFixed(2)} A`, `${(u * r).toFixed(0)} A`, `${(ans / 2).toFixed(2)} A`]),
+                        correctText: `${ans} A`,
+                        explanation: `I = U / R ➔ ${u} V / ${r} Ω = ${ans} A.`
+                    };
+                } else {
+                    const i = (Math.floor(Math.random() * 15) + 2);
+                    const r = (Math.floor(Math.random() * 30) + 5);
+                    const p = (i * i * r);
+                    generated = {
+                        topicKey: 'ohm',
+                        isAI: true,
+                        question: `[KI Level ${effectiveLevel}] Durch einen Widerstand R = ${r} Ω fließt ein Strom von I = ${i} A. Welcher Wärmeverlust P entsteht?`,
+                        options: shuffleArray([`${p} W`, `${(i * r)} W`, `${(p * 1.5).toFixed(0)} W`, `${(p / 2).toFixed(0)} W`]),
+                        correctText: `${p} W`,
+                        explanation: `P = I² × R ➔ (${i} A)² × ${r} Ω = ${p} W.`
+                    };
+                }
+            } else if (selectedTopic === 'motor') {
+                const pPairs = [1, 2, 3][Math.floor(Math.random() * 3)];
+                const f = [50, 60][Math.floor(Math.random() * 2)];
+                const ns = (f * 60) / pPairs;
+                const slipPct = (Math.floor(Math.random() * 5) + 2);
+                const n = Math.round(ns * (1 - slipPct/100));
+
+                if (effectiveLevel <= 2) {
+                    generated = {
+                        topicKey: 'motor',
+                        isAI: true,
+                        question: `[KI Level ${effectiveLevel}] Berechne die Synchrondrehzahl (n_s) eines Motors bei f = ${f} Hz und Polpaarzahl p = ${pPairs}.`,
+                        options: shuffleArray([`${ns} U/min`, `${ns / 2} U/min`, `${ns * 2} U/min`, `${ns - 100} U/min`]),
+                        correctText: `${ns} U/min`,
+                        explanation: `n_s = (f × 60) / p ➔ (${f} × 60) / ${pPairs} = ${ns} U/min.`
+                    };
+                } else {
+                    generated = {
+                        topicKey: 'motor',
+                        isAI: true,
+                        question: `[KI Level ${effectiveLevel}] Ein ${f} Hz Motor (p = ${pPairs}) dreht mit n = ${n} U/min. Wie groß ist der Schlupf s in Prozent?`,
+                        options: shuffleArray([`${slipPct}%`, `${(slipPct + 2).toFixed(1)}%`, `${(slipPct / 2).toFixed(1)}%`, `${(slipPct * 1.5).toFixed(1)}%`]),
+                        correctText: `${slipPct}%`,
+                        explanation: `n_s = ${ns} U/min. Schlupf s = (n_s - n) / n_s ➔ (${ns} - ${n}) / ${ns} = ${slipPct}%.`
+                    };
+                }
+            } else if (selectedTopic === 'cables') {
+                const l = (Math.floor(Math.random() * 30) + 10);
+                const i = [10, 16, 20, 25, 32][Math.floor(Math.random() * 5)];
+                const q = 2.5;
+                const drop = (2 * l * i) / (56 * q);
+                const dropPct = (drop / 230) * 100;
+
                 generated = {
+                    topicKey: 'cables',
                     isAI: true,
-                    question: `[KI Engine] Ein Gerät wird an U = ${u} V betrieben. Der gemessene Widerstand ist R = ${r} Ω. Berechne die Stromaufnahme I.`,
-                    options: [`${ans} A`, `${(ans * 1.5).toFixed(1)} A`, `${(u * r)} A`, `${(ans / 2).toFixed(1)} A`],
-                    answer: 0,
-                    explanation: `Formel: I = U / R. Rechnungsweg: ${u} V / ${r} Ω = ${ans} A.`
-                };
-            } else if (topic === 'motor') {
-                const p = Math.floor(Math.random() * 3) + 1;
-                const ns = (50 * 60) / p;
-                generated = {
-                    isAI: true,
-                    question: `[KI Engine] Wie hoch ist die Drehfelddrehzahl n_s eines 50 Hz Drehstrommotors mit der Polpaarzahl p = ${p}?`,
-                    options: [`${ns / 2} U/min`, `${ns} U/min`, `${ns * 2} U/min`, `3000 U/min`],
-                    answer: 1,
-                    explanation: `Formel: n_s = (f × 60) / p. Berechnung: (50 × 60) / ${p} = ${ns} U/min.`
+                    question: `[KI Level ${effectiveLevel}] Wechselstrom 230V: l = ${l}m, I = ${i}A, Kupfer 2,5 mm². Berechne den relativen Spannungsfall ΔU (%).`,
+                    options: shuffleArray([`${dropPct.toFixed(2)}%`, `${(dropPct * 1.4).toFixed(2)}%`, `${(dropPct / 2).toFixed(2)}%`, `${(dropPct + 1.2).toFixed(2)}%`]),
+                    correctText: `${dropPct.toFixed(2)}%`,
+                    explanation: `ΔU = (2 × l × I) / (κ × A) ➔ ${drop.toFixed(2)} V. In % bezogen auf 230V: ${dropPct.toFixed(2)}%.`
                 };
             } else {
+                const rcdScenarios = [
+                    { q: "PV-Anlage mit Frequenzumrichter ohne galvanische Trennung", a: "Typ B (Allstromsensitiv)", exp: "Glatte Gleichfehlerströme möglich ➔ Typ B Pflicht." },
+                    { q: "Standard-Steckdosenstromkreis im Wohnbereich", a: "Typ A", exp: "Wechsel- und pulsierende Gleichfehlerströme ➔ Typ A Standard." },
+                    { q: "Einphasige Inverter-Waschmaschine", a: "Typ F", exp: "Mischfrequenzen treten auf ➔ Typ F erfassbar." }
+                ];
+                const item = rcdScenarios[Math.floor(Math.random() * rcdScenarios.length)];
                 generated = {
+                    topicKey: 'protection',
                     isAI: true,
-                    question: `[KI Engine] Welcher RCD-Typ ist erforderlich, wenn glatte Gleichfehlerströme in einer Photovoltaikanlage auftreten können?`,
-                    options: ["Typ AC", "Typ A", "Typ B (Allstromsensitiv)", "Typ F"],
-                    answer: 2,
-                    explanation: "Glatte Gleichfehlerströme erfordern zwingend den Einsatz eines allstromsensitiven RCDs vom Typ B."
+                    question: `[KI Level ${effectiveLevel}] Welcher RCD-Typ ist für folgenden Anwendungsfall vorgeschrieben: "${item.q}"?`,
+                    options: shuffleArray(["Typ A", "Typ B (Allstromsensitiv)", "Typ AC", "Typ F"]),
+                    correctText: item.a,
+                    explanation: item.exp
                 };
             }
+
+            // Mappe Antwort-Index
+            generated.answer = generated.options.indexOf(generated.correctText);
 
             quizData = [generated];
             currentQuestion = 0;
@@ -1113,7 +1202,7 @@
             
             const qBox = document.getElementById('question');
             if (data.isAI) {
-                qBox.innerHTML = `<span class="ai-tag">✨ KI GENERIERT</span><br>${data.question}`;
+                qBox.innerHTML = `<span class="ai-tag">✨ ADAPTIVE KI GENERIERT</span><br>${data.question}`;
             } else {
                 qBox.textContent = data.question;
             }
@@ -1134,7 +1223,8 @@
             if (answered) return;
             answered = true;
 
-            const correctIndex = quizData[currentQuestion].answer;
+            const current = quizData[currentQuestion];
+            const correctIndex = current.answer;
             const buttons = document.querySelectorAll('.option-card');
             buttons.forEach(btn => btn.disabled = true);
 
@@ -1144,17 +1234,27 @@
                 selectedBtn.classList.add('correct');
                 score++;
                 stats.correct++;
+                stats.xp += 15;
+                if (current.topicKey) {
+                    stats.topicSkills[current.topicKey] = (stats.topicSkills[current.topicKey] || 1) + 0.2;
+                }
             } else {
                 selectedBtn.classList.add('incorrect');
                 buttons[correctIndex].classList.add('correct');
+                if (current.topicKey && stats.topicSkills[current.topicKey] > 1) {
+                    stats.topicSkills[current.topicKey] -= 0.1;
+                }
             }
+
+            // KI-Skill Level Berechnung
+            stats.level = Math.floor(stats.xp / 50) + 1;
 
             if (score > stats.highscore) stats.highscore = score;
             updateStatsUI();
 
             const expBox = document.getElementById('explanation');
-            if (quizData[currentQuestion].explanation) {
-                expBox.innerHTML = `<strong>Erklärung:</strong> ${quizData[currentQuestion].explanation}`;
+            if (current.explanation) {
+                expBox.innerHTML = `<strong>Erklärung:</strong> ${current.explanation}`;
                 expBox.classList.add('show');
             }
 
