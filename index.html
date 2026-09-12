@@ -1899,7 +1899,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculation Functions
+        // Professional Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -1909,7 +1909,7 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
             const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
             document.getElementById('calc-3p-res').textContent = `Leistung P = ${p} kW`;
         }
@@ -1919,18 +1919,18 @@
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
             const kappa = 56;
-            const drop = ((2 * l * i) / (kappa * q)).toFixed(2);
-            const pct = ((drop / 230) * 100).toFixed(2);
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop} V (${pct}%)`;
+            const deltaU = (2 * l * i) / (kappa * q);
+            const pct = (deltaU / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
             const kappa = 56;
-            const q = du > 0 ? ((2 * l * i) / (kappa * du)).toFixed(2) : 0;
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q} mm²`;
+            const a = maxU > 0 ? (2 * l * i) / (kappa * maxU) : 0;
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
