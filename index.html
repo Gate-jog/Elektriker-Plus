@@ -1096,54 +1096,44 @@
                         <p>Der folgende Plan zeigt den internen und externen Aufbau eines 4-poligen RCD (bzw. 2-polig einphasig): Zuleitung (L & N) oben, Summenstromwandler mit Auslöserelais, Prüftaste mit Schutzwiderstand und Abgang zu den Verbrauchern.</p>
                         
                         <svg viewBox="0 0 600 320" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
-                            <!-- Überschrift im Plan -->
                             <text x="300" y="25" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">SCHALTSCHEMA FEHLERSTROMSCHUTZSCHALTER (RCD / FI)</text>
                             
-                            <!-- Eingangsseite (Netz) -->
                             <text x="30" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
                             <text x="30" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
                             <line x1="120" y1="52" x2="160" y2="52" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="120" y1="92" x2="160" y2="92" stroke="#3b82f6" stroke-width="3"/>
 
-                            <!-- Summenstromwandler (Ringkern) -->
                             <circle cx="230" cy="72" r="45" fill="rgba(6,182,212,0.08)" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,2"/>
                             <text x="230" y="76" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">Summenstrom-</text>
                             <text x="230" y="88" fill="#06b6d4" font-size="10" text-anchor="middle">wandler</text>
                             
-                            <!-- Leitungen durch den Ringkern -->
                             <line x1="160" y1="52" x2="300" y2="52" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="160" y1="92" x2="300" y2="92" stroke="#3b82f6" stroke-width="3"/>
 
-                            <!-- Mechanisches Schaltschloss & Relais -->
                             <rect x="290" y="38" width="50" height="68" rx="4" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="2"/>
                             <text x="315" y="65" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">Schloss</text>
                             <text x="315" y="85" fill="#ef4444" font-size="9" text-anchor="middle">Auslöser</text>
                             
-                            <!-- Prüfeinrichtung (Prüftaste & Prüfwiderstand) -->
                             <line x1="360" y1="52" x2="390" y2="52" stroke="#f59e0b" stroke-width="2"/>
                             <rect x="390" y="42" width="30" height="20" fill="none" stroke="#f59e0b" stroke-width="2"/>
                             <text x="405" y="57" fill="#f59e0b" font-size="9" text-anchor="middle">Rv</text>
                             <line x1="420" y1="52" x2="450" y2="52" stroke="#f59e0b" stroke-width="2"/>
-                            <!-- Taster Symbol -->
                             <circle cx="450" cy="52" r="3" fill="#fff"/>
                             <line x1="450" y1="52" x2="475" y2="35" stroke="#fff" stroke-width="2"/>
                             <text x="462" y="25" fill="#fff" font-size="9" text-anchor="middle">Prüftaste (Test)</text>
                             <line x1="475" y1="35" x2="475" y2="150" stroke="#3b82f6" stroke-width="2"/>
-                            <!-- Verbindung von Prüftaste zurück zum N nach dem Wandler -->
                             <line x1="475" y1="150" x2="340" y2="150" stroke="#3b82f6" stroke-width="2"/>
                             <line x1="340" y1="150" x2="340" y2="110" stroke="#3b82f6" stroke-width="2"/>
 
-                            <!-- Abgang zu den Verbrauchern -->
                             <line x1="340" y1="52" x2="520" y2="52" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="340" y1="92" x2="520" y2="92" stroke="#3b82f6" stroke-width="3"/>
                             <text x="530" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Abgang)</text>
                             <text x="530" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Abgang)</text>
 
-                            <!-- Fehlerstrom-Erläuterung unten im SVG -->
                             <rect x="50" y="190" width="500" height="110" rx="6" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
                             <text x="70" y="215" fill="#10b981" font-size="11" font-weight="bold">Funktionsweise im Fehlerfall:</text>
                             <text x="70" y="235" fill="#94a3b8" font-size="10">1. Normalbetrieb: Strom zum Verbraucher (L) ist exakt gleich dem Rückstrom (N). Magnetische Felder heben sich auf.</text>
-                            <text x="70" y="255" fill="#94a3b8" font-size="10">2. Körperschluss / Fehlerstrom: Ein Teil des Stroms fließt über den Körper zur Erde ab (Differenzstrom $\\Delta I$).</text>
+                            <text x="70" y="255" fill="#94a3b8" font-size="10">2. Körperschluss / Fehlerstrom: Ein Teil des Stroms fließt über den Körper zur Erde ab (Differenzstrom ΔI).</text>
                             <text x="70" y="275" fill="#94a3b8" font-size="10">3. Auslösung: Im Wandler entsteht ein Magnetfeld, das das Relais anzieht und das Schaltschloss in Millisekunden öffnet.</text>
                         </svg>
                     </div>
@@ -1180,24 +1170,19 @@
                         <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind als ein einziger PEN-Leiter von der Stromquelle bis zum Verbraucher geführt.</p>
                         <svg viewBox="0 0 520 180" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(245,158,11,0.3);">
                             <text x="20" y="20" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / SPEISUNG</text>
-                            <!-- Leitungen -->
                             <line x1="20" y1="45" x2="500" y2="45" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="75" x2="500" y2="75" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="105" x2="500" y2="105" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="145" x2="500" y2="145" stroke="#10b981" stroke-width="4"/>
-                            <!-- Labels -->
                             <text x="25" y="37" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
                             <text x="25" y="67" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
                             <text x="25" y="97" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
                             <text x="25" y="137" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert)</text>
-                            <!-- Betriebserdung am Trafo -->
                             <line x1="50" y1="145" x2="50" y2="168" stroke="#10b981" stroke-width="2"/>
                             <line x1="38" y1="168" x2="62" y2="168" stroke="#10b981" stroke-width="2"/>
                             <line x1="44" y1="173" x2="56" y2="173" stroke="#10b981" stroke-width="2"/>
-                            <!-- Sicherung (LS-Schalter auf L1) -->
                             <rect x="190" y="38" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <text x="175" y="30" fill="#fff" font-size="9">LS-Schalter</text>
-                            <!-- Verbraucher / Motor / Last -->
                             <rect x="370" y="30" width="100" height="130" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="420" y="100" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
                             <line x1="330" y1="45" x2="370" y2="45" stroke="#f59e0b" stroke-width="3"/>
@@ -1211,25 +1196,20 @@
                         <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung strikt voneinander getrennt geführt.</p>
                         <svg viewBox="0 0 520 200" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(59,130,246,0.3);">
                             <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
-                            <!-- Leitungen -->
                             <line x1="20" y1="35" x2="500" y2="35" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="65" x2="500" y2="65" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="95" x2="500" y2="95" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="130" x2="500" y2="130" stroke="#3b82f6" stroke-width="3"/>
                             <line x1="20" y1="165" x2="500" y2="165" stroke="#10b981" stroke-width="4"/>
-                            <!-- Labels -->
                             <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
                             <text x="25" y="57" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
                             <text x="25" y="87" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
                             <text x="25" y="122" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
                             <text x="25" y="157" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
-                            <!-- Betriebserdung am Trafo -->
                             <line x1="50" y1="165" x2="50" y2="188" stroke="#10b981" stroke-width="2"/>
                             <line x1="38" y1="188" x2="62" y2="188" stroke="#10b981" stroke-width="2"/>
                             <line x1="44" y1="193" x2="56" y2="193" stroke="#10b981" stroke-width="2"/>
-                            <!-- Sicherung -->
                             <rect x="190" y="28" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Last -->
                             <rect x="370" y="25" width="100" height="155" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="420" y="105" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
                             <line x1="330" y1="35" x2="370" y2="35" stroke="#f59e0b" stroke-width="3"/>
@@ -1247,20 +1227,16 @@
                             <line x1="20" y1="35" x2="500" y2="35" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="65" x2="500" y2="65" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="95" x2="500" y2="95" stroke="#f59e0b" stroke-width="3"/>
-                            <!-- PEN bis Übergabepunkt -->
                             <line x1="20" y1="145" x2="230" y2="145" stroke="#10b981" stroke-width="4"/>
                             <text x="100" y="137" fill="#10b981" font-size="10">PEN-Leiter</text>
-                            <!-- Aufteilungspunkt Marker -->
                             <circle cx="230" cy="145" r="5" fill="#fff"/>
                             <text x="210" y="170" fill="#fff" font-size="9">Aufteilung (HAK)</text>
-                            <!-- Abgetrennte Leiter ab HAK -->
                             <line x1="230" y1="145" x2="500" y2="120" stroke="#3b82f6" stroke-width="3"/>
                             <line x1="230" y1="145" x2="500" y2="160" stroke="#10b981" stroke-width="4"/>
                             <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
                             <text x="260" y="112" fill="#3b82f6" font-size="10">N (getrennt)</text>
                             <text x="260" y="175" fill="#10b981" font-size="10">PE (getrennt)</text>
                             <rect x="190" y="28" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Last -->
                             <rect x="380" y="25" width="90" height="150" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="425" y="100" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
                             <line x1="330" y1="35" x2="380" y2="35" stroke="#f59e0b" stroke-width="3"/>
@@ -1280,12 +1256,10 @@
                             <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">Außenleiter (L)</text>
                             <text x="25" y="72" fill="#3b82f6" font-size="11" font-weight="bold">Neutralleiter (N)</text>
                             <rect x="190" y="33" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Lokaler Erder am Verbraucher -->
                             <line x1="430" y1="125" x2="430" y2="155" stroke="#10b981" stroke-width="3"/>
                             <line x1="415" y1="155" x2="445" y2="155" stroke="#10b981" stroke-width="3"/>
                             <line x1="420" y1="161" x2="440" y2="161" stroke="#10b981" stroke-width="3"/>
                             <text x="450" y="145" fill="#10b981" font-size="9">Lokaler Erder (RA)</text>
-                            <!-- Last -->
                             <rect x="370" y="30" width="120" height="95" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="430" y="82" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher (TT)</text>
                             <line x1="330" y1="40" x2="370" y2="40" stroke="#f59e0b" stroke-width="3"/>
@@ -1299,19 +1273,16 @@
                         <svg viewBox="0 0 520 185" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(236,72,153,0.3);">
                             <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">ISOLIERTE / HOCHOHMIGE EINSPEISUNG</text>
                             <line x1="20" y1="40" x2="500" y2="40" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="80" x2="500" y2="80" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="80" x2="500" y2="80" stroke="#3b82f6" stroke-width="3"/>
                             <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
                             <text x="25" y="72" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <!-- Isolierter Trafo / Kreis -->
                             <circle cx="110" cy="60" r="18" fill="none" stroke="#fff" stroke-width="2"/>
                             <text x="95" y="95" fill="#fff" font-size="9">Getrennt</text>
                             <rect x="190" y="33" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Last -->
                             <rect x="370" y="30" width="110" height="75" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="425" y="72" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
                             <line x1="330" y1="40" x2="370" y2="40" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="330" y1="80" x2="370" y2="80" stroke="#3b82f6" stroke-width="3"/>
-                            <!-- Schutzleiter zum Gehäuse -->
                             <line x1="20" y1="140" x2="500" y2="140" stroke="#10b981" stroke-width="3"/>
                             <text x="25" y="132" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde - Gehäuse)</text>
                             <line x1="425" y1="105" x2="425" y2="140" stroke="#10b981" stroke-width="3"/>
@@ -1712,9 +1683,6 @@
             };
         }
 
-        // =========================================================
-        // VERBESSERTER & ERWEITERTER KI-FRAGEN-SYNTHESIZER (UNENDLICH)
-        // =========================================================
         function generateAICampaignBatch() {
             clearInterval(timerInterval);
             const selectedTopic = document.getElementById('ai-topic-select').value;
@@ -1754,7 +1722,6 @@
                 else level = 'hard';
             }
 
-            // Erweiterte neuronale KI-Generatoren mit intelligenten Parametervariationen
             const neuralGenerators = {
                 ohm: () => {
                     const scenarios = [
@@ -1861,7 +1828,7 @@
                 cables: () => {
                     const pool = [
                         { q: `Wie verändert sich der ohmsche Widerstand $R$ einer Kupferleitung, wenn die Länge verdoppelt und der Querschnitt ebenfalls verdoppelt wird?`, opts: ["Er bleibt exakt unverändert", "Er verdoppelt sich", "Er halbiert sich", "Er vervierfacht sich"], ans: 0, exp: "Nach $R = \\rho \\cdot l / A$ führt doppelte Länge zu doppeltem Widerstand, doppelter Querschnitt halbiert ihn wieder. Das Verhältnis bleibt gleich." },
-                        { q: `Welche Auswirkung hat die Häufung von mehreren belasteten Leitungen in einem Installationskanal auf die Stromtragfähigkeit?`, opts: ["Sie erfordert die Anwendung von Reduktionsfaktoren (Häufungsfaktoren) wegen verminderter Wärmeabgabe", "Sie erhöht die zulässige Stromstärke durch gegenseitige Induktion", "Sie hat keinerlei Einfluss auf die thermische Belastbarkeit", "Sie erzwingt den Austausch von Kupfer- gegen Aluminiumleitungen"], ans: 1, exp: "Häufung führt zum Wärmestau. Daher müssen Korrekturfaktoren angewendet werden, um eine Überhitzung der Isolierung zu verhindern." }
+                        { q: `Welche Auswirkung hat die Häufung von mehreren belasteten Leitungen in einem Installationskanal auf die Stromtragfähigkeit?`, opts: ["Sie erfordert die Anwendung von Reduktionsfaktoren (Häufungsfaktoren) wegen verminderter Wärmeabgabe", "Sie erhöht die zulässige Stromstärke durch gegenseitige Induktion", "Sie hat keinerlei Einfluss auf die thermische Belastbarkeit", "Sie erzwingt den Austausch von Kupfer- gegen Aluminiumleitungen"], ans: 0, exp: "Häufung führt zum Wärmestau. Daher müssen Korrekturfaktoren angewendet werden, um eine Überhitzung der Isolierung zu verhindern." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
@@ -1888,45 +1855,43 @@
                 }
             };
 
-            const genKeys = Object.keys(neuralGenerators);
-            const chosenKey = neuralGenerators[topicKey] ? topicKey : genKeys[Math.floor(Math.random() * genKeys.length)];
-            return neuralGenerators[chosenKey]();
+            return neuralGenerators[topicKey]();
         }
 
-        // Lernbereich & Rechner
+        // Learning Topics & Search
         function loadTopics(filter = '') {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
             
             Object.keys(learningContent).forEach(key => {
-                const item = learningContent[key];
-                if (filter && !item.title.toLowerCase().includes(filter) && !item.description.toLowerCase().includes(filter)) {
+                const topic = learningContent[key];
+                if (filter && !topic.title.toLowerCase().includes(filter.toLowerCase()) && !topic.description.toLowerCase().includes(filter.toLowerCase())) {
                     return;
                 }
-                
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
                 card.innerHTML = `
-                    <div class="topic-icon-box">${item.icon}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
                 `;
+                card.onclick = () => openTopic(key);
                 container.appendChild(card);
             });
         }
 
         function filterTopics() {
-            const query = document.getElementById('search-input').value.toLowerCase();
+            const query = document.getElementById('search-input').value;
             loadTopics(query);
         }
 
-        function openArticle(key) {
+        function openTopic(key) {
+            const topic = learningContent[key];
+            if (!topic) return;
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
-            document.getElementById('content-container').innerHTML = learningContent[key].content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const contentContainer = document.getElementById('content-container');
+            contentContainer.innerHTML = topic.content;
+            document.getElementById('content-view').style.display = 'block';
         }
 
         function backToTopics() {
@@ -1934,7 +1899,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Rechner-Logik
+        // Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -1953,23 +1918,19 @@
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Leitfähigkeit Kupfer m/(Ω*mm²)
-            
-            // 1-phasig: ΔU = 2 * l * I / (kappa * q)
-            const deltaU = (2 * l * i) / (kappa * q);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const gamma = 56;
+            const drop = (2 * l * i) / (gamma * q);
+            const pct = (drop / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            
-            // Umgestellte Formel für A: A = (2 * l * I) / (kappa * ΔU)
-            const a = (2 * l * i) / (kappa * maxU);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+            const uMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const gamma = 56;
+            const qMin = (2 * l * i) / (gamma * uMax);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${qMin.toFixed(2)} mm²`;
         }
     </script>
 </body>
