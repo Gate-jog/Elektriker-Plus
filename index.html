@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elektriker Plus - Quiz & Lernmodus</title>
+    <title>Elektriker Plus - Quiz & Lernmodus mit KI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,6 +16,8 @@
             --primary-glow: rgba(6, 182, 212, 0.35);
             --secondary: #8b5cf6;
             --secondary-glow: rgba(139, 92, 246, 0.25);
+            --ai-glow: rgba(236, 72, 153, 0.35);
+            --ai-color: #ec4899;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --correct: #10b981;
@@ -155,7 +157,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom: 36px;
+            margin-bottom: 24px;
         }
 
         .menu-option {
@@ -202,6 +204,32 @@
             font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.5;
+        }
+
+        /* AI Button */
+        .ai-btn-large {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            color: #f472b6;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .ai-btn-large:hover {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(139, 92, 246, 0.25));
+            border-color: var(--ai-color);
+            box-shadow: 0 10px 25px -5px var(--ai-glow);
+            transform: translateY(-2px);
         }
 
         .feature-badges {
@@ -301,7 +329,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .quiz-title {
@@ -322,19 +352,52 @@
             font-weight: 700;
         }
 
+        .ai-gen-btn {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            color: #f472b6;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ai-gen-btn:hover {
+            background: rgba(236, 72, 153, 0.25);
+            box-shadow: 0 0 15px var(--ai-glow);
+        }
+
         .question-box {
             font-size: 1.35rem;
             font-weight: 600;
             line-height: 1.5;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             color: #fff;
+            position: relative;
+        }
+
+        .ai-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--ai-color), var(--secondary));
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .option-card {
@@ -369,6 +432,23 @@
             background: var(--incorrect-glow);
             border-color: var(--incorrect);
             color: #fca5a5;
+        }
+
+        .explanation-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .explanation-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .btn-action {
@@ -415,6 +495,28 @@
             -webkit-text-fill-color: transparent;
             margin: 16px 0;
             letter-spacing: -2px;
+        }
+
+        /* Loading Spinner */
+        .loading-overlay {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(236, 72, 153, 0.2);
+            border-top: 4px solid var(--ai-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Learning Component */
@@ -555,7 +657,7 @@
         <div class="header">
             <div class="brand-badge">⚡ Fachgerechte Standards</div>
             <h1>Elektriker Plus</h1>
-            <p>Interaktives Schulungs- & Testportal für Elektrotechnik (Österreich)</p>
+            <p>Interaktives Schulungs- & Testportal mit KI-Fragengenerator</p>
         </div>
 
         <!-- Welcome View -->
@@ -564,23 +666,27 @@
                 <h2>Willkommen zurück!</h2>
                 <p class="welcome-subtitle">Wähle deinen bevorzugten Lernmodus um zu starten.</p>
 
+                <button class="ai-btn-large" onclick="startAIQuiz()">
+                    <span>✨</span> KI-Modus: Generiere Unendliche Neue Fragen
+                </button>
+
                 <div class="menu-options">
                     <div class="menu-option" onclick="startMode('quiz')">
                         <div class="menu-icon">📝</div>
-                        <div class="menu-title">Quiz-Modus</div>
+                        <div class="menu-title">Standard-Quiz</div>
                         <div class="menu-description">Teste dein Fachwissen in 25 praxisnahen Prüfungsfragen</div>
                     </div>
                     <div class="menu-option" onclick="startMode('learn')">
                         <div class="menu-icon">📚</div>
                         <div class="menu-title">Lernmodus</div>
-                        <div class="menu-description">Vertiefe dein Wissen nach aktuellen elektrotechnischen Vorgaben</div>
+                        <div class="menu-description">Vertiefe dein Wissen nach aktuellen ÖVE/ÖNORM Vorgaben</div>
                     </div>
                 </div>
 
                 <div class="feature-badges">
-                    <div class="badge"><span class="badge-icon">✓</span> 25 Fachfragen</div>
+                    <div class="badge"><span class="badge-icon">✓</span> KI-Fragengenerator</div>
                     <div class="badge"><span class="badge-icon">✓</span> 8 Kernbereiche</div>
-                    <div class="badge"><span class="badge-icon">✓</span> Aktualisierte Vorschriften</div>
+                    <div class="badge"><span class="badge-icon">✓</span> Aktuelle Normen (ÖVE)</div>
                 </div>
             </div>
         </div>
@@ -602,11 +708,21 @@
                 <div id="quiz-screen">
                     <div class="quiz-top">
                         <div class="quiz-title">⚡ Wissenstest</div>
+                        <button class="ai-gen-btn" onclick="injectAIQuestion()">✨ KI: Neue Frage generieren</button>
                         <div class="progress-pill" id="progress">Frage 1 / 25</div>
                     </div>
-                    <div class="question-box" id="question">Frage wird geladen...</div>
-                    <div class="options-grid" id="options"></div>
-                    <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+
+                    <div id="loading-box" class="loading-overlay">
+                        <div class="spinner"></div>
+                        <p style="color: #f472b6; font-weight: 600;">KI generiert eine neue Prüfungsfrage...</p>
+                    </div>
+
+                    <div id="question-content">
+                        <div class="question-box" id="question">Frage wird geladen...</div>
+                        <div class="options-grid" id="options"></div>
+                        <div class="explanation-box" id="explanation"></div>
+                        <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+                    </div>
                 </div>
 
                 <div class="result-box" id="result-screen">
@@ -637,33 +753,35 @@
     </div>
 
     <script>
-        const quizData = [
-            { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1 },
-            { question: "Welche Farbe hat der Schutzleiter (PE) nach aktuellen Standards?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2 },
-            { question: "Was besagt die 1. der 5 Sicherheitsregeln der Elektrotechnik?", options: ["Freischalten", "Gegen Wiedereinschalten sichern", "Spannungsfreiheit feststellen", "Erden und Kurzschließen"], answer: 0 },
-            { question: "In welcher Einheit wird die elektrische Leistung angegeben?", options: ["Volt (V)", "Ampere (A)", "Ohm (Ω)", "Watt (W)"], answer: 3 },
-            { question: "Was passiert mit dem Gesamtwiderstand, wenn zwei gleiche Widerstände parallel geschaltet werden?", options: ["Er verdoppelt sich", "Er halbiert sich", "Er bleibt gleich", "Er wird null"], answer: 1 },
-            { question: "Welcher Auslöse-Fehlerstrom ist für den Personenschutz im Badezimmer standardmäßig vorgeschrieben?", options: ["100 mA", "300 mA", "30 mA", "500 mA"], answer: 2 },
-            { question: "Wofür steht die Abkürzung RCD?", options: ["Residual Current Device", "Rotary Circuit Detector", "Relay Control Direct", "Resistance Current Device"], answer: 0 },
-            { question: "Wie lautet die 3. der 5 Sicherheitsregeln?", options: ["Benachbarte Teile abdecken", "Erden und Kurzschließen", "Spannungsfreiheit feststellen", "Freischalten"], answer: 2 },
-            { question: "Welche Farbe hat gewöhnlich der Neutralleiter (N)?", options: ["Blau", "Grün-Gelb", "Grau", "Schwarz"], answer: 0 },
-            { question: "Wie berechnet man die elektrische Arbeit (W)?", options: ["W = P / t", "W = P × t", "W = U / I", "W = I² × t"], answer: 1 },
-            { question: "Was passiert bei einer Reihenschaltung von Widerständen mit dem Gesamtwiderstand?", options: ["Er sinkt", "Er summiert sich (wird größer)", "Er bleibt konstant", "Er halbiert sich"], answer: 1 },
-            { question: "Welche Formel beschreibt die elektrische Scheinlänge in einem Wechselstromkreis?", options: ["S = U × I", "P = U × I × cos(φ)", "Q = U × I × sin(φ)", "S = P + Q"], answer: 0 },
-            { question: "Welcher Querschnitt wird standardmäßig für normale Steckdosenstromkreise (16A) in Wohngebäuden empfohlen?", options: ["0,75 mm²", "1,5 mm² bis 2,5 mm²", "4,0 mm²", "6,0 mm²"], answer: 1 },
-            { question: "Was kennzeichnet die Leitungsschutzschalter-Charakteristik 'B'?", options: ["Schutz für Hochanlaufmotoren", "Standard-Leitungsschutz für Wohngebäude", "Schutz für Halbleiter", "Trafo-Schutz"], answer: 1 },
-            { question: "Welche Netzform besitzt eine getrennte Führung von Neutralleiter (N) und Schutzleiter (PE) im gesamten System?", options: ["TN-C", "TN-S", "IT", "TT"], answer: 1 },
-            { question: "Welches Messgerät nutzt man zur Feststellung der Spannungsfreiheit zwingend?", options: ["Zweipoliger Spannungsprüfer", "Einpoliger Phasenprüfer (Schraubendreher)", "Multimeter im Ampere-Bereich", "Duspol ohne Belastung"], answer: 0 },
-            { question: "Wie hoch ist die Netzfrequenz des Wechselstromnetzes in Europa?", options: ["60 Hz", "50 Hz", "100 Hz", "16,7 Hz"], answer: 1 },
-            { question: "Wie lautet die Effektivspannung im europäischen Niederspannungsnetz zwischen Außenleiter (L) und Neutralleiter (N)?", options: ["400 V", "110 V", "230 V", "500 V"], answer: 2 },
-            { question: "Wie groß ist die Spannung zwischen zwei Außenleitern (z.B. L1 und L2) im Drehstromnetz?", options: ["230 V", "400 V", "500 V", "690 V"], answer: 1 },
-            { question: "Was versteht man unter dem Begriff 'Kriechstrom'?", options: ["Strom auf der Oberfläche von Isolierstoffen", "Hoher Strom beim Einschalten", "Strom im PE-Leiter bei Kurzschluss", "Der Strom einer entladenen Batterie"], answer: 0 },
-            { question: "Was bedeutet die Schutzart IP65?", options: ["Staubgeschützt & schutzlos gegen Wasser", "Staubdicht & geschützt gegen Strahlwasser", "Wasserdicht unter Aufdruck", "Kein Schutz"], answer: 1 },
-            { question: "Was bewirkt der Potentialausgleich?", options: ["Reduzierung des Stromverbrauchs", "Verhinderung gefährlicher Berührungsspannungen", "Erhöhung der Spannung", "Messung der Erdung"], answer: 1 },
-            { question: "Welcher Buchstabe steht für den Scheinwiderstand in einem Wechselstromkreis?", options: ["R", "X", "Z", "G"], answer: 2 },
-            { question: "Wann greift die 4. Sicherheitsregel ('Erden und Kurzschließen') üblicherweise?", options: ["Immer bei Kleinspannung", "Bei Niederspannung ab 1000V & Hochspannungsanlagen zwingend", "Nur bei Gleichstrom", "Nie in Innenräumen"], answer: 1 },
-            { question: "Welche Einheit misst die elektrische Kapazität eines Kondensators?", options: ["Henry (H)", "Farad (F)", "Tesla (T)", "Weber (Wb)"], answer: 1 }
+        const initialQuizData = [
+            { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
+            { question: "Welche Farbe hat der Schutzleiter (PE) nach aktuellen Standards?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter (PE) ist international ausschließlich grün-gelb gekennzeichnet." },
+            { question: "Was besagt die 1. der 5 Sicherheitsregeln der Elektrotechnik?", options: ["Freischalten", "Gegen Wiedereinschalten sichern", "Spannungsfreiheit feststellen", "Erden und Kurzschließen"], answer: 0, explanation: "Die 1. Regel lautet 'Freischalten' (Allpoliges Trennen von der Spannungsquelle)." },
+            { question: "In welcher Einheit wird die elektrische Leistung angegeben?", options: ["Volt (V)", "Ampere (A)", "Ohm (Ω)", "Watt (W)"], answer: 3, explanation: "Elektrische Leistung wird in Watt (W) bzw. Kilowatt (kW) gemessen." },
+            { question: "Was passiert mit dem Gesamtwiderstand, wenn zwei gleiche Widerstände parallel geschaltet werden?", options: ["Er verdoppelt sich", "Er halbiert sich", "Er bleibt gleich", "Er wird null"], answer: 1, explanation: "Bei Parallelschaltung von zwei gleichen Widerständen halbiert sich der Gesamtwiderstand (1/R_ges = 1/R1 + 1/R2)." },
+            { question: "Welcher Auslöse-Fehlerstrom ist für den Personenschutz im Badezimmer standardmäßig vorgeschrieben?", options: ["100 mA", "300 mA", "30 mA", "500 mA"], answer: 2, explanation: "Für den Zusatz-/Personenschutz gilt ein Auslösestrom von maximal I_Δn ≤ 30 mA." },
+            { question: "Wofür steht die Abkürzung RCD?", options: ["Residual Current Device", "Rotary Circuit Detector", "Relay Control Direct", "Resistance Current Device"], answer: 0, explanation: "RCD steht für Residual Current Device (Fehlerstromschutzschalter)." },
+            { question: "Wie lautet die 3. der 5 Sicherheitsregeln?", options: ["Benachbarte Teile abdecken", "Erden und Kurzschließen", "Spannungsfreiheit feststellen", "Freischalten"], answer: 2, explanation: "Die 3. Regel lautet 'Spannungsfreiheit feststellen' (zweipolig messen!)." },
+            { question: "Welche Farbe hat gewöhnlich der Neutralleiter (N)?", options: ["Blau", "Grün-Gelb", "Grau", "Schwarz"], answer: 0, explanation: "Der Neutralleiter (N) ist in Hellblau ausgeführt." },
+            { question: "Wie berechnet man die elektrische Arbeit (W)?", options: ["W = P / t", "W = P × t", "W = U / I", "W = I² × t"], answer: 1, explanation: "Arbeit ist Leistung mal Zeit: W = P × t." },
+            { question: "Was passiert bei einer Reihenschaltung von Widerständen mit dem Gesamtwiderstand?", options: ["Er sinkt", "Er summiert sich (wird größer)", "Er bleibt konstant", "Er halbiert sich"], answer: 1, explanation: "In der Reihenschaltung addieren sich die Einzelwiderstände: R_ges = R1 + R2 + ..." },
+            { question: "Welche Formel beschreibt die elektrische Scheinleistung in einem Wechselstromkreis?", options: ["S = U × I", "P = U × I × cos(φ)", "Q = U × I × sin(φ)", "S = P + Q"], answer: 0, explanation: "Scheinleistung S = U × I (Einheit: VA)." },
+            { question: "Welcher Querschnitt wird standardmäßig für normale Steckdosenstromkreise (16A) in Wohngebäuden empfohlen?", options: ["0,75 mm²", "1,5 mm² bis 2,5 mm²", "4,0 mm²", "6,0 mm²"], answer: 1, explanation: "Für 16A Absicherung wird 1,5 mm² bis 2,5 mm² Cu verwendet." },
+            { question: "Was kennzeichnet die Leitungsschutzschalter-Charakteristik 'B'?", options: ["Schutz für Hochanlaufmotoren", "Standard-Leitungsschutz für Wohngebäude", "Schutz für Halbleiter", "Trafo-Schutz"], answer: 1, explanation: "Charakteristik B ist der Standard-Leitungsschutz für Licht- und Steckdosenstromkreise im Wohnbau." },
+            { question: "Welche Netzform besitzt eine getrennte Führung von Neutralleiter (N) und Schutzleiter (PE) im gesamten System?", options: ["TN-C", "TN-S", "IT", "TT"], answer: 1, explanation: "Im TN-S-System sind N und PE im gesamten Verlauf separat geführt." },
+            { question: "Welches Messgerät nutzt man zur Feststellung der Spannungsfreiheit zwingend?", options: ["Zweipoliger Spannungsprüfer", "Einpoliger Phasenprüfer (Schraubendreher)", "Multimeter im Ampere-Bereich", "Duspol ohne Belastung"], answer: 0, explanation: "Es ist zwingend ein nach norm zugelassener zweipoliger Spannungsprüfer vorgeschrieben." },
+            { question: "Wie hoch ist die Netzfrequenz des Wechselstromnetzes in Europa?", options: ["60 Hz", "50 Hz", "100 Hz", "16,7 Hz"], answer: 1, explanation: "Die europäische Netzfrequenz beträgt konstant 50 Hertz." },
+            { question: "Wie lautet die Effektivspannung im europäischen Niederspannungsnetz zwischen Außenleiter (L) und Neutralleiter (N)?", options: ["400 V", "110 V", "230 V", "500 V"], answer: 2, explanation: "Die Nennspannung L-N beträgt 230 Volt AC." },
+            { question: "Wie groß ist die Spannung zwischen zwei Außenleitern (z.B. L1 und L2) im Drehstromnetz?", options: ["230 V", "400 V", "500 V", "690 V"], answer: 1, explanation: "Die Außenleiterspannung beträgt verkettet 400 Volt AC." },
+            { question: "Was versteht man unter dem Begriff 'Kriechstrom'?", options: ["Strom auf der Oberfläche von Isolierstoffen", "Hoher Strom beim Einschalten", "Strom im PE-Leiter bei Kurzschluss", "Der Strom einer entladenen Batterie"], answer: 0, explanation: "Kriechstrom ist ein Strom, der an der Oberfläche eines Isolierstoffs durch Verunreinigungen oder Feuchtigkeit fließt." },
+            { question: "Was bedeutet die Schutzart IP65?", options: ["Staubgeschützt & schutzlos gegen Wasser", "Staubdicht & geschützt gegen Strahlwasser", "Wasserdicht unter Aufdruck", "Kein Schutz"], answer: 1, explanation: "IP65 bedeutet 6 = Staubdicht, 5 = Geschützt gegen Strahlwasser aus beliebigem Winkel." },
+            { question: "Was bewirkt der Potentialausgleich?", options: ["Reduzierung des Stromverbrauchs", "Verhinderung gefährlicher Berührungsspannungen", "Erhöhung der Spannung", "Messung der Erdung"], answer: 1, explanation: "Der Potentialausgleich verbindet leitfähige Teile um Berührungsspannungen zwischen ihnen auf 0V zu halten." },
+            { question: "Welcher Buchstabe steht für den Scheinwiderstand in einem Wechselstromkreis?", options: ["R", "X", "Z", "G"], answer: 2, explanation: "Z steht für die Impedanz / den Scheinwiderstand." },
+            { question: "Wann greift die 4. Sicherheitsregel ('Erden und Kurzschließen') üblicherweise?", options: ["Immer bei Kleinspannung", "Bei Niederspannung ab 1000V & Hochspannungsanlagen zwingend", "Nur bei Gleichstrom", "Nie in Innenräumen"], answer: 1, explanation: "Erden und Kurzschließen ist bei Hochspannung (>1000V) sowie Freileitungen zwingend." },
+            { question: "Welche Einheit misst die elektrische Kapazität eines Kondensators?", options: ["Henry (H)", "Farad (F)", "Tesla (T)", "Weber (Wb)"], answer: 1, explanation: "Kapazität wird in Farad (F) angegeben." }
         ];
+
+        let quizData = [...initialQuizData];
 
         const learningContent = {
             basics: {
@@ -957,14 +1075,108 @@
         let score = 0;
         let answered = false;
 
+        /* KI-Fragengenerator Logik */
+        function generateDynamicAIQuestion() {
+            const topics = [
+                "Ohmsches Gesetz & Berechnung",
+                "Schutzmaßnahmen (ÖVE E 8101)",
+                "Leitungsquerschnitt & Strombelastung",
+                "Drehstrom & Asynchronmotoren",
+                "Badezimmer-Schutzbereiche"
+            ];
+            const topic = topics[Math.floor(Math.random() * topics.length)];
+
+            if (topic === "Ohmsches Gesetz & Berechnung") {
+                const u = (Math.floor(Math.random() * 20) + 1) * 10; // e.g., 230V, 120V
+                const r = (Math.floor(Math.random() * 15) + 1) * 5; // e.g. 10 Ohm
+                const correctI = (u / r).toFixed(1);
+                const wrong1 = (u * r).toFixed(1);
+                const wrong2 = (u / (r * 2)).toFixed(1);
+                const wrong3 = (r / u).toFixed(1);
+
+                return {
+                    isAI: true,
+                    question: `[KI-Berechnung] Ein Verbraucher ist an U = ${u} V angeschlossen. Der Widerstand beträgt R = ${r} Ω. Wie hoch ist der fließende Strom I?`,
+                    options: [`I = ${correctI} A`, `I = ${wrong1} A`, `I = ${wrong2} A`, `I = ${wrong3} A`],
+                    answer: 0,
+                    explanation: `Berechnung nach dem Ohmschen Gesetz: I = U / R = ${u} V / ${r} Ω = ${correctI} A.`
+                };
+            } else if (topic === "Drehstrom & Asynchronmotoren") {
+                const pList = [1, 2, 3];
+                const p = pList[Math.floor(Math.random() * pList.length)];
+                const ns = (50 * 60) / p;
+                const wrong1 = ns / 2;
+                const wrong2 = ns * 1.2;
+                const wrong3 = 3000;
+
+                return {
+                    isAI: true,
+                    question: `[KI-Prüfungsaufgabe] Ein 50Hz Asynchronmotor hat eine Polpaarzahl von p = ${p}. Wie hoch ist die synchrone Drehfelddrehzahl n_s?`,
+                    options: [`${wrong1} U/min`, `${ns} U/min`, `${wrong2} U/min`, `${wrong3} U/min`],
+                    answer: 1,
+                    explanation: `Die Synchrondrehzahl berechnet sich mit n_s = (f × 60) / p = (50 × 60) / ${p} = ${ns} U/min.`
+                };
+            } else {
+                const questions = [
+                    {
+                        q: "[KI-Normenfrage] Welcher maximale Fehlerstrom (I_Δn) ist bei RCDs für Personenschutz nach ÖVE/ÖNORM E 8101 vorgeschrieben?",
+                        opts: ["10 mA", "30 mA", "100 mA", "300 mA"],
+                        ans: 1,
+                        exp: "Für den Personenschutz (Zusatzschutz) gilt streng ein Nennfehlerstrom von maximal 30 mA."
+                    },
+                    {
+                        q: "[KI-Praxisfrage] Welche RCD-Type ist zwingend erforderlich, wenn glatte Gleichfehlerströme (z.B. bei PV-Wechselrichtern oder Wallboxen) auftreten können?",
+                        opts: ["Typ AC", "Typ A", "Typ F", "Typ B (allstromsensitiv)"],
+                        ans: 3,
+                        exp: "Typ B ist allstromsensitiv und erfässt glatte Gleichfehlerströme zuverlässig."
+                    }
+                ];
+                const item = questions[Math.floor(Math.random() * questions.length)];
+                return {
+                    isAI: true,
+                    question: item.q,
+                    options: item.opts,
+                    answer: item.ans,
+                    explanation: item.exp
+                };
+            }
+        }
+
+        function injectAIQuestion() {
+            document.getElementById('question-content').style.display = 'none';
+            document.getElementById('loading-box').style.display = 'block';
+
+            setTimeout(() => {
+                const aiQ = generateDynamicAIQuestion();
+                quizData.splice(currentQuestion, 0, aiQ);
+                document.getElementById('loading-box').style.display = 'none';
+                document.getElementById('question-content').style.display = 'block';
+                loadQuestion();
+            }, 600);
+        }
+
+        function startAIQuiz() {
+            quizData = [];
+            for (let i = 0; i < 10; i++) {
+                quizData.push(generateDynamicAIQuestion());
+            }
+            startMode('quiz');
+        }
+
         function loadQuestion() {
             answered = false;
-            const nextBtn = document.getElementById('next-btn');
-            nextBtn.classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+            document.getElementById('explanation').classList.remove('show');
 
             const data = quizData[currentQuestion];
             document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
-            document.getElementById('question').textContent = data.question;
+            
+            const qBox = document.getElementById('question');
+            if (data.isAI) {
+                qBox.innerHTML = `<span class="ai-tag">✨ KI Generiert</span><br>${data.question}`;
+            } else {
+                qBox.textContent = data.question;
+            }
             
             const optionsContainer = document.getElementById('options');
             optionsContainer.innerHTML = '';
@@ -995,6 +1207,12 @@
                 buttons[correctIndex].classList.add('correct');
             }
 
+            const expBox = document.getElementById('explanation');
+            if (quizData[currentQuestion].explanation) {
+                expBox.innerHTML = `<strong>Erklärung:</strong> ${quizData[currentQuestion].explanation}`;
+                expBox.classList.add('show');
+            }
+
             document.getElementById('next-btn').classList.add('show');
         }
 
@@ -1022,6 +1240,7 @@
         }
 
         function restartQuiz() {
+            quizData = [...initialQuizData];
             currentQuestion = 0;
             score = 0;
             document.getElementById('result-screen').classList.remove('show');
