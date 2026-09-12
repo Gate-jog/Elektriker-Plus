@@ -255,7 +255,7 @@
 
         .menu-icon {
             font-size: 2.2rem;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             background: rgba(255, 255, 255, 0.03);
             width: 60px;
             height: 60px;
@@ -270,7 +270,7 @@
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .menu-description {
@@ -321,7 +321,7 @@
         }
 
         .toggle-btn {
-            padding: 8px 14px;
+            padding: 10px 14px;
             border-radius: 10px;
             border: none;
             background: transparent;
@@ -770,11 +770,11 @@
         }
 
         @media (max-width: 600px) {
+            .menu-options { grid-template-columns: 1fr; }
             .glass-card { padding: 24px 16px; }
             .mode-nav { flex-direction: column; align-items: stretch; }
             .mode-toggle { flex-direction: column; }
             .toggle-btn { padding: 12px; }
-            .menu-options { grid-template-columns: 1fr; }
         }
 
         @keyframes fadeIn {
@@ -833,20 +833,20 @@
                     <div class="menu-title">Standard Quiz</div>
                     <div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div>
                 </div>
-                <div class="menu-option" onclick="startMode('symbols')">
+                <div class="menu-option" onclick="startMode('symbols_quiz')">
                     <div class="menu-icon">📐</div>
                     <div class="menu-title">Schaltsymbole</div>
-                    <div class="menu-description">Spezifisches Quiz für Schaltzeichen & Pläne.</div>
+                    <div class="menu-description">Spezial-Quiz für Schaltsymbole & Schaltpläne.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
                     <div class="menu-title">KI Modus</div>
-                    <div class="menu-description">Dynamische Symbol- & Theoriefragen, per KI generiert.</div>
+                    <div class="menu-description">Generiert unendlich neue Schaltsymbol- & Schaltplanfragen.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
                     <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Nachschlagewerk, RCD, Taster, Netze & Profi-Rechner.</div>
+                    <div class="menu-description">Nachschlagewerk, Symbolkartei, RCD & Rechner.</div>
                 </div>
             </div>
         </div>
@@ -857,25 +857,24 @@
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                    <button class="toggle-btn" id="toggle-symbols" onclick="switchMode('symbols')">📐 Schaltsymbole</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI Modus</button>
+                    <button class="toggle-btn" id="toggle-symbols_quiz" onclick="switchMode('symbols_quiz')">📐 Symbole-Quiz</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI Symbole</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                 </div>
             </div>
         </div>
 
-        <!-- Quiz Area (Shared for Standard & Symbols) -->
+        <!-- Quiz Area -->
         <div id="quiz-mode" class="content-area">
             <div class="glass-card">
                 <div id="ai-config" class="ai-config-panel" style="display: none;">
                     <div class="config-group">
-                        <label>Themenbereich</label>
+                        <label>KI Generator Thema</label>
                         <select id="ai-topic-select" class="config-select">
-                            <option value="symbols">📐 Schaltsymbole (Immer neu generiert)</option>
-                            <option value="ohm">Ohmsches Gesetz & Leistung</option>
-                            <option value="motor">Drehstrom & Asynchronmotor</option>
-                            <option value="protection">Schutzmaßnahmen & RCD</option>
-                            <option value="cables">Netzformen & Leitungen</option>
+                            <option value="symbols">📐 Schaltsymbole (Zufällig generiert)</option>
+                            <option value="rcd">⚙️ RCD & Fehlerstromschutz</option>
+                            <option value="switches">🔘 Schalter & Taster Schaltungen</option>
+                            <option value="networks">🌐 Netzformen (TN, TT, IT)</option>
                         </select>
                     </div>
                     <div class="config-group">
@@ -921,7 +920,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Schaltsymbole, RCD, Taster, Schalter, Netze)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Schaltsymbole, RCD, Taster, Netze, Schalter)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -933,11 +932,11 @@
                             <h3>Ohmsches Gesetz (U, I, R)</h3>
                             <div class="input-field">
                                 <label>Spannung U (Volt)</label>
-                                <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
+                                <input type="number" id="calc-u" placeholder="230" oninput="calculateOhm()">
                             </div>
                             <div class="input-field">
                                 <label>Widerstand R (Ohm)</label>
-                                <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
+                                <input type="number" id="calc-r" placeholder="10" oninput="calculateOhm()">
                             </div>
                             <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
                         </div>
@@ -947,11 +946,11 @@
                             <h3>Drehstrom-Leistung (P)</h3>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
+                                <input type="number" id="calc-i3" placeholder="16" oninput="calculate3Phase()">
                             </div>
                             <div class="input-field">
                                 <label>Cos φ (Leistungsfaktor)</label>
-                                <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
+                                <input type="number" id="calc-cos" placeholder="0.85" step="0.05" oninput="calculate3Phase()">
                             </div>
                             <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
                         </div>
@@ -961,11 +960,11 @@
                             <h3>Spannungsfall (ΔU) - 1-phasig</h3>
                             <div class="input-field">
                                 <label>Länge l (m, einfach)</label>
-                                <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-len" placeholder="25" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-i-drop" placeholder="16" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Querschnitt A (mm² Cu)</label>
@@ -985,15 +984,15 @@
                             <h3>Mindestquerschnitt (A) berechnen</h3>
                             <div class="input-field">
                                 <label>Länge l (m)</label>
-                                <input type="number" id="calc-q-len" value="30" oninput="calculateCrossSection()">
+                                <input type="number" id="calc-q-len" placeholder="30" oninput="calculateCrossSection()">
                             </div>
                             <div class="input-field">
                                 <label>Max. Strom I (A)</label>
-                                <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
+                                <input type="number" id="calc-q-i" placeholder="16" oninput="calculateCrossSection()">
                             </div>
                             <div class="input-field">
-                                <label>Zul. Spannungsfall ΔU (V)</label>
-                                <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
+                                <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
+                                <input type="number" id="calc-q-u" placeholder="6.9" oninput="calculateCrossSection()">
                             </div>
                             <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
                         </div>
@@ -1012,7 +1011,8 @@
     <script>
         // State Management
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
-            total: 0, correct: 0, highscore: 0, level: 1, xp: 0
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0,
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1 }
         };
 
         let currentMode = 'quiz';
@@ -1036,18 +1036,18 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive RCD, Taster, Schalter, Netze etc.
+        // Erweiterte Lerninhalte inklusive Schaltsymbole, RCD, Taster, Netze & Schalter
         const learningContent = {
             symbols_overview: {
-                title: "Schaltsymbole & Schaltzeichen",
+                title: "Schaltsymbole & Schaltpläne Kartei",
                 icon: "📐",
-                description: "Normsymbole nach DIN EN 60617 für Schalter, Taster, RCD & Co.",
+                description: "Normsymbole nach DIN EN 60617 / IEC 60617 im Überblick",
                 content: `
-                    <h2>Übersicht der wichtigsten Schaltsymbole</h2>
-                    <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne und Installationen.</p>
+                    <h2>Übersicht der wichtigsten Schaltsymbole & Schaltpläne</h2>
+                    <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Elektrofachkräfte.</p>
                     <div class="symbol-gallery">
                         <div class="symbol-card">${svgSymbols.switch_off}<h4>Schalter (Ausschalter)</h4><p>Mechanischer Ein-/Ausschalter</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Gibt nur kurzzeitig Signal</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Wisch- oder Tastkontakt</p></div>
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Verbraucher</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
                         <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
@@ -1055,68 +1055,117 @@
                     </div>
                 `
             },
-            switches_buttons: {
-                title: "Schalter & Taster in Schaltplänen",
-                icon: "🔘",
-                description: "Funktionsweise und Schaltpläne für Wechselschaltung, Kreuzschaltung & Taster",
+            rcd_details: {
+                title: "RCD (FI-Schalter) & Schutz",
+                icon: "⚙️",
+                description: "Detaillierte Schaltpläne, Typen A, B, F & Auslösung",
                 content: `
-                    <h2>Schalter und Taster in der Praxis</h2>
-                    <p class="article-desc">Unterschiede zwischen dauerhaften Schaltvorgängen und Momentkontakten.</p>
+                    <h2>Fehlerstromschutzschalter (RCD) im Detail</h2>
+                    <p class="article-desc">Funktionsweise und Integration in Stromkreis-Schaltpläne.</p>
                     <div class="article-section">
-                        <h3>Schalter vs. Taster</h3>
-                        <p><strong>Schalter:</strong> Bleiben nach Betätigung in ihrer neuen mechanischen Position eingerastet (z.B. Serienschalter, Ausschalter, Wechselschalter).</p>
-                        <p><strong>Taster:</strong> Springen durch eine Feder sofort in ihre Ruhelage zurück (z.B. für Treppenlichtschautomaten, Klingelanlagen oder Stromstoßschalter).</p>
+                        <h3>Aufbau & Schaltpläne</h3>
+                        <p>Ein RCD vergleicht den zum Verbraucher hin fließenden Strom mit dem über den Neutralleiter zurückfließenden Strom. Bei einer Differenz (Fehlerstrom IΔn) schaltet er allpolig ab.</p>
+                        <table class="custom-table">
+                            <thead><tr><th>Typ</th><th>Erfassbare Fehlerströme</th><th>Typischer Einsatz</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichströme</td><td>Standard-Haushalt (Steckdosen, Licht)</td></tr>
+                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen bis 1 kHz</td><td>Waschmaschinen, Pumpen mit Inverter</td></tr>
+                                <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (glatte Gleichfehlerströme)</td><td>Wallboxen, Photovoltaikanlagen</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 `
             },
-            rcd_protection: {
-                title: "RCD (FI-Schutzschalter) & Schutz",
-                icon: "⚙️",
-                description: "Fehlerstromschutzschalter, Typen (A, B, F) und Funktionsweise im Schaltplan",
+            switches_pushbuttons: {
+                title: "Schalter & Taster Schaltungen",
+                icon: "🔘",
+                description: "Aus-, Serienschalter, Wechselschaltung & Tasterschaltung",
                 content: `
-                    <h2>Fehlerstromschutzschalter (RCD)</h2>
-                    <p class="article-desc">Der essenzielle Baustein für den Personenschutz.</p>
-                    <div class="symbol-container">${svgSymbols.rcd}</div>
+                    <h2>Schalter und Taster in der Praxis</h2>
+                    <p class="article-desc">Unterschiede zwischen dauerhaften Schaltern und tastenden Impulsgebern.</p>
                     <div class="article-section">
-                        <h3>Aufbau und Funktion</h3>
-                        <p>Ein RCD vergleicht den zufließenden Strom (Außenleiter) mit dem abfließenden Strom (Neutralleiter). Fließt ein Differenzstrom (z. B. durch Berühren eines unter Spannung stehenden Gehäuses über den menschlichen Körper zur Erde), löst der Summenstromwandler den Schalter bruchteilhaft aus (bei max. 30 mA für Personenschutz).</p>
-                        <table class="custom-table">
-                            <thead><tr><th>Typ</th><th>Anwendungsbereich</th></tr></thead>
-                            <tbody>
-                                <tr><td><strong>Typ A</strong></td><td>Standard für Steckdosen & Licht (Wechsel- und pulsierende Gleichfehlerströme).</td></tr>
-                                <tr><td><strong>Typ B / B+</strong></td><td>Allstromsensitiv für Wallboxen, PV-Anlagen und Frequenzumrichter.</td></tr>
-                            </tbody>
-                        </table>
+                        <h3>Schalter vs. Taster im Schaltplan</h3>
+                        <p><strong>Schalter:</strong> Bleibt in der geschalteten Position, bis er manuell betätigt wird (z.B. Ausschalter, Wechselschalter).</p>
+                        <p><strong>Taster:</strong> Kehrt durch Federkraft sofort in seine Ruhelage zurück. Wird in Kombination mit Stromstoßschaltern (Relais) für Flur- oder Treppenhausschaltungen eingesetzt.</p>
                     </div>
                 `
             },
             netzsysteme: {
                 title: "Netzsysteme (TN, TT, IT)",
-                icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S und Netzformen in Schaltplänen",
+                icon: "🌐",
+                description: "Netzformen, Schutzkonzepte und Potentialausgleich",
                 content: `
-                    <h2>Netzformen nach IEC 60364</h2>
-                    <p class="article-desc">Wie Stromversorgungsnetze geerdet und aufgebaut sind.</p>
+                    <h2>Netzsysteme nach IEC 60364</h2>
+                    <p class="article-desc">TN-C-S, TN-S, TT und IT Netze im Systemüberblick.</p>
                     <div class="article-section">
-                        <h3>Netzarten im Überblick</h3>
                         <table class="custom-table">
                             <tbody>
-                                <tr><td><strong>TN-C-S</strong></td><td>Im Hausanschluss wird der PEN-Leiter in separaten PE (Schutzleiter) und N (Neutralleiter) aufgeteilt. Standard im Wohnbau.</td></tr>
-                                <tr><td><strong>TN-S</strong></td><td>Vom Trafo bis zum Verbraucher durchgehend getrennte PE- und N-Leiter (5-adrig).</td></tr>
-                                <tr><td><strong>TT</strong></td><td>Sternpunkt geerdet, Verbraucherkörper separat geerdet. Zwingend RCD-Pflicht!</td></tr>
+                                <tr><td><strong>TN-S-System</strong></td><td>Neutralleiter (N) und Schutzleiter (PE) sind von der Versorgung bis zum Verbraucher getrennt (5-adrig).</td></tr>
+                                <tr><td><strong>TN-C-S-System</strong></td><td>Kombinierter PEN-Leiter im Zuleitungsbereich, Aufteilung in PE und N im Hausanschlusskasten.</td></tr>
+                                <tr><td><strong>TT-System</strong></td><td>Betriebserder der Quelle unabhängig vom Körpererder der Anlage. RCD ist zwingend vorgeschrieben.</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                `
+            },
+            basics: {
+                title: "Grundlagen & Formeln",
+                icon: "⚡",
+                description: "Spannung, Strom, Widerstand, Leistungskreis",
+                content: `
+                    <h2>Grundlagen der Elektrotechnik</h2>
+                    <p class="article-desc">Die physikalischen Basisgrößen und deren Zusammenspiel.</p>
+                    <div class="article-section">
+                        <h3>Wichtige Formeln</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formel</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Spannung</td><td>U</td><td>Volt (V)</td><td>U = I × R</td></tr>
+                                <tr><td>Stromstärke</td><td>I</td><td>Ampere (A)</td><td>I = U / R</td></tr>
+                                <tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>R = U / I</td></tr>
+                                <tr><td>Wirkleistung</td><td>P</td><td>Watt (W)</td><td>P = U × I × cos φ</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            safety: {
+                title: "5 Sicherheitsregeln",
+                icon: "🛡️",
+                description: "Lebenswichtige Schutzmaßnahmen (ÖVE/DIN VDE)",
+                content: `
+                    <h2>Die 5 Sicherheitsregeln</h2>
+                    <p class="article-desc">Vor Beginn der Arbeiten an elektrischen Anlagen stets anwenden.</p>
+                    <div class="article-section">
+                        <ol style="margin-left:20px; line-height: 1.8;">
+                            <li><strong>1. Freischalten</strong></li>
+                            <li><strong>2. Gegen Wiedereinschalten sichern</strong></li>
+                            <li><strong>3. Spannungsfreiheit feststellen</strong></li>
+                            <li><strong>4. Erden und Kurzschließen</strong></li>
+                            <li><strong>5. Benachbarte unter Spannung stehende Teile abdecken</strong></li>
+                        </ol>
                     </div>
                 `
             }
         };
 
         const initialQuizData = [
-            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbole für eine Leuchte/Lampe." },
+            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbol für eine Leuchte/Lampe." },
+            { question: "Welches Bauelement wird hier dargestellt?", symbol: svgSymbols.resistor, options: ["Spule", "Sicherung", "Ohmscher Widerstand", "Diode"], answer: 2, explanation: "Ein einfaches Rechteck steht im Schaltplan für einen ohmschen Widerstand." },
             { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
             { question: "Welches Schaltsymbol ist hier abgebildet?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) gekennzeichnet durch das Wandlersymbol mit IΔn." },
             { question: "Welche Farbe hat der Schutzleiter (PE)?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter (PE) ist international zwingend grün-gelb." },
-            { question: "Welches Schaltsymbol stellt einen Taster (Schließer) dar?", symbol: svgSymbols.push_button, options: ["Ausschalter", "Taster (Schließer)", "Wechselschalter", "Serienschalter"], answer: 1, explanation: "Der Taster ist durch die unterbrochene Linie mit dem Betätigungskopf oben gekennzeichnet." }
+            { question: "Welches Schaltsymbol stellt einen Taster (Schließer) dar?", symbol: svgSymbols.push_button, options: ["Ausschalter", "Taster (Schließer)", "Wechselschalter", "Serienschalter"], answer: 1, explanation: "Der Taster ist durch die unterbrochene Linie mit dem Betätigungskopf gekennzeichnet." }
+        ];
+
+        const symbolsQuizData = [
+            { question: "Welches Bauteil wird durch dieses Symbol repräsentiert?", symbol: svgSymbols.switch_off, options: ["Ausschalter", "Taster", "Sicherung", "Diode"], answer: 0, explanation: "Ein einpoliger Ausschalter unterbricht den Stromkreis mechanisch." },
+            { question: "Wofür steht dieses Schaltsymbol im Schaltplan?", symbol: svgSymbols.push_button, options: ["Taster (Schließer)", "Wechselschalter", "Transformator", "Kondensator"], answer: 0, explanation: "Der Taster schließt den Kontakt nur während der Betätigung." },
+            { question: "Welches Element zeigt dieses Symbol?", symbol: svgSymbols.rcd, options: ["RCD (FI-Schalter)", "Leitungsschutzschalter", "Motorschutzschalter", "Hauptschalter"], answer: 0, explanation: "Das RCD-Symbol zeigt den Summenstromwandler mit der Kennzeichnung IΔn." },
+            { question: "Welches Bauteil ist hier abgebildet?", symbol: svgSymbols.ground, options: ["Erde / Schutzleiteranschluss", "Spannungsquelle", "Kondensator", "Widerstand"], answer: 0, explanation: "Das Erdungssymbol kennzeichnet die Verbindung zum Erdpotential." },
+            { question: "Welches Schaltsymbol zeigt eine Schmelzsicherung?", symbol: svgSymbols.fuse, options: ["Sicherung", "Widerstand", "Spule", "Transformator"], answer: 0, explanation: "Das Rechteck mit durchgezogener Linie symbolisiert den Schmelzleiter." }
         ];
 
         let quizData = [...initialQuizData];
@@ -1155,7 +1204,7 @@
             if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
             if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
             if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
+            if (stats.highscore >= 6) document.getElementById('badge-4').classList.add('unlocked');
         }
 
         // Quiz Logic
@@ -1201,7 +1250,7 @@
             document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
             
             const current = quizData[currentQuestion];
-            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ KI-Generiert</span><br>` : '';
+            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ KI-Generiertes Schaltsymbol</span><br>` : '';
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
@@ -1282,18 +1331,13 @@
             }
 
             let fb = "Gutes Training!";
-            if (score === quizData.length) fb = "Perfekt! Du bist ein Meister-Elektriker.";
-            else if (score < quizData.length / 2) fb = "Da ist noch Luft nach oben. Schau mal im Lernbereich vorbei.";
+            if (score === quizData.length) fb = "Perfekt! Du kennst alle Schaltsymbole im Schlaf.";
+            else if (score < quizData.length / 2) fb = "Übe noch etwas im Lernbereich bei den Schaltsymbolen.";
             document.getElementById('feedback').textContent = fb;
         }
 
         function restartQuiz() {
             clearInterval(timerInterval);
-            if (currentMode === 'symbols') {
-                quizData = generateSymbolQuizBatch(5);
-            } else {
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-            }
             currentQuestion = 0;
             score = 0;
             document.getElementById('result-screen').style.display = 'none';
@@ -1301,40 +1345,7 @@
             loadQuestion();
         }
 
-        // Spezieller Generator für das Schaltsymbole-Quiz
-        function generateSymbolQuizBatch(count) {
-            let batch = [];
-            const symbolList = [
-                { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
-                { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Schließt den Kontakt nur solange die Betätigung erfolgt." },
-                { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Standard-Schaltsymbole für ein optisches Leuchtmittel." },
-                { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Standardrechteck für Festwiderstände in Schaltplänen." },
-                { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Platten symbolisieren die Kapazität." },
-                { name: "Diode", svg: svgSymbols.diode, desc: "Pfeil zeigt die Durchlassrichtung des Stroms an." },
-                { name: "Transformator", svg: svgSymbols.transformer, desc: "Zwei überlappende Kreise symbolisieren die induktive Kopplung." },
-                { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Zeigt das Gehäuse mit Summenstromwandler und Fehlerstromangabe." },
-                { name: "Sicherung", svg: svgSymbols.fuse, desc: "Rechteck mit durchgehender Kennlinie für Überstromschutz." },
-                { name: "Erder / Masse", svg: svgSymbols.ground, desc: "Kennzeichnet das Potenzial der Erde bzw. der Schutzerdung." }
-            ];
-
-            const shuffled = shuffleArray([...symbolList]);
-            for (let i = 0; i < Math.min(count, shuffled.length); i++) {
-                const correct = shuffled[i];
-                let wrong = symbolList.filter(s => s.name !== correct.name).map(s => s.name);
-                wrong = shuffleArray(wrong).slice(0, 3);
-                const options = shuffleArray([correct.name, ...wrong]);
-                batch.push({
-                    question: "Welches Schaltsymbol / Schaltzeichen wird hier dargestellt?",
-                    symbol: correct.svg,
-                    options: options,
-                    answer: options.indexOf(correct.name),
-                    explanation: `<b>${correct.name}:</b> ${correct.desc}`
-                });
-            }
-            return batch;
-        }
-
-        // KI MODUS GENERIERUNGS-ENGINE (Immer neue Fragen zu Schaltsymbole & Co.)
+        // KI MODUS FÜR SCHALTSYMBOLE & SCHALTPLÄNE
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
             answered = true;
@@ -1342,14 +1353,14 @@
             const selectedTopic = document.getElementById('ai-topic-select').value;
             const selectedDiff = document.getElementById('ai-diff-select').value;
 
-            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere brandneue Aufgabe...';
+            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ KI Generator</span><br>Generiere neues Schaltsymbol & Schaltplan...';
             document.getElementById('symbol-display').style.display = 'none';
             document.getElementById('options').innerHTML = '';
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
             
             setTimeout(() => {
-                const generatedQuestion = buildDynamicQuestion(selectedTopic, selectedDiff);
+                const generatedQuestion = buildSymbolAIQuestion(selectedTopic, selectedDiff);
                 quizData = [generatedQuestion];
                 currentQuestion = 0;
                 score = 0;
@@ -1359,69 +1370,34 @@
             }, 300);
         }
 
-        function buildDynamicQuestion(topicKey, diffKey) {
-            let topic = topicKey;
-            if (topic === 'symbols') {
-                // KI generiert immer frische Symbolfragen mit zufälligen Distraktoren
-                const symbolList = [
-                    { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Einpoliger mechanischer Schalter." },
-                    { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Taster mit Rückstellfeder." },
-                    { name: "Leuchte", svg: svgSymbols.lamp, desc: "Optischer Signalgeber." },
-                    { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Fehlerstromschutzschalter mit Prüfzeichen." },
-                    { name: "Sicherung", svg: svgSymbols.fuse, desc: "Schutzeinrichtung gegen Überstrom." },
-                    { name: "Erdung", svg: svgSymbols.ground, desc: "Schutz- und Erdungsanschluss." }
-                ];
-                const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
-                let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
-                wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
-                const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
-                
-                return {
-                    question: `[KI-Generiert] Ordnen Sie dieses Schaltsymbol aus dem Schaltplan der korrekten Bezeichnung zu:`,
-                    symbol: correctSymbol.svg,
-                    options: allOptions,
-                    answer: allOptions.indexOf(correctSymbol.name),
-                    explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
-                    aiGenerated: true
-                };
-            }
+        function buildSymbolAIQuestion(topicKey, diffKey) {
+            const symbolList = [
+                { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Einpoliger Ausschalter im Schaltplan zur manuellen Unterbrechung." },
+                { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Tastkontakt für Impulsschaltungen." },
+                { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Optisches Signalmittel im Beleuchtungsstromkreis." },
+                { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Widerstandselement in der Schaltung." },
+                { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Speichert elektrische Energie kapazitiv." },
+                { name: "Diode", svg: svgSymbols.diode, desc: "Lässt den Strom nur in Durchlassrichtung fließen." },
+                { name: "Transformator", svg: svgSymbols.transformer, desc: "Induktive Kopplung zur Spannungsänderung." },
+                { name: "RCD (FI-Schalter)", svg: svgSymbols.resistor || svgSymbols.rcd, desc: "Fehlerstrom-Schutzeinrichtung für den Personenschutz." },
+                { name: "Sicherung", svg: svgSymbols.fuse, desc: "Schützt vor unzulässig hohen Überströmen." },
+                { name: "Erde / Masse", svg: svgSymbols.ground, desc: "Verbindung mit dem Erdpotenzial." }
+            ];
 
-            // Andere Themen im KI-Modus
-            const generators = {
-                ohm: () => {
-                    const u = [230, 400, 24][Math.floor(Math.random() * 3)];
-                    const r = Math.floor(Math.random() * 20) + 10;
-                    const i = (u / r).toFixed(2);
-                    return {
-                        question: `[KI-Berechnung] Ein elektrischer Verbraucher an ${u}V hat einen Widerstand von ${r} Ω. Wie hoch ist der fließende Strom I?`,
-                        options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
-                        answer: 0,
-                        explanation: `Nach dem Ohmschen Gesetz: I = U / R = ${u}V / ${r}Ω = <b>${i} A</b>.`,
-                        aiGenerated: true
-                    };
-                },
-                protection: () => {
-                    return {
-                        question: `[KI-Schutztechnik] Warum wird in modernen Wohnungsinstallationen ein RCD (FI-Schalter) mit maximal 30 mA eingesetzt?`,
-                        options: [`Zum Schutz vor Geräteschäden`, `Zum Personenschutz vor lebensgefährlichen Körperströmen`, `Zur Einsparung von Stromkosten`, `Um Kurzschlüsse im Hauptverteiler zu verhindern`],
-                        answer: 1,
-                        explanation: `Der Bemessungsfehlerstrom von 30 mA ist so ausgelegt, dass er bei einem Fehlerstrom über den menschlichen Körper rechtzeitig auslöst, bevor Kammerflimmern auftreten kann.`,
-                        aiGenerated: true
-                    };
-                },
-                cables: () => {
-                    return {
-                        question: `[KI-Netzformen] Wie ist ein klassisches TN-C-S Netz im Gebäude aufgebaut?`,
-                        options: [`Schutzleiter und Neutralleiter sind durchgehend getrennt`, `Der PEN-Leiter wird im Hausanschluss in getrennte PE- und N-Leiter aufgeteilt`, `Es ist gar kein Schutzleiter vorhanden`, `Die Anlage arbeitet komplett mit Kleinspannung`],
-                        answer: 1,
-                        explanation: `Im TN-C-S Netz kommt ein kombinierter PEN-Leiter an und wird im Hausanschluss in getrennten Schutzleiter (PE) und Neutralleiter (N) aufgespalten.`,
-                        aiGenerated: true
-                    };
-                }
+            const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
+            let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
+            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+            const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
+            const correctIndex = allOptions.indexOf(correctSymbol.name);
+
+            return {
+                question: `Welches Schaltsymbol / Bauteil zeigt diese automatisch generierte Zeichnung?`,
+                symbol: correctSymbol.svg,
+                options: allOptions,
+                answer: correctIndex,
+                explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
+                aiGenerated: true
             };
-
-            const genFunc = generators[topicKey] || generators['ohm'];
-            return genFunc();
         }
 
         // Navigation Modes
@@ -1442,41 +1418,28 @@
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
             
-            if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-            } else {
-                document.getElementById('quiz-mode').classList.add('active');
-            }
-
-            const activeToggleBtn = document.getElementById(`toggle-${mode}`);
-            if (activeToggleBtn) activeToggleBtn.classList.add('active');
-
+            const targetArea = (mode === 'symbols_quiz' || mode === 'ai') ? 'quiz' : mode;
+            document.getElementById(`${targetArea}-mode`).classList.add('active');
+            
+            const btnEl = document.getElementById(`toggle-${mode}`);
+            if (btnEl) btnEl.classList.add('active');
+            
             currentMode = mode;
             clearInterval(timerInterval);
 
             if (mode === 'quiz') {
                 document.getElementById('ai-config').style.display = 'none';
                 document.getElementById('quiz-heading').textContent = "⚡ Standard Wissenstest";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-                currentQuestion = 0;
-                score = 0;
-                loadQuestion();
-            } else if (mode === 'symbols') {
+                quizData = shuffleArray([...initialQuizData]);
+                restartQuiz();
+            } else if (mode === 'symbols_quiz') {
                 document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = "📐 Schaltsymbole Quiz";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
-                quizData = generateSymbolQuizBatch(5);
-                currentQuestion = 0;
-                score = 0;
-                loadQuestion();
+                document.getElementById('quiz-heading').textContent = "📐 Schaltsymbole & Schaltpläne Quiz";
+                quizData = shuffleArray([...symbolsQuizData]);
+                restartQuiz();
             } else if (mode === 'ai') {
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = "✨ KI Modus (Immer neue Fragen)";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
+                document.getElementById('quiz-heading').textContent = "✨ KI Schaltsymbol-Generator";
                 generateCustomAIQuestion();
             } else if (mode === 'learn') {
                 backToTopics();
