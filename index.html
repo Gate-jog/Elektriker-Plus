@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektrotechnik Quiz App</title>
+    <style>
+        :root {
+            --bg-color: #121826;
+            --card-bg: #1e293b;
+            --primary: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct: #22c55e;
+            --incorrect: #ef4444;
+            --btn-hover: #0284c7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: #334155;
+            color: var(--text-main);
+            border: 2px solid transparent;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #475569;
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-color: var(--correct);
+            color: #4ade80;
+        }
+
+        .option-btn.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: var(--incorrect);
+            color: #f87171;
+        }
+
+        .next-btn, .restart-btn {
+            margin-top: 24px;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+            transition: background 0.2s;
+        }
+
+        .next-btn:hover, .restart-btn:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 16px 0;
+        }
+
+        .feedback-text {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-card">
+        <!-- Quiz Bildschirm -->
+        <div id="quiz-screen">
+            <div class="header">
+                <span class="title">⚡ Elektrotechnik Quiz</span>
+                <span class="progress" id="progress">Frage 1 von 5</span>
+            </div>
+            <div class="question-text" id="question">Lade Frage...</div>
+            <div class="options-container" id="options"></div>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+        </div>
+
+        <!-- Ergebnis Bildschirm -->
+        <div class="result-screen" id="result-screen">
+            <h2 class="result-title">Quiz Abgeschlossen!</h2>
+            <div class="score-display" id="score">0 / 5</div>
+            <p class="feedback-text" id="feedback">Gut gemacht!</p>
+            <button class="restart-btn" id="restart-btn" style="display: block;" onclick="restartQuiz()">Erneut starten</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Wie lautet das Ohmsche Gesetz?",
+                options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"],
+                answer: 1
+            },
+            {
+                question: "Welche Farbe hat der Schutzleiter (PE) nach aktuellen VDE-Normen?",
+                options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"],
+                answer: 2
+            },
+            {
+                question: "Was besagt die 1. der 5 Sicherheitsregeln der Elektrotechnik?",
+                options: ["Freischalten", "Gegen Wiedereinschalten sichern", "Spannungsfreiheit feststellen", "Erden und Kurzschließen"],
+                answer: 0
+            },
+            {
+                question: "In welcher Einheit wird die elektrische Leistung angegeben?",
+                options: ["Volt (V)", "Ampere (A)", "Ohm (Ω)", "Watt (W)"],
+                answer: 3
+            },
+            {
+                question: "Was passiert mit dem Gesamtwiderstand, wenn zwei gleiche Widerstände parallel geschaltet werden?",
+                options: ["Er verdoppelt sich", "Er halbiert sich", "Er bleibt gleich", "Er wird null"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const progressEl = document.getElementById('progress');
+        const nextBtn = document.getElementById('next-btn');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const scoreEl = document.getElementById('score');
+        const feedbackEl = document.getElementById('feedback');
+
+        function loadQuestion() {
+            answered = false;
+            nextBtn.style.display = 'none';
+            const data = quizData[currentQuestion];
+            
+            progressEl.textContent = `Frage ${currentQuestion + 1} von ${quizData.length}`;
+            questionEl.textContent = data.question;
+            optionsEl.innerHTML = '';
+
+            data.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.classList.add('option-btn');
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(index, btn);
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const correctIndex = quizData[currentQuestion].answer;
+            const buttons = optionsEl.querySelectorAll('.option-btn');
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                selectedBtn.classList.add('correct');
+                score++;
+            } else {
+                selectedBtn.classList.add('incorrect');
+                buttons[correctIndex].classList.add('correct');
+            }
+
+            if (currentQuestion < quizData.length - 1) {
+                nextBtn.style.display = 'block';
+            } else {
+                nextBtn.textContent = 'Ergebnis anzeigen';
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            scoreEl.textContent = `${score} / ${quizData.length}`;
+
+            if (score === quizData.length) {
+                feedbackEl.textContent = "Perfekt! Alle Fragen richtig beantwortet.";
+            } else if (score >= quizData.length / 2) {
+                feedbackEl.textContent = "Gute Arbeit! Ein solides Basiswissen.";
+            } else {
+                feedbackEl.textContent = "Das geht noch besser! Wiederhole die Grundlagen.";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            nextBtn.textContent = 'Nächste Frage';
+            resultScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+            loadQuestion();
+        }
+
+        // Quiz beim Laden starten
+        loadQuestion();
+    </script>
+</body>
+</html>
