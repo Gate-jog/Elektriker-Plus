@@ -1899,36 +1899,50 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculator Functions
+        // Calculators Logic
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = r !== 0 ? (u / r).toFixed(2) : 0;
-            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i} A`;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0;
+            const resEl = document.getElementById('calc-ohm-res');
+            if (r === 0) {
+                resEl.textContent = "Fehler: Widerstand darf nicht 0 sein";
+                return;
+            }
+            const i = u / r;
+            resEl.textContent = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
             const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
-            const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
-            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p} kW`;
+            const resEl = document.getElementById('calc-3p-res');
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            resEl.textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const drop = ((2 * l * i) / (56 * q)).toFixed(2);
-            const pct = ((drop / 230) * 100).toFixed(2);
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop} V (${pct}%)`;
+            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const resEl = document.getElementById('calc-drop-res');
+            const kappa = 56; // Leitfähigkeit Kupfer
+            const deltaU = (2 * l * i) / (kappa * a);
+            const percent = (deltaU / 230) * 100;
+            resEl.textContent = `ΔU = ${deltaU.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
             const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const a = maxU !== 0 ? ((2 * l * i) / (56 * maxU)).toFixed(2) : 0;
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a} mm²`;
+            const resEl = document.getElementById('calc-q-res');
+            const kappa = 56;
+            if (maxU === 0) {
+                resEl.textContent = "Fehler: Spannungsfall darf nicht 0 sein";
+                return;
+            }
+            const a = (2 * l * i) / (kappa * maxU);
+            resEl.textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
