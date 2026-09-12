@@ -1220,7 +1220,27 @@
 
                     <div class="article-section">
                         <h3>5. IT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist entweder vollständig isoliert oder über einen hohen Impedanzwert geerdet. Bei einem ersten Fehler fließt kein gefährlicher Berührungsstrom, die Anlage bleibt betriebsbereit (wichtig in OP-Sälen oder Industrie-Prüfständen).</p>
+                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist entweder vollständig isoliert oder über eine hohe Impedanz (Widerstand/Spule) hochohmigkeit mit der Erde verbunden. Bei einem ersten Erdschluss (Körperschluss) fließt nahezu kein Fehlerstrom, weshalb die Anlage betriebsbereit bleibt (wichtig in OP-Sälen oder Industrie-Prüfständen). Ein Isolationswächter meldet den Fehler.</p>
+                        <svg viewBox="0 0 500 160" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <!-- Leitungen -->
+                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="70" x2="480" y2="70" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="62" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <!-- Isolierte Einspeisung Symbol (Trafo) -->
+                            <circle cx="100" cy="50" r="15" fill="none" stroke="#fff" stroke-width="2"/>
+                            <!-- Sicherung -->
+                            <rect x="180" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <!-- Last (Isolierter Betrieb) -->
+                            <rect x="360" y="20" width="80" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="400" y="60" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
+                            <line x1="330" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="70" x2="360" y2="70" stroke="#f59e0b" stroke-width="3"/>
+                            <!-- Schutzleiter zum Gehäuse -->
+                            <line x1="20" y1="120" x2="480" y2="120" stroke="#10b981" stroke-width="3"/>
+                            <text x="25" y="112" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde)</text>
+                            <line x1="400" y1="90" x2="400" y2="120" stroke="#10b981" stroke-width="3"/>
+                        </svg>
                     </div>
                 `
             },
@@ -1229,35 +1249,29 @@
                 icon: "🛡️",
                 description: "Korrekt nach ÖVE / VDE: Maßnahmen mit und ohne Schutzleiter",
                 content: `
-                    <h2>Fehlerschutzmaßnahmen (Schutz gegen elektrischen Schlag bei Fehler)</h2>
-                    <p class="article-desc">Nach DIN VDE 0100-410 / ÖVE E 8001 werden Fehlerschutzmaßnahmen unterschieden in netzabhängige (mit Schutzleiter/Erdung) und netzunabhängige Maßnahmen.</p>
+                    <h2>Fehlerschutzmaßnahmen (Schutz bei Fehler / Indirektes Berühren)</h2>
+                    <p class="article-desc">Nach DIN VDE 0100-410 / ÖVE E 8001 müssen Betriebsmittel im Fehlerfall (z. B. bei einem Körperschluss durch eine beschädigte Isolierung) so geschützt sein, dass ein gefährlicher elektrischer Schlag vermieden wird.</p>
                     
                     <div class="article-section">
-                        <h3>1. Netzabhängige Schutzmaßnahmen (Erfordern Erdung / Schutzleiter)</h3>
-                        <p>Diese Schutzmaßnahmen setzen voraus, dass Körper berührbarer Betriebsmittel mit dem Schutzleiter (PE) verbunden sind und im Fehlerfall eine automatische Abschaltung erfolgt.</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Schutzmaßnahme</th><th>Prinzip / Funktionsweise</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>Automatische Abschaltung</strong></td><td>Kombination aus Schutzleiter (PE) und Überstromschutzeinrichtung (LS-Schalter) bzw. RCD (FI-Schalter). Bei einem Körperschluss schaltet die Sicherung oder der FI sofort ab.</td></tr>
-                                <tr><td><strong>Schutz durch Potentialausgleich</strong></td><td>Verbindung aller metallischen Rohrleitungen, Bauteile und des Schutzleiters, sodass keine gefährlichen Berührungsspannungen entstehen können.</td></tr>
-                            </tbody>
-                        </table>
+                        <h3>1. Schutz durch automatische Abschaltung der Stromversorgung (Netzabhängig)</h3>
+                        <p>Die gebräuchlichste Schutzmaßnahme in TN- und TT-Netzen. Sie erfordert zwingend eine Kombination aus:</p>
+                        <ul style="margin-left:20px; line-height: 1.7;">
+                            <li><strong>Schutzleiter (PE):</strong> Verbindet alle berührbaren Metallteile (Körper) leitfähig miteinander und führt sie zum Erdungssystem.</li>
+                            <li><strong>Überstromschutzeinrichtung (LS-Schalter/Sicherung) oder RCD (FI-Schalter):</strong> Schaltet den Stromkreis im Fehlerfall innerhalb der vorgeschriebenen Abschaltzeit (z. B. 0,2s oder 0,4s) automatisch ab, bevor eine gefährliche Berührungsspannung länger einwirken kann.</li>
+                        </ul>
                     </div>
 
                     <div class="article-section">
-                        <h3>2. Netzunabhängige Schutzmaßnahmen (Ohne Schutzleiter / Erdung)</h3>
-                        <p>Diese Maßnahmen schützen den Anwender unabhängig vom Vorhandensein eines Schutzleiters im Netz.</p>
+                        <h3>2. Netzunabhängige Schutzmaßnahmen (Ohne Schutzleiter / Erdung im Kreis)</h3>
+                        <p>Diese Schutzmaßnahmen schliessen Gefahren unabhängig von der Netzform und dem Vorhandensein eines Schutzleiters aus:</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Schutzmaßnahme</th><th>Prinzip / Funktionsweise</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>Schutzisolierung (Schutzklasse II)</strong></td><td>Geräte besitzen eine verstärkte oder doppelte Isolierung. Keine berührbaren Metallteile können unter Spannung geraten (Symbol: 🔲).</td></tr>
-                                <tr><td><strong>Schutzkleinspannung (SELV / PELV)</strong></td><td>Betrieb mit sicherer Kleinspannung (≤ 50V AC oder ≤ 120V DC) über Sicherheitstransformatoren.</td></tr>
-                                <tr><td><strong>Schutztrennung</strong></td><td>Versorgung eines einzelnen Betriebsmittels über einen Trenntransformator mit getrennten Wicklungen. Es besteht kein leitender Pfad zur Erde.</td></tr>
-                                <tr><td><strong>Nichtleitende Räume</strong></td><td>Isolierende Fußböden und Wände in speziellen Prüflaboren (heute kaum noch gebräuchlich).</td></tr>
+                                <tr><td><strong>Schutzisolierung (Schutzklasse II)</strong></td><td>Betriebsmittel besitzen eine verstärkte oder doppelte Isolierung. Es gibt keine berührbaren Metallteile, die bei einem Fehler unter Spannung geraten könnten (Symbol: 🔲).</td></tr>
+                                <tr><td><strong>Schutzkleinspannung (SELV / PELV)</strong></td><td>Betrieb mit Sicherheitskleinspannung (Wechselspannung $\le 50\,\text{V}$, Gleichspannung $\le 120\,\text{V}$) über Sicherheitstransformatoren.</td></tr>
+                                <tr><td><strong>Schutztrennung</strong></td><td>Versorgung eines einzelnen Verbrauchers über einen Trenntransformator mit getrennten Wicklungen. Der Sekundtkreis ist ungeserdet; ein Berühren eines Leiters führt zu keinem geschlossenen Stromkreis über die Erde.</td></tr>
                             </tbody>
                         </table>
                     </div>
