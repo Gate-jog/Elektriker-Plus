@@ -843,7 +843,7 @@
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
                     <div class="menu-title">KI Modus</div>
-                    <div class="menu-description">Dynamische Theorie-, Symbol- & Rechenaufgaben (Unendlich KI generiert).</div>
+                    <div class="menu-description">Erweiterte neuronale Theorie-, Symbol- & Rechenaufgaben (Unendlich KI generiert).</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -878,6 +878,7 @@
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
                             <option value="cables">Leitungsbemessung & Zonen</option>
+                            <option value="ip">IP-Schutzarten & Betriebsmittel</option>
                             <option value="random">🎲 Alle Themen mischen (Infinite KI)</option>
                         </select>
                     </div>
@@ -1016,7 +1017,7 @@
         // State Management
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0,
-            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1 }
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
         };
 
         let currentMode = 'quiz';
@@ -1083,15 +1084,73 @@
                 `
             },
             rcd_details: {
-                title: "RCD (FI-Schalter) Schaltpläne & Typen",
+                title: "RCD (FI-Schalter) Schaltplan, Funktion & Typen",
                 icon: "⚙️",
-                description: "Aufbau, Funktion, Typen A, B, F und Schutz im Stromkreis",
+                description: "Detaillierter Stromlaufplan eines RCD, Aufbau, Funktion & Typen A, B, F",
                 content: `
-                    <h2>Fehlerstromschutzschalter (RCD) im Schaltplan</h2>
-                    <p class="article-desc">Der Summenstromwandler als Herzstück des Personenschutzes.</p>
+                    <h2>Fehlerstromschutzschalter (RCD) - Schaltplan & Funktionsweise</h2>
+                    <p class="article-desc">Der Summenstromwandler als Herzstück des Personenschutzes inklusive detailliertem Verdrahtungs- und Funktionsschaltplan.</p>
+                    
                     <div class="article-section">
-                        <h3>Funktionsweise im Schema</h3>
-                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Fließt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD bruchteilhaft von Sekundenschnelle auslöst.</p>
+                        <h3>Detaillierter RCD-Schaltplan (Inkl. Wandler, Prüfeinrichtung & Auslöser)</h3>
+                        <p>Der folgende Plan zeigt den internen und externen Aufbau eines 4-poligen RCD (bzw. 2-polig einphasig): Zuleitung (L & N) oben, Summenstromwandler mit Auslöserelais, Prüftaste mit Schutzwiderstand und Abgang zu den Verbrauchern.</p>
+                        
+                        <svg viewBox="0 0 600 320" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
+                            <!-- Überschrift im Plan -->
+                            <text x="300" y="25" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">SCHALTSCHEMA FEHLERSTROMSCHUTZSCHALTER (RCD / FI)</text>
+                            
+                            <!-- Eingangsseite (Netz) -->
+                            <text x="30" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
+                            <text x="30" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
+                            <line x1="120" y1="52" x2="160" y2="52" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="120" y1="92" x2="160" y2="92" stroke="#3b82f6" stroke-width="3"/>
+
+                            <!-- Summenstromwandler (Ringkern) -->
+                            <circle cx="230" cy="72" r="45" fill="rgba(6,182,212,0.08)" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,2"/>
+                            <text x="230" y="76" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">Summenstrom-</text>
+                            <text x="230" y="88" fill="#06b6d4" font-size="10" text-anchor="middle">wandler</text>
+                            
+                            <!-- Leitungen durch den Ringkern -->
+                            <line x1="160" y1="52" x2="300" y2="52" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="160" y1="92" x2="300" y2="92" stroke="#3b82f6" stroke-width="3"/>
+
+                            <!-- Mechanisches Schaltschloss & Relais -->
+                            <rect x="290" y="38" width="50" height="68" rx="4" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="2"/>
+                            <text x="315" y="65" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">Schloss</text>
+                            <text x="315" y="85" fill="#ef4444" font-size="9" text-anchor="middle">Auslöser</text>
+                            
+                            <!-- Prüfeinrichtung (Prüftaste & Prüfwiderstand) -->
+                            <line x1="360" y1="52" x2="390" y2="52" stroke="#f59e0b" stroke-width="2"/>
+                            <rect x="390" y="42" width="30" height="20" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="405" y="57" fill="#f59e0b" font-size="9" text-anchor="middle">Rv</text>
+                            <line x1="420" y1="52" x2="450" y2="52" stroke="#f59e0b" stroke-width="2"/>
+                            <!-- Taster Symbol -->
+                            <circle cx="450" cy="52" r="3" fill="#fff"/>
+                            <line x1="450" y1="52" x2="475" y2="35" stroke="#fff" stroke-width="2"/>
+                            <text x="462" y="25" fill="#fff" font-size="9" text-anchor="middle">Prüftaste (Test)</text>
+                            <line x1="475" y1="35" x2="475" y2="150" stroke="#3b82f6" stroke-width="2"/>
+                            <!-- Verbindung von Prüftaste zurück zum N nach dem Wandler -->
+                            <line x1="475" y1="150" x2="340" y2="150" stroke="#3b82f6" stroke-width="2"/>
+                            <line x1="340" y1="150" x2="340" y2="110" stroke="#3b82f6" stroke-width="2"/>
+
+                            <!-- Abgang zu den Verbrauchern -->
+                            <line x1="340" y1="52" x2="520" y2="52" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="340" y1="92" x2="520" y2="92" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="530" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Abgang)</text>
+                            <text x="530" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Abgang)</text>
+
+                            <!-- Fehlerstrom-Erläuterung unten im SVG -->
+                            <rect x="50" y="190" width="500" height="110" rx="6" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                            <text x="70" y="215" fill="#10b981" font-size="11" font-weight="bold">Funktionsweise im Fehlerfall:</text>
+                            <text x="70" y="235" fill="#94a3b8" font-size="10">1. Normalbetrieb: Strom zum Verbraucher (L) ist exakt gleich dem Rückstrom (N). Magnetische Felder heben sich auf.</text>
+                            <text x="70" y="255" fill="#94a3b8" font-size="10">2. Körperschluss / Fehlerstrom: Ein Teil des Stroms fließt über den Körper zur Erde ab (Differenzstrom $\\Delta I$).</text>
+                            <text x="70" y="275" fill="#94a3b8" font-size="10">3. Auslösung: Im Wandler entsteht ein Magnetfeld, das das Relais anzieht und das Schaltschloss in Millisekunden öffnet.</text>
+                        </svg>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Aufbau & Typenübersicht</h3>
+                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Fließt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD in Bruchteilen von Sekunden auslöst.</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>RCD-Typ</th><th>Auslösung bei...</th><th>Einsatzbereich</th></tr>
@@ -1103,7 +1162,7 @@
                             </tbody>
                         </table>
                         <div class="info-badge">
-                            Bemessungsfehlerstrom IΔn im Wohnbereich beträgt maximal <strong>30 mA</strong>.
+                            Bemessungsfehlerstrom IΔn im Wohnbereich beträgt maximal <strong>30 mA</strong>. Die monatliche Betätigung der Prüftaste wird empfohlen.
                         </div>
                     </div>
                 `
@@ -1111,155 +1170,151 @@
             netzsysteme: {
                 title: "Netzsysteme & Netzpläne (TN, TT, IT)",
                 icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. schematischer Pläne mit Sicherung & Verbraucher",
+                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. professioneller schematischer Pläne",
                 content: `
-                    <h2>Netzformen nach IEC 60364 (Inkl. vollständigen Netzplänen)</h2>
-                    <p class="article-desc">Detaillierte Darstellung der Erdungsverhältnisse inklusive Einspeisung, Überstromschutzeinrichtung (Sicherung), Schutzleiterführung und Verbraucher.</p>
+                    <h2>Netzformen nach IEC 60364 (Inkl. präziser Netzschaltpläne)</h2>
+                    <p class="article-desc">Detaillierte grafische Darstellung der Erdungsverhältnisse inklusive Einspeisepunkt, Überstromschutzeinrichtung (Sicherung), Schutzleiterführung und Verbraucher.</p>
                     
                     <div class="article-section">
-                        <h3>1. TN-C-Netz (Kombiniertes Netz)</h3>
+                        <h3>1. TN-C-Netz (Kombiniertes Netz: PEN durchgehend)</h3>
                         <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind als ein einziger PEN-Leiter von der Stromquelle bis zum Verbraucher geführt.</p>
-                        <svg viewBox="0 0 500 160" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <!-- Einspeisepunkte / Generator -->
-                            <text x="20" y="20" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
+                        <svg viewBox="0 0 520 180" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(245,158,11,0.3);">
+                            <text x="20" y="20" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / SPEISUNG</text>
                             <!-- Leitungen -->
-                            <line x1="20" y1="40" x2="480" y2="40" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="70" x2="480" y2="70" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="100" x2="480" y2="100" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="135" x2="480" y2="135" stroke="#10b981" stroke-width="4"/>
+                            <line x1="20" y1="45" x2="500" y2="45" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="75" x2="500" y2="75" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="105" x2="500" y2="105" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="145" x2="500" y2="145" stroke="#10b981" stroke-width="4"/>
                             <!-- Labels -->
-                            <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="62" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="25" y="92" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="25" y="127" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert)</text>
+                            <text x="25" y="37" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="67" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="25" y="97" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="25" y="137" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert)</text>
                             <!-- Betriebserdung am Trafo -->
-                            <line x1="50" y1="135" x2="50" y2="152" stroke="#10b981" stroke-width="2"/>
-                            <line x1="40" y1="152" x2="60" y2="152" stroke="#10b981" stroke-width="2"/>
-                            <line x1="44" y1="156" x2="56" y2="156" stroke="#10b981" stroke-width="2"/>
+                            <line x1="50" y1="145" x2="50" y2="168" stroke="#10b981" stroke-width="2"/>
+                            <line x1="38" y1="168" x2="62" y2="168" stroke="#10b981" stroke-width="2"/>
+                            <line x1="44" y1="173" x2="56" y2="173" stroke="#10b981" stroke-width="2"/>
                             <!-- Sicherung (LS-Schalter auf L1) -->
-                            <rect x="180" y="33" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="165" y="27" fill="#fff" font-size="9">Überstromschutz</text>
+                            <rect x="190" y="38" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="175" y="30" fill="#fff" font-size="9">LS-Schalter</text>
                             <!-- Verbraucher / Motor / Last -->
-                            <rect x="360" y="25" width="80" height="122" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="400" y="93" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
-                            <line x1="320" y1="40" x2="360" y2="40" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="135" x2="360" y2="135" stroke="#10b981" stroke-width="4"/>
+                            <rect x="370" y="30" width="100" height="130" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="420" y="100" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="330" y1="45" x2="370" y2="45" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="145" x2="370" y2="145" stroke="#10b981" stroke-width="4"/>
                         </svg>
-                        <p><em>Sicherheitshinweis:</em> Wegen der Gefahr bei einem PEN-Leiterbruch in neuen Anlagen unzulässig.</p>
+                        <p><em>Sicherheitshinweis:</em> Wegen der Brand- und Lebensgefahr bei einem PEN-Leiterbruch in Neuanlagen nicht mehr zulässig.</p>
                     </div>
 
                     <div class="article-section">
-                        <h3>2. TN-S-Netz (Getrenntes Netz)</h3>
-                        <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind im gesamten Netz strikt voneinander getrennt geführt.</p>
-                        <svg viewBox="0 0 500 190" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
+                        <h3>2. TN-S-Netz (Getrenntes Netz: N und PE getrennt)</h3>
+                        <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung strikt voneinander getrennt geführt.</p>
+                        <svg viewBox="0 0 520 200" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(59,130,246,0.3);">
+                            <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
                             <!-- Leitungen -->
-                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="60" x2="480" y2="60" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="90" x2="480" y2="90" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="125" x2="480" y2="125" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="20" y1="155" x2="480" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <line x1="20" y1="35" x2="500" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="65" x2="500" y2="65" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="95" x2="500" y2="95" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="130" x2="500" y2="130" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="20" y1="165" x2="500" y2="165" stroke="#10b981" stroke-width="4"/>
                             <!-- Labels -->
-                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="25" y="82" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="25" y="117" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
-                            <text x="25" y="147" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
-                            <!-- Betriebserdung am Trafo für Sternpunkt -->
-                            <line x1="50" y1="155" x2="50" y2="175" stroke="#10b981" stroke-width="2"/>
-                            <line x1="40" y1="175" x2="60" y2="175" stroke="#10b981" stroke-width="2"/>
-                            <line x1="44" y1="179" x2="56" y2="179" stroke="#10b981" stroke-width="2"/>
+                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="57" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="25" y="87" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="25" y="122" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
+                            <text x="25" y="157" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
+                            <!-- Betriebserdung am Trafo -->
+                            <line x1="50" y1="165" x2="50" y2="188" stroke="#10b981" stroke-width="2"/>
+                            <line x1="38" y1="188" x2="62" y2="188" stroke="#10b981" stroke-width="2"/>
+                            <line x1="44" y1="193" x2="56" y2="193" stroke="#10b981" stroke-width="2"/>
                             <!-- Sicherung -->
-                            <rect x="180" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <rect x="190" y="28" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Last -->
-                            <rect x="360" y="20" width="80" height="150" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="400" y="95" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
-                            <line x1="320" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="125" x2="360" y2="125" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="320" y1="155" x2="360" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <rect x="370" y="25" width="100" height="155" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="420" y="105" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="330" y1="35" x2="370" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="130" x2="370" y2="130" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="330" y1="165" x2="370" y2="165" stroke="#10b981" stroke-width="4"/>
                         </svg>
-                        <p><em>Vorteil:</em> Höchste Sicherheit, ideal für empfindliche Elektronik.</p>
+                        <p><em>Vorteil:</em> Höchste Sicherheit, perfekt für moderne IT- und Elektronikanlagen.</p>
                     </div>
 
                     <div class="article-section">
-                        <h3>3. TN-C-S-Netz (Kombiniert + Getrennt)</h3>
-                        <p><strong>Eigenschaften:</strong> Versorgung erfolgt im TN-C-System (mit PEN), ab dem Hausanschlusskasten (HAK) erfolgt die Aufteilung in getrennte N- und PE-Leiter (TN-S).</p>
-                        <svg viewBox="0 0 500 175" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">QUELLEN- / SPEISESEITE</text>
-                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="65" x2="480" y2="65" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="95" x2="480" y2="95" stroke="#f59e0b" stroke-width="3"/>
+                        <h3>3. TN-C-S-Netz (Standard im Wohnbau)</h3>
+                        <p><strong>Eigenschaften:</strong> Versorgung im TN-C-System (mit PEN), ab dem Hausanschlusskasten (HAK) erfolgt die Aufteilung in getrennte N- und PE-Leiter.</p>
+                        <svg viewBox="0 0 520 185" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(16,185,129,0.3);">
+                            <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">NETZSEITE / HAUSANSCHLUSS</text>
+                            <line x1="20" y1="35" x2="500" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="65" x2="500" y2="65" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="95" x2="500" y2="95" stroke="#f59e0b" stroke-width="3"/>
                             <!-- PEN bis Übergabepunkt -->
-                            <line x1="20" y1="140" x2="220" y2="140" stroke="#10b981" stroke-width="4"/>
-                            <text x="90" y="132" fill="#10b981" font-size="10">PEN-Leiter</text>
+                            <line x1="20" y1="145" x2="230" y2="145" stroke="#10b981" stroke-width="4"/>
+                            <text x="100" y="137" fill="#10b981" font-size="10">PEN-Leiter</text>
                             <!-- Aufteilungspunkt Marker -->
-                            <circle cx="220" cy="140" r="4" fill="#fff"/>
-                            <text x="210" y="160" fill="#fff" font-size="9">Aufteilung HAK</text>
+                            <circle cx="230" cy="145" r="5" fill="#fff"/>
+                            <text x="210" y="170" fill="#fff" font-size="9">Aufteilung (HAK)</text>
                             <!-- Abgetrennte Leiter ab HAK -->
-                            <line x1="220" y1="140" x2="480" y2="120" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="220" y1="140" x2="480" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <line x1="230" y1="145" x2="500" y2="120" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="230" y1="145" x2="500" y2="160" stroke="#10b981" stroke-width="4"/>
                             <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="245" y="112" fill="#3b82f6" font-size="10">N (getrennt)</text>
-                            <text x="245" y="167" fill="#10b981" font-size="10">PE (getrennt)</text>
-                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="260" y="112" fill="#3b82f6" font-size="10">N (getrennt)</text>
+                            <text x="260" y="175" fill="#10b981" font-size="10">PE (getrennt)</text>
+                            <rect x="190" y="28" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Last -->
-                            <rect x="370" y="25" width="70" height="140" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="405" y="95" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät</text>
-                            <line x1="320" y1="35" x2="370" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="122" x2="370" y2="122" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="320" y1="153" x2="370" y2="153" stroke="#10b981" stroke-width="4"/>
+                            <rect x="380" y="25" width="90" height="150" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="425" y="100" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="330" y1="35" x2="380" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="122" x2="380" y2="122" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="330" y1="157" x2="380" y2="157" stroke="#10b981" stroke-width="4"/>
                         </svg>
-                        <p><em>Standard:</em> Die in Europa am häufigsten eingesetzte Netzform im Wohnbau.</p>
+                        <p><em>Standard:</em> Das in Europa am häufigsten eingesetzte Netzsystem im Wohnbau.</p>
                     </div>
 
                     <div class="article-section">
                         <h3>4. TT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erdungspfad (Lokaler Erder RA) verbunden. Zwingend mit RCD (FI) abzusichern!</p>
-                        <svg viewBox="0 0 500 170" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">NETZ / TRAFO</text>
-                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="75" x2="480" y2="75" stroke="#3b82f6" stroke-width="3"/>
-                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">Außenleiter (L)</text>
-                            <text x="25" y="67" fill="#3b82f6" font-size="11" font-weight="bold">Neutralleiter (N)</text>
-                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                        <p><strong>Eigenschaften:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erder verbunden. Zwingend mit RCD (FI) abzusichern!</p>
+                        <svg viewBox="0 0 520 180" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(139,92,246,0.3);">
+                            <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">NETZ / TRAFO MIT BETRIEBSERDUNG</text>
+                            <line x1="20" y1="40" x2="500" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="80" x2="500" y2="80" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">Außenleiter (L)</text>
+                            <text x="25" y="72" fill="#3b82f6" font-size="11" font-weight="bold">Neutralleiter (N)</text>
+                            <rect x="190" y="33" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Lokaler Erder am Verbraucher -->
-                            <line x1="410" y1="115" x2="410" y2="140" stroke="#10b981" stroke-width="3"/>
-                            <line x1="395" y1="140" x2="425" y2="140" stroke="#10b981" stroke-width="3"/>
-                            <line x1="400" y1="146" x2="420" y2="146" stroke="#10b981" stroke-width="3"/>
-                            <text x="428" y="135" fill="#10b981" font-size="9">Lokaler Erder (RA)</text>
+                            <line x1="430" y1="125" x2="430" y2="155" stroke="#10b981" stroke-width="3"/>
+                            <line x1="415" y1="155" x2="445" y2="155" stroke="#10b981" stroke-width="3"/>
+                            <line x1="420" y1="161" x2="440" y2="161" stroke="#10b981" stroke-width="3"/>
+                            <text x="450" y="145" fill="#10b981" font-size="9">Lokaler Erder (RA)</text>
                             <!-- Last -->
-                            <rect x="360" y="25" width="100" height="90" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="410" y="73" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Betriebsmittel (TT)</text>
-                            <line x1="320" y1="35" x2="360" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="75" x2="360" y2="75" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="410" y1="115" x2="410" y2="115" stroke="#10b981"/>
+                            <rect x="370" y="30" width="120" height="95" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="430" y="82" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher (TT)</text>
+                            <line x1="330" y1="40" x2="370" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="80" x2="370" y2="80" stroke="#3b82f6" stroke-width="3"/>
                         </svg>
                     </div>
 
                     <div class="article-section">
                         <h3>5. IT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist entweder vollständig isoliert oder über eine hohe Impedanz hochohmig mit der Erde verbunden. Bei einem ersten Erdschluss fließt nahezu kein Fehlerstrom, weshalb die Anlage betriebsbereit bleibt. Ein Isolationswächter meldet den Fehler.</p>
-                        <svg viewBox="0 0 500 170" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">ISOLIERTE EINSPEISUNG</text>
-                            <!-- Leitungen -->
-                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="75" x2="480" y2="75" stroke="#f59e0b" stroke-width="3"/>
-                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="67" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <!-- Isolierter Trafo / Kreis Symbol -->
-                            <circle cx="100" cy="55" r="16" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="82" y="90" fill="#fff" font-size="9">Getrennt / Isoliert</text>
-                            <!-- Sicherung -->
-                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist isoliert oder hochohmig geerdet. Bei einem ersten Erdschluss fließt kaum Strom, die Anlage bleibt betriebsbereit. Ein Isolationswächter warnt.</p>
+                        <svg viewBox="0 0 520 185" style="width:100%; max-width:520px; background:rgba(0,0,0,0.5); border-radius:10px; padding:14px; margin:12px 0; border:1px solid rgba(236,72,153,0.3);">
+                            <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="bold">ISOLIERTE / HOCHOHMIGE EINSPEISUNG</text>
+                            <line x1="20" y1="40" x2="500" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="80" x2="500" y2="80" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="72" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <!-- Isolierter Trafo / Kreis -->
+                            <circle cx="110" cy="60" r="18" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="95" y="95" fill="#fff" font-size="9">Getrennt</text>
+                            <rect x="190" y="33" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Last -->
-                            <rect x="360" y="25" width="90" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="405" y="65" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
-                            <line x1="320" y1="35" x2="360" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="75" x2="360" y2="75" stroke="#3b82f6" stroke-width="3"/>
+                            <rect x="370" y="30" width="110" height="75" rx="6" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="425" y="72" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
+                            <line x1="330" y1="40" x2="370" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="330" y1="80" x2="370" y2="80" stroke="#3b82f6" stroke-width="3"/>
                             <!-- Schutzleiter zum Gehäuse -->
-                            <line x1="20" y1="130" x2="480" y2="130" stroke="#10b981" stroke-width="3"/>
-                            <text x="25" y="122" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde - Gehäuseanschluss)</text>
-                            <line x1="405" y1="95" x2="405" y2="130" stroke="#10b981" stroke-width="3"/>
+                            <line x1="20" y1="140" x2="500" y2="140" stroke="#10b981" stroke-width="3"/>
+                            <text x="25" y="132" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde - Gehäuse)</text>
+                            <line x1="425" y1="105" x2="425" y2="140" stroke="#10b981" stroke-width="3"/>
                         </svg>
                     </div>
                 `
@@ -1290,7 +1345,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Schutzerdung</strong></td>
-                                    <td>Das gezielte und niederohmige Verbinnden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
+                                    <td>Das gezielte und niederohmige Verbinden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Isolationsüberwachungssystem</strong></td>
@@ -1302,7 +1357,7 @@
 
                     <div class="article-section">
                         <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
-                        <p>These Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
+                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Maßnahme</th><th>Prinzip / Funktionsweise</th></tr>
@@ -1457,7 +1512,7 @@
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = '✨ Echte KI-Synthese (Unendlich)';
+                document.getElementById('quiz-heading').textContent = '✨ Erweiterte KI-Synthese (Unendlich)';
                 generateAICampaignBatch();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
@@ -1516,7 +1571,7 @@
             document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
             
             const current = quizData[currentQuestion];
-            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ Neuronale KI-Synthese</span><br>` : '';
+            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ Erweiterte Neuronale KI-Synthese</span><br>` : '';
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
@@ -1657,9 +1712,9 @@
             };
         }
 
-        // ==========================================
-        // ECHTER KI-FRAGEN-SYNTHESIZER (UNENDLICH)
-        // ==========================================
+        // =========================================================
+        // VERBESSERTER & ERWEITERTER KI-FRAGEN-SYNTHESIZER (UNENDLICH)
+        // =========================================================
         function generateAICampaignBatch() {
             clearInterval(timerInterval);
             const selectedTopic = document.getElementById('ai-topic-select').value;
@@ -1669,7 +1724,7 @@
             for (let i = 0; i < 5; i++) {
                 let topicToUse = selectedTopic;
                 if (topicToUse === 'random') {
-                    const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables'];
+                    const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables', 'ip'];
                     topicToUse = topics[Math.floor(Math.random() * topics.length)];
                 }
                 batch.push(buildNeuralAIQuestion(topicToUse, selectedDiff));
@@ -1699,7 +1754,7 @@
                 else level = 'hard';
             }
 
-            // KI-Engine: Generiert mathematisch exakte und kontextuell variierende Fragen
+            // Erweiterte neuronale KI-Generatoren mit intelligenten Parametervariationen
             const neuralGenerators = {
                 ohm: () => {
                     const scenarios = [
@@ -1710,36 +1765,36 @@
                     const scen = scenarios[Math.floor(Math.random() * scenarios.length)];
                     
                     if (scen.unit === "V") {
-                        const iVal = (Math.random() * 15 + 1).toFixed(1);
-                        const rVal = Math.floor(Math.random() * 45) + 5;
+                        const iVal = (Math.random() * 20 + 2).toFixed(1);
+                        const rVal = Math.floor(Math.random() * 50) + 4;
                         const ans = (parseFloat(iVal) * rVal).toFixed(2);
                         const correctStr = ans + " V";
                         const distractors = shuffleArray([
-                            (parseFloat(ans) * 1.2).toFixed(2) + " V",
-                            (parseFloat(ans) * 0.8).toFixed(2) + " V",
-                            (parseFloat(ans) + 12).toFixed(2) + " V"
+                            (parseFloat(ans) * 1.25).toFixed(2) + " V",
+                            (parseFloat(ans) * 0.75).toFixed(2) + " V",
+                            (parseFloat(ans) + 15).toFixed(2) + " V"
                         ]);
                         const options = shuffleArray([correctStr, ...distractors]);
                         return {
-                            question: `[KI-Synthese] In einem aktiven Messkreis fließt ein Strom von <b>${iVal} A</b> durch einen Prüfwiderstand von <b>${rVal} Ω</b>. Wie hoch ist der ermittelte Spannungsabfall (U)?`,
+                            question: `[Erweiterte KI] In einem aktiven Prüfkreis fließt ein Betriebsstrom von <b>${iVal} A</b> durch einen Lastwiderstand von <b>${rVal} Ω</b>. Wie hoch ist die abfallende Spannung (U) am Widerstand?`,
                             options: options,
                             answer: options.indexOf(correctStr),
                             explanation: `Berechnung über das Ohmsche Gesetz: ${scen.formula} = ${iVal}A × ${rVal}Ω = <b>${correctStr}</b>.`,
                             aiGenerated: true
                         };
                     } else if (scen.unit === "A") {
-                        const uVal = [12, 24, 110, 230, 400][Math.floor(Math.random() * 5)];
-                        const rVal = Math.floor(Math.random() * 90) + 10;
+                        const uVal = [12, 24, 48, 110, 230, 400][Math.floor(Math.random() * 6)];
+                        const rVal = Math.floor(Math.random() * 80) + 10;
                         const ans = (uVal / rVal).toFixed(2);
                         const correctStr = ans + " A";
                         const distractors = shuffleArray([
                             (parseFloat(ans) * 1.3).toFixed(2) + " A",
                             (parseFloat(ans) * 0.7).toFixed(2) + " A",
-                            (parseFloat(ans) + 2.5).toFixed(2) + " A"
+                            (parseFloat(ans) + 3.1).toFixed(2) + " A"
                         ]);
                         const options = shuffleArray([correctStr, ...distractors]);
                         return {
-                            question: `[KI-Synthese] Ein Verbraucher an einer ${uVal}V-Quelle besitzt eine Impedanz von <b>${rVal} Ω</b>. Welcher Betriebsstrom (I) stellt sich ein?`,
+                            question: `[Erweiterte KI] Ein Verbraucher an einer ${uVal}V-Quelle weist einen internen Widerstand von <b>${rVal} Ω</b> auf. Welcher Strom (I) fließt durch den Stromkreis?`,
                             options: options,
                             answer: options.indexOf(correctStr),
                             explanation: `Berechnung nach ${scen.formula}: ${uVal}V / ${rVal}Ω = <b>${correctStr}</b>.`,
@@ -1747,17 +1802,17 @@
                         };
                     } else {
                         const uVal = [24, 230, 400][Math.floor(Math.random() * 3)];
-                        const iVal = (Math.random() * 10 + 2).toFixed(1);
+                        const iVal = (Math.random() * 12 + 1.5).toFixed(1);
                         const ans = (uVal / parseFloat(iVal)).toFixed(2);
                         const correctStr = ans + " Ω";
                         const distractors = shuffleArray([
                             (parseFloat(ans) * 1.4).toFixed(2) + " Ω",
                             (parseFloat(ans) * 0.6).toFixed(2) + " Ω",
-                            (parseFloat(ans) + 5).toFixed(2) + " Ω"
+                            (parseFloat(ans) + 4.5).toFixed(2) + " Ω"
                         ]);
                         const options = shuffleArray([correctStr, ...distractors]);
                         return {
-                            question: `[KI-Synthese] An einem Bauteil liegt eine Spannung von ${uVal} V an und es wird ein Strom von <b>${iVal} A</b> gemessen. Welcher ohmsche Widerstand (R) liegt vor?`,
+                            question: `[Erweiterte KI] An einer Betriebskomponente liegt eine Spannung von ${uVal} V an und es wird ein Stromfluss von <b>${iVal} A</b> gemessen. Welcher Ohmsche Widerstand (R) resultiert daraus?`,
                             options: options,
                             answer: options.indexOf(correctStr),
                             explanation: `Berechnung nach ${scen.formula}: ${uVal}V / ${iVal}A = <b>${correctStr}</b>.`,
@@ -1766,22 +1821,22 @@
                     }
                 },
                 motor: () => {
-                    const currents = [8, 12, 16, 22, 32, 40];
+                    const currents = [6, 10, 16, 20, 25, 32, 50];
                     const i = currents[Math.floor(Math.random() * currents.length)];
-                    const cosVals = [0.81, 0.83, 0.86, 0.89, 0.92];
+                    const cosVals = [0.80, 0.82, 0.85, 0.88, 0.91, 0.94];
                     const cos = cosVals[Math.floor(Math.random() * cosVals.length)];
                     const p = ((Math.sqrt(3) * 400 * i * cos) / 1000);
                     const correctStr = p.toFixed(2) + " kW";
 
-                    let wrong1 = (p * 1.22).toFixed(2) + " kW";
-                    let wrong2 = (p * 0.78).toFixed(2) + " kW";
-                    let wrong3 = (p + 1.8).toFixed(2) + " kW";
+                    let wrong1 = (p * 1.18).toFixed(2) + " kW";
+                    let wrong2 = (p * 0.82).toFixed(2) + " kW";
+                    let wrong3 = (p + 2.1).toFixed(2) + " kW";
 
                     const options = shuffleArray([correctStr, wrong1, wrong2, wrong3]);
                     const correctIdx = options.indexOf(correctStr);
 
                     return {
-                        question: `[KI-Synthese] Ein Drehstrom-Asynchronmotor im Stern-Delta-Betrieb an 400V zieht im Nennpunkt einen Strom von <b>${i} A</b> bei einem Leistungsfaktor $\\cos\\varphi$ von <b>${cos}</b>. Wie hoch ist die abgegebene Wirkleistung?`,
+                        question: `[Erweiterte KI] Ein Drehstrom-Asynchronmotor im symmetrischen Betrieb an 400V Netzspannung nimmt einen Nennstrom von <b>${i} A</b> bei einem Leistungsfaktor $\\cos\\varphi = ${cos}$ auf. Wie groß ist die elektrische Wirkleistung?`,
                         options: options,
                         answer: correctIdx,
                         explanation: `Drehstrom-Wirkleistung: $P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi = 1,732 \\cdot 400\\text{V} \\cdot ${i}\\text{A} \\cdot ${cos} = \\mathbf{${correctStr}}$.`,
@@ -1791,12 +1846,12 @@
                 protection: () => {
                     const pool = [
                         { q: `Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`, opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s." },
-                        { q: `Warum ist in einem TT-Netz der Einsatz eines Fehlerstromschutzschalters (RCD) zwingend erforderlich?`, opts: ["Weil die Schleifenimpedanz oft zu hoch für eine Schnellauslösung durch LS-Schalter ist", "Weil Neutralleiter und Schutzleiter identisch sind", "Um Oberschwingungen zu kompensieren", "Weil in TT-Netzen keine Sicherungen erlaubt sind"], ans: 0, exp: "Im TT-Netz ist der Erdungswiderstand oft zu groß, sodass Überstromorgane im Fehlerfall nicht schnell genug auslösen; der RCD schützt zuverlässig." },
-                        { q: `Was kennzeichnet den Betrieb von Betriebsmitteln in Schutzklasse II (Schutzisolierung)?`, opts: ["Anschluss des Schutzleiters an das Metallgehäuse", "Verstärkte oder doppelte Isolierung ohne berührbare metallische Körper unter Spannung", "Ausschließlicher Betrieb mit Schutzkleinspannung SELV", "Überwachung durch Isolationswächter"], ans: 1, exp: "Schutzklasse II zeichnet sich durch doppelte oder verstärkte Isolierung aus; ein Schutzleiteranschluss ist nicht erforderlich." }
+                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B ist allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." },
+                        { q: `Welches Schutzziel verfolgt die Schutzmaßnahme 'Schutztrennung' nach ÖVE / VDE?`, opts: ["Die galvanische Trennung des Sekundärkreises von der Erde, um bei erstem Berühren eines aktiven Leiters keinen geschlossenen Fehlerstromkreis über den Boden zu erzeugen", "Die automatische Abschaltung innerhalb von 0,01 Sekunden durch Schmelzsicherungen", "Die Begrenzung des Kurzschlussstroms auf maximal 10 Ampere", "Das Erden aller berührbaren Metallteile über einen Tiefenerder"], ans: 0, exp: "Schutztrennung trennt den Stromkreis galvanisch vom Netz, weshalb ein Berühren eines spannungsführenden Leiters bei fehlender Erdung des Sekundärkreises ungefährlich ist." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `[KI-Synthese] ${selected.q}`,
+                        question: `[Erweiterte KI] ${selected.q}`,
                         options: shuffleArray(selected.opts),
                         answer: selected.opts.indexOf(selected.opts[selected.ans]),
                         explanation: selected.exp,
@@ -1805,12 +1860,26 @@
                 },
                 cables: () => {
                     const pool = [
-                        { q: `Wie verhält sich der Widerstand $R$ einer Kupferleitung, wenn sich bei gleicher Länge der Querschnitt von $1,5\\text{ mm}^2$ auf $3\\text{ mm}^2$ verdoppelt?`, opts: ["Er halbiert sich", "Er verdoppelt sich", "Er bleibt gleich", "Er vervierfacht sich"], ans: 0, exp: "Der Widerstand ist umgekehrt proportional zum Querschnitt ($R = \\rho \\cdot l / A$). Verdoppelung des Querschnitts halbiert den Widerstand." },
-                        { q: `Welche thermische Auswirkung hat die Häufung (Verlegung mehrerer Stromkreise in einem Kanal) auf isolierte Leitungen?`, opts: ["Erhöhte Wärmeabfuhr mit Steigerung der Strombelastbarkeit", "Wärmestau mit der Notwendigkeit von Reduktionsfaktoren für den Nennstrom", "Keine Auswirkung auf die Stromtragfähigkeit", "Automatische Erhöhung des Leitungsquerschnitts"], ans: 1, exp: "Häufung führt zu gegenseitiger Erwärmung, weshalb Korrekturfaktoren zur Reduzierung der zulässigen Strombelastbarkeit angewendet werden müssen." }
+                        { q: `Wie verändert sich der ohmsche Widerstand $R$ einer Kupferleitung, wenn die Länge verdoppelt und der Querschnitt ebenfalls verdoppelt wird?`, opts: ["Er bleibt exakt unverändert", "Er verdoppelt sich", "Er halbiert sich", "Er vervierfacht sich"], ans: 0, exp: "Nach $R = \\rho \\cdot l / A$ führt doppelte Länge zu doppeltem Widerstand, doppelter Querschnitt halbiert ihn wieder. Das Verhältnis bleibt gleich." },
+                        { q: `Welche Auswirkung hat die Häufung von mehreren belasteten Leitungen in einem Installationskanal auf die Stromtragfähigkeit?`, opts: ["Sie erfordert die Anwendung von Reduktionsfaktoren (Häufungsfaktoren) wegen verminderter Wärmeabgabe", "Sie erhöht die zulässige Stromstärke durch gegenseitige Induktion", "Sie hat keinerlei Einfluss auf die thermische Belastbarkeit", "Sie erzwingt den Austausch von Kupfer- gegen Aluminiumleitungen"], ans: 1, exp: "Häufung führt zum Wärmestau. Daher müssen Korrekturfaktoren angewendet werden, um eine Überhitzung der Isolierung zu verhindern." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `[KI-Synthese] ${selected.q}`,
+                        question: `[Erweiterte KI] ${selected.q}`,
+                        options: shuffleArray(selected.opts),
+                        answer: selected.opts.indexOf(selected.opts[selected.ans]),
+                        explanation: selected.exp,
+                        aiGenerated: true
+                    };
+                },
+                ip: () => {
+                    const pool = [
+                        { q: `Was bedeutet die Schutzart IP65 für ein elektrisches Betriebsmittel?`, opts: ["Vollständig staubdicht und Schutz gegen Strahlwasser aus allen Richtungen", "Nur spritzwassergeschützt ohne Schutz gegen Staub", "Schutz gegen zeitweises Untertauchen und groben Schmutz", "Berührungssicher für Kleinkinder und hitzebeständig bis 100°C"], ans: 0, exp: "Die erste Ziffer (6) steht für vollständigen Staubschutz, die zweite Ziffer (5) für Schutz gegen Strahlwasser aus einer Düse." },
+                        { q: `Welche Schutzart IPxx kennzeichnet ein Gehäuse, das gegen das Berühren mit Werkzeugen sowie gegen allseitiges Spritzwasser geschützt ist?`, opts: ["IP44", "IP20", "IPX7", "IP68"], ans: 0, exp: "IP44 bietet Schutz gegen feste Fremdkörper $\\ge 1,0\\text{ mm}$ (z.B. dünne Werkzeuge/Drähte) und Spritzwasser von allen Seiten." }
+                    ];
+                    const selected = pool[Math.floor(Math.random() * pool.length)];
+                    return {
+                        question: `[Erweiterte KI] ${selected.q}`,
                         options: shuffleArray(selected.opts),
                         answer: selected.opts.indexOf(selected.opts[selected.ans]),
                         explanation: selected.exp,
@@ -1905,4 +1974,3 @@
     </script>
 </body>
 </html>
-
