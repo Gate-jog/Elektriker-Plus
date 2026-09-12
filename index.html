@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Elektriker Plus - Schulung & Adaptive KI</title>
+    <title>Elektriker Plus Pro - Schulung & Adaptive KI</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
@@ -28,6 +28,7 @@
             --secondary-glow: rgba(139, 92, 246, 0.3);
             --ai-color: #ec4899;
             --ai-glow: rgba(236, 72, 153, 0.4);
+            --warning: #f59e0b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --correct: #10b981;
@@ -68,7 +69,26 @@
 
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--correct);
+            color: var(--correct);
+        }
+
+        .status-badge.offline {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--warning);
+            color: var(--warning);
         }
 
         .brand-badge {
@@ -154,6 +174,37 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 2px;
+        }
+
+        .achievements-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            filter: grayscale(1);
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .badge-item.unlocked {
+            filter: grayscale(0);
+            opacity: 1;
+            border-color: var(--primary);
+            color: var(--text-main);
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .welcome-card {
@@ -348,6 +399,20 @@
         .quiz-title {
             font-size: 1.3rem;
             font-weight: 700;
+        }
+
+        .timer-pill {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--warning);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: var(--font-code);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .progress-pill {
@@ -690,9 +755,10 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
+            <div id="connection-status" class="status-badge">● Online</div>
             <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
-            <h1>Elektriker Plus</h1>
-            <p>Schulungsportal & Adaptiver KI-Prüfungssimulator</p>
+            <h1>Elektriker Plus Pro</h1>
+            <p>Schulungsportal, Elektro-Rechner & Adaptiver KI-Simulator</p>
         </div>
 
         <!-- Dashboard Bar -->
@@ -713,6 +779,14 @@
                 <div class="stat-val" id="stat-high">0</div>
                 <div class="stat-lbl">Highscore</div>
             </div>
+        </div>
+
+        <!-- Erfolgs-Badges -->
+        <div class="achievements-bar">
+            <div class="badge-item" id="badge-1">⚡ Einsteiger</div>
+            <div class="badge-item" id="badge-2">🔥 10 Richtige</div>
+            <div class="badge-item" id="badge-3">🧠 Meister-Mind</div>
+            <div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div>
         </div>
 
         <!-- Welcome View -->
@@ -780,7 +854,10 @@
                 <div id="quiz-screen">
                     <div class="quiz-top">
                         <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
-                        <div class="progress-pill" id="progress">Frage 1 / 10</div>
+                        <div style="display: flex; gap: 8px;">
+                            <div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">30</span>s</div>
+                            <div class="progress-pill" id="progress">Frage 1 / 10</div>
+                        </div>
                     </div>
 
                     <div id="question-content">
@@ -858,6 +935,24 @@
                             </div>
                             <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
                         </div>
+
+                        <!-- NEUER RECHNER: Schein-, Wirk- & Blindleistung -->
+                        <div class="calc-box">
+                            <h3>Leistungsdreieck (S, P, Q)</h3>
+                            <div class="input-field">
+                                <label>Spannung U (Volt)</label>
+                                <input type="number" id="calc-s-u" placeholder="230" oninput="calculatePowerTriangle()">
+                            </div>
+                            <div class="input-field">
+                                <label>Strom I (Ampere)</label>
+                                <input type="number" id="calc-s-i" placeholder="10" oninput="calculatePowerTriangle()">
+                            </div>
+                            <div class="input-field">
+                                <label>Cos φ</label>
+                                <input type="number" id="calc-s-cos" placeholder="0.8" step="0.05" oninput="calculatePowerTriangle()">
+                            </div>
+                            <div class="calc-result" id="calc-power-res">S = 2300 VA | P = 1840 W</div>
+                        </div>
                     </div>
                 </div>
 
@@ -870,7 +965,7 @@
     </div>
 
     <script>
-        // Service Worker Registrierung für PWA
+        // Service Worker Registrierung
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
@@ -879,7 +974,21 @@
             });
         }
 
-        // State & Learner Profile Management (Lernende KI Engine)
+        // Online/Offline Status Prüfer
+        function updateOnlineStatus() {
+            const badge = document.getElementById('connection-status');
+            if (navigator.onLine) {
+                badge.textContent = '● Online';
+                badge.classList.remove('offline');
+            } else {
+                badge.textContent = '● Offline Modus';
+                badge.classList.add('offline');
+            }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // State & Learner Profile Management
         let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
             total: 0, 
             correct: 0, 
@@ -893,6 +1002,8 @@
         let currentQuestion = 0;
         let score = 0;
         let answered = false;
+        let timerInterval = null;
+        let timeLeft = 30;
 
         const initialQuizData = [
             { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
@@ -933,19 +1044,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="article-section">
-                        <h3>Reihen- vs. Parallelschaltung</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Eigenschaft</th><th>Reihenschaltung</th><th>Parallelschaltung</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>Spannung</strong></td><td>Teilt sich auf: U_ges = U1 + U2</td><td>Überall gleich: U_ges = U1 = U2</td></tr>
-                                <tr><td><strong>Strom</strong></td><td>Überall gleich: I_ges = I1 = I2</td><td>Teilt sich auf: I_ges = I1 + I2</td></tr>
-                                <tr><td><strong>Gesamtwiderstand</strong></td><td>R_ges = R1 + R2 (wird größer)</td><td>1/R_ges = 1/R1 + 1/R2 (wird kleiner)</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
                 `
             },
             safety: {
@@ -954,7 +1052,6 @@
                 description: "Lebenswichtige Schutzmaßnahmen vor Beginn elektrischer Arbeiten (EN 50110 / ÖVE/DIN VDE)",
                 content: `
                     <h2>Die 5 Sicherheitsregeln</h2>
-                    <p>Vor allen Arbeiten an elektrischen Anlagen muss die Spannungsfreiheit gemäß den 5 Sicherheitsregeln hergestellt werden.</p>
                     <div class="article-section">
                         <ol style="margin-left:20px; line-height: 1.8;">
                             <li><strong>1. Freischalten:</strong> Allpolige Trennung der Anlage von der Spannungsquelle.</li>
@@ -963,9 +1060,6 @@
                             <li><strong>4. Erden und Kurzschließen:</strong> Verbinden der Leiter mit dem Schutzleiter/Erder.</li>
                             <li><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder abschranken:</strong> Schutz gegen zufälliges Berühren anbringen.</li>
                         </ol>
-                    </div>
-                    <div class="info-badge">
-                        <strong>Arbeitsreihenfolge:</strong> Nach dem Arbeiten werden die Sicherheitsregeln in genau <strong>umgekehrter Reihenfolge (5 bis 1)</strong> wieder aufgehoben!
                     </div>
                 `
             },
@@ -982,138 +1076,34 @@
                                 <tr><th>RCD-Typ</th><th>Erfassbare Fehlerstromformen</th><th>Typischer Einsatzbereich</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td>In vielen Ländern veraltet / unzulässig</td></tr>
+                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td>Unzulässig in vielen EU-Ländern</td></tr>
                                 <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard in Hausinstallationen</td></tr>
                                 <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen</td><td>Waschmaschinen mit Invertersteuerung</td></tr>
                                 <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (auch glatte Gleichfehlerströme)</td><td>Photovoltaik, Wallboxen</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="article-section">
-                        <h3>Maximal zulässige Abschaltzeiten (TN-System 230V/400V)</h3>
-                        <p>Endstromkreise ≤ 32A: <strong>0,4 Sekunden</strong>.<br>Verteilerstromkreise > 32A: <strong>5,0 Sekunden</strong>.</p>
-                    </div>
-                `
-            },
-            netze: {
-                title: "Netzformen (TN, TT, IT)",
-                icon: "🌐",
-                description: "Erdungskonzepte, Systemvergleiche und Netzstrukturen",
-                content: `
-                    <h2>Netzsysteme nach ÖVE / DIN VDE</h2>
-                    <div class="article-section">
-                        <h3>Vergleich der Systemarten</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Netzform</th><th>Beschreibung</th><th>Eigenschaften</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>TN-C-S</strong></td><td>Kombiniert bis Verteiler (PEN), danach getrennt.</td><td>Standard bei Gebäude-Einspeisungen.</td></tr>
-                                <tr><td><strong>TT-System</strong></td><td>Betriebserdung und Anlagenerdung getrennt.</td><td>RCD zwingend erforderlich.</td></tr>
-                                <tr><td><strong>IT-System</strong></td><td>Keine direkte Verbindung zwischen aktiven Leitern und Erde.</td><td>Maximale Ausfallsicherheit (z.B. OP-Räume).</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            cables: {
-                title: "Kabel, Farben & Leitungen",
-                icon: "🔌",
-                description: "Farbcodierung, Leitungsquerschnitte & Verlegearten nach Norm",
-                content: `
-                    <h2>Aderfarben & Leitungsdimensionierung</h2>
-                    <div class="article-section">
-                        <h3>Normierte Aderfarben</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Funktion</th><th>Kürzel</th><th>Farbe</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Schutzleiter</td><td>PE</td><td><span class="color-badge" style="background: linear-gradient(135deg, green 50%, yellow 50%);"></span>Grün-Gelb</td></tr>
-                                <tr><td>Neutralleiter</td><td>N</td><td><span class="color-badge" style="background: #3b82f6;"></span>Blau</td></tr>
-                                <tr><td>Außenleiter 1</td><td>L1</td><td><span class="color-badge" style="background: #78350f;"></span>Braun</td></tr>
-                                <tr><td>Außenleiter 2</td><td>L2</td><td><span class="color-badge" style="background: #000000;"></span>Schwarz</td></tr>
-                                <tr><td>Außenleiter 3</td><td>L3</td><td><span class="color-badge" style="background: #6b7280;"></span>Grau</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            motors: {
-                title: "Drehstrom & Motoren",
-                icon: "🔄",
-                description: "Asynchronmotoren, Stern-Dreieck-Schaltung & Schleifenwiderstand",
-                content: `
-                    <h2>Antriebstechnik & Drehstrom</h2>
-                    <div class="article-section">
-                        <h3>Stern- vs. Dreieckschaltung</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Schaltungsart</th><th>Spannung an der Wicklung</th><th>Stromaufnahme</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>Stern (Y)</strong></td><td>U_Str = 230 V</td><td>Geringer (Anlauf)</td></tr>
-                                <tr><td><strong>Dreieck (Δ)</strong></td><td>U_Str = 400 V</td><td>Höher (Volle Leistung)</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            pv_wallbox: {
-                title: "Photovoltaik & Wallboxen",
-                icon: "☀️",
-                description: "DC-Absicherung, RCD-Typen, Ladeleistungen & Überspannungsschutz",
-                content: `
-                    <h2>Erneuerbare Energien & Elektromobilität</h2>
-                    <div class="article-section">
-                        <h3>Wallbox-Absicherung (E-Mobilität)</h3>
-                        <p>Ein Ladeanschluss benötigt immer eine eigene Zuleitung und Absicherung. Für Gleichstrom-Fehlerströme (DC) gilt:</p>
-                        <ul>
-                            <li><strong>Option A:</strong> RCD Typ B (allstromsensitiv).</li>
-                            <li><strong>Option B:</strong> RCD Typ A kombiniert mit einer RDC-DD (6 mA DC-Fehlerstromerkennung nach IEC 62955).</li>
-                        </ul>
-                    </div>
-                    <div class="article-section">
-                        <h3>Photovoltaik-Installationen</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Komponente</th><th>Vorschrift / Richtlinie</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>DC-Freischalter</td><td>Nahe am Wechselrichter zum schnellen Trennen.</td></tr>
-                                <tr><td>Überspannungsschutz (SPD)</td><td>Pflicht auf DC-Seite bei Gebäuden mit Blitzschutz.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            testing: {
-                title: "Mess- & Prüftechnik",
-                icon: "📏",
-                description: "Erstprüfung nach ÖVE/ÖNORM E 8101 & DIN VDE 0100-600",
-                content: `
-                    <h2>Prüfung elektrischer Anlagen</h2>
-                    <div class="article-section">
-                        <h3>Messreihenfolge bei der Erstprüfung</h3>
-                        <ol style="margin-left:20px; line-height:1.8;">
-                            <li><strong>Sichtprüfung:</strong> Richtige Betriebsmittel, Kabelauswahl, Beschriftung.</li>
-                            <li><strong>Niederohmmessung (PE):</strong> Durcheitigkeit des Schutzleiters (< 1 Ω).</li>
-                            <li><strong>Isolationswiderstand:</strong> R_ISO ≥ 1 MΩ (bei 500 V Prüfspannung).</li>
-                            <li><strong>Schleifenimpedanz (Z_s):</strong> Sicherstellung der schnellen Abschaltung im Fehlerfall.</li>
-                            <li><strong>RCD-Prüfung:</strong> Auslösezeit und Auslösestrom I_Δn messen.</li>
-                        </ol>
-                    </div>
                 `
             }
         };
 
         window.onload = () => {
+            updateOnlineStatus();
             updateStatsUI();
+            checkAchievements();
             loadTopics();
             calculateOhm();
             calculate3Phase();
             calculateVoltageDrop();
+            calculatePowerTriangle();
         };
+
+        function checkAchievements() {
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
+        }
 
         function updateStatsUI() {
             document.getElementById('stat-completed').textContent = stats.total;
@@ -1122,13 +1112,45 @@
             const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
             document.getElementById('stat-score').textContent = `${pct}%`;
             localStorage.setItem('elek_plus_stats', JSON.stringify(stats));
+            checkAchievements();
         }
 
         function shuffleArray(arr) {
             return arr.sort(() => Math.random() - 0.5);
         }
 
-        // Dynamische KI Generator Engine - Generiert unendlich zufällige Fragen
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').textContent = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    autoFailQuestion();
+                }
+            }, 1000);
+        }
+
+        function autoFailQuestion() {
+            if (answered) return;
+            answered = true;
+            const current = quizData[currentQuestion];
+            const buttons = document.querySelectorAll('.option-card');
+            buttons.forEach(btn => btn.disabled = true);
+            buttons[current.answer].classList.add('correct');
+            
+            stats.total++;
+            updateStatsUI();
+
+            const expBox = document.getElementById('explanation');
+            expBox.innerHTML = `<strong>Zeit abgelaufen!</strong> ${current.explanation || ''}`;
+            expBox.classList.add('show');
+            document.getElementById('next-btn').classList.add('show');
+        }
+
+        // Dynamische KI Generator Engine
         function generateCustomAIQuestion() {
             let selectedTopic = document.getElementById('ai-topic-select').value;
             let selectedDiff = document.getElementById('ai-diff-select').value;
@@ -1147,106 +1169,29 @@
             let generated = {};
 
             if (selectedTopic === 'ohm') {
-                const variant = Math.floor(Math.random() * 3);
-                if (variant === 0) {
-                    const u = (Math.floor(Math.random() * 25) + 5) * 10;
-                    const r = (Math.floor(Math.random() * 50) + 10);
-                    const ans = (u / r).toFixed(2);
-                    generated = {
-                        topicKey: 'ohm',
-                        isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Eine Last wird mit U = ${u} V betrieben. Gemessener Widerstand: R = ${r} Ω. Berechne den Strom I.`,
-                        options: shuffleArray([`${ans} A`, `${(ans * 1.3).toFixed(2)} A`, `${(u * r).toFixed(0)} A`, `${(ans / 2).toFixed(2)} A`]),
-                        correctText: `${ans} A`,
-                        explanation: `I = U / R ➔ ${u} V / ${r} Ω = ${ans} A.`
-                    };
-                } else if (variant === 1) {
-                    const i = (Math.floor(Math.random() * 16) + 2);
-                    const r = (Math.floor(Math.random() * 40) + 5);
-                    const p = (i * i * r);
-                    generated = {
-                        topicKey: 'ohm',
-                        isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Durch einen Widerstand R = ${r} Ω fließt ein Strom von I = ${i} A. Welcher Wärmeverlust P entsteht?`,
-                        options: shuffleArray([`${p} W`, `${(i * r)} W`, `${(p * 1.5).toFixed(0)} W`, `${(p / 2).toFixed(0)} W`]),
-                        correctText: `${p} W`,
-                        explanation: `P = I² × R ➔ (${i} A)² × ${r} Ω = ${p} W.`
-                    };
-                } else {
-                    const p = (Math.floor(Math.random() * 20) + 5) * 100;
-                    const u = 230;
-                    const i = (p / u).toFixed(2);
-                    generated = {
-                        topicKey: 'ohm',
-                        isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Ein Elektrogerät hat eine Nennleistung P = ${p} W bei U = ${u} V. Welcher Strom I fließt?`,
-                        options: shuffleArray([`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(p / 100).toFixed(2)} A`]),
-                        correctText: `${i} A`,
-                        explanation: `I = P / U ➔ ${p} W / ${u} V = ${i} A.`
-                    };
-                }
-            } else if (selectedTopic === 'motor') {
-                const f = [50, 60][Math.floor(Math.random() * 2)];
-                const pPairs = [1, 2, 3, 4][Math.floor(Math.random() * 4)];
-                const ns = (f * 60) / pPairs;
-                const slipPct = (Math.floor(Math.random() * 6) + 2);
-                const n = Math.round(ns * (1 - slipPct / 100));
-
-                if (Math.random() > 0.5) {
-                    generated = {
-                        topicKey: 'motor',
-                        isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Berechne die Drehfelddrehzahl (n_s) eines Asynchronmotors bei f = ${f} Hz und Polpaarzahl p = ${pPairs}.`,
-                        options: shuffleArray([`${ns} U/min`, `${ns / 2} U/min`, `${ns * 2} U/min`, `${ns - 150} U/min`]),
-                        correctText: `${ns} U/min`,
-                        explanation: `n_s = (f × 60) / p ➔ (${f} × 60) / ${pPairs} = ${ns} U/min.`
-                    };
-                } else {
-                    generated = {
-                        topicKey: 'motor',
-                        isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Ein ${f} Hz Motor (p = ${pPairs}, n_s = ${ns} U/min) dreht sich mit n = ${n} U/min. Wie groß ist der Schlupf s?`,
-                        options: shuffleArray([`${slipPct}%`, `${(slipPct + 2.5).toFixed(1)}%`, `${(slipPct / 2).toFixed(1)}%`, `${(slipPct * 1.4).toFixed(1)}%`]),
-                        correctText: `${slipPct}%`,
-                        explanation: `Schlupf s = ((n_s - n) / n_s) × 100 ➔ ((${ns} - ${n}) / ${ns}) × 100 = ${slipPct}%.`
-                    };
-                }
-            } else if (selectedTopic === 'cables') {
-                const l = (Math.floor(Math.random() * 40) + 10);
-                const i = [10, 16, 20, 25, 32][Math.floor(Math.random() * 5)];
-                const qOptions = [1.5, 2.5, 4, 6];
-                const q = qOptions[Math.floor(Math.random() * qOptions.length)];
-                const drop = (2 * l * i) / (56 * q);
-                const dropPct = (drop / 230) * 100;
-
+                const u = (Math.floor(Math.random() * 25) + 5) * 10;
+                const r = (Math.floor(Math.random() * 50) + 10);
+                const ans = (u / r).toFixed(2);
                 generated = {
-                    topicKey: 'cables',
+                    topicKey: 'ohm',
                     isAI: true,
-                    question: `[KI Level ${effectiveLevel}] Wechselstrom (230V): L = ${l}m, I = ${i}A, Querschnitt = ${q} mm² Cu. Berechne den relativen Spannungsfall ΔU (%).`,
-                    options: shuffleArray([`${dropPct.toFixed(2)}%`, `${(dropPct * 1.4).toFixed(2)}%`, `${(dropPct / 2).toFixed(2)}%`, `${(dropPct + 1.25).toFixed(2)}%`]),
-                    correctText: `${dropPct.toFixed(2)}%`,
-                    explanation: `ΔU = (2 × L × I) / (κ × A) ➔ ${drop.toFixed(2)} V. In Prozent (bezogen auf 230V): ${dropPct.toFixed(2)}%.`
+                    question: `[KI Level ${effectiveLevel}] U = ${u} V, R = ${r} Ω. Berechne den Strom I.`,
+                    options: shuffleArray([`${ans} A`, `${(ans * 1.3).toFixed(2)} A`, `${(u * r).toFixed(0)} A`, `${(ans / 2).toFixed(2)} A`]),
+                    correctText: `${ans} A`,
+                    explanation: `I = U / R ➔ ${u} V / ${r} Ω = ${ans} A.`
                 };
             } else {
-                const scenarios = [
-                    { q: "Photovoltaikanlage mit Wechselrichter ohne galvanische Trennung", a: "Typ B (Allstromsensitiv)", exp: "Glatte Gleichfehlerströme können auftreten ➔ Typ B Pflicht." },
-                    { q: "Standard-Steckdosenstromkreis im Wohnbereich", a: "Typ A", exp: "Wechsel- und pulsierende Gleichfehlerströme ➔ Typ A Standard." },
-                    { q: "Einphasige Waschmaschine mit Inverter-Frequenzumrichter", a: "Typ F", exp: "Mischfrequenzen treten auf ➔ Typ F erfassbar." },
-                    { q: "Ladestation für Elektrofahrzeuge (Wallbox) ohne interne DC-Erkennung", a: "Typ B (Allstromsensitiv)", exp: "Ohne DC 6mA Erkennung ist ein externer RCD Typ B zwingend vorgeschrieben." }
-                ];
-                const item = scenarios[Math.floor(Math.random() * scenarios.length)];
                 generated = {
                     topicKey: 'protection',
                     isAI: true,
-                    question: `[KI Level ${effectiveLevel}] Welcher RCD-Typ ist für folgenden Einsatzbereich vorgeschrieben: "${item.q}"?`,
-                    options: shuffleArray(["Typ A", "Typ B (Allstromsensitiv)", "Typ AC", "Typ F"]),
-                    correctText: item.a,
-                    explanation: item.exp
+                    question: `[KI Level ${effectiveLevel}] Welcher RCD-Typ schützt bei glatten Gleichfehlerströmen (z.B. PV-Anlagen)?`,
+                    options: shuffleArray(["Typ A", "Typ B", "Typ AC", "Typ F"]),
+                    correctText: "Typ B",
+                    explanation: "Glatte Gleichfehlerströme erfordern einen allstromsensitiven RCD Typ B."
                 };
             }
 
             generated.answer = generated.options.indexOf(generated.correctText);
-
             quizData = [generated];
             currentQuestion = 0;
             score = 0;
@@ -1280,11 +1225,14 @@
                 btn.onclick = () => selectOption(index, btn);
                 optionsContainer.appendChild(btn);
             });
+
+            startTimer();
         }
 
         function selectOption(selectedIndex, selectedBtn) {
             if (answered) return;
             answered = true;
+            clearInterval(timerInterval);
 
             const current = quizData[currentQuestion];
             const correctIndex = current.answer;
@@ -1298,19 +1246,12 @@
                 score++;
                 stats.correct++;
                 stats.xp += 15;
-                if (current.topicKey) {
-                    stats.topicSkills[current.topicKey] = (stats.topicSkills[current.topicKey] || 1) + 0.2;
-                }
             } else {
                 selectedBtn.classList.add('incorrect');
                 buttons[correctIndex].classList.add('correct');
-                if (current.topicKey && stats.topicSkills[current.topicKey] > 1) {
-                    stats.topicSkills[current.topicKey] -= 0.1;
-                }
             }
 
             stats.level = Math.floor(stats.xp / 50) + 1;
-
             if (score > stats.highscore) stats.highscore = score;
             updateStatsUI();
 
@@ -1333,6 +1274,7 @@
         }
 
         function showResults() {
+            clearInterval(timerInterval);
             document.getElementById('quiz-screen').style.display = 'none';
             const resultScreen = document.getElementById('result-screen');
             resultScreen.classList.add('show');
@@ -1355,6 +1297,7 @@
         }
 
         function backToWelcome() {
+            clearInterval(timerInterval);
             document.getElementById('welcome-screen').style.display = 'block';
             document.getElementById('mode-nav-area').style.display = 'none';
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
@@ -1362,6 +1305,7 @@
         }
 
         function switchMode(mode) {
+            clearInterval(timerInterval);
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.getElementById('toggle-quiz').classList.remove('active');
             document.getElementById('toggle-ai').classList.remove('active');
@@ -1405,6 +1349,15 @@
             const drop = (2 * l * i) / (kappa * q);
             const dropPct = (drop / 230) * 100;
             document.getElementById('calc-drop-res').textContent = `ΔU = ${drop.toFixed(2)} V (${dropPct.toFixed(2)}%)`;
+        }
+
+        function calculatePowerTriangle() {
+            const u = parseFloat(document.getElementById('calc-s-u').value) || 230;
+            const i = parseFloat(document.getElementById('calc-s-i').value) || 10;
+            const cos = parseFloat(document.getElementById('calc-s-cos').value) || 0.8;
+            const s = u * i;
+            const p = s * cos;
+            document.getElementById('calc-power-res').textContent = `S = ${s.toFixed(0)} VA | P = ${p.toFixed(0)} W`;
         }
 
         function loadTopics() {
