@@ -1899,37 +1899,35 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Professional Calculators
+        // Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = r > 0 ? (u / r).toFixed(2) : 0;
-            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i} A`;
+            const i = u / r;
+            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
-            const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
-            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p} kW`;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56;
-            const deltaU = (2 * l * i) / (kappa * q);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const du = (2 * l * i) / (56 * q);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            const a = maxU > 0 ? (2 * l * i) / (kappa * maxU) : 0;
+            const duMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const a = (2 * l * i) / (56 * duMax);
             document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
