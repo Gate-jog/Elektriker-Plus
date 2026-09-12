@@ -1160,178 +1160,179 @@
             netzsysteme: {
                 title: "Netzsysteme & Netzpläne (TN, TT, IT)",
                 icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. professioneller schematischer Pläne",
+                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. professioneller hochauflösender Netzschemata",
                 content: `
-                    <h2>Netzformen nach IEC 60364 (Inkl. präziser Netzschaltpläne)</h2>
-                    <p class="article-desc">Detaillierte grafische Darstellung der Erdungsverhältnisse inklusive Einspeisepunkt, Betriebserdung, Schutzleiterführung und Verbraucher.</p>
+                    <h2>Netzformen nach IEC 60364 (Präzise Netzschaltpläne)</h2>
+                    <p class="article-desc">Detaillierte, modern gestaltete grafische Darstellung der Erdungsverhältnisse, Einspeisepunkte, Schutzleiter- und Neutralleiterführung.</p>
                     
                     <div class="article-section">
                         <h3>1. TN-C-Netz (Kombiniertes Netz: PEN durchgehend)</h3>
-                        <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind als ein einziger PEN-Leiter von der Stromquelle bis zum Verbraucher geführt.</p>
-                        <svg viewBox="0 0 600 210" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:14px 0; border:1px solid rgba(245,158,11,0.3);">
-                            <text x="300" y="20" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">TN-C NETZSCHEMA (TRANSFORMATOR BIS VERBRAUCHER)</text>
+                        <p><strong>Prinzip:</strong> Neutralleiter und Schutzleiter sind als ein einziger PEN-Leiter von der Stromquelle bis zum Verbraucher geführt.</p>
+                        <svg viewBox="0 0 650 240" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(245,158,11,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <text x="325" y="24" fill="#f59e0b" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">TN-C NETZSCHEMA (TRANSFORMATOR BIS VERBRAUCHER)</text>
                             
-                            <!-- Trafo / Quelle links -->
-                            <rect x="20" y="35" width="80" height="135" rx="6" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/>
-                            <text x="60" y="55" fill="#f59e0b" font-size="10" text-anchor="middle" font-weight="bold">TRAFO</text>
-                            <!-- Trafo Sternpunkt Erdung -->
-                            <line x1="60" y1="135" x2="60" y2="155" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="155" x2="70" y2="155" stroke="#10b981" stroke-width="2"/>
-                            <line x1="54" y1="160" x2="66" y2="160" stroke="#10b981" stroke-width="2"/>
-                            <text x="60" y="173" fill="#10b981" font-size="9" text-anchor="middle">Betriebserder</text>
+                            <!-- Trafo -->
+                            <rect x="30" y="45" width="90" height="150" rx="8" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="75" y="70" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">TRAFO (Stern)</text>
+                            <line x1="75" y1="145" x2="75" y2="175" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="60" y1="175" x2="90" y2="175" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="66" y1="181" x2="84" y2="181" stroke="#10b981" stroke-width="2.5"/>
+                            <text x="75" y="196" fill="#10b981" font-size="9" text-anchor="middle" font-weight="600">Betriebserder</text>
 
-                            <!-- Leiter -->
-                            <line x1="100" y1="50" x2="560" y2="50" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="75" x2="560" y2="75" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="100" x2="560" y2="100" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="135" x2="560" y2="135" stroke="#10b981" stroke-width="4"/>
+                            <!-- Bus / Leitungen -->
+                            <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="90" x2="590" y2="90" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="120" x2="590" y2="120" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="155" x2="590" y2="155" stroke="#10b981" stroke-width="4.5"/>
 
-                            <text x="115" y="44" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="115" y="69" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="115" y="94" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="115" y="127" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert Schutz- u. Neutralleiter)</text>
+                            <text x="135" y="53" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="135" y="83" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="135" y="113" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="135" y="147" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert Schutz- u. Neutralleiter)</text>
 
-                            <!-- Betriebsmittel / Verbraucher -->
-                            <rect x="420" y="35" width="130" height="120" rx="8" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="485" y="90" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
-                            <text x="485" y="105" fill="#94a3b8" font-size="9" text-anchor="middle">(Gehäuse an PEN)</text>
-                            <line x1="390" y1="50" x2="420" y2="50" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="390" y1="135" x2="420" y2="135" stroke="#10b981" stroke-width="4"/>
+                            <!-- Verbraucher -->
+                            <rect x="440" y="40" width="160" height="145" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="520" y="95" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
+                            <text x="520" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">(Gehäuse an PEN)</text>
+                            
+                            <line x1="400" y1="60" x2="440" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="400" y1="155" x2="440" y2="155" stroke="#10b981" stroke-width="4.5"/>
                         </svg>
-                        <p><em>Sicherheitshinweis:</em> Wegen der Brand- und Lebensgefahr bei einem PEN-Leiterbruch in Neuanlagen nicht mehr zulässig.</p>
+                        <p><em>Sicherheitshinweis:</em> Wegen erhöhter Brand- und Lebensgefahr bei einem PEN-Leiterbruch (Ausfall des Schutzes) in Neuanlagen nicht mehr zulässig.</p>
                     </div>
 
                     <div class="article-section">
                         <h3>2. TN-S-Netz (Getrenntes Netz: N und PE getrennt)</h3>
-                        <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung strikt voneinander getrennt geführt.</p>
-                        <svg viewBox="0 0 600 220" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:14px 0; border:1px solid rgba(59,130,246,0.3);">
-                            <text x="300" y="20" fill="#3b82f6" font-size="11" font-weight="bold" text-anchor="middle">TN-S NETZSCHEMA (N & PE DURCHGEHEND GETRENNT)</text>
+                        <p><strong>Prinzip:</strong> Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung strikt voneinander getrennt geführt.</p>
+                        <svg viewBox="0 0 650 250" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(59,130,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <text x="325" y="24" fill="#3b82f6" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">TN-S NETZSCHEMA (N & PE DURCHGEHEND GETRENNT)</text>
                             
                             <!-- Trafo -->
-                            <rect x="20" y="30" width="80" height="155" rx="6" fill="rgba(59,130,246,0.08)" stroke="#3b82f6" stroke-width="1.5"/>
-                            <text x="60" y="50" fill="#3b82f6" font-size="10" text-anchor="middle" font-weight="bold">TRAFO</text>
-                            <line x1="60" y1="150" x2="60" y2="175" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="175" x2="70" y2="175" stroke="#10b981" stroke-width="2"/>
-                            <line x1="54" y1="180" x2="66" y2="180" stroke="#10b981" stroke-width="2"/>
+                            <rect x="30" y="35" width="90" height="175" rx="8" fill="rgba(59,130,246,0.08)" stroke="#3b82f6" stroke-width="2"/>
+                            <text x="75" y="58" fill="#3b82f6" font-size="11" font-weight="bold" text-anchor="middle">TRAFO</text>
+                            <line x1="75" y1="170" x2="75" y2="195" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="60" y1="195" x2="90" y2="195" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="66" y1="201" x2="84" y2="201" stroke="#10b981" stroke-width="2.5"/>
 
                             <!-- Leiter -->
-                            <line x1="100" y1="45" x2="560" y2="45" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="70" x2="560" y2="70" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="95" x2="560" y2="95" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="125" x2="560" y2="125" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="100" y1="155" x2="560" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <line x1="120" y1="50" x2="590" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="80" x2="590" y2="80" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="110" x2="590" y2="110" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="140" x2="590" y2="140" stroke="#3b82f6" stroke-width="3.5"/>
+                            <line x1="120" y1="175" x2="590" y2="175" stroke="#10b981" stroke-width="4.5"/>
 
-                            <text x="115" y="39" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="115" y="64" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="115" y="89" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="115" y="118" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
-                            <text x="115" y="148" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
+                            <text x="135" y="44" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="135" y="74" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="135" y="104" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="135" y="134" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
+                            <text x="135" y="167" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
 
                             <!-- Verbraucher -->
-                            <rect x="420" y="30" width="130" height="145" rx="8" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="485" y="95" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
-                            <text x="485" y="112" fill="#94a3b8" font-size="9" text-anchor="middle">(Gehäuse an PE)</text>
-                            <line x1="390" y1="45" x2="420" y2="45" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="390" y1="125" x2="420" y2="125" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="390" y1="155" x2="420" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <rect x="440" y="35" width="160" height="165" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="520" y="100" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
+                            <text x="520" y="120" fill="#94a3b8" font-size="9" text-anchor="middle">(Gehäuse an PE)</text>
+
+                            <line x1="400" y1="50" x2="440" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="400" y1="140" x2="440" y2="140" stroke="#3b82f6" stroke-width="3.5"/>
+                            <line x1="400" y1="175" x2="440" y2="175" stroke="#10b981" stroke-width="4.5"/>
                         </svg>
-                        <p><em>Vorteil:</em> Höchste Sicherheit, perfekt für moderne IT- und Elektronikanlagen.</p>
+                        <p><em>Vorteil:</em> Höchste Sicherheit, perfekt für empfindliche Elektronik- und IT-Anlagen.</p>
                     </div>
 
                     <div class="article-section">
-                        <h3>3. TN-C-S-Netz (Standard im Wohnbau)</h3>
-                        <p><strong>Eigenschaften:</strong> Versorgung im TN-C-System (mit PEN), ab dem Hausanschlusskasten (HAK) erfolgt die Aufteilung in getrennte N- und PE-Leiter.</p>
-                        <svg viewBox="0 0 600 220" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:14px 0; border:1px solid rgba(16,185,129,0.3);">
-                            <text x="300" y="20" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">TN-C-S NETZSCHEMA (AUFTEILUNG PEN -> N + PE IM HAK)</text>
+                        <h3>3. TN-C-S-Netz (Standard im modernen Wohnbau)</h3>
+                        <p><strong>Prinzip:</strong> Versorgung im TN-C-System (mit PEN), ab dem Hausanschlusskasten (HAK) erfolgt die Aufteilung in getrennte N- und PE-Leiter.</p>
+                        <svg viewBox="0 0 650 250" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(16,185,129,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <text x="325" y="24" fill="#10b981" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">TN-C-S NETZSCHEMA (AUFTEILUNG PEN -&gt; N + PE IM HAK)</text>
                             
                             <!-- Netzseite -->
-                            <line x1="20" y1="45" x2="260" y2="45" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="70" x2="260" y2="70" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="95" x2="260" y2="95" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="135" x2="260" y2="135" stroke="#10b981" stroke-width="4"/>
+                            <line x1="30" y1="50" x2="280" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="30" y1="80" x2="280" y2="80" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="30" y1="110" x2="280" y2="110" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="30" y1="155" x2="280" y2="155" stroke="#10b981" stroke-width="4.5"/>
                             
-                            <text x="30" y="39" fill="#f59e0b" font-size="10" font-weight="bold">L1</text>
-                            <text x="30" y="127" fill="#10b981" font-size="10" font-weight="bold">PEN-Leiter (Versorgung)</text>
+                            <text x="45" y="42" fill="#f59e0b" font-size="10" font-weight="bold">L1</text>
+                            <text x="45" y="147" fill="#10b981" font-size="10" font-weight="bold">PEN-Leiter (Versorgung)</text>
 
                             <!-- HAK / Aufteilungspunkt -->
-                            <rect x="250" y="30" width="40" height="125" rx="4" fill="rgba(255,255,255,0.08)" stroke="#fff" stroke-width="1.5"/>
-                            <text x="270" y="95" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">HAK</text>
-                            <circle cx="270" cy="135" r="5" fill="#fff"/>
+                            <rect x="280" y="35" width="45" height="150" rx="6" fill="rgba(255,255,255,0.08)" stroke="#fff" stroke-width="2"/>
+                            <text x="302" y="115" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold" transform="rotate(-90 302 115)">HAK / PA</text>
+                            <circle cx="302" cy="155" r="5" fill="#10b981"/>
 
                             <!-- Abgang getrennt -->
-                            <line x1="290" y1="45" x2="560" y2="45" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="290" y1="70" x2="560" y2="70" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="290" y1="95" x2="560" y2="95" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="270" y1="135" x2="560" y2="115" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="270" y1="135" x2="560" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <line x1="325" y1="50" x2="590" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="325" y1="80" x2="590" y2="80" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="325" y1="110" x2="590" y2="110" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="302" y1="155" x2="590" y2="135" stroke="#3b82f6" stroke-width="3.5"/>
+                            <line x1="302" y1="155" x2="590" y2="175" stroke="#10b981" stroke-width="4.5"/>
 
-                            <text x="310" y="108" fill="#3b82f6" font-size="10" font-weight="bold">N (getrennt)</text>
-                            <text x="310" y="170" fill="#10b981" font-size="10" font-weight="bold">PE (getrennt)</text>
+                            <text x="340" y="125" fill="#3b82f6" font-size="10" font-weight="bold">N (getrennt)</text>
+                            <text x="340" y="193" fill="#10b981" font-size="10" font-weight="bold">PE (getrennt)</text>
 
                             <!-- Verbraucher -->
-                            <rect x="430" y="30" width="130" height="150" rx="8" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="495" y="95" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
+                            <rect x="450" y="35" width="150" height="165" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="525" y="100" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
                         </svg>
-                        <p><em>Standard:</em> Das in Europa am häufigsten eingesetzte Netzsystem im Wohnbau.</p>
+                        <p><em>Standard:</em> Das in Europa am häufigsten eingesetzte Netzsystem im Wohnbau (vom EVU im TN-C geliefert, im Gebäude als TN-S weitergeführt).</p>
                     </div>
 
                     <div class="article-section">
                         <h3>4. TT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erder verbunden. Zwingend mit RCD (FI) abzusichern!</p>
-                        <svg viewBox="0 0 600 210" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:14px 0; border:1px solid rgba(139,92,246,0.3);">
-                            <text x="300" y="20" fill="#8b5cf6" font-size="11" font-weight="bold" text-anchor="middle">TT NETZSCHEMA (LOKALER ERDER RA AM VERBRAUCHER)</text>
+                        <p><strong>Prinzip:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erder (lokaler Erder $R_A$) verbunden. Zwingend mit RCD (FI) abzusichern!</p>
+                        <svg viewBox="0 0 650 240" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(139,92,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <text x="325" y="24" fill="#8b5cf6" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">TT NETZSCHEMA (LOKALER ERDER RA AM VERBRAUCHER)</text>
                             
                             <!-- Trafo -->
-                            <rect x="20" y="35" width="80" height="120" rx="6" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="1.5"/>
-                            <text x="60" y="55" fill="#8b5cf6" font-size="10" text-anchor="middle" font-weight="bold">TRAFO</text>
-                            <line x1="60" y1="120" x2="60" y2="145" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="145" x2="70" y2="145" stroke="#10b981" stroke-width="2"/>
-                            <line x1="54" y1="150" x2="66" y2="150" stroke="#10b981" stroke-width="2"/>
-                            <text x="60" y="165" fill="#10b981" font-size="8" text-anchor="middle">Quelle-Erde</text>
+                            <rect x="30" y="40" width="90" height="145" rx="8" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
+                            <text x="75" y="65" fill="#8b5cf6" font-size="11" font-weight="bold" text-anchor="middle">TRAFO</text>
+                            <line x1="75" y1="145" x2="75" y2="170" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="60" y1="170" x2="90" y2="170" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="66" y1="176" x2="84" y2="176" stroke="#10b981" stroke-width="2.5"/>
+                            <text x="75" y="195" fill="#10b981" font-size="9" text-anchor="middle">Quell-Erder</text>
 
                             <!-- Leiter -->
-                            <line x1="100" y1="55" x2="560" y2="55" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="95" x2="560" y2="95" stroke="#3b82f6" stroke-width="3"/>
-                            <text x="115" y="48" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
-                            <text x="115" y="88" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
+                            <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="110" x2="590" y2="110" stroke="#3b82f6" stroke-width="3.5"/>
+                            <text x="135" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
+                            <text x="135" y="102" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
 
                             <!-- Verbraucher mit lokalem Erder -->
-                            <rect x="420" y="30" width="130" height="135" rx="8" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="485" y="70" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
+                            <rect x="440" y="35" width="150" height="155" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="515" y="80" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
                             
                             <!-- Lokaler Erder Ra -->
-                            <line x1="485" y1="130" x2="485" y2="160" stroke="#10b981" stroke-width="3"/>
-                            <line x1="470" y1="160" x2="500" y2="160" stroke="#10b981" stroke-width="3"/>
-                            <line x1="476" y1="166" x2="494" y2="166" stroke="#10b981" stroke-width="3"/>
-                            <text x="485" y="181" fill="#10b981" font-size="9" text-anchor="middle">Lokaler Erder (RA)</text>
+                            <line x1="515" y1="140" x2="515" y2="175" stroke="#10b981" stroke-width="3.5"/>
+                            <line x1="495" y1="175" x2="535" y2="175" stroke="#10b981" stroke-width="3.5"/>
+                            <line x1="503" y1="182" x2="527" y2="182" stroke="#10b981" stroke-width="3.5"/>
+                            <text x="515" y="200" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">Lokaler Erder (RA)</text>
                         </svg>
                     </div>
 
                     <div class="article-section">
                         <h3>5. IT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist isoliert oder hochohmig geerdet. Bei einem ersten Erdschluss fließt kaum Strom, die Anlage bleibt betriebsbereit. Ein Isolationswächter warnt.</p>
-                        <svg viewBox="0 0 600 210" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:14px 0; border:1px solid rgba(236,72,153,0.3);">
-                            <text x="300" y="20" fill="#ec4899" font-size="11" font-weight="bold" text-anchor="middle">IT NETZSCHEMA (ISOLIERTE / HOCHOHMIGE EINSPEISUNG)</text>
+                        <p><strong>Prinzip:</strong> Die aktive Einspeisung ist isoliert oder hochohmig geerdet. Bei einem ersten Erdschluss fließt kaum Strom, die Anlage bleibt betriebsbereit. Ein Isolationswächter warnt.</p>
+                        <svg viewBox="0 0 650 240" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(236,72,153,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <text x="325" y="24" fill="#ec4899" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">IT NETZSCHEMA (ISOLIERTE / HOCHOHMIGE EINSPEISUNG)</text>
                             
                             <!-- Isolierte Quelle -->
-                            <rect x="20" y="35" width="80" height="120" rx="6" fill="rgba(236,72,153,0.08)" stroke="#ec4899" stroke-width="1.5"/>
-                            <text x="60" y="55" fill="#ec4899" font-size="10" text-anchor="middle" font-weight="bold">TRAFO (IT)</text>
-                            <circle cx="60" cy="95" r="16" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="60" y="99" fill="#fff" font-size="8" text-anchor="middle">Isoliert</text>
+                            <rect x="30" y="40" width="90" height="145" rx="8" fill="rgba(236,72,153,0.08)" stroke="#ec4899" stroke-width="2"/>
+                            <text x="75" y="65" fill="#ec4899" font-size="11" font-weight="bold" text-anchor="middle">TRAFO (IT)</text>
+                            <circle cx="75" cy="110" r="18" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="75" y="114" fill="#fff" font-size="9" text-anchor="middle">Isoliert</text>
 
                             <!-- Leiter -->
-                            <line x1="100" y1="55" x2="560" y2="55" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="100" y1="95" x2="560" y2="95" stroke="#3b82f6" stroke-width="3"/>
-                            <text x="115" y="48" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="115" y="88" fill="#3b82f6" font-size="11" font-weight="bold">L2 / N</text>
+                            <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
+                            <line x1="120" y1="110" x2="590" y2="110" stroke="#3b82f6" stroke-width="3.5"/>
+                            <text x="135" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="135" y="102" fill="#3b82f6" font-size="11" font-weight="bold">L2 / N</text>
 
                             <!-- Verbraucher + Körpererdung -->
-                            <rect x="420" y="30" width="130" height="135" rx="8" fill="rgba(6,182,212,0.12)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="485" y="70" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">GERÄT (IT)</text>
-                            <line x1="485" y1="130" x2="485" y2="160" stroke="#10b981" stroke-width="3"/>
-                            <line x1="470" y1="160" x2="500" y2="160" stroke="#10b981" stroke-width="3"/>
-                            <line x1="476" y1="166" x2="494" y2="166" stroke="#10b981" stroke-width="3"/>
-                            <text x="485" y="181" fill="#10b981" font-size="9" text-anchor="middle">Körper-Erder</text>
+                            <rect x="440" y="35" width="150" height="155" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="515" y="80" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">GERÄT (IT)</text>
+                            <line x1="515" y1="140" x2="515" y2="175" stroke="#10b981" stroke-width="3.5"/>
+                            <line x1="495" y1="175" x2="535" y2="175" stroke="#10b981" stroke-width="3.5"/>
+                            <line x1="503" y1="182" x2="527" y2="182" stroke="#10b981" stroke-width="3.5"/>
+                            <text x="515" y="200" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">Körper-Erder</text>
                         </svg>
                     </div>
                 `
@@ -1859,7 +1860,7 @@
                 protection: () => {
                     const pool = [
                         { q: `Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`, opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s." },
-                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B is allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." },
+                        { q: `Welche primäre Aufgabe erfüllt ein Fehlerstromschutzschalter (RCD) Typ B im Vergleich zu Typ A?`, opts: ["Er erkennt zusätzlich glatte Gleichfehlerströme", "Er ersetzt den Leitungsschutzschalter komplett bei Überlast", "Er misst ausschließlich Spannungsspitzen über 1000V", "Er erhöht die Netzfrequenz von 50Hz auf 60Hz"], ans: 0, exp: "Typ B ist allstromsensitiv und detektiert neben Wechselfehlerströmen auch glatte Gleichfehlerströme (z.B. durch Photovoltaikanlagen und Wallboxen)." },
                         { q: `Welches Schutzziel verfolgt die Schutzmaßnahme 'Schutztrennung' nach ÖVE / VDE?`, opts: ["Die galvanische Trennung des Sekundärkreises von der Erde, um bei erstem Berühren eines aktiven Leiters keinen geschlossenen Fehlerstromkreis über den Boden zu erzeugen", "Die automatische Abschaltung innerhalb von 0,01 Sekunden durch Schmelzsicherungen", "Die Begrenzung des Kurzschlussstroms auf maximal 10 Ampere", "Das Erden aller berührbaren Metallteile über einen Tiefenerder"], ans: 0, exp: "Schutztrennung trennt den Stromkreis galvanisch vom Netz, weshalb ein Berühren eines spannungsführenden Leiters bei fehlender Erdung des Sekundärkreises ungefährlich ist." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
@@ -1873,7 +1874,7 @@
                 },
                 cables: () => {
                     const pool = [
-                        { q: `Wie verändert sich der ohmsche Widerstand $R$ einer Kupferleitung, wenn die Länge verdoppelt und der Querschnitt ebenfalls verdoppelt wird?`, opts: ["Er bleibt exakt unverändert", "Er verdoppelt sich", "Er halbiert sich", "Er vervierfacht sich"], ans: 0, exp: "Nach $R = \\rho \\cdot l / A$ führt doppelte Länge zu doppeltem Widerstand, doppelter Querschnitt halbiert ihn wieder. Das Verhältnis bleibt gleich." },
+                        { q: `Wie verändert sich der ohmsche Widerstand $R$ einer Kupferleitung, wenn die Länge verdoppelt und der Querschnitt ebenfalls verdoppelt wird?`, opts: ["Er bleibt exakt unverändert", "Er verdoppelt sich", "Er halbiert sich", "Er vervierfacht sich"], ans: 0, exp: "Nach $R = \\rho \\cdot l / A$ führt doppelte Länge zu doppeltem Widerstand, doppelter Querschnitt halbiert ihn wieder. Das Verhältnis bleibt exakt gleich." },
                         { q: `Welche Auswirkung hat die Häufung von mehreren belasteten Leitungen in einem Installationskanal auf die Stromtragfähigkeit?`, opts: ["Sie erfordert die Anwendung von Reduktionsfaktoren (Häufungsfaktoren) wegen verminderter Wärmeabgabe", "Sie erhöht die zulässige Stromstärke durch gegenseitige Induktion", "Sie hat keinerlei Einfluss auf die thermische Belastbarkeit", "Sie erzwingt den Austausch von Kupfer- gegen Aluminiumleitungen"], ans: 0, exp: "Häufung führt zum Wärmestau. Daher müssen Korrekturfaktoren angewendet werden, um eine Überhitzung der Isolierung zu verhindern." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
@@ -1887,8 +1888,8 @@
                 },
                 ip: () => {
                     const pool = [
-                        { q: `Was bedeutet die Schutzart IP65 für ein elektrisches Betriebsmittel?`, opts: ["Vollständig staubdicht und Schutz gegen Strahlwasser aus allen Richtungen", "Nur spritzwassergeschützt ohne Schutz gegen Staub", "Schutz gegen zeitweises Untertauchen und groben Schmutz", "Berührungssicher für Kleinkinder und hitzebeständig bis 100°C"], ans: 0, exp: "Die erste Ziffer (6) steht für vollständigen Staubschutz, die zweite Ziffer (5) für Schutz gegen Strahlwasser aus einer Düse." },
-                        { q: `Welche Schutzart IPxx kennzeichnet ein Gehäuse, das gegen das Berühren mit Werkzeugen sowie gegen allseitiges Spritzwasser geschützt ist?`, opts: ["IP44", "IP20", "IPX7", "IP68"], ans: 0, exp: "IP44 bietet Schutz gegen feste Fremdkörper $\\ge 1,0\\text{ mm}$ (z.B. dünne Werkzeuge/Drähte) und Spritzwasser von allen Seiten." }
+                        { q: `Was bedeutet die Schutzart IP54 bei einem elektrischen Betriebsmittel?`, opts: ["Staubgeschützt und schützt gegen allseitiges Spritzwasser", "Vollständig staubdicht und dauerhaft wasserdicht (tauchfähig)", "Berührungssicher, aber keinerlei Feuchtigkeitsschutz", "Geschützt nur gegen senkrecht fallendes Tropfwasser"], ans: 0, exp: "Die Ziffer 5 steht für Staubschutz (kein staubdicht, aber schädliche Ablagerungen werden verhindert), die 4 für Schutz gegen allseitiges Spritzwasser." },
+                        { q: `Welche IP-Schutzart ist für elektrische Betriebsmittel im direkten Außenbereich ohne Vordach mindestens für Steckdosen gefordert?`, opts: ["IP20", "IP44", "IPX0", "IP68"], ans: 1, exp: "IP44 ist der Mindeststandard im Außenbereich gegen Spritzwasser und Fremdkörper." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
@@ -1901,19 +1902,16 @@
                 }
             };
 
-            return neuralGenerators[topicKey]();
+            return neuralGenerators[topicKey] ? neuralGenerators[topicKey]() : neuralGenerators.ohm();
         }
 
-        // Learning Topics & Search
-        function loadTopics(filter = '') {
+        // Learning & Calculators UI Functions
+        function loadTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
             
             Object.keys(learningContent).forEach(key => {
                 const topic = learningContent[key];
-                if (filter && !topic.title.toLowerCase().includes(filter.toLowerCase()) && !topic.description.toLowerCase().includes(filter.toLowerCase())) {
-                    return;
-                }
                 const card = document.createElement('div');
                 card.className = 'topic-card';
                 card.innerHTML = `
@@ -1921,22 +1919,37 @@
                     <h3>${topic.title}</h3>
                     <p>${topic.description}</p>
                 `;
-                card.onclick = () => openTopic(key);
+                card.onclick = () => openArticle(key);
                 container.appendChild(card);
             });
         }
 
         function filterTopics() {
-            const query = document.getElementById('search-input').value;
-            loadTopics(query);
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+
+            Object.keys(learningContent).forEach(key => {
+                const topic = learningContent[key];
+                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
+                    const card = document.createElement('div');
+                    card.className = 'topic-card';
+                    card.innerHTML = `
+                        <div class="topic-icon-box">${topic.icon}</div>
+                        <h3>${topic.title}</h3>
+                        <p>${topic.description}</p>
+                    `;
+                    card.onclick = () => openArticle(key);
+                    container.appendChild(card);
+                }
+            });
         }
 
-        function openTopic(key) {
-            const topic = learningContent[key];
-            if (!topic) return;
+        function openArticle(key) {
             document.getElementById('topics-view').style.display = 'none';
-            document.getElementById('content-view').style.display = 'block';
-            document.getElementById('content-container').innerHTML = topic.content;
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1946,7 +1959,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Rechner Logik
+        // Rechner
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -1964,8 +1977,9 @@
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const du = (2 * l * i) / (56 * q);
+            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const kappa = 56; // Leitfähigkeit Kupfer m/(Ω*mm²)
+            const du = (2 * l * i) / (kappa * a);
             const pct = (du / 230) * 100;
             document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
@@ -1974,8 +1988,9 @@
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
             const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const q = (2 * l * i) / (56 * du);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+            const kappa = 56;
+            const a = (2 * l * i) / (kappa * du);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
