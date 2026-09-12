@@ -935,11 +935,11 @@
                             <h3>Ohmsches Gesetz (U, I, R)</h3>
                             <div class="input-field">
                                 <label>Spannung U (Volt)</label>
-                                <input type="number" id="calc-u" placeholder="230" oninput="calculateOhm()">
+                                <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
                             </div>
                             <div class="input-field">
                                 <label>Widerstand R (Ohm)</label>
-                                <input type="number" id="calc-r" placeholder="10" oninput="calculateOhm()">
+                                <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
                             </div>
                             <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
                         </div>
@@ -949,11 +949,11 @@
                             <h3>Drehstrom-Leistung (P)</h3>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i3" placeholder="16" oninput="calculate3Phase()">
+                                <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
                             </div>
                             <div class="input-field">
                                 <label>Cos φ (Leistungsfaktor)</label>
-                                <input type="number" id="calc-cos" placeholder="0.85" step="0.05" oninput="calculate3Phase()">
+                                <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
                             </div>
                             <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
                         </div>
@@ -963,11 +963,11 @@
                             <h3>Spannungsfall (ΔU) - 1-phasig</h3>
                             <div class="input-field">
                                 <label>Länge l (m, einfach)</label>
-                                <input type="number" id="calc-len" placeholder="25" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i-drop" placeholder="16" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Querschnitt A (mm² Cu)</label>
@@ -987,15 +987,15 @@
                             <h3>Mindestquerschnitt (A) berechnen</h3>
                             <div class="input-field">
                                 <label>Länge l (m)</label>
-                                <input type="number" id="calc-q-len" placeholder="30" oninput="calculateCrossSection()">
+                                <input type="number" id="calc-q-len" value="30" oninput="calculateCrossSection()">
                             </div>
                             <div class="input-field">
                                 <label>Max. Strom I (A)</label>
-                                <input type="number" id="calc-q-i" placeholder="16" oninput="calculateCrossSection()">
+                                <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
                             </div>
                             <div class="input-field">
                                 <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
-                                <input type="number" id="calc-q-u" placeholder="6.9" oninput="calculateCrossSection()">
+                                <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
                             </div>
                             <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
                         </div>
@@ -1356,6 +1356,61 @@
             if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
         }
 
+        // Navigation & Views
+        function startMode(mode) {
+            currentMode = mode;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            clearInterval(timerInterval);
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.getElementById('welcome-screen').style.display = 'block';
+            document.getElementById('mode-nav-area').style.display = 'none';
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            clearInterval(timerInterval);
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+
+            if (mode === 'quiz') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-quiz').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-heading').textContent = '⚡ Standard Wissenstest';
+                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
+                restartQuizState();
+            } else if (mode === 'schemas') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-schemas').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-heading').textContent = '📐 Schaltsymbole & Pläne Quiz';
+                quizData = generateSymbolQuizBatch(5);
+                restartQuizState();
+            } else if (mode === 'ai') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-ai').classList.add('active');
+                document.getElementById('ai-config').style.display = 'grid';
+                document.getElementById('quiz-heading').textContent = '✨ Adaptiver KI-Modus';
+                generateCustomAIQuestion();
+            } else if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+            }
+        }
+
+        function restartQuizState() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
+        }
+
         // Quiz Logic
         function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
 
@@ -1403,7 +1458,6 @@
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
-            // Schaltsymbol-Anzeige steuern
             const symbolDisp = document.getElementById('symbol-display');
             if (current.symbol) {
                 symbolDisp.innerHTML = current.symbol;
@@ -1490,8 +1544,11 @@
             clearInterval(timerInterval);
             if (currentMode === 'schemas') {
                 quizData = generateSymbolQuizBatch(5);
-            } else {
+            } else if (currentMode === 'quiz') {
                 quizData = shuffleArray([...initialQuizData]).slice(0, 5);
+            } else {
+                generateCustomAIQuestion();
+                return;
             }
             currentQuestion = 0;
             score = 0;
@@ -1538,7 +1595,7 @@
             };
         }
 
-        // KI MODUS GENERIERUNGS-ENGINE (IMMER NEUE SCHALTSYMBOL- & THEORIEFRAGEN)
+        // KI MODUS GENERIERUNGS-ENGINE
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
             answered = true;
@@ -1581,10 +1638,9 @@
                     const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
                     const r = Math.floor(Math.random() * 45) + 5;
                     const i = (u / r).toFixed(2);
-                    const p = ((u * u) / r).toFixed(0);
                     return {
                         question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
-                        options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
+                        options: [`${i} A`, `${(Number(i) * 1.5).toFixed(2)} A`, `${(Number(i) * 0.5).toFixed(2)} A`, `${(Number(i) * 0.8).toFixed(2)} A`],
                         answer: 0,
                         explanation: `Nach dem Ohmschen Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
                         aiGenerated: true
@@ -1603,130 +1659,65 @@
                     };
                 },
                 protection: () => {
-                    const theoryPool = [
-                        {
-                            question: `Welches Netzsystem zeichnet sich dadurch aus, dass im HAK der PEN-Leiter in PE und N aufgetrennt wird?`,
-                            options: [`TN-C-S-Netz`, `IT-Netz`, `Reines TN-C-Netz`, `TT-Netz`],
-                            answer: 0,
-                            explanation: `Im modernen TN-C-S-Netz kommt ein PEN vom Versorger und wird beim Hausanschluss in separate PE- und N-Leiter aufgeteilt.`
-                        },
-                        {
-                            question: `Welcher RCD-Typ schützt allstromsensitiv auch vor glatten Gleichfehlerströmen (z.B. für Wallboxen)?`,
-                            options: [`Typ A`, `Typ B`, `Typ AC`, `Typ F`],
-                            answer: 1,
-                            explanation: `Typ B Schalter erkennen sowohl Wechselfehlerströme als auch glatte Gleichfehlerströme.`
-                        }
-                    ];
-                    return { ...theoryPool[Math.floor(Math.random() * theoryPool.length)], aiGenerated: true };
+                    return {
+                        question: `Welches Netzsystem zeichnet sich dadurch aus, dass im HAK der PEN-Leiter in PE und N aufgetrennt wird?`,
+                        options: [`TN-C-S-Netz`, `IT-Netz`, `Reines TN-C-Netz`, `TT-Netz`],
+                        answer: 0,
+                        explanation: `Im modernen TN-C-S-Netz kommt ein PEN vom Versorger und wird beim Hausanschluss in separate PE- und N-Leiter aufgeteilt.`,
+                        aiGenerated: true
+                    };
                 },
                 cables: () => {
-                    const len = [15, 25, 40, 50][Math.floor(Math.random() * 4)];
-                    const current = 16;
-                    const q = 2.5;
-                    const du = ((2 * len * current) / (56 * q)).toFixed(2);
                     return {
-                        question: `Berechnen Sie den Spannungsfall ΔU für eine 1-phasige Kupferleitung (2,5 mm²) bei <b>${len}m Länge</b> und 16A Belastung.`,
-                        options: [`${(du * 1.4).toFixed(2)} V`, `${du} V`, `${(du * 0.7).toFixed(2)} V`, `${(du * 2.0).toFixed(2)} V`],
+                        question: `Welcher maximale Spannungsfall (ΔU) wird für normale Beleuchtungsstromkreise ab Hausanschluss nach Norm empfohlen?`,
+                        options: [`Max. 1.0 %`, `Max. 3.0 %`, `Max. 8.0 %`, `Max. 15.0 %`],
                         answer: 1,
-                        explanation: `Formel: ΔU = (2 × l × I) / (κ × A).<br>Berechnung: (2 × ${len}m × 16A) / (56 × 2,5mm²) = <b>${du} V</b>.`,
+                        explanation: `Für Lichtanlagen gilt ein empfohlener max. Spannungsfall von 3 % (für sonstige Verbraucher max. 5 %).`,
                         aiGenerated: true
                     };
                 }
             };
 
-            const selectedGen = generators[topic] || generators['symbols'];
-            return selectedGen();
-        }
-
-        // Navigation Modes
-        function startMode(mode) {
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('mode-nav-area').style.display = 'block';
-            switchMode(mode);
-        }
-
-        function backToWelcome() {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.getElementById('mode-nav-area').style.display = 'none';
-            document.getElementById('welcome-screen').style.display = 'block';
-            clearInterval(timerInterval);
-        }
-
-        function switchMode(mode) {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
-            
-            const targetArea = (mode === 'ai' || mode === 'schemas') ? 'quiz' : mode;
-            document.getElementById(`${targetArea}-mode`).classList.add('active');
-            
-            const btnElem = document.getElementById(`toggle-${mode}`);
-            if(btnElem) btnElem.classList.add('active');
-            
-            currentMode = mode;
-            clearInterval(timerInterval);
-
-            if (mode === 'quiz') {
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = "⚡ Standard Wissenstest";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-                currentQuestion = 0;
-                score = 0;
-                loadQuestion();
-            } else if (mode === 'schemas') {
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = "📐 Schaltsymbole & Schaltpläne Quiz";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
-                quizData = generateSymbolQuizBatch(5);
-                currentQuestion = 0;
-                score = 0;
-                loadQuestion();
-            } else if (mode === 'ai') {
-                document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = "✨ KI Modus";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
-                generateCustomAIQuestion();
-            } else if (mode === 'learn') {
-                backToTopics();
+            if (generators[topic]) {
+                return generators[topic]();
             }
+            return generateDynamicSymbolQuestion();
         }
 
-        // Learning & Calculators Functions
-        function loadTopics() {
+        // Lernbereich & Rechner
+        function loadTopics(filter = '') {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
+            
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
+                if (filter && !item.title.toLowerCase().includes(filter) && !item.description.toLowerCase().includes(filter)) {
+                    return;
+                }
+                
                 const card = document.createElement('div');
                 card.className = 'topic-card';
+                card.onclick = () => openArticle(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${item.icon}</div>
                     <h3>${item.title}</h3>
                     <p>${item.description}</p>
                 `;
-                card.onclick = () => openArticle(key);
                 container.appendChild(card);
             });
         }
 
         function filterTopics() {
             const query = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.querySelectorAll('.topic-card');
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(query) ? 'block' : 'none';
-            });
+            loadTopics(query);
         }
 
         function openArticle(key) {
-            const item = learningContent[key];
             document.getElementById('topics-view').style.display = 'none';
-            document.getElementById('content-view').style.display = 'block';
-            document.getElementById('content-container').innerHTML = item.content;
-            window.scrollTo(0, 0);
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
@@ -1734,15 +1725,12 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
+        // Rechner-Logik
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 0;
-            if (r > 0) {
-                const i = (u / r).toFixed(2);
-                document.getElementById('calc-ohm-res').textContent = `Strom I = ${i} A`;
-            } else {
-                document.getElementById('calc-ohm-res').textContent = `R muss > 0 sein`;
-            }
+            const r = parseFloat(document.getElementById('calc-r').value) || 1;
+            const i = u / r;
+            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
@@ -1756,23 +1744,23 @@
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Cu Leitfähigkeit
-            const u = (2 * l * i) / (kappa * q);
-            const pct = (u / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${u.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const kappa = 56; // Leitfähigkeit Kupfer m/(Ω*mm²)
+            
+            // 1-phasig: ΔU = 2 * l * I / (kappa * q)
+            const deltaU = (2 * l * i) / (kappa * q);
+            const pct = (deltaU / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 0;
-            const kappa = 56; // Kupfer
-            if (du > 0) {
-                const q = (2 * l * i) / (kappa * du);
-                document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
-            } else {
-                document.getElementById('calc-q-res').textContent = `Bitte ΔU > 0 eingeben`;
-            }
+            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const kappa = 56;
+            
+            // Umgestellte Formel für A: A = (2 * l * I) / (kappa * ΔU)
+            const a = (2 * l * i) / (kappa * maxU);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
