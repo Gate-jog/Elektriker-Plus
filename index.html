@@ -804,7 +804,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Ohm, Netzformen, Drehstrom, Kabel)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, PV, Wallbox, Ohm, Netzformen, Drehstrom)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -982,12 +982,16 @@
                                 <tr><th>RCD-Typ</th><th>Erfassbare Fehlerstromformen</th><th>Typischer Einsatzbereich</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td>In vielen Ländern veraltet</td></tr>
+                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td>In vielen Ländern veraltet / unzulässig</td></tr>
                                 <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard in Hausinstallationen</td></tr>
                                 <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen</td><td>Waschmaschinen mit Invertersteuerung</td></tr>
                                 <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (auch glatte Gleichfehlerströme)</td><td>Photovoltaik, Wallboxen</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="article-section">
+                        <h3>Maximal zulässige Abschaltzeiten (TN-System 230V/400V)</h3>
+                        <p>Endstromkreise ≤ 32A: <strong>0,4 Sekunden</strong>.<br>Verteilerstromkreise > 32A: <strong>5,0 Sekunden</strong>.</p>
                     </div>
                 `
             },
@@ -1054,6 +1058,52 @@
                         </table>
                     </div>
                 `
+            },
+            pv_wallbox: {
+                title: "Photovoltaik & Wallboxen",
+                icon: "☀️",
+                description: "DC-Absicherung, RCD-Typen, Ladeleistungen & Überspannungsschutz",
+                content: `
+                    <h2>Erneuerbare Energien & Elektromobilität</h2>
+                    <div class="article-section">
+                        <h3>Wallbox-Absicherung (E-Mobilität)</h3>
+                        <p>Ein Ladeanschluss benötigt immer eine eigene Zuleitung und Absicherung. Für Gleichstrom-Fehlerströme (DC) gilt:</p>
+                        <ul>
+                            <li><strong>Option A:</strong> RCD Typ B (allstromsensitiv).</li>
+                            <li><strong>Option B:</strong> RCD Typ A kombiniert mit einer RDC-DD (6 mA DC-Fehlerstromerkennung nach IEC 62955).</li>
+                        </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>Photovoltaik-Installationen</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Komponente</th><th>Vorschrift / Richtlinie</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>DC-Freischalter</td><td>Nahe am Wechselrichter zum schnellen Trennen.</td></tr>
+                                <tr><td>Überspannungsschutz (SPD)</td><td>Pflicht auf DC-Seite bei Gebäuden mit Blitzschutz.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            testing: {
+                title: "Mess- & Prüftechnik",
+                icon: "📏",
+                description: "Erstprüfung nach ÖVE/ÖNORM E 8101 & DIN VDE 0100-600",
+                content: `
+                    <h2>Prüfung elektrischer Anlagen</h2>
+                    <div class="article-section">
+                        <h3>Messreihenfolge bei der Erstprüfung</h3>
+                        <ol style="margin-left:20px; line-height:1.8;">
+                            <li><strong>Sichtprüfung:</strong> Richtige Betriebsmittel, Kabelauswahl, Beschriftung.</li>
+                            <li><strong>Niederohmmessung (PE):</strong> Durcheitigkeit des Schutzleiters (< 1 Ω).</li>
+                            <li><strong>Isolationswiderstand:</strong> R_ISO ≥ 1 MΩ (bei 500 V Prüfspannung).</li>
+                            <li><strong>Schleifenimpedanz (Z_s):</strong> Sicherstellung der schnellen Abschaltung im Fehlerfall.</li>
+                            <li><strong>RCD-Prüfung:</strong> Auslösezeit und Auslösestrom I_Δn messen.</li>
+                        </ol>
+                    </div>
+                `
             }
         };
 
@@ -1078,15 +1128,15 @@
             return arr.sort(() => Math.random() - 0.5);
         }
 
-        // Adaptive KI Generator Engine
+        // Dynamische KI Generator Engine - Generiert unendlich zufällige Fragen
         function generateCustomAIQuestion() {
             let selectedTopic = document.getElementById('ai-topic-select').value;
             let selectedDiff = document.getElementById('ai-diff-select').value;
 
+            const availableTopics = ['ohm', 'motor', 'protection', 'cables'];
             if (selectedTopic === 'auto') {
                 const keys = Object.keys(stats.topicSkills);
-                // Wähle bevorzugt Themen mit schwächerem Skill-Level
-                selectedTopic = keys.sort((a,b) => stats.topicSkills[a] - stats.topicSkills[b])[0];
+                selectedTopic = keys.sort((a,b) => stats.topicSkills[a] - stats.topicSkills[b])[0] || availableTopics[Math.floor(Math.random() * availableTopics.length)];
             }
 
             let effectiveLevel = stats.level;
@@ -1095,12 +1145,12 @@
             if (selectedDiff === 'hard') effectiveLevel = 5;
 
             let generated = {};
-            const lastTopicKey = selectedTopic;
 
             if (selectedTopic === 'ohm') {
-                if (effectiveLevel <= 2) {
-                    const u = (Math.floor(Math.random() * 20) + 5) * 10;
-                    const r = (Math.floor(Math.random() * 40) + 10);
+                const variant = Math.floor(Math.random() * 3);
+                if (variant === 0) {
+                    const u = (Math.floor(Math.random() * 25) + 5) * 10;
+                    const r = (Math.floor(Math.random() * 50) + 10);
                     const ans = (u / r).toFixed(2);
                     generated = {
                         topicKey: 'ohm',
@@ -1110,9 +1160,9 @@
                         correctText: `${ans} A`,
                         explanation: `I = U / R ➔ ${u} V / ${r} Ω = ${ans} A.`
                     };
-                } else {
-                    const i = (Math.floor(Math.random() * 15) + 2);
-                    const r = (Math.floor(Math.random() * 30) + 5);
+                } else if (variant === 1) {
+                    const i = (Math.floor(Math.random() * 16) + 2);
+                    const r = (Math.floor(Math.random() * 40) + 5);
                     const p = (i * i * r);
                     generated = {
                         topicKey: 'ohm',
@@ -1122,20 +1172,32 @@
                         correctText: `${p} W`,
                         explanation: `P = I² × R ➔ (${i} A)² × ${r} Ω = ${p} W.`
                     };
+                } else {
+                    const p = (Math.floor(Math.random() * 20) + 5) * 100;
+                    const u = 230;
+                    const i = (p / u).toFixed(2);
+                    generated = {
+                        topicKey: 'ohm',
+                        isAI: true,
+                        question: `[KI Level ${effectiveLevel}] Ein Elektrogerät hat eine Nennleistung P = ${p} W bei U = ${u} V. Welcher Strom I fließt?`,
+                        options: shuffleArray([`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(p / 100).toFixed(2)} A`]),
+                        correctText: `${i} A`,
+                        explanation: `I = P / U ➔ ${p} W / ${u} V = ${i} A.`
+                    };
                 }
             } else if (selectedTopic === 'motor') {
-                const pPairs = [1, 2, 3][Math.floor(Math.random() * 3)];
                 const f = [50, 60][Math.floor(Math.random() * 2)];
+                const pPairs = [1, 2, 3, 4][Math.floor(Math.random() * 4)];
                 const ns = (f * 60) / pPairs;
-                const slipPct = (Math.floor(Math.random() * 5) + 2);
-                const n = Math.round(ns * (1 - slipPct/100));
+                const slipPct = (Math.floor(Math.random() * 6) + 2);
+                const n = Math.round(ns * (1 - slipPct / 100));
 
-                if (effectiveLevel <= 2) {
+                if (Math.random() > 0.5) {
                     generated = {
                         topicKey: 'motor',
                         isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Berechne die Synchrondrehzahl (n_s) eines Motors bei f = ${f} Hz und Polpaarzahl p = ${pPairs}.`,
-                        options: shuffleArray([`${ns} U/min`, `${ns / 2} U/min`, `${ns * 2} U/min`, `${ns - 100} U/min`]),
+                        question: `[KI Level ${effectiveLevel}] Berechne die Drehfelddrehzahl (n_s) eines Asynchronmotors bei f = ${f} Hz und Polpaarzahl p = ${pPairs}.`,
+                        options: shuffleArray([`${ns} U/min`, `${ns / 2} U/min`, `${ns * 2} U/min`, `${ns - 150} U/min`]),
                         correctText: `${ns} U/min`,
                         explanation: `n_s = (f × 60) / p ➔ (${f} × 60) / ${pPairs} = ${ns} U/min.`
                     };
@@ -1143,45 +1205,46 @@
                     generated = {
                         topicKey: 'motor',
                         isAI: true,
-                        question: `[KI Level ${effectiveLevel}] Ein ${f} Hz Motor (p = ${pPairs}) dreht mit n = ${n} U/min. Wie groß ist der Schlupf s in Prozent?`,
-                        options: shuffleArray([`${slipPct}%`, `${(slipPct + 2).toFixed(1)}%`, `${(slipPct / 2).toFixed(1)}%`, `${(slipPct * 1.5).toFixed(1)}%`]),
+                        question: `[KI Level ${effectiveLevel}] Ein ${f} Hz Motor (p = ${pPairs}, n_s = ${ns} U/min) dreht sich mit n = ${n} U/min. Wie groß ist der Schlupf s?`,
+                        options: shuffleArray([`${slipPct}%`, `${(slipPct + 2.5).toFixed(1)}%`, `${(slipPct / 2).toFixed(1)}%`, `${(slipPct * 1.4).toFixed(1)}%`]),
                         correctText: `${slipPct}%`,
-                        explanation: `n_s = ${ns} U/min. Schlupf s = (n_s - n) / n_s ➔ (${ns} - ${n}) / ${ns} = ${slipPct}%.`
+                        explanation: `Schlupf s = ((n_s - n) / n_s) × 100 ➔ ((${ns} - ${n}) / ${ns}) × 100 = ${slipPct}%.`
                     };
                 }
             } else if (selectedTopic === 'cables') {
-                const l = (Math.floor(Math.random() * 30) + 10);
+                const l = (Math.floor(Math.random() * 40) + 10);
                 const i = [10, 16, 20, 25, 32][Math.floor(Math.random() * 5)];
-                const q = 2.5;
+                const qOptions = [1.5, 2.5, 4, 6];
+                const q = qOptions[Math.floor(Math.random() * qOptions.length)];
                 const drop = (2 * l * i) / (56 * q);
                 const dropPct = (drop / 230) * 100;
 
                 generated = {
                     topicKey: 'cables',
                     isAI: true,
-                    question: `[KI Level ${effectiveLevel}] Wechselstrom 230V: l = ${l}m, I = ${i}A, Kupfer 2,5 mm². Berechne den relativen Spannungsfall ΔU (%).`,
-                    options: shuffleArray([`${dropPct.toFixed(2)}%`, `${(dropPct * 1.4).toFixed(2)}%`, `${(dropPct / 2).toFixed(2)}%`, `${(dropPct + 1.2).toFixed(2)}%`]),
+                    question: `[KI Level ${effectiveLevel}] Wechselstrom (230V): L = ${l}m, I = ${i}A, Querschnitt = ${q} mm² Cu. Berechne den relativen Spannungsfall ΔU (%).`,
+                    options: shuffleArray([`${dropPct.toFixed(2)}%`, `${(dropPct * 1.4).toFixed(2)}%`, `${(dropPct / 2).toFixed(2)}%`, `${(dropPct + 1.25).toFixed(2)}%`]),
                     correctText: `${dropPct.toFixed(2)}%`,
-                    explanation: `ΔU = (2 × l × I) / (κ × A) ➔ ${drop.toFixed(2)} V. In % bezogen auf 230V: ${dropPct.toFixed(2)}%.`
+                    explanation: `ΔU = (2 × L × I) / (κ × A) ➔ ${drop.toFixed(2)} V. In Prozent (bezogen auf 230V): ${dropPct.toFixed(2)}%.`
                 };
             } else {
-                const rcdScenarios = [
-                    { q: "PV-Anlage mit Frequenzumrichter ohne galvanische Trennung", a: "Typ B (Allstromsensitiv)", exp: "Glatte Gleichfehlerströme möglich ➔ Typ B Pflicht." },
+                const scenarios = [
+                    { q: "Photovoltaikanlage mit Wechselrichter ohne galvanische Trennung", a: "Typ B (Allstromsensitiv)", exp: "Glatte Gleichfehlerströme können auftreten ➔ Typ B Pflicht." },
                     { q: "Standard-Steckdosenstromkreis im Wohnbereich", a: "Typ A", exp: "Wechsel- und pulsierende Gleichfehlerströme ➔ Typ A Standard." },
-                    { q: "Einphasige Inverter-Waschmaschine", a: "Typ F", exp: "Mischfrequenzen treten auf ➔ Typ F erfassbar." }
+                    { q: "Einphasige Waschmaschine mit Inverter-Frequenzumrichter", a: "Typ F", exp: "Mischfrequenzen treten auf ➔ Typ F erfassbar." },
+                    { q: "Ladestation für Elektrofahrzeuge (Wallbox) ohne interne DC-Erkennung", a: "Typ B (Allstromsensitiv)", exp: "Ohne DC 6mA Erkennung ist ein externer RCD Typ B zwingend vorgeschrieben." }
                 ];
-                const item = rcdScenarios[Math.floor(Math.random() * rcdScenarios.length)];
+                const item = scenarios[Math.floor(Math.random() * scenarios.length)];
                 generated = {
                     topicKey: 'protection',
                     isAI: true,
-                    question: `[KI Level ${effectiveLevel}] Welcher RCD-Typ ist für folgenden Anwendungsfall vorgeschrieben: "${item.q}"?`,
+                    question: `[KI Level ${effectiveLevel}] Welcher RCD-Typ ist für folgenden Einsatzbereich vorgeschrieben: "${item.q}"?`,
                     options: shuffleArray(["Typ A", "Typ B (Allstromsensitiv)", "Typ AC", "Typ F"]),
                     correctText: item.a,
                     explanation: item.exp
                 };
             }
 
-            // Mappe Antwort-Index
             generated.answer = generated.options.indexOf(generated.correctText);
 
             quizData = [generated];
@@ -1246,7 +1309,6 @@
                 }
             }
 
-            // KI-Skill Level Berechnung
             stats.level = Math.floor(stats.xp / 50) + 1;
 
             if (score > stats.highscore) stats.highscore = score;
