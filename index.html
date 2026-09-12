@@ -229,7 +229,7 @@
         
         .menu-options {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin: 32px 0 16px;
         }
@@ -238,7 +238,7 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
             border-radius: var(--radius-md);
-            padding: 32px 20px;
+            padding: 28px 20px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
@@ -254,11 +254,11 @@
         }
 
         .menu-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+            font-size: 2.3rem;
+            margin-bottom: 14px;
             background: rgba(255, 255, 255, 0.03);
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -267,10 +267,10 @@
         }
 
         .menu-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .menu-description {
@@ -317,15 +317,16 @@
             border-radius: 14px;
             border: 1px solid var(--card-border);
             gap: 4px;
+            flex-wrap: wrap;
         }
 
         .toggle-btn {
-            padding: 10px 18px;
+            padding: 10px 14px;
             border-radius: 10px;
             border: none;
             background: transparent;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -789,7 +790,7 @@
             <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
             <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
             <h1>Elektriker Pro</h1>
-            <p>Schulungsportal, Elektro-Rechner & KI Modus</p>
+            <p>Schulungsportal, Schaltsymbole, Elektro-Rechner & KI Modus</p>
         </div>
 
         <!-- Dashboard Bar -->
@@ -829,17 +830,22 @@
                 <div class="menu-option" onclick="startMode('quiz')">
                     <div class="menu-icon">📝</div>
                     <div class="menu-title">Standard Quiz</div>
-                    <div class="menu-description">Praxisnahe Fachfragen & Schaltsymbole nach ÖVE/DIN Standards.</div>
+                    <div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div>
+                </div>
+                <div class="menu-option" onclick="startMode('symbols')">
+                    <div class="menu-icon">📐</div>
+                    <div class="menu-title">Schaltsymbole Quiz</div>
+                    <div class="menu-description">Spezial-Quiz für genormte Schaltzeichen und Symbole.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
-                    <div class="menu-title">KI Modus</div>
-                    <div class="menu-description">Dynamische Theorie-, Symbol- & Rechenaufgaben, angepasst an dein Skill-Level.</div>
+                    <div class="menu-title">KI Modus (Unendlich)</div>
+                    <div class="menu-description">Generiert automatisch immer neue Fragen zu Schaltsymbolen & Theorie.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
-                    <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Umfangreiches Nachschlagewerk, Symbolkartei & Profi-Rechner.</div>
+                    <div class="menu-title">Lernbereich & Rechner</div>
+                    <div class="menu-description">Nachschlagewerk mit RCD, Taster, Schalter, Netzen & Profi-Rechnern.</div>
                 </div>
             </div>
         </div>
@@ -850,8 +856,9 @@
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
+                    <button class="toggle-btn" id="toggle-symbols" onclick="switchMode('symbols')">📐 Symbole</button>
                     <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI Modus</button>
-                    <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
+                    <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen</button>
                 </div>
             </div>
         </div>
@@ -863,12 +870,10 @@
                     <div class="config-group">
                         <label>Themenbereich</label>
                         <select id="ai-topic-select" class="config-select">
-                            <option value="auto">🤖 Automatisch (Alle Themen & Symbole)</option>
-                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
+                            <option value="symbols">📐 Schaltsymbole & Schaltpläne (Fokus)</option>
+                            <option value="auto">🤖 Alle Themen gemischt</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
-                            <option value="motor">Drehstrom & Asynchronmotor</option>
-                            <option value="protection">Schutzmaßnahmen, Normen & RCD</option>
-                            <option value="cables">Leitungsbemessung & Zonen</option>
+                            <option value="protection">Schutzmaßnahmen & RCD</option>
                         </select>
                     </div>
                     <div class="config-group">
@@ -877,10 +882,9 @@
                             <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
                             <option value="easy">Leicht (Grundlagen)</option>
                             <option value="medium">Mittel (Facharbeiter)</option>
-                            <option value="hard">Schwer (Meister/Techniker)</option>
                         </select>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ KI-Frage Generieren</button>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue KI-Frage</button>
                 </div>
 
                 <div id="quiz-screen">
@@ -914,7 +918,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Schaltsymbole, RCD, PV, Wallbox, Netzformen)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Schaltsymbole, RCD, Taster, Netze)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -926,11 +930,11 @@
                             <h3>Ohmsches Gesetz (U, I, R)</h3>
                             <div class="input-field">
                                 <label>Spannung U (Volt)</label>
-                                <input type="number" id="calc-u" placeholder="230" oninput="calculateOhm()">
+                                <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
                             </div>
                             <div class="input-field">
                                 <label>Widerstand R (Ohm)</label>
-                                <input type="number" id="calc-r" placeholder="10" oninput="calculateOhm()">
+                                <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
                             </div>
                             <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
                         </div>
@@ -940,11 +944,11 @@
                             <h3>Drehstrom-Leistung (P)</h3>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i3" placeholder="16" oninput="calculate3Phase()">
+                                <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
                             </div>
                             <div class="input-field">
                                 <label>Cos φ (Leistungsfaktor)</label>
-                                <input type="number" id="calc-cos" placeholder="0.85" step="0.05" oninput="calculate3Phase()">
+                                <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
                             </div>
                             <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
                         </div>
@@ -954,11 +958,11 @@
                             <h3>Spannungsfall (ΔU) - 1-phasig</h3>
                             <div class="input-field">
                                 <label>Länge l (m, einfach)</label>
-                                <input type="number" id="calc-len" placeholder="25" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i-drop" placeholder="16" oninput="calculateVoltageDrop()">
+                                <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
                             </div>
                             <div class="input-field">
                                 <label>Querschnitt A (mm² Cu)</label>
@@ -973,24 +977,6 @@
                             <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
                         </div>
 
-                        <!-- Leitungsquerschnitt Berechnung -->
-                        <div class="calc-box">
-                            <h3>Mindestquerschnitt (A) berechnen</h3>
-                            <div class="input-field">
-                                <label>Länge l (m)</label>
-                                <input type="number" id="calc-q-len" placeholder="30" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="input-field">
-                                <label>Max. Strom I (A)</label>
-                                <input type="number" id="calc-q-i" placeholder="16" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="input-field">
-                                <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
-                                <input type="number" id="calc-q-u" placeholder="6.9" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -1003,10 +989,8 @@
     </div>
 
     <script>
-        // State Management
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
-            total: 0, correct: 0, highscore: 0, level: 1, xp: 0,
-            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1 }
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0 
         };
 
         let currentMode = 'quiz';
@@ -1030,7 +1014,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte
+        // Erweiterte Lerninhalte inkl. RCD, Taster, Schalter, Netze
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1040,174 +1024,77 @@
                     <h2>Übersicht der wichtigsten Schaltsymbole</h2>
                     <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
                     <div class="symbol-gallery">
-                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Schalter (Ausschalter)</h4><p>Mechanischer Schalter</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt bei Betätigung</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Schalter (Ausschalter)</h4><p>Mechanischer Einzelschalter</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt temporär bei Betätigung</p></div>
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
-                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmscher Widerstand</p></div>
-                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitives Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.diode}<h4>Diode</h4><p>Halbleiter-Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.transformer}<h4>Transformator</h4><p>Spannungswandler</p></div>
+                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmsches Bauelement</p></div>
+                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitiver Energiespeicher</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
-                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
+                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutz</p></div>
                         <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
                     </div>
                 `
             },
-            basics: {
-                title: "Grundlagen & Formeln",
-                icon: "⚡",
-                description: "Spannung, Strom, Widerstand, Leistungskreis",
+            schalter_taster: {
+                title: "Schalter & Taster im Detail",
+                icon: "🔌",
+                description: "Unterschiede, Schaltpläne und Anwendungen in der Praxis",
                 content: `
-                    <h2>Grundlagen der Elektrotechnik</h2>
-                    <p class="article-desc">Die physikalischen Basisgrößen und deren Zusammenspiel.</p>
+                    <h2>Schalter vs. Taster in Schaltplänen</h2>
+                    <p class="article-desc">Der fundamentale Unterschied für die richtige Schaltungsplanung.</p>
                     <div class="article-section">
-                        <h3>Wichtige Formeln</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formel</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Spannung</td><td>U</td><td>Volt (V)</td><td>U = I × R</td></tr>
-                                <tr><td>Stromstärke</td><td>I</td><td>Ampere (A)</td><td>I = U / R</td></tr>
-                                <tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>R = U / I</td></tr>
-                                <tr><td>Wirkleistung</td><td>P</td><td>Watt (W)</td><td>P = U × I × cos φ</td></tr>
-                                <tr><td>Blindleistung</td><td>Q</td><td>Var (var)</td><td>Q = U × I × sin φ</td></tr>
-                                <tr><td>Scheinleistung</td><td>S</td><td>Voltampere (VA)</td><td>S = U × I</td></tr>
-                            </tbody>
-                        </table>
+                        <h3>1. Schalter (z.B. Ausschalter, Wechselschalter)</h3>
+                        <p>Ein Schalter behält seinen Schaltzustand (EIN oder AUS) bei, bis er manuell wieder betätigt wird. Typisch für Lichtinstallationen (Aus- und Wechselschaltung).</p>
+                    </div>
+                    <div class="article-section">
+                        <h3>2. Taster (Schließer / Öffner)</h3>
+                        <p>Ein Taster kehrt nach dem Loslassen durch eine Feder automatisch in seine Ruhestellung zurück. Er wird in Schaltplänen meist in Kombination mit Stromstoßschaltern (Relais) für Flur- oder Treppenhausschaltungen (Eltako) verwendet.</p>
+                        <div class="info-badge">Merke: Taster in Steuerstromkreisen, Schalter im Hauptstromkreis bzw. für direkte Verbraucher.</div>
                     </div>
                 `
             },
-            safety: {
-                title: "5 Sicherheitsregeln",
-                icon: "🛡️",
-                description: "Lebenswichtige Schutzmaßnahmen (ÖVE/DIN VDE)",
-                content: `
-                    <h2>Die 5 Sicherheitsregeln</h2>
-                    <p class="article-desc">Vor Beginn der Arbeiten an elektrischen Anlagen stets in dieser Reihenfolge anwenden.</p>
-                    <div class="article-section">
-                        <ol style="margin-left:20px; line-height: 1.8;">
-                            <li><strong>1. Freischalten:</strong> Allpolige Trennung der Anlage von der Spannungsquelle (z.B. Leitungsschutzschalter ausschalten).</li>
-                            <li><strong>2. Gegen Wiedereinschalten sichern:</strong> Verhindern, dass Dritte die Anlage versehentlich einschalten (Vorhängeschloss, Sperrelement, Schild).</li>
-                            <li><strong>3. Spannungsfreiheit feststellen:</strong> Allpolig mit einem zugelassenen <strong>zweipoligen Spannungsprüfer</strong> (z.B. Duspol) prüfen. Vorher am bekannten Spannungspotenzial testen!</li>
-                            <li><strong>4. Erden und Kurzschließen:</strong> Verbinden der Leiter mit dem Schutzleiter/Erder (Pflicht bei Hochspannung, bei Niederspannung unter bestimmten Bedingungen).</li>
-                            <li><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder abschranken:</strong> Isolierende Abdecktücher oder Kapselungen verwenden.</li>
-                        </ol>
-                    </div>
-                `
-            },
-            protection: {
-                title: "RCD (FI-Schalter) Typen",
+            rcd_schutz: {
+                title: "RCD (FI-Schutzschalter)",
                 icon: "⚙️",
-                description: "Personenschutz, Typ A, B, F & Auslösezeiten",
+                description: "Aufbau, Typen (A, B, F) und Funktionsweise im Schaltplan",
                 content: `
                     <h2>Fehlerstromschutzschalter (RCD)</h2>
-                    <p class="article-desc">Der wichtigste Baustein für den Personenschutz in der modernen Installationstechnik.</p>
+                    <p class="article-desc">Der unverzichtbare Personenschutz in der Elektroinstallation.</p>
                     <div class="article-section">
-                        <h3>RCD-Typen und ihre Anwendung</h3>
+                        <h3>Funktionsweise im Schaltplan</h3>
+                        <p>Der RCD vergleicht den hinﬂießenden Strom (Außenleiter L) mit dem rückfließenden Strom (Neutralleiter N). Entsteht eine Differenz (Fehlerstrom IΔ durch Berühren eines Gehäuses oder Defekt), schaltet der RCD blitzschnell allpolig ab.</p>
                         <table class="custom-table">
-                            <thead>
-                                <tr><th>RCD-Typ</th><th>Auslösung bei...</th><th>Einsatzbereich</th></tr>
-                            </thead>
+                            <thead><tr><th>Typ</th><th>Erfassbare Fehlerströme</th><th>Typischer Einsatzort</th></tr></thead>
                             <tbody>
-                                <tr><td><strong>Typ AC</strong></td><td>Nur Wechsel-Fehlerströmen</td><td>In DE/AT meist unzulässig!</td></tr>
-                                <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard (Steckdosen, Licht)</td></tr>
-                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen (bis 1kHz)</td><td>Waschmaschinen, Klimaanlagen</td></tr>
-                                <tr><td><strong>Typ B / B+</strong></td><td>Allstromsensitiv (auch glatte Gleichfehlerströme)</td><td>Wallboxen, Photovoltaik, Frequenzumrichter</td></tr>
+                                <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard im Wohnbau (Steckdosen, Licht)</td></tr>
+                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen</td><td>Waschmaschinen, Wärmepumpen</td></tr>
+                                <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (inkl. glatte Gleichströme)</td><td>Wallboxen, Photovoltaik-Wechselrichter</td></tr>
                             </tbody>
                         </table>
-                        <div class="info-badge">
-                            <strong>Auslösestrom für Personenschutz:</strong> Der Bemessungsfehlerstrom (IΔn) darf maximal <strong>30 mA</strong> betragen. Die Abschaltzeit im TN-System bei 230V beträgt max. 0,4 Sekunden.
-                        </div>
                     </div>
                 `
             },
             netzsysteme: {
                 title: "Netzsysteme (TN, TT, IT)",
                 icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S, TT und IT Netze erklärt",
+                description: "TN-C-S, TN-S, TT und IT Netze in der Praxis",
                 content: `
                     <h2>Netzformen nach IEC 60364</h2>
-                    <p class="article-desc">Aufbau und Kennzeichnung der Stromversorgungsnetze.</p>
                     <div class="article-section">
-                        <h3>Bedeutung der Buchstaben</h3>
-                        <ul>
-                            <li><strong>1. Buchstabe (Quelle):</strong> <b>T</b> = Terre (Erde/direkt geerdet), <b>I</b> = Isoliert (nicht geerdet)</li>
-                            <li><strong>2. Buchstabe (Verbraucher):</strong> <b>T</b> = Körper direkt geerdet, <b>N</b> = Körper mit Betriebserder verbunden</li>
-                            <li><strong>Folgebuchstaben:</strong> <b>C</b> = Combined (PEN-Leiter), <b>S</b> = Separated (N und PE getrennt)</li>
-                        </ul>
-                    </div>
-                    <div class="article-section">
-                        <h3>Die gängigsten Systeme</h3>
-                        <table class="custom-table">
-                            <tbody>
-                                <tr><td><strong>TN-C-S</strong></td><td>Standard im Wohnbau. PEN kommt vom Versorger, wird im Hausanschlusskasten in PE und N aufgeteilt. Danach dürfen sie nie wieder zusammengeführt werden.</td></tr>
-                                <tr><td><strong>TN-S</strong></td><td>PE und N sind ab der Trafo-Station durchgehend getrennt (5-adrig). Höchste Sicherheit, EMV-freundlich.</td></tr>
-                                <tr><td><strong>TT</strong></td><td>Sternpunkt geerdet, Körper der Betriebsmittel lokal geerdet. Zwingend RCD erforderlich, da der Fehlerstrom oft zu gering für LS-Schalter ist.</td></tr>
-                                <tr><td><strong>IT</strong></td><td>Isoliertes Netz. Ein erster Fehler führt nicht zur Abschaltung (hohe Ausfallsicherheit). Einsatz in OP-Sälen oder Industrie. Isolationsüberwachung nötig.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            schutzklassen: {
-                title: "Schutzklassen & IP",
-                icon: "💧",
-                description: "Schutzklassen I-III und IP-Schutzarten (z.B. IP44)",
-                content: `
-                    <h2>Schutzklassen & Schutzarten</h2>
-                    <div class="article-section">
-                        <h3>Die 3 Schutzklassen</h3>
-                        <table class="custom-table">
-                            <thead><tr><th>Klasse</th><th>Maßnahme</th><th>Symbol / Anschluss</th></tr></thead>
-                            <tbody>
-                                <tr><td><strong>I</strong></td><td>Schutzerdung</td><td>Gerät hat PE-Anschluss (Schukostecker). Gehäuse bei Fehler geerdet.</td></tr>
-                                <tr><td><strong>II</strong></td><td>Schutzisolierung</td><td>Doppelte/verstärkte Isolierung. Kein PE-Anschluss (Konturenstecker/Eurostecker).</td></tr>
-                                <tr><td><strong>III</strong></td><td>Schutzkleinspannung (SELV/PELV)</td><td>Betrieb mit max. 50V AC / 120V DC. Absolute Sicherheit.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="article-section">
-                        <h3>IP-Schutzarten (Bsp. IP44)</h3>
-                        <p><strong>1. Ziffer (Berührungs-/Fremdkörperschutz):</strong> 4 = Geschützt gegen feste Fremdkörper > 1mm.<br>
-                        <strong>2. Ziffer (Wasserschutz):</strong> 4 = Schutz gegen allseitiges Spritzwasser.</p>
-                        <div class="info-badge">IP44 ist der Mindeststandard für Feuchträume (Bad) oder einfache Außenanlagen.</div>
-                    </div>
-                `
-            },
-            badezimmer: {
-                title: "Installationszonen im Bad",
-                icon: "🛁",
-                description: "Zonen 0, 1 und 2 im Badezimmer nach DIN VDE",
-                content: `
-                    <h2>Bereiche in Räumen mit Badewanne/Dusche</h2>
-                    <p class="article-desc">Aufgrund der hohen Feuchtigkeit gelten extrem strenge Vorschriften für die Elektroinstallation.</p>
-                    <div class="article-section">
-                        <h3>Die Schutzzonen</h3>
-                        <table class="custom-table">
-                            <tbody>
-                                <tr><td><strong>Bereich 0</strong></td><td>Innenraum der Wanne/Dusche. Nur SELV (max. 12V AC) und Schutzart mind. IPX7 (Untertauchen).</td></tr>
-                                <tr><td><strong>Bereich 1</strong></td><td>Senkrecht über Wanne bis 2,25m Höhe. Nur fest angebrachte Wassererwärmer. Mindestens IPX4 (Spritzwasser).</td></tr>
-                                <tr><td><strong>Bereich 2</strong></td><td>60cm um Bereich 1 herum. Rasiersteckdosen nach EN 61558-2-5 zulässig, sonst keine 230V Steckdosen! Mindestens IPX4.</td></tr>
-                            </tbody>
-                        </table>
-                        <div class="info-badge">
-                            Sämtliche Stromkreise im Bad müssen durch einen RCD mit IΔn ≤ 30 mA geschützt sein!
-                        </div>
+                        <h3>Die Systemvarianten</h3>
+                        <p><strong>TN-S Netz:</strong> Neutralleiter (N) und Schutzleiter (PE) sind von der Versorgung bis zum Verbraucher durchgehend getrennt (5-adrig). Höchste Sicherheit.<br><br>
+                        <strong>TN-C-S Netz:</strong> Vom Hausanschluss kommt der kombiniert PEN-Leiter (TN-C). Im Zählerschrank erfolgt die Aufteilung in getrennten N und PE (TN-S). Standard im modernen Wohnbau.<br><br>
+                        <strong>TT-Netz:</strong> Betriebserder beim Versorger, Körperschutz über lokalen Erder beim Kunden. Zwingend FI-Schutzschalter erforderlich.</p>
                     </div>
                 `
             }
         };
 
         const initialQuizData = [
-            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbole für eine Leuchte/Lampe." },
-            { question: "Welches elektrotechnische Bauelement wird hier dargestellt?", symbol: svgSymbols.resistor, options: ["Spule", "Sicherung", "Ohmscher Widerstand", "Diode"], answer: 2, explanation: "Ein einfaches Rechteck steht im Schaltplan für einen ohmschen Widerstand." },
-            { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
-            { question: "Welches Schaltsymbol ist hier abgebildet?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) gekennzeichnet durch das Wandlersymbol mit IΔn." },
-            { question: "Welche Farbe hat der Schutzleiter (PE)?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter (PE) ist international zwingend grün-gelb." },
-            { question: "Welches Schaltsymbol stellt einen Taster (Schließer) dar?", symbol: svgSymbols.push_button, options: ["Ausschalter", "Taster (Schließer)", "Wechselschalter", "Serienschalter"], answer: 1, explanation: "Der Taster ist durch die unterbrochene Linie mit dem Betätigungskopf oben gekennzeichnet." },
-            { question: "Welcher RCD-Typ ist für glatte Gleichfehlerströme (z.B. Wallbox) nötig?", options: ["Typ A", "Typ AC", "Typ F", "Typ B"], answer: 3, explanation: "Typ B ist allstromsensitiv und erkennt glatte Gleichfehlerströme." },
-            { question: "Wie viel mA Auslösestrom (IΔn) darf ein FI für den Personenschutz maximal haben?", options: ["10 mA", "30 mA", "100 mA", "300 mA"], answer: 1, explanation: "Für den Personenschutz sind maximal 30 mA zulässig." }
+            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbol für eine Leuchte/Lampe." },
+            { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz lautet: U = I × R." },
+            { question: "Welches Schaltsymbol zeigt einen RCD (FI-Schalter)?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) mit dem Summenstromwandler." },
+            { question: "Welche Farbe hat der Schutzleiter (PE) zwingend?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter ist international grün-gelb gekennzeichnet." }
         ];
 
         let quizData = [...initialQuizData];
@@ -1219,7 +1106,6 @@
             calculateOhm();
             calculate3Phase();
             calculateVoltageDrop();
-            calculateCrossSection();
         };
 
         function updateOnlineStatus() {
@@ -1249,7 +1135,6 @@
             if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
         }
 
-        // Quiz Logic
         function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
 
         function startTimer() {
@@ -1272,9 +1157,7 @@
             const current = quizData[currentQuestion];
             const buttons = document.querySelectorAll('.option-card');
             buttons.forEach(btn => btn.disabled = true);
-            if (buttons[current.answer]) {
-                buttons[current.answer].classList.add('correct');
-            }
+            if (buttons[current.answer]) buttons[current.answer].classList.add('correct');
             
             stats.total++;
             updateStatsUI();
@@ -1296,7 +1179,6 @@
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
-            // Schaltsymbol-Anzeige steuern
             const symbolDisp = document.getElementById('symbol-display');
             if (current.symbol) {
                 symbolDisp.innerHTML = current.symbol;
@@ -1340,9 +1222,7 @@
                 }
             } else {
                 btnElement.classList.add('incorrect');
-                if (buttons[current.answer]) {
-                    buttons[current.answer].classList.add('correct');
-                }
+                if (buttons[current.answer]) buttons[current.answer].classList.add('correct');
             }
 
             updateStatsUI();
@@ -1373,15 +1253,11 @@
                 updateStatsUI();
             }
 
-            let fb = "Gutes Training!";
-            if (score === quizData.length) fb = "Perfekt! Du bist ein Meister-Elektriker.";
-            else if (score < quizData.length / 2) fb = "Da ist noch Luft nach oben. Schau mal im Lernbereich vorbei.";
-            document.getElementById('feedback').textContent = fb;
+            document.getElementById('feedback').textContent = score === quizData.length ? "Perfekt! Exzellentes Fachwissen." : "Gutes Training! Weiter so.";
         }
 
         function restartQuiz() {
             clearInterval(timerInterval);
-            quizData = shuffleArray([...initialQuizData]).slice(0, 5);
             currentQuestion = 0;
             score = 0;
             document.getElementById('result-screen').style.display = 'none';
@@ -1389,7 +1265,7 @@
             loadQuestion();
         }
 
-        // KI MODUS GENERIERUNGS-ENGINE (THEORIE, SYMBOLE & RECHNUNG)
+        // KI-MODUS & SCHALTSYMBOL-GENERATOR (IMMER NEU)
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
             answered = true;
@@ -1397,7 +1273,7 @@
             const selectedTopic = document.getElementById('ai-topic-select').value;
             const selectedDiff = document.getElementById('ai-diff-select').value;
 
-            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere maßgeschneiderte Aufgabe...';
+            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ KI-Engine</span><br>Generiere neue Schaltsymbol-Aufgabe...';
             document.getElementById('symbol-display').style.display = 'none';
             document.getElementById('options').innerHTML = '';
             document.getElementById('explanation').classList.remove('show');
@@ -1411,178 +1287,51 @@
                 document.getElementById('result-screen').style.display = 'none';
                 document.getElementById('quiz-screen').style.display = 'block';
                 loadQuestion();
-            }, 300);
+            }, 250);
         }
 
         function buildDynamicQuestion(topicKey, diffKey) {
-            let topic = topicKey;
-            if (topic === 'auto') {
-                const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables'];
-                topic = topics[Math.floor(Math.random() * topics.length)];
+            const symbolList = [
+                { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Mechanischer Einzelschalter nach DIN EN 60617." },
+                { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Taster schließt den Stromkreis nur während der Betätigung." },
+                { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Optischer Signalgeber / Leuchtmittel." },
+                { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Rechteckiges Symbol für ohmsche Widerstände." },
+                { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Kondensatorplatten." },
+                { name: "Diode", svg: svgSymbols.diode, desc: "Halbleiter-Bauelement in Sperr- oder Durchlassrichtung." },
+                { name: "Transformator", svg: svgSymbols.transformer, desc: "Zwei Spulen mit induktiver Kopplung." },
+                { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Fehlerstromschutzschalter mit Summenstromwandler und IΔn." },
+                { name: "Sicherung", svg: svgSymbols.fuse, desc: "Überstromschutzorgan in Schaltplänen." },
+                { name: "Erder / Masse", svg: svgSymbols.ground, desc: "Definiert den Erdungspunkt / Schutzpotential." }
+            ];
+
+            // Immer frischen Zufalls-Symbolgenerator starten
+            const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
+            let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
+            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+            const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
+            const correctIndex = allOptions.indexOf(correctSymbol.name);
+
+            if (topicKey === 'ohm' && Math.random() > 0.5) {
+                const u = 230;
+                const r = Math.floor(Math.random() * 40) + 10;
+                const i = (u / r).toFixed(2);
+                return {
+                    question: `KI-Berechnungsaufgabe: Welcher Strom I fließt durch einen Verbraucher mit <b>${r} Ω</b> an <b>${u}V</b>?`,
+                    options: [`${i} A`, `${(i * 1.3).toFixed(2)} A`, `${(i * 0.7).toFixed(2)} A`, `${(i * 1.8).toFixed(2)} A`],
+                    answer: 0,
+                    explanation: `Ohmsches Gesetz: I = U / R = ${u}V / ${r}Ω = <b>${i} A</b>.`,
+                    aiGenerated: true
+                };
             }
 
-            let level = diffKey;
-            if (level === 'adaptive') {
-                if (stats.level < 3) level = 'easy';
-                else if (stats.level < 6) level = 'medium';
-                else level = 'hard';
-            }
-
-            const isTheory = Math.random() < 0.5;
-
-            const generators = {
-                symbols: () => {
-                    const symbolList = [
-                        { name: "Ausschalter", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
-                        { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Schließt den Kontakt nur solange die Betätigung erfolgt." },
-                        { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Standard-Schaltsymbole für ein optisches Leuchtmittel." },
-                        { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Standardreiechteck für Festwiderstände in Schaltplänen." },
-                        { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Platten symbolisieren die Kapazität." },
-                        { name: "Diode", svg: svgSymbols.diode, desc: "Pfeil zeigt die Durchlassrichtung des Stroms an." },
-                        { name: "Transformator", svg: svgSymbols.transformer, desc: "Zwei überlappende Kreise symbolisieren die induktive Kopplung." },
-                        { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Zeigt das Gehäuse mit Summenstromwandler und Fehlerstromangabe." },
-                        { name: "Sicherung", svg: svgSymbols.fuse, desc: "Rechteck mit durchgehender Kennlinie für Überstromschutz." },
-                        { name: "Erder / Masse", svg: svgSymbols.ground, desc: "Kennzeichnet das Potenzial der Erde bzw. der Schutzerdung." }
-                    ];
-
-                    const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
-                    let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
-                    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
-                    const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
-                    const correctIndex = allOptions.indexOf(correctSymbol.name);
-
-                    return {
-                        question: `Welche elektrotechnische Funktion/Komponente gehört zu diesem Norm-Schaltsymbol?`,
-                        symbol: correctSymbol.svg,
-                        options: allOptions,
-                        answer: correctIndex,
-                        explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
-                        aiGenerated: true
-                    };
-                },
-                ohm: () => {
-                    if (isTheory) {
-                        return {
-                            question: `Wie verhält sich die elektrische Leistung P eines ohmschen Verbrauchers, wenn bei konstanter Spannung U der Widerstand R <b>halbierte</b> wird?`,
-                            options: [
-                                `Die Leistung halbiert sich`,
-                                `Die Leistung verdoppelt sich`,
-                                `Die Leistung vervierfacht sich`,
-                                `Die Leistung bleibt unverändert`
-                            ],
-                            answer: 1,
-                            explanation: `Nach der Formel P = U² / R ist die Leistung umgekehrt proportional zum Widerstand. Wird R halbiert, verdoppelt sich die Leistung P.`,
-                            aiGenerated: true
-                        };
-                    } else {
-                        const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
-                        const r = Math.floor(Math.random() * 45) + 5;
-                        const i = (u / r).toFixed(2);
-                        const p = ((u * u) / r).toFixed(0);
-                        
-                        if (level === 'easy') {
-                            return {
-                                question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
-                                options: [`${i} A`, `${(i * 1.5).toFixed(2)} A`, `${(i / 2).toFixed(2)} A`, `${(i * 0.8).toFixed(2)} A`],
-                                answer: 0,
-                                explanation: `Nach dem Ohmsche Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
-                                aiGenerated: true
-                            };
-                        } else {
-                            return {
-                                question: `Ein Heizstab (${r} Ω) wird an <b>${u}V</b> betrieben. Welche elektrische Leistung P wird aufgenommen?`,
-                                options: [`${(p * 1.3).toFixed(0)} W`, `${p} W`, `${(p * 0.7).toFixed(0)} W`, `${(p * 2).toFixed(0)} W`],
-                                answer: 1,
-                                explanation: `Die Leistung berechnet sich durch P = U² / R.<br>Berechnung: (${u}V × ${u}V) / ${r}Ω = <b>${p} W</b>.`,
-                                aiGenerated: true
-                            };
-                        }
-                    }
-                },
-                motor: () => {
-                    if (isTheory) {
-                        return {
-                            question: `Was versteht man unter dem <b>Schlupf</b> bei einem Drehstrom-Asynchronmotor?`,
-                            options: [
-                                `Die relative Differenz zwischen Ständerdrehfeld und Läuferdrehzahl`,
-                                `Der mechanische Verlust in den Wälzlagern`,
-                                `Das Ausrutschen des Keilriemens am Antrieb`,
-                                `Der Spannungsabfall an den Ständerwicklungen`
-                            ],
-                            answer: 0,
-                            explanation: `Der Schlupf beschreibt die prozentuale Abweichung der Läuferdrehzahl gegenüber der Drehzahl des umlaufenden Ständerdrehfelds.`,
-                            aiGenerated: true
-                        };
-                    } else {
-                        const i = [10, 16, 25, 32][Math.floor(Math.random() * 4)];
-                        const cos = 0.85;
-                        const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
-                        return {
-                            question: `Ein Drehstrommotor nimmt einen Strom von <b>${i} A</b> bei cos φ = ${cos} an 400V auf. Wie hoch ist die Wirkleistung P?`,
-                            options: [`${(p * 1.2).toFixed(2)} kW`, `${(p * 0.8).toFixed(2)} kW`, `${p} kW`, `${(p * 1.5).toFixed(2)} kW`],
-                            answer: 2,
-                            explanation: `Formel: P = √3 × U × I × cos φ.<br>Berechnung: 1,732 × 400V × ${i}A × ${cos} = <b>${p} kW</b>.`,
-                            aiGenerated: true
-                        };
-                    }
-                },
-                protection: () => {
-                    if (isTheory) {
-                        const theoryPool = [
-                            {
-                                question: `Welcher Schritt gehört <b>NICHT</b> zu den 5 Sicherheitsregeln nach ÖVE/DIN VDE?`,
-                                options: [`Freischalten`, `Gegen Wiedereinschalten sichern`, `Isolationswiderstand messen`, `Spannungsfreiheit feststellen`],
-                                answer: 2,
-                                explanation: `Die 5 Sicherheitsregeln lauten: 1. Freischalten, 2. Gegen Wiedereinschalten sichern, 3. Spannungsfreiheit feststellen, 4. Erden und Kurzschließen, 5. Benachbarte unter Spannung stehende Teile abdecken.`
-                            },
-                            {
-                                question: `Welche Eigenschaft zeichnet ein <b>IT-Netzsystem</b> aus?`,
-                                options: [`Direkte Erdung des Neutralleiters an der Quelle`, `Isolierter oder hochohmig geerdeter Sternpunkt der Quelle`, `PEN-Leiterführung bis zum Verbraucher`, `Kein Schutzleiter vorhanden`],
-                                answer: 1,
-                                explanation: `Im IT-Netz ist die Spannungsquelle isoliert. Ein erster Isolationsfehler führt daher nicht zur Abschaltung der Anlage.`
-                            }
-                        ];
-                        return { ...theoryPool[Math.floor(Math.random() * theoryPool.length)], aiGenerated: true };
-                    } else {
-                        const lss = [10, 16, 32][Math.floor(Math.random() * 3)];
-                        const ia = lss * 5; // B-Charakteristik
-                        const zs = (230 / ia).toFixed(2);
-                        return {
-                            question: `Wie hoch darf der maximale Schleifenwiderstand (Zs) bei einem Leitungsschutzschalter <b>B${lss}</b> im TN-System (230V) sein?`,
-                            options: [`${zs} Ω`, `${(zs * 1.5).toFixed(2)} Ω`, `${(zs * 0.5).toFixed(2)} Ω`, `${(zs * 2.2).toFixed(2)} Ω`],
-                            answer: 0,
-                            explanation: `B-Charakteristik schaltet beim 5-fachen Nennstrom aus: Ia = 5 × ${lss}A = ${ia}A.<br>Zs ≤ U0 / Ia = 230V / ${ia}A = <b>${zs} Ω</b>.`,
-                            aiGenerated: true
-                        };
-                    }
-                },
-                cables: () => {
-                    if (isTheory) {
-                        return {
-                            question: `Welcher Schutzbereich/Zone gilt im Badezimmer direkt für den <b>Innenraum der Badewanne</b>?`,
-                            options: [`Bereich 0`, `Bereich 1`, `Bereich 2`, `Bereich 3`],
-                            answer: 0,
-                            explanation: `Der direkte Innenraum einer Bade- oder Duschwanne ist als Bereich 0 definiert (Sonderanforderungen: max. 12V SELV, IPX7).`,
-                            aiGenerated: true
-                        };
-                    } else {
-                        const len = [15, 25, 40, 50][Math.floor(Math.random() * 4)];
-                        const current = 16;
-                        const q = 2.5;
-                        const du = ((2 * len * current) / (56 * q)).toFixed(2);
-                        return {
-                            question: `Berechnen Sie den Spannungsfall ΔU für eine 1-phasige Kupferleitung (2,5 mm²) bei <b>${len}m Länge</b> und 16A Belastung.`,
-                            options: [`${(du * 1.4).toFixed(2)} V`, `${du} V`, `${(du * 0.7).toFixed(2)} V`, `${(du * 2.0).toFixed(2)} V`],
-                            answer: 1,
-                            explanation: `Formel: ΔU = (2 × l × I) / (κ × A).<br>Berechnung: (2 × ${len}m × 16A) / (56 × 2,5mm²) = <b>${du} V</b>.`,
-                            aiGenerated: true
-                        };
-                    }
-                }
+            return {
+                question: `[KI-Generiert] Welche Komponente oder Schaltsymbol ist in diesem Schaltplan dargestellt?`,
+                symbol: correctSymbol.svg,
+                options: allOptions,
+                answer: correctIndex,
+                explanation: `<b>Korrekt: ${correctSymbol.name}</b><br>${correctSymbol.desc}`,
+                aiGenerated: true
             };
-
-            const selectedGen = generators[topic] || generators['symbols'];
-            return selectedGen();
         }
 
         // Navigation Modes
@@ -1603,30 +1352,36 @@
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
             
-            document.getElementById(`${mode === 'ai' ? 'quiz' : mode}-mode`).classList.add('active');
-            document.getElementById(`toggle-${mode}`).classList.active;
-            document.getElementById(`toggle-${mode}`).classList.add('active');
+            document.getElementById(`${mode === 'ai' || mode === 'symbols' ? 'quiz' : mode}-mode`).classList.add('active');
+            const toggleEl = document.getElementById(`toggle-${mode}`);
+            if (toggleEl) toggleEl.classList.add('active');
+            
             currentMode = mode;
             clearInterval(timerInterval);
 
             if (mode === 'quiz') {
                 document.getElementById('ai-config').style.display = 'none';
                 document.getElementById('quiz-heading').textContent = "⚡ Standard Wissenstest";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
+                quizData = shuffleArray([...initialQuizData]);
+                restartQuiz();
+            } else if (mode === 'symbols') {
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-heading').textContent = "📐 Schaltsymbole & Schaltpläne Quiz";
+                // Nur Symbol-Fragen generieren
+                quizData = [];
+                for(let i=0; i<5; i++) {
+                    quizData.push(buildDynamicQuestion('symbols', 'easy'));
+                }
                 restartQuiz();
             } else if (mode === 'ai') {
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = "✨ KI Modus";
-                document.getElementById('quiz-screen').style.display = 'block';
-                document.getElementById('result-screen').style.display = 'none';
+                document.getElementById('quiz-heading').textContent = "✨ KI Unendlich-Modus";
                 generateCustomAIQuestion();
             } else if (mode === 'learn') {
                 backToTopics();
             }
         }
 
-        // Learning & Calculators Functions
         function loadTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
@@ -1648,8 +1403,7 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const cards = document.querySelectorAll('.topic-card');
             cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(query) ? 'block' : 'none';
+                card.style.display = card.textContent.toLowerCase().includes(query) ? 'block' : 'none';
             });
         }
 
@@ -1669,12 +1423,7 @@
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 0;
-            if (r > 0) {
-                const i = (u / r).toFixed(2);
-                document.getElementById('calc-ohm-res').textContent = `Strom I = ${i} A`;
-            } else {
-                document.getElementById('calc-ohm-res').textContent = `R muss > 0 sein`;
-            }
+            document.getElementById('calc-ohm-res').textContent = r > 0 ? `Strom I = ${(u / r).toFixed(2)} A` : `R muss > 0 sein`;
         }
 
         function calculate3Phase() {
@@ -1688,23 +1437,9 @@
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Cu Leitfähigkeit
-            const u = (2 * l * i) / (kappa * q);
+            const u = (2 * l * i) / (56 * q);
             const pct = (u / 230) * 100;
             document.getElementById('calc-drop-res').textContent = `ΔU = ${u.toFixed(2)} V (${pct.toFixed(2)}%)`;
-        }
-
-        function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 0;
-            const kappa = 56; // Kupfer
-            if (du > 0) {
-                const q = (2 * l * i) / (kappa * du);
-                document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
-            } else {
-                document.getElementById('calc-q-res').textContent = `Bitte ΔU > 0 eingeben`;
-            }
         }
     </script>
 </body>
