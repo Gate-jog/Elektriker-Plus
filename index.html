@@ -1039,7 +1039,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive RCD, Taster, Netze & Schalter
+        // Erweiterte Lerninhalte inklusive RCD, Taster, Netze, Netzpläne & Fehlerschutzmaßnahmen
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1090,7 +1090,7 @@
                     <p class="article-desc">Der Summenstromwandler als Herzstück des Personenschutzes.</p>
                     <div class="article-section">
                         <h3>Funktionsweise im Schema</h3>
-                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Flßt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD bruchteilhaft von Sekundenschnelle auslöst.</p>
+                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Fließt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD bruchteilhaft von Sekundenschnelle auslöst.</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>RCD-Typ</th><th>Auslösung bei...</th><th>Einsatzbereich</th></tr>
@@ -1108,21 +1108,89 @@
                 `
             },
             netzsysteme: {
-                title: "Netzsysteme (TN, TT, IT)",
+                title: "Netzsysteme & Netzpläne (TN, TT, IT)",
                 icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S, TT und IT Netze im Detail erklärt",
+                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. schematischer Pläne",
                 content: `
-                    <h2>Netzformen nach IEC 60364 (Netzpläne)</h2>
-                    <p class="article-desc">Wie Energieversorger und Verbrauchererdung miteinander Verschaltet sind.</p>
+                    <h2>Netzformen nach IEC 60364 (Inkl. Netzplänen)</h2>
+                    <p class="article-desc">Wie Energieversorger und Verbrauchererdung miteinander verschaltet sind.</p>
+                    
                     <div class="article-section">
-                        <h3>Aufbau der Netzformen</h3>
+                        <h3>1. TN-C-Netz (Kombiniertes Netz)</h3>
+                        <p><strong>Schaltbild-Prinzip:</strong> L1, L2, L3 + PEN (Neutral- und Schutzleiter sind in einem Leiter kombiniert).</p>
+                        <svg viewBox="0 0 500 120" style="width:100%; max-width:500px; background:rgba(0,0,0,0.3); border-radius:8px; padding:10px; margin:10px 0;">
+                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="60" x2="480" y2="60" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="90" x2="480" y2="90" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="110" x2="480" y2="110" stroke="#10b981" stroke-width="4"/>
+                            <text x="30" y="22" fill="#f59e0b" font-size="12">L1</text>
+                            <text x="30" y="52" fill="#f59e0b" font-size="12">L2</text>
+                            <text x="30" y="82" fill="#f59e0b" font-size="12">L3</text>
+                            <text x="30" y="105" fill="#10b981" font-size="12">PEN (Grün-Gelb / Blau)</text>
+                        </svg>
+                        <p><em>Hinweis:</em> Im modernen Endstromkreis unzulässig (Gefahr bei PEN-Bruch).</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>2. TN-S-Netz (Getrenntes Netz)</h3>
+                        <p><strong>Schaltbild-Prinzip:</strong> L1, L2, L3 + N (Blau) + PE (Grün-Gelb) von der Quelle bis zum Verbraucher getrennt.</p>
+                        <svg viewBox="0 0 500 150" style="width:100%; max-width:500px; background:rgba(0,0,0,0.3); border-radius:8px; padding:10px; margin:10px 0;">
+                            <line x1="20" y1="20" x2="480" y2="20" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="50" x2="480" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="80" x2="480" y2="80" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="110" x2="480" y2="110" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="20" y1="140" x2="480" y2="140" stroke="#10b981" stroke-width="4"/>
+                            <text x="30" y="15" fill="#f59e0b" font-size="12">L1</text>
+                            <text x="30" y="45" fill="#f59e0b" font-size="12">L2</text>
+                            <text x="30" y="75" fill="#f59e0b" font-size="12">L3</text>
+                            <text x="30" y="105" fill="#3b82f6" font-size="12">N (Neutralleiter)</text>
+                            <text x="30" y="135" fill="#10b981" font-size="12">PE (Schutzleiter)</text>
+                        </svg>
+                        <p><em>Hinweis:</em> Höchste Sicherheit und beste EMV-Eigenschaften.</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Übersicht aller Netzformen</h3>
                         <table class="custom-table">
                             <tbody>
-                                <tr><td><strong>TN-C</strong></td><td><b>C</b>ombined: Neutral- und Schutzleiter sind als ein gemeinsamer PEN-Leiter geführt (4-adrig bei Drehstrom). Heute im Endstromkreis unzulässig!</td></tr>
-                                <tr><td><strong>TN-C-S</strong></td><td>Standard im modernen Wohnbau. Im Hausanschlusskasten (HAK) wird der PEN in PE (Schutzleiter) und N (Neutralleiter) aufgetrennt (N/PE-Brücke). Danach strikt getrennt!</td></tr>
-                                <tr><td><strong>TN-S</strong></td><td><b>S</b>eparated: PE und N sind von der Trafostation bis zum Verbraucher komplett getrennt geführt (5-adrig). Beste EMV-Eigenschaften.</td></tr>
-                                <tr><td><strong>TT</strong></td><td>Sternpunkt geerdet, aber die Körper der Anlage sind über einen eigenen lokalen Erder verbunden. Zwingend RCD erforderlich, da Schleifenimpedanz oft zu hoch für LS-Schalter ist.</td></tr>
-                                <tr><td><strong>IT</strong></td><td>Isoliertes Netz. Spannungsquelle ist ungeerdet oder hochohmig geerdet. Ein Erdschluss führt nicht zur sofortigen Abschaltung (hohe Ausfallsicherheit in Industrie/Krankenhäusern).</td></tr>
+                                <tr><td><strong>TN-C-S</strong></td><td>Kombiniert im Zuleitungsnetz, Aufteilung in PE und N im Hausanschlusskasten (Standard im Wohnbau).</td></tr>
+                                <tr><td><strong>TT</strong></td><td>Sternpunkt geerdet, Körper über eigenen lokalen Erder verbunden. Zwingend RCD erforderlich!</td></tr>
+                                <tr><td><strong>IT</strong></td><td>Isoliertes Netz. Spannungsquelle ist ungeerdet. Hohe Ausfallsicherheit (Industrie / Medizin).</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            fehlerschutz: {
+                title: "Fehlerschutzmaßnahmen (Schutzklassen & Schutzmaßnahmen)",
+                icon: "🛡️",
+                description: "Schutz gegen direktes & indirektes Berühren, Schutzklassen I, II, III",
+                content: `
+                    <h2>Fehlerschutzmaßnahmen in elektrischen Anlagen</h2>
+                    <p class="article-desc">Schutz von Mensch und Tier vor elektrischem Schlag nach ÖVE / VDE.</p>
+                    
+                    <div class="article-section">
+                        <h3>1. Schutz gegen direkten Kontakt (Basisschutz)</h3>
+                        <p>Verhindert das Berühren von unter Spannung stehenden Teilen (aktiven Teilen).</p>
+                        <p><strong>Maßnahmen:</strong> Basisisolierung von Leitern, Abdeckungen, Umhüllungen oder Hindernisse (Mindestabstände).</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>2. Schutz bei indirektem Berühren (Fehlerschutz)</h3>
+                        <p>Schützt beim berühren von Körpern, die durch einen Isolationsfehler unter Spannung geraten sind.</p>
+                        <p><strong>Maßnahmen:</strong> Automatische Abschaltung der Stromversorgung (durch LS-Schalter / RCD) in Kombination mit Schutzleiter (PE).</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>3. Die 3 Schutzklassen (SK) für Betriebsmittel</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schutzklasse</th><th>Merkmale / Aufbau</th><th>Beispiel</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>SK I</strong></td><td>Anschluss an den Schutzleiter (PE) zwingend erforderlich. Gehäuse aus Metall.</td><td>Waschmaschine, E-Herd</td></tr>
+                                <tr><td><strong>SK II</strong></td><td>Schutzisoliert (verstärkte oder doppelte Isolierung). Kein PE-Anschluss. Symbol: 🔲 im Quadrat</td><td>Föhn, Bohrmaschine</td></tr>
+                                <tr><td><strong>SK III</strong></td><td>Schutzkleinspannung (SELV / PELV): U ≤ 50V AC / 120V DC.</td><td>Handy-Ladekabel, LED-Spots, Modellbau</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1642,3 +1710,4 @@
     </script>
 </body>
 </html>
+
