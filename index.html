@@ -1283,10 +1283,10 @@
             loadQuestion();
         }
 
-        // DYNAMISCHE KI GENERIERUNGS-ENGINE
+        // DYNAMISCHE KI GENERIERUNGS-ENGINE (KORRIGIERT & REPARIERT)
         function generateCustomAIQuestion() {
             clearInterval(timerInterval);
-            answered = false;
+            answered = true; // Sperrt Eingaben während des Ladens
 
             const selectedTopic = document.getElementById('ai-topic-select').value;
             const selectedDiff = document.getElementById('ai-diff-select').value;
@@ -1301,8 +1301,10 @@
                 quizData = [generatedQuestion];
                 currentQuestion = 0;
                 score = 0;
+                document.getElementById('result-screen').style.display = 'none';
+                document.getElementById('quiz-screen').style.display = 'block';
                 loadQuestion();
-            }, 450);
+            }, 300);
         }
 
         function buildDynamicQuestion(topicKey, diffKey) {
@@ -1405,7 +1407,7 @@
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
             
-            document.getElementById(`${mode}-mode`).classList.add('active');
+            document.getElementById(`${mode === 'ai' ? 'quiz' : mode}-mode`).classList.add('active');
             document.getElementById(`toggle-${mode}`).classList.add('active');
             currentMode = mode;
             clearInterval(timerInterval);
@@ -1417,7 +1419,6 @@
                 document.getElementById('result-screen').style.display = 'none';
                 restartQuiz();
             } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
                 document.getElementById('quiz-heading').textContent = "✨ KI-Simulator";
                 document.getElementById('quiz-screen').style.display = 'block';
