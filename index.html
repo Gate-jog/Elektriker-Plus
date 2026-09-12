@@ -1275,7 +1275,7 @@
                             <line x1="20" y1="40" x2="500" y2="40" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="20" y1="80" x2="500" y2="80" stroke="#3b82f6" stroke-width="3"/>
                             <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="72" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="25" y="72" fill="#3b82f6" font-size="11" font-weight="bold">N</text>
                             <circle cx="110" cy="60" r="18" fill="none" stroke="#fff" stroke-width="2"/>
                             <text x="95" y="95" fill="#fff" font-size="9">Getrennt</text>
                             <rect x="190" y="33" width="22" height="14" fill="none" stroke="#fff" stroke-width="2"/>
@@ -1889,9 +1889,9 @@
             const topic = learningContent[key];
             if (!topic) return;
             document.getElementById('topics-view').style.display = 'none';
-            const contentContainer = document.getElementById('content-container');
-            contentContainer.innerHTML = topic.content;
             document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-container').innerHTML = topic.content;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
@@ -1899,13 +1899,13 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculators Logic
+        // Calculator Functions
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 0;
             const resEl = document.getElementById('calc-ohm-res');
             if (r === 0) {
-                resEl.textContent = "Fehler: Widerstand darf nicht 0 sein";
+                resEl.textContent = "Widerstand darf nicht 0 sein!";
                 return;
             }
             const i = u / r;
@@ -1923,26 +1923,29 @@
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
             const resEl = document.getElementById('calc-drop-res');
-            const kappa = 56; // Leitfähigkeit Kupfer
-            const deltaU = (2 * l * i) / (kappa * a);
-            const percent = (deltaU / 230) * 100;
-            resEl.textContent = `ΔU = ${deltaU.toFixed(2)} V (${percent.toFixed(2)}%)`;
+            
+            // Spez. Widerstand von Kupfer ca. 0.0178 Ω*mm²/m, 1-phasig hin und zurück (2 * l)
+            const kappa = 56; // Leitfähigkeit Cu
+            const du = (2 * l * i) / (kappa * q);
+            const pct = (du / 230) * 100;
+            resEl.textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 1;
             const resEl = document.getElementById('calc-q-res');
-            const kappa = 56;
-            if (maxU === 0) {
-                resEl.textContent = "Fehler: Spannungsfall darf nicht 0 sein";
+            
+            if (du === 0) {
+                resEl.textContent = "Spannungsfall darf nicht 0 sein!";
                 return;
             }
-            const a = (2 * l * i) / (kappa * maxU);
-            resEl.textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+            const kappa = 56;
+            const q = (2 * l * i) / (kappa * du);
+            resEl.textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
         }
     </script>
 </body>
