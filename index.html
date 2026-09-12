@@ -63,6 +63,133 @@
             font-size: 1.1rem;
         }
 
+        /* Welcome Menu Styles */
+        .welcome-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .welcome-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: slideInUp 0.6s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .welcome-description {
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .menu-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .menu-option {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .menu-option:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.2);
+        }
+
+        .menu-icon {
+            font-size: 3.5rem;
+            line-height: 1;
+        }
+
+        .menu-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 8px;
+        }
+
+        .menu-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .welcome-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .welcome-footer p {
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: var(--correct);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Main Menu Styles */
         .mode-selector {
             display: flex;
             gap: 16px;
@@ -95,6 +222,11 @@
             background: var(--primary);
             color: #0f172a;
             border-color: var(--primary);
+        }
+
+        .mode-btn.back-btn {
+            margin-bottom: 32px;
+            justify-self: flex-start;
         }
 
         .content-area {
@@ -440,6 +572,23 @@
             .learn-topics {
                 grid-template-columns: 1fr;
             }
+
+            .welcome-card {
+                padding: 32px 24px;
+            }
+
+            .menu-options {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .feature-list {
+                flex-direction: column;
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -448,17 +597,54 @@
         <!-- Header -->
         <div class="header">
             <h1>⚡ Elektriker Plus</h1>
-            <p>Quiz & Lernmodus für Elektrotechnik</p>
+            <p>Professionelle Schulung für Elektrotechnik</p>
         </div>
 
-        <!-- Mode Selector -->
-        <div class="mode-selector">
-            <button class="mode-btn active" onclick="switchMode('quiz')">📝 Quiz-Modus</button>
-            <button class="mode-btn" onclick="switchMode('learn')">📚 Lernmodus (ÖVE 8101)</button>
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="welcome-screen active">
+            <div class="welcome-card">
+                <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 16px;">Willkommen bei Elektriker Plus</h2>
+                <p class="welcome-subtitle">Deine komplette Plattform zum Lernen und Testen von Elektrotechnik-Wissen</p>
+                
+                <p class="welcome-description">
+                    Wähle den Modus, der am besten zu deinen Zielen passt und starte sofort mit dem Lernen.
+                </p>
+
+                <div class="menu-options">
+                    <div class="menu-option" onclick="startMode('quiz')">
+                        <div class="menu-icon">📝</div>
+                        <div class="menu-title">Quiz-Modus</div>
+                        <div class="menu-description">Teste dein Wissen mit spannenden Fragen</div>
+                    </div>
+                    <div class="menu-option" onclick="startMode('learn')">
+                        <div class="menu-icon">📚</div>
+                        <div class="menu-title">Lernmodus</div>
+                        <div class="menu-description">Lerne detailliert nach ÖVE 8101</div>
+                    </div>
+                </div>
+
+                <div class="welcome-footer">
+                    <p>✨ Alles was du brauchst um Elektrotechnik zu meistern</p>
+                    <div class="feature-list">
+                        <div class="feature-item">5 Quiz-Fragen</div>
+                        <div class="feature-item">6 Themeninhalte</div>
+                        <div class="feature-item">ÖVE-Zertifiziert</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Selector (Hidden initially) -->
+        <div id="mode-selector-area" style="display: none;">
+            <button class="mode-btn back-btn" onclick="backToWelcome()">← Zurück zum Menü</button>
+            <div class="mode-selector" style="margin-bottom: 32px;">
+                <button class="mode-btn active" onclick="switchMode('quiz')">📝 Quiz-Modus</button>
+                <button class="mode-btn" onclick="switchMode('learn')">📚 Lernmodus (ÖVE 8101)</button>
+            </div>
         </div>
 
         <!-- Quiz Mode -->
-        <div id="quiz-mode" class="content-area active">
+        <div id="quiz-mode" class="content-area">
             <div class="quiz-card">
                 <!-- Quiz Screen -->
                 <div id="quiz-screen">
@@ -971,17 +1157,31 @@
             loadQuestion();
         }
 
-        // Mode switching
+        // Welcome & Mode switching
+        function startMode(mode) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-selector-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            document.getElementById('welcome-screen').style.display = 'flex';
+            document.getElementById('mode-selector-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            restartQuiz();
+        }
+
         function switchMode(mode) {
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.mode-btn:not(.back-btn)').forEach(btn => btn.classList.remove('active'));
             
             if (mode === 'quiz') {
                 document.getElementById('quiz-mode').classList.add('active');
-                document.querySelectorAll('.mode-btn')[0].classList.add('active');
+                document.querySelectorAll('.mode-btn:not(.back-btn)')[0].classList.add('active');
+                loadQuestion();
             } else {
                 document.getElementById('learn-mode').classList.add('active');
-                document.querySelectorAll('.mode-btn')[1].classList.add('active');
+                document.querySelectorAll('.mode-btn:not(.back-btn)')[1].classList.add('active');
                 loadTopics();
             }
         }
@@ -1006,26 +1206,17 @@
         }
 
         function loadContent(key) {
-            const topicsView = document.getElementById('topics-view');
-            const contentView = document.getElementById('content-view');
-            const contentContainer = document.getElementById('content-container');
-            const contentTitle = document.getElementById('content-title');
-
-            topicsView.style.display = 'none';
-            contentView.style.display = 'block';
-
-            const content = learningContent[key];
-            contentTitle.textContent = content.title;
-            contentContainer.innerHTML = content.content;
+            const data = learningContent[key];
+            document.getElementById('topics-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-title').textContent = data.title;
+            document.getElementById('content-container').innerHTML = data.content;
         }
 
         function backToTopics() {
             document.getElementById('topics-view').style.display = 'block';
             document.getElementById('content-view').style.display = 'none';
         }
-
-        // Initialize
-        loadQuestion();
     </script>
 </body>
 </html>
