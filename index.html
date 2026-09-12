@@ -1119,24 +1119,30 @@
                         <h3>1. TN-C-Netz (Kombiniertes Netz)</h3>
                         <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind als ein einziger PEN-Leiter von der Stromquelle bis zum Verbraucher geführt.</p>
                         <svg viewBox="0 0 500 160" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <!-- Einspeisepunkte / Generator -->
+                            <text x="20" y="20" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
                             <!-- Leitungen -->
-                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="60" x2="480" y2="60" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="90" x2="480" y2="90" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="130" x2="480" y2="130" stroke="#10b981" stroke-width="4"/>
+                            <line x1="20" y1="40" x2="480" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="70" x2="480" y2="70" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="100" x2="480" y2="100" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="135" x2="480" y2="135" stroke="#10b981" stroke-width="4"/>
                             <!-- Labels -->
-                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="25" y="82" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="25" y="122" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert)</text>
+                            <text x="25" y="32" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="62" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="25" y="92" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="25" y="127" fill="#10b981" font-size="11" font-weight="bold">PEN (Kombiniert)</text>
+                            <!-- Betriebserdung am Trafo -->
+                            <line x1="50" y1="135" x2="50" y2="152" stroke="#10b981" stroke-width="2"/>
+                            <line x1="40" y1="152" x2="60" y2="152" stroke="#10b981" stroke-width="2"/>
+                            <line x1="44" y1="156" x2="56" y2="156" stroke="#10b981" stroke-width="2"/>
                             <!-- Sicherung (LS-Schalter auf L1) -->
-                            <rect x="150" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="145" y="52" fill="#fff" font-size="9">Sicherung</text>
+                            <rect x="180" y="33" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="165" y="27" fill="#fff" font-size="9">Überstromschutz</text>
                             <!-- Verbraucher / Motor / Last -->
-                            <rect x="360" y="20" width="60" height="115" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="390" y="82" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Last / Motor</text>
-                            <line x1="330" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="330" y1="130" x2="360" y2="130" stroke="#10b981" stroke-width="4"/>
+                            <rect x="360" y="25" width="80" height="122" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="400" y="93" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="320" y1="40" x2="360" y2="40" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="135" x2="360" y2="135" stroke="#10b981" stroke-width="4"/>
                         </svg>
                         <p><em>Sicherheitshinweis:</em> Wegen der Gefahr bei einem PEN-Leiterbruch in neuen Anlagen unzulässig.</p>
                     </div>
@@ -1144,27 +1150,32 @@
                     <div class="article-section">
                         <h3>2. TN-S-Netz (Getrenntes Netz)</h3>
                         <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind im gesamten Netz strikt voneinander getrennt geführt.</p>
-                        <svg viewBox="0 0 500 180" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                        <svg viewBox="0 0 500 190" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">TRANSFORMATOR / QUELLE</text>
                             <!-- Leitungen -->
-                            <line x1="20" y1="25" x2="480" y2="25" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="55" x2="480" y2="55" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="85" x2="480" y2="85" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="120" x2="480" y2="120" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="60" x2="480" y2="60" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="90" x2="480" y2="90" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="125" x2="480" y2="125" stroke="#3b82f6" stroke-width="3"/>
                             <line x1="20" y1="155" x2="480" y2="155" stroke="#10b981" stroke-width="4"/>
                             <!-- Labels -->
-                            <text x="25" y="17" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="47" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <text x="25" y="77" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
-                            <text x="25" y="112" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutral)</text>
+                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <text x="25" y="82" fill="#f59e0b" font-size="11" font-weight="bold">L3</text>
+                            <text x="25" y="117" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
                             <text x="25" y="147" fill="#10b981" font-size="11" font-weight="bold">PE (Schutzleiter)</text>
+                            <!-- Betriebserdung am Trafo für Sternpunkt -->
+                            <line x1="50" y1="155" x2="50" y2="175" stroke="#10b981" stroke-width="2"/>
+                            <line x1="40" y1="175" x2="60" y2="175" stroke="#10b981" stroke-width="2"/>
+                            <line x1="44" y1="179" x2="56" y2="179" stroke="#10b981" stroke-width="2"/>
                             <!-- Sicherung -->
-                            <rect x="150" y="18" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <rect x="180" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Last -->
-                            <rect x="360" y="15" width="60" height="150" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="390" y="95" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
-                            <line x1="330" y1="25" x2="360" y2="25" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="330" y1="120" x2="360" y2="120" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="330" y1="155" x2="360" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <rect x="360" y="20" width="80" height="150" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="400" y="95" fill="#06b6d4" font-size="12" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="320" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="125" x2="360" y2="125" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="320" y1="155" x2="360" y2="155" stroke="#10b981" stroke-width="4"/>
                         </svg>
                         <p><em>Vorteil:</em> Höchste Sicherheit, ideal für empfindliche Elektronik.</p>
                     </div>
@@ -1172,26 +1183,30 @@
                     <div class="article-section">
                         <h3>3. TN-C-S-Netz (Kombiniert + Getrennt)</h3>
                         <p><strong>Eigenschaften:</strong> Versorgung erfolgt im TN-C-System (mit PEN), ab dem Hausanschlusskasten (HAK) erfolgt die Aufteilung in getrennte N- und PE-Leiter (TN-S).</p>
-                        <svg viewBox="0 0 500 170" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="60" x2="480" y2="60" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="90" x2="480" y2="90" stroke="#f59e0b" stroke-width="3"/>
-                            <!-- PEN bis Punkt X -->
-                            <line x1="20" y1="135" x2="250" y2="135" stroke="#10b981" stroke-width="4"/>
-                            <!-- Aufteilung ab X -->
-                            <line x1="250" y1="135" x2="480" y2="120" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="250" y1="135" x2="480" y2="150" stroke="#10b981" stroke-width="4"/>
-                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="127" fill="#10b981" font-size="10">PEN Zuleitung</text>
-                            <text x="260" y="110" fill="#3b82f6" font-size="10">N</text>
-                            <text x="260" y="162" fill="#10b981" font-size="10">PE</text>
-                            <rect x="150" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                        <svg viewBox="0 0 500 175" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">QUELLEN- / SPEISESEITE</text>
+                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="65" x2="480" y2="65" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="95" x2="480" y2="95" stroke="#f59e0b" stroke-width="3"/>
+                            <!-- PEN bis Übergabepunkt -->
+                            <line x1="20" y1="140" x2="220" y2="140" stroke="#10b981" stroke-width="4"/>
+                            <text x="90" y="132" fill="#10b981" font-size="10">PEN-Leiter</text>
+                            <!-- Aufteilungspunkt Marker -->
+                            <circle cx="220" cy="140" r="4" fill="#fff"/>
+                            <text x="210" y="160" fill="#fff" font-size="9">Aufteilung HAK</text>
+                            <!-- Abgetrennte Leiter ab HAK -->
+                            <line x1="220" y1="140" x2="480" y2="120" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="220" y1="140" x2="480" y2="155" stroke="#10b981" stroke-width="4"/>
+                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="245" y="112" fill="#3b82f6" font-size="10">N (getrennt)</text>
+                            <text x="245" y="167" fill="#10b981" font-size="10">PE (getrennt)</text>
+                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
                             <!-- Last -->
-                            <rect x="370" y="20" width="55" height="140" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="397" y="95" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät</text>
-                            <line x1="330" y1="30" x2="370" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="330" y1="120" x2="370" y2="120" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="330" y1="150" x2="370" y2="150" stroke="#10b981" stroke-width="4"/>
+                            <rect x="370" y="25" width="70" height="140" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="405" y="95" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät</text>
+                            <line x1="320" y1="35" x2="370" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="122" x2="370" y2="122" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="320" y1="153" x2="370" y2="153" stroke="#10b981" stroke-width="4"/>
                         </svg>
                         <p><em>Standard:</em> Die in Europa am häufigsten eingesetzte Netzform im Wohnbau.</p>
                     </div>
@@ -1199,47 +1214,51 @@
                     <div class="article-section">
                         <h3>4. TT-Netz</h3>
                         <p><strong>Eigenschaften:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erdungspfad (Lokaler Erder RA) verbunden. Zwingend mit RCD (FI) abzusichern!</p>
-                        <svg viewBox="0 0 500 160" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
-                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="70" x2="480" y2="70" stroke="#3b82f6" stroke-width="3"/>
-                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">Außenleiter (L)</text>
-                            <text x="25" y="62" fill="#3b82f6" font-size="11" font-weight="bold">Neutralleiter (N)</text>
-                            <rect x="150" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Lokaler Erder -->
-                            <line x1="400" y1="110" x2="400" y2="140" stroke="#10b981" stroke-width="3"/>
-                            <line x1="385" y1="140" x2="415" y2="140" stroke="#10b981" stroke-width="3"/>
-                            <line x1="390" y1="146" x2="410" y2="146" stroke="#10b981" stroke-width="3"/>
+                        <svg viewBox="0 0 500 170" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">NETZ / TRAFO</text>
+                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="75" x2="480" y2="75" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">Außenleiter (L)</text>
+                            <text x="25" y="67" fill="#3b82f6" font-size="11" font-weight="bold">Neutralleiter (N)</text>
+                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <!-- Lokaler Erder am Verbraucher -->
+                            <line x1="410" y1="115" x2="410" y2="140" stroke="#10b981" stroke-width="3"/>
+                            <line x1="395" y1="140" x2="425" y2="140" stroke="#10b981" stroke-width="3"/>
+                            <line x1="400" y1="146" x2="420" y2="146" stroke="#10b981" stroke-width="3"/>
+                            <text x="428" y="135" fill="#10b981" font-size="9">Lokaler Erder (RA)</text>
                             <!-- Last -->
-                            <rect x="360" y="20" width="80" height="90" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="400" y="68" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (TT)</text>
-                            <line x1="330" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="330" y1="70" x2="360" y2="70" stroke="#3b82f6" stroke-width="3"/>
-                            <line x1="400" y1="110" x2="400" y2="110" stroke="#10b981"/>
+                            <rect x="360" y="25" width="100" height="90" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="410" y="73" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Betriebsmittel (TT)</text>
+                            <line x1="320" y1="35" x2="360" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="75" x2="360" y2="75" stroke="#3b82f6" stroke-width="3"/>
+                            <line x1="410" y1="115" x2="410" y2="115" stroke="#10b981"/>
                         </svg>
                     </div>
 
                     <div class="article-section">
                         <h3>5. IT-Netz</h3>
-                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist entweder vollständig isoliert oder über eine hohe Impedanz (Widerstand/Spule) hochohmigkeit mit der Erde verbunden. Bei einem ersten Erdschluss (Körperschluss) fließt nahezu kein Fehlerstrom, weshalb die Anlage betriebsbereit bleibt (wichtig in OP-Sälen oder Industrie-Prüfständen). Ein Isolationswächter meldet den Fehler.</p>
-                        <svg viewBox="0 0 500 160" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                        <p><strong>Eigenschaften:</strong> Die aktive Einspeisung ist entweder vollständig isoliert oder über eine hohe Impedanz hochohmig mit der Erde verbunden. Bei einem ersten Erdschluss fließt nahezu kein Fehlerstrom, weshalb die Anlage betriebsbereit bleibt. Ein Isolationswächter meldet den Fehler.</p>
+                        <svg viewBox="0 0 500 170" style="width:100%; max-width:500px; background:rgba(0,0,0,0.4); border-radius:8px; padding:12px; margin:10px 0;">
+                            <text x="20" y="15" fill="#94a3b8" font-size="10" font-weight="bold">ISOLIERTE EINSPEISUNG</text>
                             <!-- Leitungen -->
-                            <line x1="20" y1="30" x2="480" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="20" y1="70" x2="480" y2="70" stroke="#f59e0b" stroke-width="3"/>
-                            <text x="25" y="22" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="25" y="62" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
-                            <!-- Isolierte Einspeisung Symbol (Trafo) -->
-                            <circle cx="100" cy="50" r="15" fill="none" stroke="#fff" stroke-width="2"/>
+                            <line x1="20" y1="35" x2="480" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="20" y1="75" x2="480" y2="75" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="25" y="27" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
+                            <text x="25" y="67" fill="#f59e0b" font-size="11" font-weight="bold">L2</text>
+                            <!-- Isolierter Trafo / Kreis Symbol -->
+                            <circle cx="100" cy="55" r="16" fill="none" stroke="#fff" stroke-width="2"/>
+                            <text x="82" y="90" fill="#fff" font-size="9">Getrennt / Isoliert</text>
                             <!-- Sicherung -->
-                            <rect x="180" y="23" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
-                            <!-- Last (Isolierter Betrieb) -->
-                            <rect x="360" y="20" width="80" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="400" y="60" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
-                            <line x1="330" y1="30" x2="360" y2="30" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="330" y1="70" x2="360" y2="70" stroke="#f59e0b" stroke-width="3"/>
+                            <rect x="180" y="28" width="20" height="14" fill="none" stroke="#fff" stroke-width="2"/>
+                            <!-- Last -->
+                            <rect x="360" y="25" width="90" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="405" y="65" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
+                            <line x1="320" y1="35" x2="360" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="75" x2="360" y2="75" stroke="#f59e0b" stroke-width="3"/>
                             <!-- Schutzleiter zum Gehäuse -->
-                            <line x1="20" y1="120" x2="480" y2="120" stroke="#10b981" stroke-width="3"/>
-                            <text x="25" y="112" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde)</text>
-                            <line x1="400" y1="90" x2="400" y2="120" stroke="#10b981" stroke-width="3"/>
+                            <line x1="20" y1="130" x2="480" y2="130" stroke="#10b981" stroke-width="3"/>
+                            <text x="25" y="122" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde - Gehäuseanschluss)</text>
+                            <line x1="405" y1="95" x2="405" y2="130" stroke="#10b981" stroke-width="3"/>
                         </svg>
                     </div>
                 `
@@ -1249,29 +1268,61 @@
                 icon: "🛡️",
                 description: "Korrekt nach ÖVE / VDE: Maßnahmen mit und ohne Schutzleiter",
                 content: `
-                    <h2>Fehlerschutzmaßnahmen (Schutz bei Fehler / Indirektes Berühren)</h2>
-                    <p class="article-desc">Nach DIN VDE 0100-410 / ÖVE E 8001 müssen Betriebsmittel im Fehlerfall (z. B. bei einem Körperschluss durch eine beschädigte Isolierung) so geschützt sein, dass ein gefährlicher elektrischer Schlag vermieden wird.</p>
+                    <h2>Fehlerschutzmaßnahmen (Schutz bei indirektem Berühren / im Fehlerfall)</h2>
+                    <p class="article-desc">Nach DIN VDE 0100-410 / ÖVE E 8001 müssen elektrische Betriebsmittel so geschützt sein, dass bei einem Isolationsfehler (Körperschluss) keine gefährlichen berührbaren Spannungen an geerdeten Metallteilen verbleiben.</p>
                     
                     <div class="article-section">
-                        <h3>1. Schutz durch automatische Abschaltung der Stromversorgung (Netzabhängig)</h3>
-                        <p>Die gebräuchlichste Schutzmaßnahme in TN- und TT-Netzen. Sie erfordert zwingend eine Kombination aus:</p>
-                        <ul style="margin-left:20px; line-height: 1.7;">
-                            <li><strong>Schutzleiter (PE):</strong> Verbindet alle berührbaren Metallteile (Körper) leitfähig miteinander und führt sie zum Erdungssystem.</li>
-                            <li><strong>Überstromschutzeinrichtung (LS-Schalter/Sicherung) oder RCD (FI-Schalter):</strong> Schaltet den Stromkreis im Fehlerfall innerhalb der vorgeschriebenen Abschaltzeit (z. B. 0,2s oder 0,4s) automatisch ab, bevor eine gefährliche Berührungsspannung länger einwirken kann.</li>
-                        </ul>
+                        <h3>1. Netzabhängige Fehlerschutzmaßnahmen (Erfordern netzseitige Erdung / Schutzleiter / Schleife)</h3>
+                        <p>Diese Schutzmaßnahmen nutzen das bestehende Netzsystem und schalten im Fehlerfall über Schutzorgane ab:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Maßnahme</th><th>Funktionsweise & Details</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Fehlerstromschutzschaltung (RCD / FI)</strong></td>
+                                    <td>Überwacht die Summe der Ströme. Fließt bei einem Fehlerstrom über den Körper Strom zur Erde ab, löst der RCD in Millisekunden allpolig aus. Unverzichtbar in modernen TN- und TT-Netzen.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Nullung (Klassische Nullung & Schutzziel im TN-Netz)</strong></td>
+                                    <td>Verbindung der Körper elektrischer Betriebsmittel mit dem PEN-Leiter (Nullung) bzw. dem separaten PE. Ein Körperschluss wird dadurch zu einem satten Kurzschluss, der die Überstromschutzeinrichtung (Sicherung/LS) sofort auslöst.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Überstromschutz (Sicherung / LS-Schalter)</strong></td>
+                                    <td>Schaltet den fehlerhaften Stromkreis bei Überschreitung des zulässigen Stroms oder bei Kurzschluss/Körperschluss innerhalb der geforderten Abschaltzeit automatisiert ab.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutzerdung</strong></td>
+                                    <td>Das gezielte und niederohmige Verbinnden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Isolationsüberwachungssystem</strong></td>
+                                    <td>Kontinuierliche Überwachung des Isolationswiderstands gegen Erde (speziell in IT-Netzen). Meldet den ersten Fehler optisch/akustisch, ohne direkt abzuschalten.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div class="article-section">
-                        <h3>2. Netzunabhängige Schutzmaßnahmen (Ohne Schutzleiter / Erdung im Kreis)</h3>
-                        <p>Diese Schutzmaßnahmen schliessen Gefahren unabhängig von der Netzform und dem Vorhandensein eines Schutzleiters aus:</p>
+                        <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
+                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Schutzmaßnahme</th><th>Prinzip / Funktionsweise</th></tr>
+                                <tr><th>Maßnahme</th><th>Prinzip / Funktionsweise</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>Schutzisolierung (Schutzklasse II)</strong></td><td>Betriebsmittel besitzen eine verstärkte oder doppelte Isolierung. Es gibt keine berührbaren Metallteile, die bei einem Fehler unter Spannung geraten könnten (Symbol: 🔲).</td></tr>
-                                <tr><td><strong>Schutzkleinspannung (SELV / PELV)</strong></td><td>Betrieb mit Sicherheitskleinspannung (Wechselspannung $\le 50\,\text{V}$, Gleichspannung $\le 120\,\text{V}$) über Sicherheitstransformatoren.</td></tr>
-                                <tr><td><strong>Schutztrennung</strong></td><td>Versorgung eines einzelnen Verbrauchers über einen Trenntransformator mit getrennten Wicklungen. Der Sekundtkreis ist ungeserdet; ein Berühren eines Leiters führt zu keinem geschlossenen Stromkreis über die Erde.</td></tr>
+                                <tr>
+                                    <td><strong>Schutz- und Funktionskleinspannung (SELV / PELV)</strong></td>
+                                    <td>Betrieb der Anlage mit Sicherheitskleinspannung (Wechselspannung $\le 50\,\text{V}$, Gleichspannung $\le 120\,\text{V}$) über einen Sicherheitstransformator nach EN 61558. Keine gefährlichen Körperströme möglich.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutzisolierung (Schutzklasse II)</strong></td>
+                                    <td>Geräte besitzen eine doppelte oder verstärkte Isolierung. Es gibt keine berührbaren Metallteile, die bei einem inneren Fehler unter Spannung geraten können (gekennzeichnet durch das Quadrat-im-Quadrat-Symbol).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutztrennung</strong></td>
+                                    <td>Die Versorgung eines einzelnen Verbrauchers erfolgt über einen Trenntransformator mit getrennten Wicklungen. Der Sekundärkreis ist absolut erdungsfrei – das Berühren eines aktiven Leiters schließt keinen Stromkreis über den Boden.</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
