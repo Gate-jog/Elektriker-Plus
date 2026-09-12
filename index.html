@@ -579,7 +579,7 @@
 
                 <div class="feature-badges">
                     <div class="badge"><span class="badge-icon">✓</span> 25 Fachfragen</div>
-                    <div class="badge"><span class="badge-icon">✓</span> 6 Kernbereiche</div>
+                    <div class="badge"><span class="badge-icon">✓</span> 8 Kernbereiche</div>
                     <div class="badge"><span class="badge-icon">✓</span> Aktualisierte Vorschriften</div>
                 </div>
             </div>
@@ -673,17 +673,35 @@
                 content: `
                     <h2>Grundlagen der Elektrotechnik</h2>
                     <div class="article-section">
-                        <h3>🔌 Physikalische Kerngrößen</h3>
+                        <h3>🔌 Physikalische Kerngrößen & Einheiten</h3>
                         <ul>
-                            <li><strong>Spannung (U):</strong> Potentialdifferenz in Volt (V). Normalspannung Phase-Neutralleiter: 230 V AC.</li>
-                            <li><strong>Stromstärke (I):</strong> Ladungsbewegung in Ampere (A).</li>
-                            <li><strong>Widerstand (R):</strong> Strombegrenzung in Ohm (Ω).</li>
-                            <li><strong>Leistung (P):</strong> Elektrische Wirkleistung in Watt (W).</li>
+                            <li><strong>Spannung (U):</strong> Potentialdifferenz in Volt (V). Normalspannung Phase-Neutralleiter: 230 V AC. Phase-Phase: 400 V AC.</li>
+                            <li><strong>Stromstärke (I):</strong> Gezielte Bewegung freier Elektronen in Ampere (A). Formel: I = Q / t.</li>
+                            <li><strong>Widerstand (R):</strong> Hemmung des Elektronenstroms in Ohm (Ω). Materialabhängig (spezifischer Widerstand ρ).</li>
+                            <li><strong>Leistung (P):</strong> Umgesetzte Energie pro Zeitspanne in Watt (W). Formula: P = U × I.</li>
+                            <li><strong>Elektrische Arbeit (W):</strong> Arbeit bzw. Energie in Wattsekunden (Ws) oder Kilowattstunden (kWh). Formel: W = P × t.</li>
                         </ul>
                     </div>
                     <div class="article-section">
-                        <h3>📐 Das Ohmsche Gesetz & Wechselstrom</h3>
-                        <div class="info-callout"><strong>Gleichstrom: U = R × I</strong><br>Im Wechselstromkreis gilt zusätzlich die Impedanz Z: <strong>U = Z × I</strong>.</div>
+                        <h3>📐 Das Ohmsche Gesetz & Wechselstromlehre</h3>
+                        <div class="info-callout">
+                            <strong>Gleichstrom:</strong> U = R × I | P = U × I<br>
+                            <strong>Wechselstrom (Einphasig):</strong> U = Z × I | Wirkleistung: P = U × I × cos(φ)<br>
+                            <strong>Drehstrom (Dreiphasig):</strong> P = √3 × U × I × cos(φ) (mit U = 400V Verkettungsspannung)
+                        </div>
+                    </div>
+                    <div class="article-section">
+                        <h3>🔄 Schaltungsarten im Vergleich</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Parameter</th><th>Reihenschaltung (Serie)</th><th>Parallelschaltung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Spannung (U)</strong></td><td>Teilt sich auf: U_ges = U1 + U2</td><td>Überall gleich: U_ges = U1 = U2</td></tr>
+                                <tr><td><strong>Stromstärke (I)</strong></td><td>Überall gleich: I_ges = I1 = I2</td><td>Teilt sich auf: I_ges = I1 + I2</td></tr>
+                                <tr><td><strong>Gesamtwiderstand</strong></td><td>R_ges = R1 + R2 (wird größer)</td><td>1/R_ges = 1/R1 + 1/R2 (wird kleiner)</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 `
             },
@@ -692,19 +710,28 @@
                 icon: "🛡️",
                 description: "Die 5 Sicherheitsregeln zum Schutz von Personen",
                 content: `
-                    <h2>Die 5 Sicherheitsregeln</h2>
-                    <div class="info-callout">Zwingende Reihenfolge vor Beginn aller Arbeiten an elektrischen Anlagen (gemäß EN 50110)!</div>
+                    <h2>Die 5 Sicherheitsregeln (EN 50110 / ÖVE EN 1)</h2>
+                    <div class="info-callout"><strong>Zwingende Reihenfolge</strong> vor Beginn aller Arbeiten an freigeschalteten elektrischen Anlagen! Die Schritte 1 bis 3 müssen immer durchgeführt werden; Schritte 4 und 5 hängen von der Anlagenspannung ab.</div>
                     <div class="article-section">
                         <h3>1. Freischalten</h3>
-                        <p>Allpoliges Trennen der Anlage von der Spannungsversorgung.</p>
+                        <p>Allpolige Trennung der Anlage von allen speisenden Spannungsquellen (z. B. durch Auslösen des Leitungsschutzschalters, Herausnehmen von Sicherungen oder Öffnen von Hauptschaltern).</p>
+                        
                         <h3>2. Gegen Wiedereinschalten sichern</h3>
-                        <p>Sperrschlösser anbringen, Schalter abkleben, Warnschilder ("Nicht schalten!") anbringen.</p>
+                        <p>Verhindern, dass die Anlage versehentlich wieder unter Spannung gesetzt wird. Maßnahmen: Schaltsperren oder Vorhängeschlösser anbringen, Sicherungseinsätze mitnehmen, Verbotsschilder ("Nicht schalten! Es wird gearbeitet") gut sichtbar anbringen.</p>
+                        
                         <h3>3. Spannungsfreiheit feststellen</h3>
-                        <p>Zweipoligen Spannungsprüfer (z.B. Duspol) verwenden. Vor und nach der Messung stets auf Funktion prüfen!</p>
+                        <p>Allpolige Prüfung der Spannungsfreiheit an der Arbeitsstelle mit einem geeigneten Prüfmittel.</p>
+                        <ul>
+                            <li><strong>Vorschrift:</strong> Nur zweipolige Spannungsprüfer (z.B. Duspol nach EN 61243-3) verwenden.</li>
+                            <li><strong>Prüfreihenfolge:</strong> Spannungsprüfer unmittelbar vor der Messung an einer bekannten Spannungsquelle auf Funktion testen, Spannungsfreiheit an der Arbeitsstelle feststellen, danach den Prüfer erneut an der Quelle testen.</li>
+                            <li><strong>Unzulässig:</strong> Einpolige Phasenprüfer ("Lügenstifte") oder Multimeter im falschen Messbereich.</li>
+                        </ul>
+
                         <h3>4. Erden und Kurzschließen</h3>
-                        <p>Pflicht bei Niederspannung ab 1000V sowie bei Freileitungen und erhöhter Rückspannungsgefahr.</p>
-                        <h3>5. Benachbarte unter Spannung stehende Teile abdecken</h3>
-                        <p>Isoliermatten, Schutztücher oder Abschrankungen im Arbeitsbereich anbringen.</p>
+                        <p>Zuerst mit der Erdungsanlage verbinden, danach mit den zu erdenen aktiven Teilen koppeln. Pflicht im Hochspannungsbereich sowie bei Niederspannungsanlagen (>1000V) und Freileitungen mit Gefahr von Induktion/Rückspeisung.</p>
+
+                        <h3>5. Benachbarte unter Spannung stehende Teile abdecken oder abschranken</h3>
+                        <p>Notwendig, wenn in der Nähe von Anlagenteilen gearbeitet wird, die nicht freigeschaltet werden können. Verwendung von isolierenden Schutzabdeckungen, Tüchern oder Absperrungen gemäß Schutzart.</p>
                     </div>
                 `
             },
@@ -713,8 +740,9 @@
                 icon: "🔌",
                 description: "Farbcodierung, Querschnitt und Dimensionierung",
                 content: `
-                    <h2>Leiterfarben & Dimensionierung</h2>
+                    <h2>Leiterfarben, Leitungsarten & Dimensionierung</h2>
                     <div class="article-section">
+                        <h3>🎨 Genormte Leiterfarben (IEC 60446 / ÖVE)</h3>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Funktion</th><th>Farbe</th><th>Kürzel</th></tr>
@@ -724,17 +752,27 @@
                                 <tr><td>Außenleiter 2</td><td>Schwarz</td><td>L2</td></tr>
                                 <tr><td>Außenleiter 3</td><td>Grau</td><td>L3</td></tr>
                                 <tr><td>Neutralleiter</td><td>Hellblau</td><td>N</td></tr>
-                                <tr><td>Schutzleiter</td><td>Grün-Gelb</td><td>PE</td></tr>
-                                <tr><td>PEN-Leiter</td><td>Grün-Gelb mit blauer Markierung</td><td>PEN</td></tr>
+                                <tr><td>Schutzleiter</td><td>Grün-Gelb (exklusiv)</td><td>PE</td></tr>
+                                <tr><td>PEN-Leiter</td><td>Grün-Gelb mit hellblauer Endmarkierung</td><td>PEN</td></tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="article-section">
-                        <h3>Wichtige Dimensionierungsregeln:</h3>
+                        <h3>📏 Leitungsdimensionierung & Strombelastbarkeit</h3>
+                        <p>Der Leiterquerschnitt richtet sich nach:</p>
                         <ul>
-                            <li><strong>PEN-Mindestquerschnitt:</strong> Mindestens 10 mm² Kupfer oder 16 mm² Aluminium (Spezifikum in Österreich).</li>
-                            <li><strong>Spannungsabfall:</strong> Darf von der Hauptspeisung bis zum Verbraucher max. 4% (bzw. 3% für Lichtstromkreise) betragen.</li>
+                            <li>Der maximalen Strombelastung (Nennstrom des Schutzorgans, z. B. 13 A / 16 A)</li>
+                            <li>Der Verlegeart (z. B. A1/A2 in gedämmten Wänden, B1/B2 im Rohr auf Wand, C direkt im Putz)</li>
+                            <li>Der Häufung von Leitungen (Korrekturfaktoren)</li>
+                            <li>Dem zulässigen Spannungsabfall (max. 4 % im Endstromkreis vom Zähler)</li>
                         </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>⚠️ Wichtige Mindestquerschnitte (Österreich)</h3>
+                        <div class="info-callout">
+                            <strong>Standard-Steckdosen (16 A):</strong> Mindestens 1,5 mm² Cu (bei langen Wegen 2,5 mm² zur Begrenzung des Spannungsabfalls).<br>
+                            <strong>PEN-Leiter:</strong> Mindestens 10 mm² Kupfer oder 16 mm² Aluminium aus mechanischen Festigkeitsgründen.
+                        </div>
                     </div>
                 `
             },
@@ -743,32 +781,49 @@
                 icon: "⚙️",
                 description: "Zusatzschutz, RCD-Typen und automatische Abschaltung",
                 content: `
-                    <h2>Schutzmaßnahmen</h2>
+                    <h2>Schutzmaßnahmen & Fehlerstromschutz</h2>
                     <div class="article-section">
                         <h3>1. Zusatzschutz durch RCDs (FI-Schutzschalter)</h3>
-                        <p>In Österreich gilt eine umfassende RCD-Pflicht:</p>
+                        <p>Der Fehlerstromschutzschalter vergleicht den zufließenden Strom (L) mit dem abfließenden Strom (N). Bei einer Differenz (Fehlerstrom I_Δn) löst er mechanisch aus.</p>
                         <ul>
-                            <li><strong>Steckdosenstromkreise (bis 32 A):</strong> Pflicht-Zusatzschutz mit I<sub>Δn</sub> ≤ 30 mA.</li>
-                            <li><strong>Beleuchtungsstromkreise in Wohnungen:</strong> Ebenfalls RCD-Pflicht mit I<sub>Δn</sub> ≤ 30 mA.</li>
-                            <li><strong>Zulässige RCD-Typen:</strong> Typ AC ist bei Neuinstallationen und Erweiterungen <strong>nicht mehr zulässig</strong>! Es müssen mindestens Typ A, Typ F oder Typ B verbaut werden.</li>
+                            <li><strong>Steckdosenstromkreise (bis 32 A):</strong> Zwingend RCD mit I_Δn ≤ 30 mA.</li>
+                            <li><strong>Beleuchtungsstromkreise in Wohnungen:</strong> Zwingend RCD mit I_Δn ≤ 30 mA.</li>
+                            <li><strong>Brandschutz:</strong> RCD mit I_Δn ≤ 300 mA für gefährdete Betriebsstätten.</li>
                         </ul>
                     </div>
                     <div class="article-section">
-                        <h3>2. Maximale Abschaltzeiten im TN-System (230/400 V)</h3>
+                        <h3>2. RCD-Typenübersicht</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Typ</th><th>Erfasste Fehlerströme</th><th>Einsatzbereich</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Typ AC</strong></td><td>Nur reine Wechselfehlerströme</td><td><strong>Verboten</strong> für Neuinstallationen in AT/DE!</td></tr>
+                                <tr><td><strong>Typ A</strong></td><td>Pulsierende Gleichfehlerströme & Wechselströme</td><td>Standard für Wohnungsbau & Standard-Verbraucher.</td></tr>
+                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen (z. B. Wechselrichter)</td><td>Waschmaschinen, Wärmepumpen, Klimageräte.</td></tr>
+                                <tr><td><strong>Typ B</strong></td><td>Allstromsensitiv (glatte Gleichfehlerströme)</td><td>Photovoltaik-Anlagen, EV-Ladestationen (Wallboxen).</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="article-section">
+                        <h3>3. Abschaltzeiten im TN-System (230/400 V)</h3>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Stromkreis</th><th>Max. Abschaltzeit</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>Endstromkreise ≤ 63 A (Steckdosen)</td><td>0,4 Sekunden</td></tr>
-                                <tr><td>Verteilerstromkreise / > 63 A</td><td>5,0 Sekunden</td></tr>
+                                <tr><td>Endstromkreise ≤ 63 A (Steckdosen)</td><td><strong>0,4 Sekunden</strong></td></tr>
+                                <tr><td>Verteilerstromkreise / > 63 A</td><td><strong>5,0 Sekunden</strong></td></tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="article-section">
-                        <h3>3. Schleifenimpedanz (Z<sub>s</sub>) & Temperaturfaktor</h3>
-                        <p>Bei der messtechnischen Überprüfung der Schleifenimpedanz gilt die <strong>2/3-Regel</strong> (Berücksichtigung der Leitererwärmung im Fehlerfall):</p>
-                        <div class="info-callout"><strong>Z<sub>s</sub> × I<sub>a</sub> ≤ U<sub>0</sub> × ⅔</strong><br>Wobei U<sub>0</sub> = 230 V und I<sub>a</sub> der Auslösestrom des Schutzorgans ist.</div>
+                        <h3>4. Schleifenimpedanz (Zs) & 2/3-Regel</h3>
+                        <p>Bei der messtechnischen Fehlerschleifenmessung muss sichergestellt sein, dass im Kurzschlussfall genügend Strom fließt, um das Schutzorgan (z.B. LS-Schalter) rechtzeitig auszulösen:</p>
+                        <div class="info-callout">
+                            <strong>Formel:</strong> Zs × Ia ≤ U0 × ⅔<br>
+                            <em>(U0 = 230 V Nennspannung gegen Erde; Ia = erforderlicher Abschaltstrom; Faktor 2/3 berücksichtigt die Erwärmung der Leiter im Kurzschlussfall).</em>
+                        </div>
                     </div>
                 `
             },
@@ -777,23 +832,26 @@
                 icon: "🚿",
                 description: "Bäder, Baustellen und landwirtschaftliche Betriebsstätten",
                 content: `
-                    <h2>Sonderanforderungen nach Teil 7</h2>
+                    <h2>Sonderanforderungen nach ÖVE/ÖNORM E 8101-7</h2>
                     <div class="article-section">
                         <h3>🛁 Bade- und Duschräume (Abschnitt 701)</h3>
+                        <p>Räume mit Badewanne oder Dusche werden in Schutzbereiche eingeteilt:</p>
                         <ul>
-                            <li><strong>Bereich 0:</strong> Nur SELV mit max. 12 V AC / 30 V DC zulässig. Schutzart min. IPX7.</li>
-                            <li><strong>Bereich 1:</strong> Nur fest angeschlossene Verbraucher (z.B. Boiler). Schutzart min. IPX4.</li>
-                            <li><strong>Bereich 2:</strong> Schutzart min. IPX4. Keine Steckdosen oder Schalter zulässig.</li>
-                            <li><strong>Alle Stromkreise:</strong> Müssen über RCD mit I<sub>Δn</sub> ≤ 30 mA geschützt sein.</li>
+                            <li><strong>Bereich 0 (Innenraum Wanne/Dusche):</strong> Nur SELV mit max. 12 V AC / 30 V DC zulässig. Schutzart min. IPX7.</li>
+                            <li><strong>Bereich 1 (Senkrechte Fläche um Wanne/Dusche bis H=2,25m):</strong> Nur fest angeschlossene Wassererwärmer/Whirlpoolpumpen. Schutzart min. IPX4.</li>
+                            <li><strong>Bereich 2 (60 cm Bereich um Bereich 1):</strong> Fest angeschlossene Leuchten, Boiler. Schutzart min. IPX4. Keine Steckdosen!</li>
+                            <li><strong>Außerhalb Bereich 2:</strong> Steckdosen erlaubt, sofern über 30 mA RCD geschützt.</li>
                         </ul>
                     </div>
                     <div class="article-section">
-                        <h3>🚜 Landwirtschaftliche & gartenbauliche Betriebsstätten (Abschnitt 705)</h3>
-                        <div class="info-callout"><strong>Verschärfter Schutz für Menschen & Nutztiere:</strong> Nutztiere reagieren wesentlich empfindlicher auf Berührungsspannungen.</div>
+                        <h3>🚜 Landwirtschaftliche Betriebsstätten (Abschnitt 705)</h3>
+                        <div class="info-callout">
+                            <strong>Verschärfter Personenschutz & Nutztierschutz:</strong> Kaltblütige Tiere (z. B. Rinder, Schweine) besitzen einen wesentlich geringeren Körperwiderstand als Menschen und reagieren empfindlich auf Berührungsspannungen.
+                        </div>
                         <ul>
-                            <li><strong>Fehler- & Berührungsspannung:</strong> Die zulässige Berührungsspannung U<sub>L</sub> ist auf <strong>max. 25 V AC</strong> (statt 50 V) begrenzt.</li>
-                            <li><strong>Gesamtschutz:</strong> Alle Stromkreise (auch Beleuchtung) benötigen RCD-Schutz (I<sub>Δn</sub> ≤ 30 mA für Steckdosen; max. 300 mA für Brandschutz).</li>
-                            <li><strong>Zusätzlicher Potentialausgleich:</strong> Einbindung aller metallischen Teile im Stallbereich (Gitter, Tränken, Melkanlagen) ist zwingend vorgeschrieben.</li>
+                            <li><strong>Max. Berührungsspannung (UL):</strong> Auf <strong>max. 25 V AC</strong> begrenzt (statt der üblichen 50 V AC).</li>
+                            <li><strong>RCD-Pflicht:</strong> Alle Steckdosenstromkreise müssen mit RCD ≤ 30 mA geschützt sein. Für den Brandschutz aller Stromkreise gilt max. 300 mA.</li>
+                            <li><strong>Zusätzlicher Potentialausgleich:</strong> Sämtliche metallischen Teile im Stall (Fressgitter, Tränken, Melkanlagen) müssen mit dem Erder verbunden werden.</li>
                         </ul>
                     </div>
                 `
@@ -805,22 +863,91 @@
                 content: `
                     <h2>Netzformen & Erdungskonzepte in Österreich</h2>
                     <div class="article-section">
-                        <h3>1. TN-System (Nullung)</h3>
-                        <p>Die Nullung ist in Österreich die bevorzugte Schutzmaßnahme:</p>
+                        <h3>1. Die drei Netzformen im Vergleich</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Netzform</th><th>Betriebserdung</th><th>Körpererdung</th><th>Eigenschaften</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>TN-S</strong></td><td>Direkt geerdet</td><td>Über eigenen PE-Leiter zum Trafo</td><td>Maximale EMV-Sicherheit. PE und N strikt getrennt.</td></tr>
+                                <tr><td><strong>TN-C-S</strong></td><td>Direkt geerdet</td><td>PEN bis Hauptverteilung, danach N + PE</td><td>Standard in der Gebäudeinstallation. Aufteilung im HAK.</td></tr>
+                                <tr><td><strong>TT</strong></td><td>Direkt geerdet</td><td>Über eigenen Erder vor Ort (Anlagenerder)</td><td>Keine Verbindung zwischen N und PE im Gebäude. RCD zwingend.</td></tr>
+                                <tr><td><strong>IT</strong></td><td>Isoliert / hochohmig</td><td>Über lokalen Erder geerdet</td><td>Hohe Ausfallsicherheit (z.B. OP-Räume). Erstfehler führt nicht zur Abschaltung.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="article-section">
+                        <h3>2. Hauptpotentialausgleich / Schutzpotenzialausgleich</h3>
+                        <p>Der Hauptpotentialausgleich verhindert Gefährdungen durch Spannungsverschleppungen von außen. An die Haupterdungsschiene (HES) müssen angeschlossen werden:</p>
                         <ul>
-                            <li><strong>TN-C-S-System:</strong> Im Speisenetz gemeinsam geführt (PEN), ab der Hauptverteilung strikt in N und PE getrennt.</li>
-                            <li><strong>Aufteilungsstelle:</strong> An der Stelle der Aufteilung von PEN in N und PE muss eine Verbindung zum Erder/Hauptpotentialausgleich hergestellt werden.</li>
+                            <li>Fundamenterder bzw. Ringerder</li>
+                            <li>Metallene Hauprohrleitungen (Wasser, Gas, Fernwärme)</li>
+                            <li>Zentrale Heizungs- und Klimarohre</li>
+                            <li>Leitfähige Gebäudestrukturen, Blitzeitschutz und Aufzugsschienen</li>
+                        </ul>
+                    </div>
+                `
+            },
+            standards_law: {
+                title: "ÖVE Standards & Gesetze",
+                icon: "📜",
+                description: "Rechtliche Hierarchie, ÖVE/ÖNORM & ArbeitnehmerInnenschutz",
+                content: `
+                    <h2>Rechtliche Grundlagen & Hierarchie der Regeln</h2>
+                    <div class="article-section">
+                        <h3>🏛️ Die rechtliche Pyramide in Österreich</h3>
+                        <p>Im Elektrotechnikbereich muss strikt zwischen Gesetzen, Verordnungen und Normen unterschieden werden:</p>
+                        <ul>
+                            <li><strong>1. Gesetze (z.B. Elektrotechnikgesetz - ETG, ArbeitnehmerInnenschutzgesetz - ASchG):</strong> Vom Parlament beschlossen, vom Gesetzgeber verbindlich vorgeschrieben. Bei Verstoß drohen straf- und zivilrechtliche Konsequenzen.</li>
+                            <li><strong>2. Verordnungen (z.B. Elektrotechnikverordnung - ETV, Elektroschutzverordnung - ESV):</strong> Werden von Ministerien erlassen und präzisieren Gesetze. Die ETV erklärt spezifische ÖVE-Normen für verbindlich.</li>
+                            <li><strong>3. Normen (ÖVE/ÖNORM E 8101, EN 50110):</strong> Technische Regeln, entwickelt von Expertenkommissionen (OVE). Normen besitzen primär den Status von Empfehlungen. Sie werden jedoch <strong>verbindlich</strong>, sobald sie in Verordnungen (wie der ETV) zitiert werden oder vertraglich als "Stand der Technik" vereinbart wurden.</li>
                         </ul>
                     </div>
                     <div class="article-section">
-                        <h3>2. Hauptpotentialausgleich (HPA) / Schutzpotenzialausgleich</h3>
-                        <p>Es müssen folgende fremde leitfähige Teile direkt mit der Haupterdungsschiene (HES) verbunden werden:</p>
+                        <h3>⚖️ Lohn vs. Gehalt & Kollektivvertrag</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Begriff</th><th>Zielgruppe</th><th>Berechnungsbasis</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Lohn</strong></td><td>Arbeiter / Facharbeiter im Handwerk</td><td>Häufig nach geleisteten Stunden (Stundenlohn).</td></tr>
+                                <tr><td><strong>Gehalt</strong></td><td>Angestellte / kaufmännisch & technisch</td><td>Fester Monatsbetrag, unabhängig von den Arbeitstagen.</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-callout">
+                            <strong>Kollektivvertrag (KV):</strong> Eine schriftliche Vereinbarung zwischen Arbeitnehmer- (z.B. Gewerkschaft) und Arbeitgeberverbänden. Er regelt Mindestlöhne, Arbeitszeiten, Überstundenzuschläge und Weihnachtsgeld/Urlaubsgeld.
+                        </div>
+                    </div>
+                `
+            },
+            formulas: {
+                title: "Formeln & Netzberechnungen",
+                icon: "🧮",
+                description: "Berechnungen für Drehstrom, Motoren & Blindleistung",
+                content: `
+                    <h2>Formelsammlung & Elektrische Maschinen</h2>
+                    <div class="article-section">
+                        <h3>⚡ Dreiphasenwechselstrom (Drehstrom)</h3>
+                        <p>Zwischen den Außenleitern liegt die Verkettungsspannung <strong>U = 400 V</strong>. Zwischen Außenleiter und Neutralleiter liegt die Strangspannung <strong>U_str = 230 V</strong> (Faktor √3 ≈ 1,732).</p>
                         <ul>
-                            <li>Metallene Rohrleitungen von Gebäudeverpflegungen (Wasser, Gas, Fernwärme)</li>
-                            <li>Zentrale Heizungs- und Klimasysteme</li>
-                            <li>Fundamenterder / Ringerder</li>
-                            <li>Metallene Gebäudestrukturen & Aufzugsschienen</li>
+                            <li><strong>Sternschaltung:</strong> U_Leiter = √3 × U_Strang | I_Leiter = I_Strang</li>
+                            <li><strong>Dreieckschaltung:</strong> U_Leiter = U_Strang | I_Leiter = √3 × I_Strang</li>
+                            <li><strong>Wirkleistung (P):</strong> P = √3 × U × I × cos(φ)</li>
+                            <li><strong>Blindleistung (Q):</strong> Q = √3 × U × I × sin(φ) [in var]</li>
+                            <li><strong>Scheinleistung (S):</strong> S = √3 × U × I = √(P² + Q²) [in VA]</li>
                         </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>⚙️ Drehstrom-Asynchronmotor (Slip & Drehzahl)</h3>
+                        <p>Die synchrone Drehfeld-Drehzahl (n_s) des Stators hängt von der Netzfrequenz (f) und der Polpaarzahl (p) ab:</p>
+                        <div class="info-callout">
+                            <strong>Synchrondrehzahl:</strong> n_s = (f × 60) / p<br>
+                            <em>Beispiel bei f=50Hz und Polpaarzahl p=1 (2-polig): n_s = 3000 U/min. Bei p=2 (4-polig): n_s = 1500 U/min.</em>
+                        </div>
+                        <p>Der Läufer dreht sich aufgrund des Belastungsmoments etwas langsamer als das Drehfeld. Diese Differenz nennt man <strong>Schlupf (s)</strong>:</p>
+                        <div class="info-callout">
+                            <strong>Schlupf-Formel:</strong> s = (n_s - n) / n_s × 100 %
+                        </div>
                     </div>
                 `
             }
@@ -926,7 +1053,6 @@
                 loadQuestion();
             } else {
                 document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.active = true;
                 document.getElementById('toggle-learn').classList.add('active');
                 loadTopics();
             }
