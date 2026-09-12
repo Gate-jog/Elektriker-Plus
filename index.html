@@ -911,7 +911,7 @@
                             <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
                         </div>
 
-                        <!-- NEU: Leitungsquerschnitt Berechnung -->
+                        <!-- Leitungsquerschnitt Berechnung -->
                         <div class="calc-box">
                             <h3>Mindestquerschnitt (A) berechnen</h3>
                             <div class="input-field">
@@ -1175,7 +1175,9 @@
             const current = quizData[currentQuestion];
             const buttons = document.querySelectorAll('.option-card');
             buttons.forEach(btn => btn.disabled = true);
-            buttons[current.answer].classList.add('correct');
+            if (buttons[current.answer]) {
+                buttons[current.answer].classList.add('correct');
+            }
             
             stats.total++;
             updateStatsUI();
@@ -1232,7 +1234,9 @@
                 }
             } else {
                 btnElement.classList.add('incorrect');
-                buttons[current.answer].classList.add('correct');
+                if (buttons[current.answer]) {
+                    buttons[current.answer].classList.add('correct');
+                }
             }
 
             updateStatsUI();
@@ -1253,6 +1257,7 @@
         }
 
         function endQuiz() {
+            clearInterval(timerInterval);
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').textContent = `${score} / ${quizData.length}`;
@@ -1269,6 +1274,7 @@
         }
 
         function restartQuiz() {
+            clearInterval(timerInterval);
             quizData = shuffleArray([...initialQuizData]).slice(0, 5);
             currentQuestion = 0;
             score = 0;
@@ -1278,11 +1284,13 @@
         }
 
         function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            const diff = document.getElementById('ai-diff-select').value;
-            
+            clearInterval(timerInterval);
+            answered = false;
+
             document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Generiere...</span><br>Lade dynamische Aufgabe...';
             document.getElementById('options').innerHTML = '';
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
             
             setTimeout(() => {
                 quizData = [{
@@ -1295,7 +1303,7 @@
                 currentQuestion = 0;
                 score = 0;
                 loadQuestion();
-            }, 800);
+            }, 600);
         }
 
         // Navigation Modes
@@ -1328,7 +1336,7 @@
                 document.getElementById('result-screen').style.display = 'none';
                 restartQuiz();
             } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active'); // Reuse quiz UI
+                document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
                 document.getElementById('quiz-heading').textContent = "✨ KI-Simulator";
                 document.getElementById('quiz-screen').style.display = 'block';
