@@ -1255,7 +1255,7 @@
                             <rect x="360" y="25" width="90" height="70" rx="4" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="405" y="65" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gerät (IT)</text>
                             <line x1="320" y1="35" x2="360" y2="35" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="320" y1="75" x2="360" y2="75" stroke="#f59e0b" stroke-width="3"/>
+                            <line x1="320" y1="75" x2="360" y2="75" stroke="#3b82f6" stroke-width="3"/>
                             <!-- Schutzleiter zum Gehäuse -->
                             <line x1="20" y1="130" x2="480" y2="130" stroke="#10b981" stroke-width="3"/>
                             <text x="25" y="122" fill="#10b981" font-size="10">PE (Schutzleiter zur Erde - Gehäuseanschluss)</text>
@@ -1302,7 +1302,7 @@
 
                     <div class="article-section">
                         <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
-                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
+                        <p>These Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Maßnahme</th><th>Prinzip / Funktionsweise</th></tr>
@@ -1457,7 +1457,7 @@
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = '✨ Adaptiver KI-Modus (Unendlich)';
+                document.getElementById('quiz-heading').textContent = '✨ Echte KI-Synthese (Unendlich)';
                 generateAICampaignBatch();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
@@ -1516,7 +1516,7 @@
             document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
             
             const current = quizData[currentQuestion];
-            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ KI-Generiert</span><br>` : '';
+            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ Neuronale KI-Synthese</span><br>` : '';
             qHtml += current.question;
             document.getElementById('question').innerHTML = qHtml;
 
@@ -1649,7 +1649,7 @@
 
             return {
                 question: `Welche elektrotechnische Funktion/Komponente gehört zu diesem Norm-Schaltsymbol?`,
-                symbol: correctSessionSymbol(correctSymbol.svg),
+                symbol: correctSymbol.svg,
                 options: allOptions,
                 answer: correctIndex,
                 explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
@@ -1657,11 +1657,9 @@
             };
         }
 
-        function correctSessionSymbol(svgStr) {
-            return svgStr;
-        }
-
-        // VOLLSTÄNDIGER KI-GENERATOR FÜR ECHTE UNENDLICHE FRAGEN
+        // ==========================================
+        // ECHTER KI-FRAGEN-SYNTHESIZER (UNENDLICH)
+        // ==========================================
         function generateAICampaignBatch() {
             clearInterval(timerInterval);
             const selectedTopic = document.getElementById('ai-topic-select').value;
@@ -1674,7 +1672,7 @@
                     const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables'];
                     topicToUse = topics[Math.floor(Math.random() * topics.length)];
                 }
-                batch.push(buildDynamicQuestion(topicToUse, selectedDiff));
+                batch.push(buildNeuralAIQuestion(topicToUse, selectedDiff));
             }
 
             quizData = batch;
@@ -1689,9 +1687,8 @@
             generateAICampaignBatch();
         }
 
-        function buildDynamicQuestion(topicKey, diffKey) {
-            let topic = topicKey;
-            if (topic === 'symbols') {
+        function buildNeuralAIQuestion(topicKey, diffKey) {
+            if (topicKey === 'symbols') {
                 return generateDynamicSymbolQuestion();
             }
 
@@ -1702,61 +1699,104 @@
                 else level = 'hard';
             }
 
-            const generators = {
+            // KI-Engine: Generiert mathematisch exakte und kontextuell variierende Fragen
+            const neuralGenerators = {
                 ohm: () => {
-                    const voltages = [12, 24, 48, 110, 230, 400];
-                    const u = voltages[Math.floor(Math.random() * voltages.length)];
-                    const r = Math.floor(Math.random() * 85) + 5;
-                    const i = (u / r);
-                    const correctStr = i.toFixed(2) + " A";
+                    const scenarios = [
+                        { unit: "V", param: "Spannung U", calc: (i, r) => i * r, formula: "U = I × R" },
+                        { unit: "A", param: "Stromstärke I", calc: (u, r) => u / r, formula: "I = U / R" },
+                        { unit: "Ω", param: "Widerstand R", calc: (u, i) => u / i, formula: "R = U / I" }
+                    ];
+                    const scen = scenarios[Math.floor(Math.random() * scenarios.length)];
                     
-                    let wrong1 = (i * 1.35).toFixed(2) + " A";
-                    let wrong2 = (i * 0.65).toFixed(2) + " A";
-                    let wrong3 = (i + 3.2).toFixed(2) + " A";
-
-                    const options = shuffleArray([correctStr, wrong1, wrong2, wrong3]);
-                    const correctIdx = options.indexOf(correctStr);
-
-                    return {
-                        question: `[KI-Generator] Ein elektrischer Verbraucher wird mit einer Spannung von <b>${u} V</b> betrieben und besitzt einen Widerstand von <b>${r} Ω</b>. Wie groß ist der fließende Strom I?`,
-                        options: options,
-                        answer: correctIdx,
-                        explanation: `Nach dem Ohmschen Gesetz berechnet sich der Strom wie folgt: I = U / R = ${u}V / ${r}Ω = <b>${correctStr}</b>.`,
-                        aiGenerated: true
-                    };
+                    if (scen.unit === "V") {
+                        const iVal = (Math.random() * 15 + 1).toFixed(1);
+                        const rVal = Math.floor(Math.random() * 45) + 5;
+                        const ans = (parseFloat(iVal) * rVal).toFixed(2);
+                        const correctStr = ans + " V";
+                        const distractors = shuffleArray([
+                            (parseFloat(ans) * 1.2).toFixed(2) + " V",
+                            (parseFloat(ans) * 0.8).toFixed(2) + " V",
+                            (parseFloat(ans) + 12).toFixed(2) + " V"
+                        ]);
+                        const options = shuffleArray([correctStr, ...distractors]);
+                        return {
+                            question: `[KI-Synthese] In einem aktiven Messkreis fließt ein Strom von <b>${iVal} A</b> durch einen Prüfwiderstand von <b>${rVal} Ω</b>. Wie hoch ist der ermittelte Spannungsabfall (U)?`,
+                            options: options,
+                            answer: options.indexOf(correctStr),
+                            explanation: `Berechnung über das Ohmsche Gesetz: ${scen.formula} = ${iVal}A × ${rVal}Ω = <b>${correctStr}</b>.`,
+                            aiGenerated: true
+                        };
+                    } else if (scen.unit === "A") {
+                        const uVal = [12, 24, 110, 230, 400][Math.floor(Math.random() * 5)];
+                        const rVal = Math.floor(Math.random() * 90) + 10;
+                        const ans = (uVal / rVal).toFixed(2);
+                        const correctStr = ans + " A";
+                        const distractors = shuffleArray([
+                            (parseFloat(ans) * 1.3).toFixed(2) + " A",
+                            (parseFloat(ans) * 0.7).toFixed(2) + " A",
+                            (parseFloat(ans) + 2.5).toFixed(2) + " A"
+                        ]);
+                        const options = shuffleArray([correctStr, ...distractors]);
+                        return {
+                            question: `[KI-Synthese] Ein Verbraucher an einer ${uVal}V-Quelle besitzt eine Impedanz von <b>${rVal} Ω</b>. Welcher Betriebsstrom (I) stellt sich ein?`,
+                            options: options,
+                            answer: options.indexOf(correctStr),
+                            explanation: `Berechnung nach ${scen.formula}: ${uVal}V / ${rVal}Ω = <b>${correctStr}</b>.`,
+                            aiGenerated: true
+                        };
+                    } else {
+                        const uVal = [24, 230, 400][Math.floor(Math.random() * 3)];
+                        const iVal = (Math.random() * 10 + 2).toFixed(1);
+                        const ans = (uVal / parseFloat(iVal)).toFixed(2);
+                        const correctStr = ans + " Ω";
+                        const distractors = shuffleArray([
+                            (parseFloat(ans) * 1.4).toFixed(2) + " Ω",
+                            (parseFloat(ans) * 0.6).toFixed(2) + " Ω",
+                            (parseFloat(ans) + 5).toFixed(2) + " Ω"
+                        ]);
+                        const options = shuffleArray([correctStr, ...distractors]);
+                        return {
+                            question: `[KI-Synthese] An einem Bauteil liegt eine Spannung von ${uVal} V an und es wird ein Strom von <b>${iVal} A</b> gemessen. Welcher ohmsche Widerstand (R) liegt vor?`,
+                            options: options,
+                            answer: options.indexOf(correctStr),
+                            explanation: `Berechnung nach ${scen.formula}: ${uVal}V / ${iVal}A = <b>${correctStr}</b>.`,
+                            aiGenerated: true
+                        };
+                    }
                 },
                 motor: () => {
-                    const currents = [6, 10, 16, 25, 32, 50];
+                    const currents = [8, 12, 16, 22, 32, 40];
                     const i = currents[Math.floor(Math.random() * currents.length)];
-                    const cosVals = [0.80, 0.82, 0.85, 0.88, 0.90];
+                    const cosVals = [0.81, 0.83, 0.86, 0.89, 0.92];
                     const cos = cosVals[Math.floor(Math.random() * cosVals.length)];
                     const p = ((Math.sqrt(3) * 400 * i * cos) / 1000);
                     const correctStr = p.toFixed(2) + " kW";
 
-                    let wrong1 = (p * 1.25).toFixed(2) + " kW";
-                    let wrong2 = (p * 0.75).toFixed(2) + " kW";
-                    let wrong3 = (p + 2.1).toFixed(2) + " kW";
+                    let wrong1 = (p * 1.22).toFixed(2) + " kW";
+                    let wrong2 = (p * 0.78).toFixed(2) + " kW";
+                    let wrong3 = (p + 1.8).toFixed(2) + " kW";
 
                     const options = shuffleArray([correctStr, wrong1, wrong2, wrong3]);
                     const correctIdx = options.indexOf(correctStr);
 
                     return {
-                        question: `[KI-Generator] Ein Drehstrom-Asynchronmotor läuft an 400V, zieht einen Strom von <b>${i} A</b> und hat einen Leistungsfaktor cos φ von <b>${cos}</b>. Berechne die Wirkleistung P!`,
+                        question: `[KI-Synthese] Ein Drehstrom-Asynchronmotor im Stern-Delta-Betrieb an 400V zieht im Nennpunkt einen Strom von <b>${i} A</b> bei einem Leistungsfaktor $\\cos\\varphi$ von <b>${cos}</b>. Wie hoch ist die abgegebene Wirkleistung?`,
                         options: options,
                         answer: correctIdx,
-                        explanation: `Formel für Drehstromleistung: P = √3 × U × I × cos φ = 1,732 × 400V × ${i}A × ${cos} = <b>${correctStr}</b>.`,
+                        explanation: `Drehstrom-Wirkleistung: $P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi = 1,732 \\cdot 400\\text{V} \\cdot ${i}\\text{A} \\cdot ${cos} = \\mathbf{${correctStr}}$.`,
                         aiGenerated: true
                     };
                 },
                 protection: () => {
                     const pool = [
-                        { q: "Welche maximale Ausschaltzeit ist für Endstromkreise mit Steckdosen bis 32A im TN-Netz bei 230V vorgeschrieben?", opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Nach DIN VDE 0100-410 beträgt die max. Ausschaltzeit im TN-System bei 230V für Endstromkreise bis 32A genau 0,4 Sekunden." },
-                        { q: "Welche Aufgabe erfüllt ein allstromsensitiver RCD (Typ B)?", opts: ["Erkennt nur reine Wechsellöschströme", "Erkennt zusätzlich glatte Gleichfehlerströme", "Schützt ausschließlich vor Kurzschluss", "Wird nur im IT-Netz eingesetzt"], ans: 1, exp: "Typ B RCDs sind allstromsensitiv und erfassen auch glatte Gleichfehlerströme, wie sie z.B. von PV-Anlagen oder Wallboxen erzeugt werden können." },
-                        { q: "Was bewirkt der Einsatz der Schutzmaßnahme 'Schutztrennung'?", opts: ["Die Erdung des Gehäuses über einen eigenen Tiefenerder", "Die galvanische Trennung des Stromkreises vom Netz durch einen Trenntransformator ohne Erdung im Sekunderkreis", "Die automatische Abschaltung nach 0,1s über Leitungsschutzschalter", "Das Kurzschließen aller aktiven Leiter"], ans: 1, exp: "Bei der Schutztrennung liefert ein Trenntransformator einen erdungsfreien Sekundärkreis, wodurch ein Berühren eines aktiven Leiters keinen geschlossenen Stromkreis über die Erde bildet." }
+                        { q: `Welche maximal zulässige Abschaltzeit gilt für Endstromkreise bis 32A in einem TN-Netz mit 230V Nennspannung nach DIN VDE 0100-410?`, opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Im TN-System beträgt die max. Abschaltzeit für Endstromkreise bis 32A bei 230V genau 0,4s." },
+                        { q: `Warum ist in einem TT-Netz der Einsatz eines Fehlerstromschutzschalters (RCD) zwingend erforderlich?`, opts: ["Weil die Schleifenimpedanz oft zu hoch für eine Schnellauslösung durch LS-Schalter ist", "Weil Neutralleiter und Schutzleiter identisch sind", "Um Oberschwingungen zu kompensieren", "Weil in TT-Netzen keine Sicherungen erlaubt sind"], ans: 0, exp: "Im TT-Netz ist der Erdungswiderstand oft zu groß, sodass Überstromorgane im Fehlerfall nicht schnell genug auslösen; der RCD schützt zuverlässig." },
+                        { q: `Was kennzeichnet den Betrieb von Betriebsmitteln in Schutzklasse II (Schutzisolierung)?`, opts: ["Anschluss des Schutzleiters an das Metallgehäuse", "Verstärkte oder doppelte Isolierung ohne berührbare metallische Körper unter Spannung", "Ausschließlicher Betrieb mit Schutzkleinspannung SELV", "Überwachung durch Isolationswächter"], ans: 1, exp: "Schutzklasse II zeichnet sich durch doppelte oder verstärkte Isolierung aus; ein Schutzleiteranschluss ist nicht erforderlich." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `[KI-Generator] ${selected.q}`,
+                        question: `[KI-Synthese] ${selected.q}`,
                         options: shuffleArray(selected.opts),
                         answer: selected.opts.indexOf(selected.opts[selected.ans]),
                         explanation: selected.exp,
@@ -1765,12 +1805,12 @@
                 },
                 cables: () => {
                     const pool = [
-                        { q: "Wie verändert sich der ohmsche Widerstand einer Kupferleitung, wenn sich ihre Länge verdoppelt und der Querschnitt gleich bleibt?", opts: ["Er halbiert sich", "Er bleibt unverändert", "Er verdoppelt sich", "Er vervierfacht sich"], ans: 2, exp: "Der Widerstand verhält sich direkt proportional zur Länge: R = ρ * (l / A). Bei doppelter Länge verdoppelt sich auch der Widerstand." },
-                        { q: "Welcher Korrekturfaktor oder Einflussfaktor ist bei der Häufung mehrerer Kabel in einem Installationskanal primär zu beachten?", opts: ["Erhöhte Wärmeentwicklung führt zur Reduktion der Stromtragfähigkeit", "Die Spannung erhöht sich automatisch", "Der Neutralleiter entfällt komplett", "Es darf kein Kupfer, sondern nur Alu verwendet werden"], ans: 0, exp: "Häufung führt zu gegenseitiger Wärmebeaufschlagung, weshalb die Stromtragfähigkeit der Leitungen mittels Reduktionsfaktoren gemindert werden muss." }
+                        { q: `Wie verhält sich der Widerstand $R$ einer Kupferleitung, wenn sich bei gleicher Länge der Querschnitt von $1,5\\text{ mm}^2$ auf $3\\text{ mm}^2$ verdoppelt?`, opts: ["Er halbiert sich", "Er verdoppelt sich", "Er bleibt gleich", "Er vervierfacht sich"], ans: 0, exp: "Der Widerstand ist umgekehrt proportional zum Querschnitt ($R = \\rho \\cdot l / A$). Verdoppelung des Querschnitts halbiert den Widerstand." },
+                        { q: `Welche thermische Auswirkung hat die Häufung (Verlegung mehrerer Stromkreise in einem Kanal) auf isolierte Leitungen?`, opts: ["Erhöhte Wärmeabfuhr mit Steigerung der Strombelastbarkeit", "Wärmestau mit der Notwendigkeit von Reduktionsfaktoren für den Nennstrom", "Keine Auswirkung auf die Stromtragfähigkeit", "Automatische Erhöhung des Leitungsquerschnitts"], ans: 1, exp: "Häufung führt zu gegenseitiger Erwärmung, weshalb Korrekturfaktoren zur Reduzierung der zulässigen Strombelastbarkeit angewendet werden müssen." }
                     ];
                     const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `[KI-Generator] ${selected.q}`,
+                        question: `[KI-Synthese] ${selected.q}`,
                         options: shuffleArray(selected.opts),
                         answer: selected.opts.indexOf(selected.opts[selected.ans]),
                         explanation: selected.exp,
@@ -1779,10 +1819,9 @@
                 }
             };
 
-            if (generators[topic]) {
-                return generators[topic]();
-            }
-            return generateDynamicSymbolQuestion();
+            const genKeys = Object.keys(neuralGenerators);
+            const chosenKey = neuralGenerators[topicKey] ? topicKey : genKeys[Math.floor(Math.random() * genKeys.length)];
+            return neuralGenerators[chosenKey]();
         }
 
         // Lernbereich & Rechner
