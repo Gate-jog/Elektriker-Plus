@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elektriker Plus - Quiz & Lernmodus</title>
+    <title>Elektriker Plus - Quiz & Lernmodus (OVE E 8101)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -553,9 +553,9 @@
     <div class="container">
         <!-- Brand Header -->
         <div class="header">
-            <div class="brand-badge">⚡ Professional Knowledge Hub</div>
+            <div class="brand-badge">⚡ OVE E 8101 Konform</div>
             <h1>Elektriker Plus</h1>
-            <p>Interaktives Schulungs- & Testportal für Elektrotechnik</p>
+            <p>Interaktives Schulungs- & Testportal für Elektrotechnik (Österreich)</p>
         </div>
 
         <!-- Welcome View -->
@@ -573,14 +573,14 @@
                     <div class="menu-option" onclick="startMode('learn')">
                         <div class="menu-icon">📚</div>
                         <div class="menu-title">Lernmodus</div>
-                        <div class="menu-description">Vertiefe dein Wissen systematisch nach aktuellen Normen</div>
+                        <div class="menu-description">Vertiefe dein Wissen nach aktuellen Vorgaben der OVE E 8101</div>
                     </div>
                 </div>
 
                 <div class="feature-badges">
                     <div class="badge"><span class="badge-icon">✓</span> 25 Fachfragen</div>
                     <div class="badge"><span class="badge-icon">✓</span> 6 Kernbereiche</div>
-                    <div class="badge"><span class="badge-icon">✓</span> Normenkonform</div>
+                    <div class="badge"><span class="badge-icon">✓</span> OVE E 8101 Aktualisiert</div>
                 </div>
             </div>
         </div>
@@ -623,7 +623,7 @@
             <div class="glass-card">
                 <div id="topics-view">
                     <div class="quiz-top">
-                        <div class="quiz-title">📚 Themenübersicht</div>
+                        <div class="quiz-title">📚 Themenübersicht (OVE E 8101)</div>
                     </div>
                     <div class="topics-grid" id="topics-container"></div>
                 </div>
@@ -675,45 +675,45 @@
                     <div class="article-section">
                         <h3>🔌 Physikalische Kerngrößen</h3>
                         <ul>
-                            <li><strong>Spannung (U):</strong> Potentialdifferenz in Volt (V).</li>
+                            <li><strong>Spannung (U):</strong> Potentialdifferenz in Volt (V). Normalspannung Phase-Neutralleiter: 230 V AC.</li>
                             <li><strong>Stromstärke (I):</strong> Ladungsbewegung in Ampere (A).</li>
                             <li><strong>Widerstand (R):</strong> Strombegrenzung in Ohm (Ω).</li>
-                            <li><strong>Leistung (P):</strong> Umgesetzte Energie pro Zeit in Watt (W).</li>
+                            <li><strong>Leistung (P):</strong> Elektrische Wirkleistung in Watt (W).</li>
                         </ul>
                     </div>
                     <div class="article-section">
-                        <h3>📐 Das Ohmsche Gesetz</h3>
-                        <div class="info-callout"><strong>Formel: U = R × I</strong><br>Basis für nahezu alle Berechnungen der Elektrotechnik.</div>
+                        <h3>📐 Das Ohmsche Gesetz & Wechselstrom</h3>
+                        <div class="info-callout"><strong>Gleichstrom: U = R × I</strong><br>Im Wechselstromkreis gilt zusätzlich die Impedanz Z: <strong>U = Z × I</strong>.</div>
                     </div>
                 `
             },
             safety: {
-                title: "Sicherheitsregeln (DIN VDE)",
+                title: "Sicherheitsregeln & EN 50110",
                 icon: "🛡️",
                 description: "Die 5 Sicherheitsregeln zum Schutz von Personen",
                 content: `
                     <h2>Die 5 Sicherheitsregeln</h2>
-                    <div class="info-callout">Zwingende Reihenfolge vor Beginn aller Arbeiten an elektrischen Anlagen!</div>
+                    <div class="info-callout">Zwingende Reihenfolge vor Beginn aller Arbeiten an elektrischen Anlagen (gemäß ÖVE/ÖNORM EN 50110 & OVE E 8101)!</div>
                     <div class="article-section">
                         <h3>1. Freischalten</h3>
-                        <p>Allpoliges Trennen von der Spannungsversorgung.</p>
+                        <p>Allpoliges Trennen der Anlage von der Spannungsversorgung.</p>
                         <h3>2. Gegen Wiedereinschalten sichern</h3>
-                        <p>Sperrschlösser anbringen, Schalter abkleben, Warnschilder aufhängen.</p>
+                        <p>Sperrschlösser anbringen, Schalter abkleben, Warnschilder ("Nicht schalten!") anbringen.</p>
                         <h3>3. Spannungsfreiheit feststellen</h3>
-                        <p>Zweipoligen Spannungsprüfer verwenden & vorher/nachher auf Funktion prüfen.</p>
+                        <p>Zweipoligen Spannungsprüfer (z.B. Duspol) verwenden. Vor und nach der Messung stets auf Funktion prüfen!</p>
                         <h3>4. Erden und Kurzschließen</h3>
-                        <p>Pflicht ab 1000V sowie bei Freileitungsanlagen.</p>
+                        <p>Pflicht bei Niederspannung ab 1000V sowie bei Freileitungen und erhöhter Rückspannungsgefahr.</p>
                         <h3>5. Benachbarte unter Spannung stehende Teile abdecken</h3>
-                        <p>Isoliermatten oder Schutzabdeckungen anbringen.</p>
+                        <p>Isoliermatten, Schutztücher oder Abschrankungen im Arbeitsbereich anbringen.</p>
                     </div>
                 `
             },
             cables: {
-                title: "Leitungen & Farbcodierung",
+                title: "Leitungen & Kennzeichnung (OVE E 8101)",
                 icon: "🔌",
-                description: "Farbkennzeichnung und Querschnittsberechnungen",
+                description: "Farbcodierung, Querschnitt und Dimensionierung",
                 content: `
-                    <h2>Leiterfarben & Querschnitte</h2>
+                    <h2>Leiterfarben & Dimensionierung nach OVE E 8101</h2>
                     <div class="article-section">
                         <table class="custom-table">
                             <thead>
@@ -723,44 +723,104 @@
                                 <tr><td>Außenleiter 1</td><td>Braun</td><td>L1</td></tr>
                                 <tr><td>Außenleiter 2</td><td>Schwarz</td><td>L2</td></tr>
                                 <tr><td>Außenleiter 3</td><td>Grau</td><td>L3</td></tr>
-                                <tr><td>Neutralleiter</td><td>Blau</td><td>N</td></tr>
+                                <tr><td>Neutralleiter</td><td>Hellblau</td><td>N</td></tr>
                                 <tr><td>Schutzleiter</td><td>Grün-Gelb</td><td>PE</td></tr>
+                                <tr><td>PEN-Leiter</td><td>Grün-Gelb mit blauer Markierung</td><td>PEN</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="article-section">
+                        <h3>Wichtige Dimensionierungsregeln:</h3>
+                        <ul>
+                            <li><strong>PEN-Mindestquerschnitt:</strong> Mindestens 10 mm² Kupfer oder 16 mm² Aluminium (Österreich-Spezifikum OVE E 8101).</li>
+                            <li><strong>Spannungsabfall:</strong> Darf von der Hauptspeisung bis zum Verbraucher max. 4% (bzw. 3% für Lichtstromkreise) betragen.</li>
+                        </ul>
                     </div>
                 `
             },
             protection: {
-                title: "Schutzvorrichtungen",
+                title: "Schutzkonzepte & RCD-Pflicht (OVE E 8101)",
                 icon: "⚙️",
-                description: "Funktionsweise von RCD, LS-Schaltern und Sicherungen",
+                description: "Zusatzschutz, RCD-Typen und automatische Abschaltung",
                 content: `
-                    <h2>Schutzorgane</h2>
+                    <h2>Schutzmaßnahmen nach OVE E 8101</h2>
                     <div class="article-section">
-                        <h3>RCD (Fehlerstromschutzschalter)</h3>
-                        <p>Misst Summenstrom. Bei Differenzen (z.B. 30mA für Personenschutz) löst das System umgehend aus.</p>
+                        <h3>1. Zusatzschutz durch RCDs (FI-Schutzschalter)</h3>
+                        <p>In Österreich gilt eine umfassende RCD-Pflicht:</p>
+                        <ul>
+                            <li><strong>Steckdosenstromkreise (bis 32 A):</strong> Pflicht-Zusatzschutz mit I<sub>Δn</sub> ≤ 30 mA.</li>
+                            <li><strong>Beleuchtungsstromkreise in Wohnungen:</strong> Ebenfalls RCD-Pflicht mit I<sub>Δn</sub> ≤ 30 mA.</li>
+                            <li><strong>Zulässige RCD-Typen:</strong> Typ AC ist bei Neuinstallationen und Erweiterungen <strong>nicht mehr zulässig</strong>! Es müssen mindestens Typ A, Typ F oder Typ B verbaut werden.</li>
+                        </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>2. Maximale Abschaltzeiten im TN-System (230/400 V)</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Stromkreis</th><th>Max. Abschaltzeit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Endstromkreise ≤ 63 A (Steckdosen)</td><td>0,4 Sekunden</td></tr>
+                                <tr><td>Verteilerstromkreise / > 63 A</td><td>5,0 Sekunden</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="article-section">
+                        <h3>3. Schleifenimpedanz (Z<sub>s</sub>) & Temperaturfaktor</h3>
+                        <p>Bei der messtechnischen Überprüfung der Schleifenimpedanz gilt nach OVE E 8101 die <strong>2/3-Regel</strong> (Berücksichtigung der Leitererwärmung im Fehlerfall):</p>
+                        <div class="info-callout"><strong>Z<sub>s</sub> × I<sub>a</sub> ≤ U<sub>0</sub> × ⅔</strong><br>Wobei U<sub>0</sub> = 230 V und I<sub>a</sub> der Auslösestrom des Schutzorgans ist.</div>
                     </div>
                 `
             },
-            installation: {
-                title: "Installationszonen",
-                icon: "🔧",
-                description: "Vorgeschriebene Verlegearten und Wandbereiche",
+            special_locations: {
+                title: "Räume besonderer Art (Teil 7)",
+                icon: "🚿",
+                description: "Bäder, Baustellen und landwirtschaftliche Betriebsstätten",
                 content: `
-                    <h2>Leitungsverlegung</h2>
+                    <h2>Sonderanforderungen nach OVE E 8101 Teil 7</h2>
                     <div class="article-section">
-                        <p>Kabel müssen waagerecht oder senkrecht in definierten Installationszonen geführt werden (z.B. 15-30 cm Abstand zu Decken/Böden).</p>
+                        <h3>🛁 Bade- und Duschräume (Abschnitt 701)</h3>
+                        <ul>
+                            <li><strong>Bereich 0:</strong> Nur SELV mit max. 12 V AC / 30 V DC zulässig. Schutzart min. IPX7.</li>
+                            <li><strong>Bereich 1:</strong> Nur fest angeschlossene Verbraucher (z.B. Boiler). Schutzart min. IPX4.</li>
+                            <li><strong>Bereich 2:</strong> Schutzart min. IPX4. Keine Steckdosen oder Schalter zulässig.</li>
+                            <li><strong>Alle Stromkreise:</strong> Müssen über RCD mit I<sub>Δn</sub> ≤ 30 mA geschützt sein.</li>
+                        </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>🚜 Landwirtschaftliche & gartenbauliche Betriebsstätten (Abschnitt 705)</h3>
+                        <div class="info-callout"><strong>Verschärfter Schutz für Menschen & Nutztiere:</strong> Nutztiere reagieren wesentlich empfindlicher auf Berührungsspannungen.</div>
+                        <ul>
+                            <li><strong>Fehler- & Berührungsspannung:</strong> Die zulässige Berührungsspannung U<sub>L</sub> ist auf <strong>max. 25 V AC</strong> (statt 50 V) begrenzt.</li>
+                            <li><strong>Gesamtschutz:</strong> Alle Stromkreise (auch Beleuchtung) benötigen RCD-Schutz (I<sub>Δn</sub> ≤ 30 mA für Steckdosen; max. 300 mA für Brandschutz).</li>
+                            <li><strong>Zusätzlicher Potentialausgleich:</strong> Einbindung aller metallischen Teile im Stallbereich (Gitter, Tränken, Melkanlagen) ist zwingend vorgeschrieben.</li>
+                        </ul>
                     </div>
                 `
             },
             grounding: {
-                title: "Erdung & Potentialausgleich",
+                title: "Erdung, Nullung & Netzformen",
                 icon: "⏚",
-                description: "Schutzkonzepte und Netzformen (TN, TT, IT)",
+                description: "TN-Systeme, Hauptpotentialausgleich & Erdungsanlagen",
                 content: `
-                    <h2>Netzformen & Schutz</h2>
+                    <h2>Netzformen & Erdungskonzepte in Österreich</h2>
                     <div class="article-section">
-                        <p>TN-S-Systeme trennen N und PE konsequent und bieten maximale elektrische Sicherheit.</p>
+                        <h3>1. TN-System (Nullung)</h3>
+                        <p>Die Nullung ist in Österreich die bevorzugte Schutzmaßnahme:</p>
+                        <ul>
+                            <li><strong>TN-C-S-System:</strong> Im Speisenetz gemeinsam geführt (PEN), ab der Hauptverteilung strikt in N und PE getrennt.</li>
+                            <li><strong>Aufteilungsstelle:</strong> An der Stelle der Aufteilung von PEN in N und PE muss eine Verbindung zum Erder/Hauptpotentialausgleich hergestellt werden.</li>
+                        </ul>
+                    </div>
+                    <div class="article-section">
+                        <h3>2. Hauptpotentialausgleich (HPA) / Schutzpotenzialausgleich</h3>
+                        <p>Nach OVE E 8101 müssen folgende fremde leitfähige Teile direkt mit der Haupterdungsschiener (HES) verbunden werden:</p>
+                        <ul>
+                            <li>Metallene Rohrleitungen von Gebäudeverpflegungen (Wasser, Gas, Fernwärme)</li>
+                            <li>Zentrale Heizungs- und Klimasysteme</li>
+                            <li>Fundamenterder / Ringerder</li>
+                            <li>Metallene Gebäudestrukturen & Aufzugsschienen</li>
+                        </ul>
                     </div>
                 `
             }
@@ -866,6 +926,7 @@
                 loadQuestion();
             } else {
                 document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.active = true;
                 document.getElementById('toggle-learn').classList.add('active');
                 loadTopics();
             }
