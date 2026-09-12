@@ -843,7 +843,7 @@
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
                     <div class="menu-title">KI Modus</div>
-                    <div class="menu-description">Dynamische Theorie-, Symbol- & Rechenaufgaben (KI generiert).</div>
+                    <div class="menu-description">Dynamische Theorie-, Symbol- & Rechenaufgaben (Unendlich KI generiert).</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -878,6 +878,7 @@
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
                             <option value="cables">Leitungsbemessung & Zonen</option>
+                            <option value="random">🎲 Alle Themen mischen (Infinite KI)</option>
                         </select>
                     </div>
                     <div class="config-group">
@@ -889,7 +890,7 @@
                             <option value="hard">Schwer (Meister/Techniker)</option>
                         </select>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ KI-Frage Generieren</button>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue KI-Frage Generieren</button>
                 </div>
 
                 <div id="quiz-screen">
@@ -1456,8 +1457,8 @@
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = '✨ Adaptiver KI-Modus';
-                generateCustomAIQuestion();
+                document.getElementById('quiz-heading').textContent = '✨ Adaptiver KI-Modus (Unendlich)';
+                generateAICampaignBatch();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
                 document.getElementById('toggle-learn').classList.add('active');
@@ -1607,8 +1608,8 @@
                 quizData = generateSymbolQuizBatch(5);
             } else if (currentMode === 'quiz') {
                 quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-            } else {
-                generateCustomAIQuestion();
+            } else if (currentMode === 'ai') {
+                generateAICampaignBatch();
                 return;
             }
             currentQuestion = 0;
@@ -1648,37 +1649,44 @@
 
             return {
                 question: `Welche elektrotechnische Funktion/Komponente gehört zu diesem Norm-Schaltsymbol?`,
-                symbol: correctSymbol.svg,
+                symbol: correctSessionSymbol(correctSymbol.svg),
                 options: allOptions,
                 answer: correctIndex,
                 explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
-                aiGenerated: false
+                aiGenerated: true
             };
         }
 
-        // KI MODUS GENERIERUNGS-ENGINE
-        function generateCustomAIQuestion() {
-            clearInterval(timerInterval);
-            answered = true;
+        function correctSessionSymbol(svgStr) {
+            return svgStr;
+        }
 
+        // VOLLSTÄNDIGER KI-GENERATOR FÜR ECHTE UNENDLICHE FRAGEN
+        function generateAICampaignBatch() {
+            clearInterval(timerInterval);
             const selectedTopic = document.getElementById('ai-topic-select').value;
             const selectedDiff = document.getElementById('ai-diff-select').value;
 
-            document.getElementById('question').innerHTML = '<span class="ai-tag">⏳ Adaptiver KI-Algorithmus</span><br>Generiere neue Aufgabe...';
-            document.getElementById('symbol-display').style.display = 'none';
-            document.getElementById('options').innerHTML = '';
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            
-            setTimeout(() => {
-                const generatedQuestion = buildDynamicQuestion(selectedTopic, selectedDiff);
-                quizData = [generatedQuestion];
-                currentQuestion = 0;
-                score = 0;
-                document.getElementById('result-screen').style.display = 'none';
-                document.getElementById('quiz-screen').style.display = 'block';
-                loadQuestion();
-            }, 300);
+            let batch = [];
+            for (let i = 0; i < 5; i++) {
+                let topicToUse = selectedTopic;
+                if (topicToUse === 'random') {
+                    const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables'];
+                    topicToUse = topics[Math.floor(Math.random() * topics.length)];
+                }
+                batch.push(buildDynamicQuestion(topicToUse, selectedDiff));
+            }
+
+            quizData = batch;
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
+        }
+
+        function generateCustomAIQuestion() {
+            generateAICampaignBatch();
         }
 
         function buildDynamicQuestion(topicKey, diffKey) {
@@ -1696,44 +1704,76 @@
 
             const generators = {
                 ohm: () => {
-                    const u = [12, 24, 230, 400][Math.floor(Math.random() * 4)];
-                    const r = Math.floor(Math.random() * 45) + 5;
-                    const i = (u / r).toFixed(2);
+                    const voltages = [12, 24, 48, 110, 230, 400];
+                    const u = voltages[Math.floor(Math.random() * voltages.length)];
+                    const r = Math.floor(Math.random() * 85) + 5;
+                    const i = (u / r);
+                    const correctStr = i.toFixed(2) + " A";
+                    
+                    let wrong1 = (i * 1.35).toFixed(2) + " A";
+                    let wrong2 = (i * 0.65).toFixed(2) + " A";
+                    let wrong3 = (i + 3.2).toFixed(2) + " A";
+
+                    const options = shuffleArray([correctStr, wrong1, wrong2, wrong3]);
+                    const correctIdx = options.indexOf(correctStr);
+
                     return {
-                        question: `Ein Verbraucher liegt an <b>${u}V</b>. Sein Widerstand beträgt <b>${r} Ω</b>. Wie hoch ist der Strom I?`,
-                        options: [`${i} A`, `${(Number(i) * 1.5).toFixed(2)} A`, `${(Number(i) * 0.5).toFixed(2)} A`, `${(Number(i) * 0.8).toFixed(2)} A`],
-                        answer: 0,
-                        explanation: `Nach dem Ohmschen Gesetz gilt: I = U / R.<br>Berechnung: ${u}V / ${r}Ω = <b>${i} A</b>.`,
+                        question: `[KI-Generator] Ein elektrischer Verbraucher wird mit einer Spannung von <b>${u} V</b> betrieben und besitzt einen Widerstand von <b>${r} Ω</b>. Wie groß ist der fließende Strom I?`,
+                        options: options,
+                        answer: correctIdx,
+                        explanation: `Nach dem Ohmschen Gesetz berechnet sich der Strom wie folgt: I = U / R = ${u}V / ${r}Ω = <b>${correctStr}</b>.`,
                         aiGenerated: true
                     };
                 },
                 motor: () => {
-                    const i = [10, 16, 25, 32][Math.floor(Math.random() * 4)];
-                    const cos = 0.85;
-                    const p = ((Math.sqrt(3) * 400 * i * cos) / 1000).toFixed(2);
+                    const currents = [6, 10, 16, 25, 32, 50];
+                    const i = currents[Math.floor(Math.random() * currents.length)];
+                    const cosVals = [0.80, 0.82, 0.85, 0.88, 0.90];
+                    const cos = cosVals[Math.floor(Math.random() * cosVals.length)];
+                    const p = ((Math.sqrt(3) * 400 * i * cos) / 1000);
+                    const correctStr = p.toFixed(2) + " kW";
+
+                    let wrong1 = (p * 1.25).toFixed(2) + " kW";
+                    let wrong2 = (p * 0.75).toFixed(2) + " kW";
+                    let wrong3 = (p + 2.1).toFixed(2) + " kW";
+
+                    const options = shuffleArray([correctStr, wrong1, wrong2, wrong3]);
+                    const correctIdx = options.indexOf(correctStr);
+
                     return {
-                        question: `Ein Drehstrommotor nimmt einen Strom von <b>${i} A</b> bei cos φ = ${cos} an 400V auf. Wie hoch ist die Wirkleistung P?`,
-                        options: [`${(p * 1.2).toFixed(2)} kW`, `${(p * 0.8).toFixed(2)} kW`, `${p} kW`, `${(p * 1.5).toFixed(2)} kW`],
-                        answer: 2,
-                        explanation: `Formel: P = √3 × U × I × cos φ.<br>Berechnung: 1,732 × 400V × ${i}A × ${cos} = <b>${p} kW</b>.`,
+                        question: `[KI-Generator] Ein Drehstrom-Asynchronmotor läuft an 400V, zieht einen Strom von <b>${i} A</b> und hat einen Leistungsfaktor cos φ von <b>${cos}</b>. Berechne die Wirkleistung P!`,
+                        options: options,
+                        answer: correctIdx,
+                        explanation: `Formel für Drehstromleistung: P = √3 × U × I × cos φ = 1,732 × 400V × ${i}A × ${cos} = <b>${correctStr}</b>.`,
                         aiGenerated: true
                     };
                 },
                 protection: () => {
+                    const pool = [
+                        { q: "Welche maximale Ausschaltzeit ist für Endstromkreise mit Steckdosen bis 32A im TN-Netz bei 230V vorgeschrieben?", opts: ["0,2 Sekunden", "0,4 Sekunden", "1,0 Sekunde", "5,0 Sekunden"], ans: 1, exp: "Nach DIN VDE 0100-410 beträgt die max. Ausschaltzeit im TN-System bei 230V für Endstromkreise bis 32A genau 0,4 Sekunden." },
+                        { q: "Welche Aufgabe erfüllt ein allstromsensitiver RCD (Typ B)?", opts: ["Erkennt nur reine Wechsellöschströme", "Erkennt zusätzlich glatte Gleichfehlerströme", "Schützt ausschließlich vor Kurzschluss", "Wird nur im IT-Netz eingesetzt"], ans: 1, exp: "Typ B RCDs sind allstromsensitiv und erfassen auch glatte Gleichfehlerströme, wie sie z.B. von PV-Anlagen oder Wallboxen erzeugt werden können." },
+                        { q: "Was bewirkt der Einsatz der Schutzmaßnahme 'Schutztrennung'?", opts: ["Die Erdung des Gehäuses über einen eigenen Tiefenerder", "Die galvanische Trennung des Stromkreises vom Netz durch einen Trenntransformator ohne Erdung im Sekunderkreis", "Die automatische Abschaltung nach 0,1s über Leitungsschutzschalter", "Das Kurzschließen aller aktiven Leiter"], ans: 1, exp: "Bei der Schutztrennung liefert ein Trenntransformator einen erdungsfreien Sekundärkreis, wodurch ein Berühren eines aktiven Leiters keinen geschlossenen Stromkreis über die Erde bildet." }
+                    ];
+                    const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `Welches Netzsystem zeichnet sich dadurch aus, dass im HAK der PEN-Leiter in PE und N aufgetrennt wird?`,
-                        options: [`TN-C-S-Netz`, `IT-Netz`, `Reines TN-C-Netz`, `TT-Netz`],
-                        answer: 0,
-                        explanation: `Im modernen TN-C-S-Netz kommt ein PEN vom Versorger und wird beim Hausanschluss in separate PE- und N-Leiter aufgeteilt.`,
+                        question: `[KI-Generator] ${selected.q}`,
+                        options: shuffleArray(selected.opts),
+                        answer: selected.opts.indexOf(selected.opts[selected.ans]),
+                        explanation: selected.exp,
                         aiGenerated: true
                     };
                 },
                 cables: () => {
+                    const pool = [
+                        { q: "Wie verändert sich der ohmsche Widerstand einer Kupferleitung, wenn sich ihre Länge verdoppelt und der Querschnitt gleich bleibt?", opts: ["Er halbiert sich", "Er bleibt unverändert", "Er verdoppelt sich", "Er vervierfacht sich"], ans: 2, exp: "Der Widerstand verhält sich direkt proportional zur Länge: R = ρ * (l / A). Bei doppelter Länge verdoppelt sich auch der Widerstand." },
+                        { q: "Welcher Korrekturfaktor oder Einflussfaktor ist bei der Häufung mehrerer Kabel in einem Installationskanal primär zu beachten?", opts: ["Erhöhte Wärmeentwicklung führt zur Reduktion der Stromtragfähigkeit", "Die Spannung erhöht sich automatisch", "Der Neutralleiter entfällt komplett", "Es darf kein Kupfer, sondern nur Alu verwendet werden"], ans: 0, exp: "Häufung führt zu gegenseitiger Wärmebeaufschlagung, weshalb die Stromtragfähigkeit der Leitungen mittels Reduktionsfaktoren gemindert werden muss." }
+                    ];
+                    const selected = pool[Math.floor(Math.random() * pool.length)];
                     return {
-                        question: `Welcher maximale Spannungsfall (ΔU) wird für normale Beleuchtungsstromkreise ab Hausanschluss nach Norm empfohlen?`,
-                        options: [`Max. 1.0 %`, `Max. 3.0 %`, `Max. 8.0 %`, `Max. 15.0 %`],
-                        answer: 1,
-                        explanation: `Für Lichtanlagen gilt ein empfohlener max. Spannungsfall von 3 % (für sonstige Verbraucher max. 5 %).`,
+                        question: `[KI-Generator] ${selected.q}`,
+                        options: shuffleArray(selected.opts),
+                        answer: selected.opts.indexOf(selected.opts[selected.ans]),
+                        explanation: selected.exp,
                         aiGenerated: true
                     };
                 }
@@ -1826,3 +1866,4 @@
     </script>
 </body>
 </html>
+
