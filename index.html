@@ -1930,6 +1930,318 @@
             const a = (2 * l * i) / (56 * duMax);
             document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
-    </script>
+                badge.classList.remove('offline');
+        } else {
+            badge.innerHTML = '<div class="status-dot"></div> Offline';
+            badge.classList.add('offline');
+        }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    function updateStatsUI() {
+        document.getElementById('stat-score').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
+        document.getElementById('stat-completed').innerText = stats.total;
+        document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+        document.getElementById('stat-high').innerText = stats.highscore;
+        
+        if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+        if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+        if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
+        if (stats.highscore >= 100) document.getElementById('badge-4').classList.add('unlocked');
+    }
+
+    function saveStats() {
+        localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
+        updateStatsUI();
+    }
+
+    // --- Navigation & Mode Switching ---
+    function startMode(mode) {
+        document.getElementById('welcome-screen').style.display = 'none';
+        document.getElementById('mode-nav-area').style.display = 'block';
+        switchMode(mode);
+    }
+
+    function switchMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+        
+        let activeArea = (mode === 'quiz' || mode === 'schemas' || mode === 'ai') ? 'quiz-mode' : 'learn-mode';
+        document.getElementById(activeArea).classList.add('active');
+        
+        document.getElementById('toggle-' + mode).classList.add('active');
+
+        if (activeArea === 'quiz-mode') {
+            document.getElementById('result-screen').style.display = 'none';
+            if (mode === 'ai') {
+                document.getElementById('ai-config').style.display = 'grid';
+                document.getElementById('quiz-screen').style.display = 'none';
+            } else {
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-screen').style.display = 'block';
+                startQuiz(mode);
+            }
+        }
+    }
+
+    function backToWelcome() {
+        clearInterval(timerInterval);
+        document.getElementById('mode-nav-area').style.display = 'none';
+        document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+        document.getElementById('welcome-screen').style.display = 'block';
+    }
+
+    // --- Quiz Logic ---
+    function startQuiz(mode) {
+        // Filter questions based on mode
+        if (mode === 'schemas') {
+            quizData = initialQuizData.filter(q => q.symbol);
+            document.getElementById('quiz-heading').innerText = "📐 Schaltsymbole Quiz";
+        } else {
+            quizData = [...initialQuizData];
+            document.getElementById('quiz-heading').innerText = "⚡ Standard Quiz";
+        }
+        
+        // Shuffle questions
+        quizData.sort(() => Math.random() - 0.5);
+        currentQuestion = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        answered = false;
+        clearInterval(timerInterval);
+        timeLeft = 30;
+        document.getElementById('quiz-timer').innerText = timeLeft;
+        document.getElementById('next-btn').classList.remove('show');
+        document.getElementById('explanation').classList.remove('show');
+        
+        const q = quizData[currentQuestion];
+        document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${quizData.length}`;
+        document.getElementById('question').innerHTML = q.question;
+        
+        const symContainer = document.getElementById('symbol-display');
+        if (q.symbol) {
+            symContainer.innerHTML = q.symbol;
+            symContainer.style.display = 'flex';
+        } else {
+            symContainer.style.display = 'none';
+        }
+
+        const optionsGrid = document.getElementById('options');
+        optionsGrid.innerHTML = '';
+        
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-card';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsGrid.appendChild(btn);
+        });
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                if (!answered) checkAnswer(-1, null); // Timeout
+            }
+        }, 1000);
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (answered) return;
+        answered = true;
+        clearInterval(timerInterval);
+
+        const q = quizData[currentQuestion];
+        const options = document.getElementById('options').children;
+
+        // Disable all buttons
+        for (let btn of options) {
+            btn.disabled = true;
+            btn.style.cursor = 'default';
+        }
+
+        if (selectedIndex === q.answer - 1) {
+            if (btnElement) btnElement.classList.add('correct');
+            score++;
+            stats.correct++;
+            stats.xp += 10;
+        } else {
+            if (btnElement) btnElement.classList.add('incorrect');
+            // Highlight correct answer
+            options[q.answer - 1].classList.add('correct');
+        }
+
+        stats.total++;
+        checkLevelUp();
+        saveStats();
+
+        const expl = document.getElementById('explanation');
+        expl.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
+        expl.classList.add('show');
+        document.getElementById('next-btn').classList.add('show');
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        const resultScreen = document.getElementById('result-screen');
+        resultScreen.style.display = 'block';
+        document.getElementById('score').innerText = `${score} / ${quizData.length}`;
+        
+        if (score > stats.highscore) {
+            stats.highscore = score;
+            saveStats();
+        }
+        
+        const percentage = score / quizData.length;
+        let feedback = "";
+        if (percentage === 1) feedback = "Perfekt! Du bist bereit für die Meisterprüfung.";
+        else if (percentage >= 0.7) feedback = "Gute Arbeit! Solides Fachwissen.";
+        else feedback = "Da ist noch Luft nach oben. Schau dir am besten den Lernbereich nochmal an.";
+        
+        document.getElementById('feedback').innerText = feedback;
+    }
+
+    function restartQuiz() {
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        startQuiz(currentMode);
+    }
+
+    function checkLevelUp() {
+        const xpNeeded = stats.level * 50;
+        if (stats.xp >= xpNeeded) {
+            stats.level++;
+            stats.xp -= xpNeeded;
+            // Hier könnte man später eine Level-Up Animation einbauen
+        }
+    }
+
+    // --- simulated AI Mode ---
+    function generateCustomAIQuestion() {
+        document.getElementById('ai-config').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        document.getElementById('quiz-heading').innerHTML = '<span class="ai-tag">KI Generiert</span> Adaptive Fachfrage';
+        
+        // In a real app, this would be a fetch() call to an AI API.
+        // For now, we simulate pulling a random difficult question.
+        quizData = [{
+            question: "Berechne den Bemessungsstrom eines Drehstrom-Asynchronmotors mit P = 15 kW, cos φ = 0.85 und einem Wirkungsgrad (η) von 0.9 bei 400V Netzspannung.",
+            options: ["28.3 A", "24.5 A", "32.1 A", "18.9 A"],
+            answer: 1,
+            explanation: "I = P / (√3 × U × cos φ × η) = 15000W / (1.732 × 400V × 0.85 × 0.9) = 28.3 A."
+        }];
+        currentQuestion = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    // --- Learning & Article Logic ---
+    function loadTopics() {
+        const container = document.getElementById('topics-container');
+        container.innerHTML = '';
+        
+        for (const [key, data] of Object.entries(learningContent)) {
+            const card = document.createElement('div');
+            card.className = 'topic-card';
+            card.onclick = () => openTopic(key);
+            card.innerHTML = `
+                <div class="topic-icon-box">${data.icon}</div>
+                <h3>${data.title}</h3>
+                <p>${data.description}</p>
+            `;
+            container.appendChild(card);
+        }
+    }
+
+    function filterTopics() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.topic-card');
+        
+        Object.entries(learningContent).forEach(([key, data], index) => {
+            const match = data.title.toLowerCase().includes(query) || data.description.toLowerCase().includes(query);
+            cards[index].style.display = match ? 'block' : 'none';
+        });
+    }
+
+    function openTopic(key) {
+        document.getElementById('topics-view').style.display = 'none';
+        const contentView = document.getElementById('content-view');
+        contentView.style.display = 'block';
+        
+        const data = learningContent[key];
+        document.getElementById('content-container').innerHTML = data.content;
+    }
+
+    function backToTopics() {
+        document.getElementById('content-view').style.display = 'none';
+        document.getElementById('topics-view').style.display = 'block';
+    }
+
+    // --- Calculators ---
+    function calculateOhm() {
+        const u = parseFloat(document.getElementById('calc-u').value) || 0;
+        const r = parseFloat(document.getElementById('calc-r').value) || 0;
+        const resultBox = document.getElementById('calc-ohm-res');
+        
+        if (r > 0) {
+            const i = u / r;
+            resultBox.innerText = `Strom I = ${i.toFixed(2)} A`;
+        } else {
+            resultBox.innerText = "Fehler: R darf nicht 0 sein";
+        }
+    }
+
+    function calculate3Phase() {
+        const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+        const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
+        const u = 400; // Drehstromspannung
+        
+        const p = (Math.sqrt(3) * u * i * cos) / 1000;
+        document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+    }
+
+    function calculateVoltageDrop() {
+        const l = parseFloat(document.getElementById('calc-len').value) || 0;
+        const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+        const q = parseFloat(document.getElementById('calc-q').value) || 1;
+        const kappa = 56; // Leitfähigkeit Kupfer
+        
+        const drop = (2 * l * i) / (kappa * q);
+        const prozent = (drop / 230) * 100;
+        
+        document.getElementById('calc-drop-res').innerText = `ΔU = ${drop.toFixed(2)} V (${prozent.toFixed(2)}%)`;
+    }
+
+    function calculateCrossSection() {
+        const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+        const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+        const u = parseFloat(document.getElementById('calc-q-u').value) || 0;
+        const kappa = 56;
+        
+        if (u > 0) {
+            const a = (2 * l * i) / (kappa * u);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+        } else {
+            document.getElementById('calc-q-res').innerText = "Bitte gültigen Spannungsfall eingeben.";
+        }
+    }
+</script>
 </body>
 </html>
+
