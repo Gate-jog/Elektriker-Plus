@@ -1011,7 +1011,7 @@
                 <div class="progress-bar-fill" id="xp-progress-fill"></div>
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-                💡 <strong>Adaptiver Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!
+                💡 <strong>Adaptiver KI-Modus aktiv:</strong> Die Fragen engine analysiert deine Fehlerschwerpunkte und generiert smarte Prüfungsfragen nach ÖVE / DIN Standards!
             </div>
         </div>
 
@@ -1220,7 +1220,7 @@
     </div>
 
     <script>
-        // State Management & Robust Progress Persistence
+        // State Management & Progress Repair
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
             topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
@@ -1228,7 +1228,7 @@
 
         function saveStats() {
             localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            updateDashboard();
+            updateDashboardUI();
         }
 
         let currentMode = 'quiz';
@@ -1256,61 +1256,6 @@
             rcd: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><path d="M 35 30 Q 42 20 50 30 T 65 30"/><line x1="50" y1="15" x2="50" y2="20"/><text x="50" y="44" font-size="10" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">IΔn</text></svg>`,
             fuse: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
-        };
-
-        // Erweiterte Fragen-Datenbank für KI & Standard-Quiz
-        const questionPool = {
-            symbols: [
-                {
-                    q: "Welches Schaltsymbol nach DIN EN 60617 ist hier abgebildet?",
-                    symbol: svgSymbols.switch_changeover,
-                    options: ["Ausschalter (1-polig)", "Wechselschalter", "Kreuzschalter", "Serienschalter"],
-                    answer: 1,
-                    explanation: "Der Wechselschalter besitzt einen Eingang und zwei alternative Ausgänge (Korrespondierende), was ihn ideal für Wechselschaltungen macht."
-                },
-                {
-                    q: "Welche Funktion hat das dargestellte Symbol im Stromlaufplan?",
-                    symbol: svgSymbols.switch_cross,
-                    options: ["Serienschalter", "Kreuzschalter", "Doppelter Wechselschalter", "Polwender"],
-                    answer: 1,
-                    explanation: "Der Kreuzschalter verbindet vier Anschlüsse über Kreuz und dient als Zwischenschalter in einer Kreuzschaltung (ab 3 Schaltstellen)."
-                },
-                {
-                    q: "Wie wird dieses Bauteil nach DIN EN 60617 korrekterweise bezeichnet?",
-                    symbol: svgSymbols.rcd,
-                    options: ["Leitungsschutzschalter (LS)", "Fehlerstromschutzschalter (RCD / FI)", "Motorschutzschalter", "Leistungsschalter"],
-                    answer: 1,
-                    explanation: "Der RCD misst den Summenstrom über einen Summenstromwandler und löst beim Überschreiten des Bemessungsdifferenzstroms IΔn zuverlässig aus."
-                }
-            ],
-            ohm: [
-                {
-                    q: "Welchen Strom (I) zieht ein elektrischer Heizlüfter mit einer Leistung von 2300 W an einer 230 V Steckdose?",
-                    options: ["10 A", "16 A", "23 A", "100 A"],
-                    answer: 0,
-                    explanation: "Berechnung über P = U * I => I = P / U = 2300 W / 230 V = 10 A."
-                },
-                {
-                    q: "Wie verändert sich der Strom in einem ohmschen Stromkreis, wenn sich bei konstanter Spannung der Widerstand halbiert?",
-                    options: ["Er halbiert sich", "Er bleibt gleich", "Er verdoppelt sich", "Er sinkt auf ein Viertel"],
-                    answer: 2,
-                    explanation: "Nach dem Ohmschen Gesetz I = U / R verhalten sich Strom und Widerstand indirekt proportional. Halbiert sich R, verdoppelt sich I."
-                }
-            ],
-            protection: [
-                {
-                    q: "Welcher maximale Bemessungsfehlerstrom (IΔn) ist für RCDs zum Personenschutz in Wohngebäuden vorgeschrieben?",
-                    options: ["10 mA", "30 mA", "100 mA", "300 mA"],
-                    answer: 1,
-                    explanation: "Nach DIN VDE 0100-410 sind RCDs mit einem Bemessungsfehlerstrom von höchstens 30 mA für Steckdosenstromkreise bis 32 A vorgeschrieben."
-                },
-                {
-                    q: "Welches Netzsystem zeichnet sich dadurch aus, dass Neutralleiter (N) und Schutzleiter (PE) ab der Hausversorgung strikt getrennt sind?",
-                    options: ["TN-C-Netz", "TN-S-Netz", "IT-Netz", "TT-Netz ohne RCD"],
-                    answer: 1,
-                    explanation: "Im TN-S-Netz (Terre Neutre Séparé) sind N und PE im gesamten Gebäude als getrennte Leiter geführt."
-                }
-            ]
         };
 
         // Erweiterte Lerninhalte inklusive präziser, korrigierter Grundlagen & Formeln
@@ -1450,28 +1395,23 @@
                         <svg viewBox="0 0 560 220" style="width:100%; max-width:560px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(245,158,11,0.4);">
                             <text x="280" y="20" fill="#f59e0b" font-size="12" font-weight="bold" text-anchor="middle">TN-C NETZ (PEN DURCHGEHEND)</text>
                             
-                            <!-- Trafo Linke Seite -->
                             <rect x="20" y="35" width="80" height="160" rx="6" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="1.5"/>
                             <text x="60" y="55" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">Trafo</text>
                             
-                            <!-- Leitungen -->
                             <line x1="80" y1="70" x2="420" y2="70" stroke="#f59e0b" stroke-width="3"/><text x="90" y="64" fill="#f59e0b" font-size="10">L1</text>
                             <line x1="80" y1="95" x2="420" y2="95" stroke="#d97706" stroke-width="3"/><text x="90" y="89" fill="#d97706" font-size="10">L2</text>
                             <line x1="80" y1="120" x2="420" y2="120" stroke="#b45309" stroke-width="3"/><text x="90" y="114" fill="#b45309" font-size="10">L3</text>
                             <line x1="80" y1="165" x2="420" y2="165" stroke="#10b981" stroke-width="4" stroke-dasharray="12,4"/><text x="90" y="157" fill="#10b981" font-size="10" font-weight="bold">PEN</text>
 
-                            <!-- Trafo Erdung -->
                             <line x1="60" y1="165" x2="60" y2="190" stroke="#10b981" stroke-width="2"/>
                             <line x1="45" y1="190" x2="75" y2="190" stroke="#10b981" stroke-width="2"/>
                             <line x1="50" y1="195" x2="70" y2="195" stroke="#10b981" stroke-width="2"/>
                             <line x1="55" y1="200" x2="65" y2="200" stroke="#10b981" stroke-width="2"/>
 
-                            <!-- Verbraucher Gehäuse -->
                             <rect x="420" y="45" width="110" height="145" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
                             <text x="475" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">(Klasse I)</text>
 
-                            <!-- Brücke zum Gehäuse -->
                             <line x1="420" y1="165" x2="450" y2="165" stroke="#10b981" stroke-width="3"/>
                             <line x1="450" y1="165" x2="450" y2="145" stroke="#10b981" stroke-width="2"/>
                             <circle cx="450" cy="145" r="3" fill="#10b981"/>
@@ -1494,16 +1434,13 @@
                             <line x1="80" y1="150" x2="420" y2="150" stroke="#3b82f6" stroke-width="3"/><text x="90" y="144" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
                             <line x1="80" y1="185" x2="420" y2="185" stroke="#10b981" stroke-width="3"/><text x="90" y="179" fill="#10b981" font-size="10" font-weight="bold">PE</text>
 
-                            <!-- Trafo Erdung -->
                             <line x1="60" y1="185" x2="60" y2="205" stroke="#10b981" stroke-width="2"/>
                             <line x1="45" y1="205" x2="75" y2="205" stroke="#10b981" stroke-width="2"/>
                             <line x1="50" y1="210" x2="70" y2="210" stroke="#10b981" stroke-width="2"/>
 
-                            <!-- Verbraucher Gehäuse -->
                             <rect x="420" y="45" width="110" height="155" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
 
-                            <!-- Anschlüsse -->
                             <line x1="420" y1="185" x2="450" y2="185" stroke="#10b981" stroke-width="3"/>
                             <line x1="450" y1="185" x2="450" y2="155" stroke="#10b981" stroke-width="2"/>
                             <circle cx="450" cy="155" r="3" fill="#10b981"/>
@@ -1519,28 +1456,23 @@
                             
                             <line x1="30" y1="65" x2="420" y2="65" stroke="#f59e0b" stroke-width="3"/><text x="40" y="59" fill="#f59e0b" font-size="10">L1</text>
                             
-                            <!-- PEN bis Trennpunkt -->
                             <line x1="30" y1="160" x2="220" y2="160" stroke="#10b981" stroke-width="4" stroke-dasharray="12,4"/>
                             <text x="80" y="152" fill="#10b981" font-size="11" font-weight="bold">PEN-Leiter (Versorger)</text>
                             
-                            <!-- Trennpunkt HAK -->
                             <circle cx="220" cy="160" r="6" fill="#06b6d4"/>
                             <text x="220" y="185" fill="#06b6d4" font-size="9" text-anchor="middle" font-weight="bold">Aufteilungspunkt</text>
                             
-                            <!-- Ab Trennpunkt: N & PE -->
                             <path d="M 220 160 C 250 160, 250 135, 280 135 L 420 135" stroke="#3b82f6" stroke-width="3" fill="none"/>
                             <text x="300" y="129" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
 
                             <path d="M 220 160 C 250 160, 250 175, 280 175 L 420 175" stroke="#10b981" stroke-width="3" fill="none"/>
                             <text x="300" y="190" fill="#10b981" font-size="10" font-weight="bold">PE</text>
 
-                            <!-- Erder an Aufteilung -->
                             <line x1="220" y1="166" x2="220" y2="205" stroke="#10b981" stroke-width="2"/>
                             <line x1="205" y1="205" x2="235" y2="205" stroke="#10b981" stroke-width="2"/>
                             <line x1="210" y1="210" x2="230" y2="210" stroke="#10b981" stroke-width="2"/>
                             <text x="180" y="218" fill="#10b981" font-size="8">Anlagenerder (PAS)</text>
 
-                            <!-- Verbraucher -->
                             <rect x="420" y="45" width="110" height="150" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Gebäude-Anlage</text>
                         </svg>
@@ -1553,21 +1485,17 @@
                         <svg viewBox="0 0 560 230" style="width:100%; max-width:560px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(139,92,246,0.4);">
                             <text x="280" y="20" fill="#8b5cf6" font-size="12" font-weight="bold" text-anchor="middle">TT NETZ (LOKALE ERDUNG UND RCD ZWINGEND)</text>
                             
-                            <!-- Netzleitungen -->
                             <line x1="30" y1="60" x2="420" y2="60" stroke="#f59e0b" stroke-width="3"/><text x="40" y="54" fill="#f59e0b" font-size="10">L1</text>
                             <line x1="30" y1="95" x2="420" y2="95" stroke="#3b82f6" stroke-width="3"/><text x="40" y="89" fill="#3b82f6" font-size="10">N</text>
 
-                            <!-- Betriebserdung Trafo -->
                             <line x1="80" y1="95" x2="80" y2="180" stroke="#3b82f6" stroke-width="2"/>
                             <line x1="65" y1="180" x2="95" y2="180" stroke="#3b82f6" stroke-width="2"/>
                             <line x1="70" y1="185" x2="90" y2="185" stroke="#3b82f6" stroke-width="2"/>
                             <text x="80" y="200" fill="#3b82f6" font-size="8" text-anchor="middle">Betriebserder (RB)</text>
 
-                            <!-- Verbraucher Gehäuse & Lokaler Erder -->
                             <rect x="420" y="40" width="110" height="120" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="90" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
 
-                            <!-- Lokaler Schutzleiter & Erder -->
                             <line x1="475" y1="160" x2="475" y2="195" stroke="#10b981" stroke-width="3"/>
                             <line x1="460" y1="195" x2="490" y2="195" stroke="#10b981" stroke-width="3"/>
                             <line x1="465" y1="200" x2="485" y2="200" stroke="#10b981" stroke-width="3"/>
@@ -1586,7 +1514,6 @@
                             <line x1="30" y1="60" x2="420" y2="60" stroke="#f59e0b" stroke-width="3"/><text x="40" y="54" fill="#f59e0b" font-size="10">L1</text>
                             <line x1="30" y1="100" x2="420" y2="100" stroke="#d97706" stroke-width="3"/><text x="40" y="94" fill="#d97706" font-size="10">L2</text>
 
-                            <!-- Isolationsüberwachung -->
                             <rect x="140" y="130" width="100" height="50" rx="6" fill="rgba(236,72,153,0.15)" stroke="#ec4899" stroke-width="2"/>
                             <text x="190" y="152" fill="#ec4899" font-size="9" text-anchor="middle" font-weight="bold">Isolations-</text>
                             <text x="190" y="165" fill="#ec4899" font-size="9" text-anchor="middle">überwachung</text>
@@ -1595,7 +1522,6 @@
                             <line x1="190" y1="180" x2="190" y2="200" stroke="#10b981" stroke-width="2"/>
                             <line x1="180" y1="200" x2="200" y2="200" stroke="#10b981" stroke-width="2"/>
 
-                            <!-- Verbraucher Gehäuse & Erder -->
                             <rect x="420" y="45" width="110" height="110" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="95" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">OP-Raum / IT</text>
 
@@ -1745,20 +1671,6 @@
                                     <td>P = &radic;3 &middot; U_L &middot; I &middot; cos(&phi;)</td>
                                     <td>Gesamtleistung im symmetrischen Drehstromnetz bei Leiterspannung U_L (i.d.R. 400 V).</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Blindleistung</strong></td>
-                                    <td>Q</td>
-                                    <td>Var (var)</td>
-                                    <td>Q = U &middot; I &middot; sin(&phi;)<br>(&radic;3 &middot; U_L &middot; I &middot; sin(&phi;))</td>
-                                    <td>Die in magnetischen oder elektrischen Feldern (Spulen, Kondensatoren) hin- und herpendelnde Energie.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Scheinleistung</strong></td>
-                                    <td>S</td>
-                                    <td>Voltampere (VA)</td>
-                                    <td>S = U &middot; I<br>S = &radic;(P² + Q²)</td>
-                                    <td>Die Vektorsumme aus Wirk- und Blindleistung, maßgeblich für die Dimensionierung von Trafos und Kabeln.</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1766,31 +1678,117 @@
             }
         };
 
-        // Initialize App & UI Bindings
+        // Intelligent AI Question Generator Bank
+        const intelligentQuestionBank = [
+            {
+                topic: 'symbols',
+                question: 'Welches Schaltsymbol nach DIN EN 60617 ist hier abgebildet und welche primäre Funktion erfüllt es?',
+                symbol: svgSymbols.switch_changeover,
+                options: [
+                    'Wechselschalter – Leitet den Strom wahlweise auf einen von zwei Ausgängen um (z.B. für Schaltung von 2 Orten).',
+                    'Ausschalter – Trennt den Stromkreis einpolig.',
+                    'Kreuzschalter – Kreuzt zwei Korrespondierende.',
+                    'Taster – Schließt den Kontakt nur kurzzeitig.'
+                ],
+                correct: 0,
+                explanation: 'Das Symbol zeigt einen Wechselschalter mit einem Eingang und zwei alternativen Ausgängen, essenziell für Wechselschaltungen.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Achten Sie in Schaltplänen auf die korrekte Bezifferung der Kontakte (Klemme 1 für P, Klemmen 2 und 3 für die Korrespondierenden).'
+            },
+            {
+                topic: 'symbols',
+                question: 'Welches Betriebsmittel wird durch dieses genormte Schaltzeichen dargestellt?',
+                symbol: svgSymbols.rcd,
+                options: [
+                    'RCD (Fehlerstromschutzschalter / FI) mit Summenstromwandler und Prüftaste.',
+                    'Leitungsschutzschalter (B-Automat) mit thermischem Auslöser.',
+                    'Motorschutzschalter mit thermischem Überlastrelais.',
+                    'Leistungsschalter für Hauptverteilungen.'
+                ],
+                correct: 0,
+                explanation: 'Das RCD-Symbol zeigt den Summenstromwandler und das Prüfzeichen IΔn für den Personenschutz bei Fehlerströmen.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Ein RCD misst die Vektorsumme der Ströme in den Außen- und Neutralleitern. Im Fehlerfall wird allpolig getrennt.'
+            },
+            {
+                topic: 'ohm',
+                question: 'An einem ohmschen Widerstand von R = 20 Ω liegt eine Spannung von U = 230 V an. Wie hoch ist der fließende Strom I und die umgesetzte Leistung P?',
+                symbol: svgSymbols.resistor,
+                options: [
+                    'I = 11,5 A und P = 2645 W (2,64 kW)',
+                    'I = 4,6 A und P = 1058 W',
+                    'I = 23,0 A und P = 5290 W',
+                    'I = 1,15 A und P = 264 W'
+                ],
+                correct: 0,
+                explanation: 'Berechnung nach Ohm: I = U / R = 230 V / 20 Ω = 11,5 A. Leistung P = U · I = 230 V · 11,5 A = 2645 W.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Beachten Sie bei hohen Strömen stets den zulässigen Spannungsfall und die thermische Belastbarkeit der Leitungsisolierung.'
+            },
+            {
+                topic: 'protection',
+                question: 'Warum ist in einem TT-Netzsystem die Verwendung eines Fehlerstromschutzschalters (RCD) zwingend vorgeschrieben?',
+                symbol: svgSymbols.ground,
+                options: [
+                    'Weil der Erdungswiderstand des lokalen Erders zu hoch sein kann, als dass klassische Sicherungen bei Körperschluss schnell genug auslösen.',
+                    'Weil im TT-Netz keine Außenleiter verwendet werden dürfen.',
+                    'Weil der Neutralleiter im Trafo nicht geerdet ist.',
+                    'Weil RCDs im TT-Netz den Stromverbrauch um 50% senken.'
+                ],
+                correct: 0,
+                explanation: 'Im TT-Netz fließt der Fehlerstrom über das Erdreich zurück. Der Schleifenwiderstand ist oft zu hoch für Überstromschutzeinrichtungen, weshalb der RCD für schnelle Abschaltung sorgt.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Nach ÖVE / VDE ist im TT-Netz die Berührungsspannung im Fehlerfall direkt vom Erdungswiderstand RA abhängig. Der RCD garantiert den Schutz bei IΔn ≤ 30 mA.'
+            },
+            {
+                topic: 'cables',
+                question: 'Welcher maximale Dauerstrom I_z ist für eine PVC-isolierte Kupferleitung mit dem Querschnitt 2,5 mm² in Installationsart B2 (Verteilerkanal/Wand) typischerweise zulässig?',
+                symbol: svgSymbols.fuse,
+                options: [
+                    '19,5 A (daher typischerweise mit 16 A abgesichert)',
+                    '10,0 A',
+                    '25,0 A',
+                    '32,0 A'
+                ],
+                correct: 0,
+                explanation: 'Nach DIN VDE 0298-4 beträgt die Stromtragfähigkeit für 2,5 mm² Kupfer in Installationsart B2 rund 19,5 A.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Berücksichtigen Sie stets Häufungsschwellen (Faktoren nach Tabelle) und Umgebungstemperaturen bei der exakten Leitungsbemessung.'
+            },
+            {
+                topic: 'ip',
+                question: 'Welche Schutzart IP nach DIN EN 60529 ist für Betriebsmittel in Feuchträumen (z.B. unter der Dusche / direkter Spritzwasserbereich) mindestens erforderlich?',
+                symbol: svgSymbols.lamp,
+                options: [
+                    'Mindestens IPX4 (Schutz gegen Allseitiges Spritzwasser)',
+                    'IP20 (Schutz gegen grobe Berührung)',
+                    'IPX1 (Tropfwassergeschützt)',
+                    'IP68 (Wasserdicht für Tauchbetrieb)'
+                ],
+                correct: 0,
+                explanation: 'Bereiche mit Spritzwasser erfordern mindestens Schutzart IPX4. Im direkten Unterwasserbereich (Badewanne/Dusche Zone 0) ist IPX7 erforderlich.',
+                aiAnalysis: '🧠 **Experten-Hinweis:** Die Zonenfestlegung nach VDE 0100-701 bestimmt exakt, welche Schutzarten in Sanitärräumen zulässig sind.'
+            }
+        ];
+
+        // Initialize UI on Load
         window.addEventListener('DOMContentLoaded', () => {
-            renderTopics();
-            updateDashboard();
+            updateDashboardUI();
+            renderTopicsList();
+            checkAchievements();
         });
 
-        function updateDashboard() {
+        function updateDashboardUI() {
+            document.getElementById('stat-completed').innerText = stats.total;
             const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
             document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
             document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
             document.getElementById('stat-high').innerText = stats.highscore;
 
-            // XP & Progress Bar
-            const xpForNextLevel = stats.level * 100;
-            const currentLevelXP = stats.xp % 100;
-            document.getElementById('xp-label').innerText = `XP: ${currentLevelXP} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
+            // XP and Streak updates
+            const nextLevelXP = stats.level * 100;
+            const currentXPInLevel = stats.xp % 100;
+            document.getElementById('xp-label').innerText = `XP: ${currentXPInLevel} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
             document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = `${currentLevelXP}%`;
+            const xpPercent = Math.min(100, (currentXPInLevel / 100) * 100);
+            document.getElementById('xp-progress-fill').style.width = xpPercent + '%';
 
-            // Check Achievements
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.streak >= 10 || stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
+            checkAchievements();
         }
 
         function toggleDetailedStats() {
@@ -1798,178 +1796,228 @@
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
 
+        function checkAchievements() {
+            if (stats.total >= 1) {
+                document.getElementById('badge-1').classList.add('unlocked');
+            }
+            if (stats.streak >= 10 || stats.correct >= 10) {
+                document.getElementById('badge-2').classList.add('unlocked');
+            }
+            if (stats.level >= 3) {
+                document.getElementById('badge-3').classList.add('unlocked');
+            }
+            if (stats.highscore >= 8) {
+                document.getElementById('badge-4').classList.add('unlocked');
+            }
+        }
+
         function startMode(mode) {
+            currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
-            switchMode(mode);
-        }
-
-        function backToWelcome() {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.getElementById('welcome-screen').style.display = 'block';
-            document.getElementById('mode-nav-area').style.display = 'none';
-            if (timerInterval) clearInterval(timerInterval);
-        }
-
-        function switchMode(mode) {
-            currentMode = mode;
+            
+            // Hide all content areas
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
 
-            if (mode === 'quiz') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-quiz').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                initQuiz('standard');
-            } else if (mode === 'schemas') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-schemas').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                initQuiz('symbols');
+            if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+                backToTopics();
             } else if (mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
+                document.getElementById('quiz-heading').innerText = '✨ Experten & KI Modus';
                 generateCustomAIQuestion();
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                if (timerInterval) clearInterval(timerInterval);
+            } else if (mode === 'schemas') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-schemas').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltpläne Quiz';
+                initQuiz('symbols');
+            } else {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-quiz').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                document.getElementById('quiz-heading').innerText = '⚡ Standard Fachwissen Quiz';
+                initQuiz('random');
             }
         }
 
-        // Quiz Engine with Smart AI Adaptation
-        function initQuiz(type) {
-            if (timerInterval) clearInterval(timerInterval);
+        function switchMode(mode) {
+            startMode(mode);
+        }
+
+        function backToWelcome() {
+            clearInterval(timerInterval);
+            document.getElementById('welcome-screen').style.display = 'block';
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+        }
+
+        // Quiz Engine
+        function initQuiz(topicFilter) {
             currentQuestion = 0;
             score = 0;
+            answered = false;
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('result-screen').style.display = 'none';
             
-            if (type === 'symbols') {
-                document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltpläne';
-                activeQuizQuestions = [...questionPool.symbols];
+            // Filter questions intelligently
+            if (topicFilter === 'symbols') {
+                activeQuizQuestions = intelligentQuestionBank.filter(q => q.topic === 'symbols');
             } else {
-                document.getElementById('quiz-heading').innerText = '⚡ Fachwissen & Normen';
-                activeQuizQuestions = [...questionPool.symbols, ...questionPool.ohm, ...questionPool.protection];
+                activeQuizQuestions = [...intelligentQuestionBank].sort(() => 0.5 - Math.random());
             }
-            // Shuffle
-            activeQuizQuestions.sort(() => Math.random() - 0.5);
+            if (activeQuizQuestions.length === 0) activeQuizQuestions = [...intelligentQuestionBank];
+            
             loadQuestion();
         }
 
         function generateCustomAIQuestion() {
-            if (timerInterval) clearInterval(timerInterval);
-            document.getElementById('ai-config').style.display = 'grid';
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-
             const topic = document.getElementById('ai-topic-select').value;
             const diff = document.getElementById('ai-diff-select').value;
+            
+            let filtered = topic === 'random' ? intelligentQuestionBank : intelligentQuestionBank.filter(q => q.topic === topic);
+            if (filtered.length === 0) filtered = intelligentQuestionBank;
 
-            // Smart AI generator generating rich engineering challenges
-            let pool = [];
-            if (topic === 'symbols' || topic === 'random') pool.push(...questionPool.symbols);
-            if (topic === 'ohm' || topic === 'random') pool.push(...questionPool.ohm);
-            if (topic === 'protection' || topic === 'random') pool.push(...questionPool.protection);
-            if (pool.length === 0) pool = [...questionPool.ohm];
-
-            const qObj = pool[Math.floor(Math.random() * pool.length)];
+            const baseQ = filtered[Math.floor(Math.random() * filtered.length)];
+            
+            // Intelligent augmentation for AI mode
+            activeQuizQuestions = [baseQ, ...filtered.sort(() => 0.5 - Math.random()).slice(0, 4)];
             currentQuestion = 0;
             score = 0;
-            activeQuizQuestions = [qObj];
-            loadQuestion(true);
+            answered = false;
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('result-screen').style.display = 'none';
+            loadQuestion();
         }
 
-        function loadQuestion(isAI = false) {
+        function loadQuestion() {
             if (currentQuestion >= activeQuizQuestions.length) {
-                endQuiz();
+                showQuizResults();
                 return;
             }
 
             answered = false;
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
+            const q = activeQuizQuestions[currentQuestion];
+            document.getElementById('question').innerText = q.question;
             document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
-            document.getElementById('next-btn').classList.remove('show');
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-
-            const qData = activeQuizQuestions[currentQuestion];
-            document.getElementById('question').innerText = qData.q;
-
-            const symDisp = document.getElementById('symbol-display');
-            if (qData.symbol) {
-                symDisp.style.display = 'flex';
-                symDisp.innerHTML = qData.symbol;
+            
+            const symbolDisp = document.getElementById('symbol-display');
+            if (q.symbol) {
+                symbolDisp.innerHTML = q.symbol;
+                symbolDisp.style.display = 'flex';
             } else {
-                symDisp.style.display = 'none';
+                symbolDisp.style.display = 'none';
             }
 
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-            qData.options.forEach((opt, idx) => {
+            const optionsGrid = document.getElementById('options');
+            optionsGrid.innerHTML = '';
+            
+            // Shuffle options while keeping track of correct
+            let optionIndices = q.options.map((opt, idx) => ({ opt, idx }));
+            optionIndices.sort(() => Math.05 - Math.random());
+
+            optionIndices.forEach(({ opt, idx }) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.innerText = opt;
-                btn.onclick = () => selectAnswer(idx, qData.answer);
-                optionsContainer.appendChild(btn);
+                btn.onclick = () => selectOption(idx, q.correct, btn);
+                optionsGrid.appendChild(btn);
             });
 
-            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('quiz-timer').innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    selectAnswer(-1, qData.answer);
+                    if (!answered) handleTimeout();
                 }
             }, 1000);
         }
 
-        function selectAnswer(selectedIdx, correctIdx) {
+        function handleTimeout() {
+            answered = true;
+            stats.total++;
+            stats.streak = 0;
+            saveStats();
+
+            const q = activeQuizQuestions[currentQuestion];
+            const optionCards = document.querySelectorAll('.option-card');
+            optionCards.forEach(card => {
+                card.disabled = true;
+                if (card.innerText === q.options[q.correct]) {
+                    card.classList.add('correct');
+                }
+            });
+
+            const expBox = document.getElementById('explanation');
+            expBox.innerHTML = `⏰ <strong>Zeit abgelaufen!</strong><br>${q.explanation}`;
+            expBox.classList.add('show');
+
+            if (currentMode === 'ai' && q.aiAnalysis) {
+                document.getElementById('ai-tutor-text').innerHTML = q.aiAnalysis;
+                document.getElementById('ai-tutor-box').classList.add('show');
+            }
+
+            document.getElementById('next-btn').classList.add('show');
+        }
+
+        function selectOption(selectedIdx, correctIdx, selectedBtn) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            const options = document.querySelectorAll('.option-card');
-            const qData = activeQuizQuestions[currentQuestion];
-
-            options.forEach((opt, idx) => {
-                opt.disabled = true;
-                if (idx === correctIdx) opt.classList.add('correct');
-                if (idx === selectedIdx && idx !== correctIdx) opt.classList.add('incorrect');
-            });
-
-            // Update stats & persistent progress
             stats.total++;
+            const q = activeQuizQuestions[currentQuestion];
+            const optionCards = document.querySelectorAll('.option-card');
+
+            optionCards.forEach(card => card.disabled = true);
+
             if (selectedIdx === correctIdx) {
+                selectedBtn.classList.add('correct');
                 score++;
                 stats.correct++;
                 stats.streak++;
-                stats.xp += 25;
-                if (stats.streak > 0 && stats.streak % 5 === 0) {
-                    stats.level++;
+                stats.xp += 20;
+
+                // Level up logic: every 100 XP
+                stats.level = Math.floor(stats.xp / 100) + 1;
+                if (score > stats.highscore) {
+                    stats.highscore = score;
                 }
             } else {
+                selectedBtn.classList.add('incorrect');
                 stats.streak = 0;
+                optionCards.forEach(card => {
+                    if (card.innerText === q.options[correctIdx]) {
+                        card.classList.add('correct');
+                    }
+                });
             }
 
-            if (score > stats.highscore) {
-                stats.highscore = score;
-            }
             saveStats();
 
-            // Show explanation & AI tutor intelligence
             const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${qData.explanation}`;
+            expBox.innerHTML = `<strong>${selectedIdx === correctIdx ? '✅ Richtig!' : '❌ Falsch!'}</strong><br>${q.explanation}`;
             expBox.classList.add('show');
 
-            if (currentMode === 'ai') {
-                const aiTutor = document.getElementById('ai-tutor-box');
-                const aiText = document.getElementById('ai-tutor-text');
-                aiText.innerHTML = selectedIdx === correctIdx 
-                    ? `Brillante Leistung! Du hast dieses elektrotechnische Prinzip absolut verstanden. Weiter so im nächsten Level.`
-                    : `Analysiere diesen Fall nochmals genau: Der korrekte Ansatz basiert auf den einschlägigen Normen (DIN VDE / ÖVE). Übe diesen Bereich im Lernmodus, um deine Fehlersquote zu minimieren!`;
-                aiTutor.classList.add('show');
+            if (currentMode === 'ai' && q.aiAnalysis) {
+                document.getElementById('ai-tutor-text').innerHTML = q.aiAnalysis;
+                document.getElementById('ai-tutor-box').classList.add('show');
             }
 
             document.getElementById('next-btn').classList.add('show');
@@ -1980,50 +2028,60 @@
             loadQuestion();
         }
 
-        function endQuiz() {
+        function showQuizResults() {
             document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('ai-config').style.display = 'none';
-            const resScreen = document.getElementById('result-screen');
-            resScreen.style.display = 'block';
+            document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
             
             const pct = (score / activeQuizQuestions.length) * 100;
-            let fb = "Ausgezeichnete Fachkompetenz!";
-            if (pct < 50) fb = "Wiederhole die Grundlagen im Lernbereich, um deine Sicherheit zu erhöhen.";
-            else if (pct < 80) fb = "Solides Fachwissen mit weiterem Potenzial.";
+            let fb = 'Ausgezeichnet! Sie sind bestens vorbereitet.';
+            if (pct < 50) fb = 'Üben Sie noch etwas im Lernbereich, um die Vorschriften zu festigen.';
+            else if (pct < 80) fb = 'Gutes Ergebnis! Ein paar Details wiederholen.';
             document.getElementById('feedback').innerText = fb;
+            updateDashboardUI();
         }
 
         function restartQuiz() {
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('quiz-screen').style.display = 'block';
-            initQuiz(currentMode === 'schemas' ? 'symbols' : 'standard');
+            initQuiz('random');
         }
 
-        // Learning Hub & Calculators
-        function renderTopics(filter = '') {
+        // Learning & Calculators
+        function renderTopicsList() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-            
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
-                if (filter && !item.title.toLowerCase().includes(filter) && !item.description.toLowerCase().includes(filter)) return;
-
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${item.icon}</div>
                     <h3>${item.title}</h3>
                     <p>${item.description}</p>
                 `;
+                card.onclick = () => openArticle(key);
                 container.appendChild(card);
             });
         }
 
         function filterTopics() {
-            const val = document.getElementById('search-input').value.toLowerCase();
-            renderTopics(val);
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            
+            Object.keys(learningContent).forEach(key => {
+                const item = learningContent[key];
+                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)) {
+                    const card = document.createElement('div');
+                    card.className = 'topic-card';
+                    card.innerHTML = `
+                        <div class="topic-icon-box">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    `;
+                    card.onclick = () => openArticle(key);
+                    container.appendChild(card);
+                }
+            });
         }
 
         function openArticle(key) {
@@ -2039,7 +2097,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculators Logic
+        // Professional Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -2049,28 +2107,28 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
+            const p = Math.sqrt(3) * 400 * i * cos / 1000;
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
-            // Kappa for Cu = 56 m/(ohm*mm2)
-            const deltaU = (2 * l * i) / (56 * q);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const kappa = 56; // Leitfähigkeit Kupfer m/(Ω·mm²)
+            const du = (2 * l * i) / (kappa * a);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const uMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            // A = (2 * l * I) / (kappa * deltaU)
-            const q = (2 * l * i) / (56 * uMax);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+            const duMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const kappa = 56;
+            const a = (2 * l * i) / (kappa * duMax);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
