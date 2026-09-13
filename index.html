@@ -848,7 +848,7 @@
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
                     <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Nachschlagewerk, RCDs, Netze & Profi-Rechner.</div>
+                    <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
                 </div>
             </div>
         </div>
@@ -925,7 +925,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Netze, PV)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Taster, Netze, Schalter, PV)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -1046,7 +1046,7 @@
             ground: `<svg viewBox="0 0 120 70"><line x1="60" y1="12" x2="60" y2="35"/><line x1="38" y1="35" x2="82" y2="35"/><line x1="46" y1="44" x2="74" y2="44"/><line x1="53" y1="53" x2="67" y2="53"/><text x="60" y="67" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Erde (PE)</text></svg>`
         };
 
-        // Lerninhalte ohne Schalter-, Taster- & Plan-Abschnitte im Lernbereich
+        // Erweiterte Lerninhalte inklusive aller Schalter, Taster, Pläne und Symbole
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1066,6 +1066,61 @@
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
                         <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
+                    </div>
+                `
+            },
+            schalter_taster: {
+                title: "Alle Schalter, Taster, Pläne & Symbole",
+                icon: "🔘",
+                description: "Vollständige Übersicht aller Schaltungsarten & Symbole (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
+                content: `
+                    <h2>Sämtliche Schalter, Taster und Installationsschaltungen</h2>
+                    <p class="article-desc">Detaillierte Funktionsweisen und genormte Symbole für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE 0100.</p>
+
+                    <div class="article-section">
+                        <h3>1. Ausschaltung (1-polig)</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte oder einer Verbrauchergruppe von einer einzigen Bedien Stelle aus.</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Der Außenleiter (L) wird über den 1-poligen Ausschalter zur Leuchte geführt. Der Neutralleiter (N) und der Schutzleiter (PE) werden direkt zur Leuchte durchgeschleift.</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>2. Serienschaltung (Doppelausschalter)</h3>
+                        <p><strong>Verwendung:</strong> Schalten von zwei verschiedenen Leuchten (oder Leuchtengruppen) von einer gemeinsamen Stelle aus (z.B. Deckenleuchte und Wandleuchte getrennt über eine Wippe).</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Ein gemeinsamer Eingang für L, zwei separate getrennte Ausgänge zu den jeweiligen Verbrauchern über zwei Wippen.</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>3. Wechselschaltung</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte von zwei verschiedenen Orten aus (z.B. Flur, Schlafzimmer am Eingang und am Bett).</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Zwei Wechselschalter werden über zwei korrespondierende Adern (K1 und K2) miteinander verbunden. Der Eingang des ersten Schalters erhält den Außenleiter (L), der Ausgang des zweiten Schalters führt direkt zur Lampe.</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>4. Kreuzschaltung</h3>
+                        <p><strong>Verwendung:</strong> Schalten einer Leuchte von drei oder mehr verschiedenen Orten aus.</p>
+                        <p><strong>Schaltplan-Prinzip:</strong> Zwischen zwei Wechselschalter wird ein Kreuzschalter eingefügt, der die beiden korrespondierenden Leitungen entweder geradlinig oder gekreuzt durchschleift.</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>5. Taster & Tasterstromstoßschaltung (Eltako / Fernschalter)</h3>
+                        <p><strong>Verwendung:</strong> Schalten von Leuchten von beliebig vielen Stellen aus über Taster (Rückstellfeder, Schließer) und ein Stromstoßrelais (Schütz / Eltako).</p>
+                        <p><strong>Funktionsweise:</strong> Jeder Tastendruck gibt einen kurzen Steuerimpuls auf die Spule des Stromstoßrelais, welches den Hauptkontakt mechanisch oder magnetisch von Ein auf Aus umschaltet. Ideal für Stiegenhäuser (spart Kupfer durch dünne Steuerleitungen).</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Übersichtstabelle der Schalt- und Tastertypen</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schaltungsart</th><th>Anzahl Bedienstellen</th><th>Typische Anwendung</th><th>Besonderheit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Ausschaltung</strong></td><td>1 Stelle</td><td>Wohnzimmer, kleine Räume</td><td>Einfachster Stromkreis</td></tr>
+                                <tr><td><strong>Serienschaltung</strong></td><td>1 Stelle (2 Wippen)</td><td>Bad, Kronleuchter</td><td>Zwei Kreise unabhängig</td></tr>
+                                <tr><td><strong>Wechselschaltung</strong></td><td>2 Stellen</td><td>Flur, Treppenabsatz</td><td>Zwei Wechselschalter + Korrespondierende</td></tr>
+                                <tr><td><strong>Kreuzschaltung</strong></td><td>3+ Stellen</td><td>Große Flure, Stiegenhaus</td><td>Erfordert Kreuzschalter dazwischen</td></tr>
+                                <tr><td><strong>Tasterschaltung</strong></td><td>Beliebig viele</td><td>Mehrgeschoßiges Stiegenhaus</td><td>Spart Kupfer (dünne Steuerleitung)</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 `
             },
@@ -1169,12 +1224,129 @@
                             <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="120" y1="90" x2="590" y2="90" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="120" y1="120" x2="590" y2="120" stroke="#f59e0b" stroke-width="3.5"/>
-                            <line x1="120" y1="155" x2="590" y2="155" stroke="#10b981" stroke-width="4.5"/>
+                            <line x1="120" y1="155" x2="590" y2="155" stroke="#10b981" stroke-width="3.5"/>
                         </svg>
                     </div>
                 `
             }
         };
+
+        // UI Interactions & Navigation
+        function filterTopics() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            
+            Object.keys(learningContent).forEach(key => {
+                const topic = learningContent[key];
+                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
+                    const card = document.createElement('div');
+                    card.className = 'topic-card';
+                    card.onclick = () => openTopic(key);
+                    card.innerHTML = `
+                        <div class="topic-icon-box">${topic.icon}</div>
+                        <h3>${topic.title}</h3>
+                        <p>${topic.description}</p>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+        }
+
+        function openTopic(key) {
+            document.getElementById('topics-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
+        }
+
+        function backToTopics() {
+            document.getElementById('content-view').style.display = 'none';
+            document.getElementById('topics-view').style.display = 'block';
+        }
+
+        function startMode(mode) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.getElementById('welcome-screen').style.display = 'block';
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            
+            const activeBtn = document.getElementById(`toggle-${mode}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                filterTopics();
+            } else {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
+                restartQuiz();
+            }
+        }
+
+        // Calculators
+        function calculateOhm() {
+            const u = parseFloat(document.getElementById('calc-u').value) || 0;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0;
+            const res = r !== 0 ? (u / r).toFixed(2) : 0;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${res} A`;
+        }
+
+        function calculate3Phase() {
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+        }
+
+        function calculateVoltageDrop() {
+            const l = parseFloat(document.getElementById('calc-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const du = (2 * l * i) / (56 * q);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
+        }
+
+        function calculateCrossSection() {
+            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const a = (2 * l * i) / (56 * du);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+        }
+
+        // Dummy Quiz Restart / Init
+        function restartQuiz() {
+            score = 0;
+            currentQuestion = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            updateStatsUI();
+        }
+
+        function updateStatsUI() {
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-high').innerText = stats.highscore;
+            const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = `${pct}%`;
+            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
+        }
+
+        // Initial launch
+        updateStatsUI();
+        filterTopics();
     </script>
 </body>
 </html>
