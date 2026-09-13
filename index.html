@@ -1181,7 +1181,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive verbesserter Grundlagen & Formeln
+        // Erweiterte Lerninhalte inklusive präziser, korrigierter Grundlagen & Formeln
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1521,7 +1521,7 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Schutz- und Funktionskleinspannung (SELV / PELV)</strong></td>
-                                    <td>Betrieb der Anlage mit Sicherheitskleinspannung (Wechselspannung $\le 50\,\text{V}$, Gleichspannung $\le 120\,\text{V}$) über einen Sicherheitstransformator nach EN 61558. Keine gefährlichen Körperströme möglich.</td>
+                                    <td>Betrieb der Anlage mit Sicherheitskleinspannung (Wechselspannung &le; 50 V, Gleichspannung &le; 120 V) über einen Sicherheitstransformator nach EN 61558. Keine gefährlichen Körperströme möglich.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Schutzisolierung (Schutzklasse II)</strong></td>
@@ -1546,7 +1546,7 @@
                     
                     <div class="article-section">
                         <h3>1. Das Ohmsche Gesetz & Grundgrößen der Elektrotechnik</h3>
-                        <p>Das Ohmsche Gesetz verknüpft die drei elementaren elektrischen Größen Spannung ($U$), Stromstärke ($I$) und Widerstand ($R$) in linearen Stromkreisen. Jede dieser Größen lässt sich aus den jeweils anderen beiden ableiten:</p>
+                        <p>Das Ohmsche Gesetz verknüpft die drei elementaren elektrischen Größen Spannung (U), Stromstärke (I) und Widerstand (R) in linearen Stromkreisen. Jede dieser Größen lässt sich aus den jeweils anderen beiden ableiten:</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Elektrische Größe</th><th>Formelzeichen</th><th>Einheit</th><th>Berechnungsformeln</th><th>Physikalische Definition & Praxisbezug</th></tr>
@@ -1554,31 +1554,31 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Spannung</strong></td>
-                                    <td>$U$</td>
+                                    <td>U</td>
                                     <td>Volt (V)</td>
-                                    <td>$U = I \cdot R$<br>$U = \frac{P}{I}$<br>$U = \sqrt{P \cdot R}$</td>
+                                    <td>U = I &middot; R<br>U = P / I<br>U = &radic;(P &middot; R)</td>
                                     <td>Die elektrische Spannung ist die Potentialdifferenz zwischen zwei Punkten. Sie treibt die Ladungsträger durch den Leiter.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Stromstärke</strong></td>
-                                    <td>$I$</td>
+                                    <td>I</td>
                                     <td>Ampere (A)</td>
-                                    <td>$I = \frac{U}{R}$<br>$I = \frac{P}{U}$<br>$I = \sqrt{\frac{P}{R}}$</td>
-                                    <td>Die Stromstärke gibt an, welche elektrische Ladungsmenge pro Zeiteinheit durch den Leiterquerschnitt fließt ($I = \frac{Q}{t}$).</td>
+                                    <td>I = U / R<br>I = P / U<br>I = &radic;(P / R)</td>
+                                    <td>Die Stromstärke gibt an, welche elektrische Ladungsmenge pro Zeiteinheit durch den Leiterquerschnitt fließt (I = Q / t).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Widerstand</strong></td>
-                                    <td>$R$</td>
-                                    <td>Ohm (Ω)</td>
-                                    <td>$R = \frac{U}{I}$<br>$R = \frac{U^2}{P}$<br>$R = \frac{P}{I^2}$</td>
-                                    <td>Der Widerstand hemmt den elektrischen Stromfluss. Materialabhängig gilt: $R = \rho \cdot \frac{l}{A}$ (spezifischer Widerstand $\rho$, Länge $l$, Querschnitt $A$).</td>
+                                    <td>R</td>
+                                    <td>Ohm (&Omega;)</td>
+                                    <td>R = U / I<br>R = U² / P<br>R = P / I²</td>
+                                    <td>Der Widerstand hemmt den elektrischen Stromfluss. Materialabhängig gilt: R = &rho; &middot; (l / A) (spezifischer Widerstand &rho;, Länge l, Querschnitt A).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Leitwert</strong></td>
-                                    <td>$G$</td>
+                                    <td>G</td>
                                     <td>Siemens (S)</td>
-                                    <td>$G = \frac{1}{R}$</td>
-                                    <td>Der Kehrwert des Widerstandes ($R$), der beschreibt, wie leichtartig ein Material den Strom leitet.</td>
+                                    <td>G = 1 / R</td>
+                                    <td>Der Kehrwert des Widerstandes (R), der beschreibt, wie leichtartig ein Material den Strom leitet.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1594,45 +1594,45 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Wirkleistung (Gleichstrom / ohmsche Last)</strong></td>
-                                    <td>$P$</td>
+                                    <td>P</td>
                                     <td>Watt (W)</td>
-                                    <td>$P = U \cdot I = I^2 \cdot R = \frac{U^2}{R}$</td>
+                                    <td>P = U &middot; I = I² &middot; R = U² / R</td>
                                     <td>Die tatsächliche Nutzleistung, die in Arbeit oder Wärme umgesetzt wird.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Wirkleistung (Wechselstrom 1-phasig)</strong></td>
-                                    <td>$P$</td>
+                                    <td>P</td>
                                     <td>Watt (W)</td>
-                                    <td>$P = U \cdot I \cdot \cos\varphi$</td>
-                                    <td>Berücksichtigt die Phasenverschiebung $\varphi$ zwischen Spannung und Strom bei induktiven/kapazitiven Verbrauchern.</td>
+                                    <td>P = U &middot; I &middot; cos(&phi;)</td>
+                                    <td>Berücksichtigt die Phasenverschiebung &phi; zwischen Spannung und Strom bei induktiven/kapazitiven Verbrauchern.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Wirkleistung (Drehstrom 3-phasig)</strong></td>
-                                    <td>$P$</td>
+                                    <td>P</td>
                                     <td>Watt (W)</td>
-                                    <td>$P = \sqrt{3} \cdot U_L \cdot I \cdot \cos\varphi$</td>
-                                    <td>Gesamtleistung im symmetrischen Drehstromnetz bei Leiterspannung $U_L$ (i.d.R. $400\,\text{V}$).</td>
+                                    <td>P = &radic;3 &middot; U_L &middot; I &middot; cos(&phi;)</td>
+                                    <td>Gesamtleistung im symmetrischen Drehstromnetz bei Leiterspannung U_L (i.d.R. 400 V).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Blindleistung</strong></td>
-                                    <td>$Q$</td>
+                                    <td>Q</td>
                                     <td>Var (var)</td>
-                                    <td>$Q = U \cdot I \cdot \sin\varphi$<br>($\sqrt{3} \cdot U_L \cdot I \cdot \sin\varphi$)</td>
+                                    <td>Q = U &middot; I &middot; sin(&phi;)<br>(&radic;3 &middot; U_L &middot; I &middot; sin(&phi;))</td>
                                     <td>Die in magnetischen oder elektrischen Feldern (Spulen, Kondensatoren) hin- und herpendelnde Energie.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Scheinleistung</strong></td>
-                                    <td>$S$</td>
+                                    <td>S</td>
                                     <td>Voltampere (VA)</td>
-                                    <td>$S = U \cdot I$<br>$S = \sqrt{P^2 + Q^2}$</td>
+                                    <td>S = U &middot; I<br>S = &radic;(P² + Q²)</td>
                                     <td>Die Vektorsumme aus Wirk- und Blindleistung, maßgeblich für die Dimensionierung von Trafos und Kabeln.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Elektrische Arbeit / Energie</strong></td>
-                                    <td>$W$</td>
+                                    <td>W</td>
                                     <td>Wattstunden (Wh)</td>
-                                    <td>$W = P \cdot t = U \cdot I \cdot t$</td>
-                                    <td>Die über einen Zeitraum $t$ umgesetzte Energiemenge (wird vom Stromzähler in Kilowattstunden [kWh] gemessen).</td>
+                                    <td>W = P &middot; t = U &middot; I &middot; t</td>
+                                    <td>Die über einen Zeitraum t umgesetzte Energiemenge (wird vom Stromzähler in Kilowattstunden [kWh] gemessen).</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1640,7 +1640,7 @@
 
                     <div class="article-section">
                         <h3>3. Leitungsbemessung, Spannungsfall & Widerstände</h3>
-                        <p>Der Spannungsfall $\Delta U$ darf nach DIN VDE 0100-520 am Ende einer Leitung bestimmte Grenzwerte (z.B. max. 3% für Beleuchtung, 4% für sonstige Verbraucher) nicht überschreiten, um Fehlfunktionen und Überhitzung zu verhindern.</p>
+                        <p>Der Spannungsfall &Delta;U darf nach DIN VDE 0100-520 am Ende einer Leitung bestimmte Grenzwerte (z.B. max. 3% für Beleuchtung, 4% für sonstige Verbraucher) nicht überschreiten, um Fehlfunktionen und Überhitzung zu verhindern.</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>Berechnung</th><th>Formel</th><th>Variablen & Erläuterung</th></tr>
@@ -1648,23 +1648,23 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Spannungsfall (Wechselstrom 1-ph)</strong></td>
-                                    <td>$\Delta U = 2 \cdot \frac{l}{\gamma \cdot A} \cdot I$</td>
-                                    <td>$l$ = einfache Leitungslänge in m<br>$\gamma$ = Leitfähigkeit ($\approx 56\,\text{m}/(\Omega\cdot\text{mm}^2)$ für Cu)<br>$A$ = Querschnitt in $\text{mm}^2$<br>$I$ = Strom in A (Faktor 2 für Hin- und Rückleiter).</td>
+                                    <td>&Delta;U = 2 &middot; [l / (&gamma; &middot; A)] &middot; I</td>
+                                    <td>l = einfache Leitungslänge in m<br>&gamma; = Leitfähigkeit (&approx; 56 m/(Ω&middot;mm²) für Cu)<br>A = Querschnitt in mm²<br>I = Strom in A (Faktor 2 für Hin- und Rückleiter).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Spannungsfall (Drehstrom 3-ph)</strong></td>
-                                    <td>$\Delta U = \sqrt{3} \cdot \frac{l}{\gamma \cdot A} \cdot I \cdot \cos\varphi$</td>
+                                    <td>&Delta;U = &radic;3 &middot; [l / (&gamma; &middot; A)] &middot; I &middot; cos(&phi;)</td>
                                     <td>Spannungsverlust im symmetrischen Drehstromsystem unter Berücksichtigung des Leistungsfaktors.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Mindestquerschnitt</strong></td>
-                                    <td>$A = \frac{2 \cdot l \cdot I}{\gamma \cdot \Delta U}$</td>
-                                    <td>Ermittlung des minimalen Leiterquerschnitts zur Einhaltung des zulässigen Spannungsfalls $\Delta U$ in Volt.</td>
+                                    <td>A = (2 &middot; l &middot; I) / (&gamma; &middot; &Delta;U)</td>
+                                    <td>Ermittlung des minimalen Leiterquerschnitts zur Einhaltung des zulässigen Spannungsfalls &Delta;U in Volt.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Spezifischer Widerstand</strong></td>
-                                    <td>$R = \rho \cdot \frac{l}{A}$</td>
-                                    <td>Widerstand eines Leiters in Abhängigkeit vom spezifischen Widerstand $\rho$ des Materials (Kupfer: $\rho \approx 0.0178\,\Omega\cdot\text{mm}^2/\text{m}$).</td>
+                                    <td>R = &rho; &middot; (l / A)</td>
+                                    <td>Widerstand eines Leiters in Abhängigkeit vom spezifischen Widerstand &rho; des Materials (Kupfer: &rho; &approx; 0.0178 &Omega;&middot;mm²/m).</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1680,27 +1680,27 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Spitzenspannung (Scheitellwert)</strong></td>
-                                    <td>$\hat{U} = \sqrt{2} \cdot U \approx 1.414 \cdot U$</td>
-                                    <td>Der maximale Scheitelwert der Sinuswelle (bei $230\,\text{V}$ Effektivwert $\hat{U} \approx 325\,\text{V}$).</td>
+                                    <td>U_max = &radic;2 &middot; U &approx; 1.414 &middot; U</td>
+                                    <td>Der maximale Scheitelwert der Sinuswelle (bei 230 V Effektivwert U_max &approx; 325 V).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Kreisfrequenz</strong></td>
-                                    <td>$\omega = 2 \cdot \pi \cdot f$</td>
-                                    <td>Winkelgeschwindigkeit bei der Netzfrequenz $f$ (bei $50\,\text{Hz}$ ist $\omega \approx 314.16\,\text{s}^{-1}$).</td>
+                                    <td>&omega; = 2 &middot; &pi; &middot; f</td>
+                                    <td>Winkelgeschwindigkeit bei der Netzfrequenz f (bei 50 Hz ist &omega; &approx; 314.16 s&supmin;&sup1;).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Induktiver Blindwiderstand</strong></td>
-                                    <td>$X_L = \omega \cdot L = 2 \cdot \pi \cdot f \cdot L$</td>
-                                    <td>Frequenzabhängiger Widerstand einer Induktivität (Spule $L$). Der Strom eilt der Spannung nach.</td>
+                                    <td>X_L = &omega; &middot; L = 2 &middot; &pi; &middot; f &middot; L</td>
+                                    <td>Frequenzabhängiger Widerstand einer Induktivität (Spule L). Der Strom eilt der Spannung nach.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Kapazitiver Blindwiderstand</strong></td>
-                                    <td>$X_C = \frac{1}{\omega \cdot C}$</td>
-                                    <td>Frequenzabhängiger Widerstand einer Kapazität (Kondensator $C$). Der Strom eilt der Spannung voraus.</td>
+                                    <td>X_C = 1 / (&omega; &middot; C)</td>
+                                    <td>Frequenzabhängiger Widerstand einer Kapazität (Kondensator C). Der Strom eilt der Spannung voraus.</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Impedanz (Scheinwiderstand)</strong></td>
-                                    <td>$Z = \sqrt{R^2 + (X_L - X_C)^2}$</td>
+                                    <td>Z = &radic;[R² + (X_L - X_C)²]</td>
                                     <td>Die geometrische Summe aus ohmschem Widerstand und Gesamtreaktanz im Wechselstromkreis.</td>
                                 </tr>
                             </tbody>
@@ -1719,322 +1719,45 @@
                         <h3>Die 5 goldenen Regeln für Arbeiten im spannungsfreien Zustand</h3>
                         <p><strong>1. Freischalten:</strong> Die Anlage allpolig und von allen Seiten sicher trennen (z.B. durch Ausschalten von Leistungsschaltern oder Ziehen von Sicherungen).</p>
                         <p><strong>2. Gegen Wiedereinschalten sichern:</strong> Schalter gegen unbefugtes oder irrtümliches Wiedereinschalten verriegeln und ein Warnschild (z.B. "Nicht schalten!") anbringen.</p>
-                        <p><strong>3. Spannungsfreiheit feststellen:</strong> Mit einem geeigneten zweipoligen Spannungsprüfer (nach DIN EN 61243-3) an allen aktiven Teilen die Spannungsfreiheit allpolig überprüfen.</p>
-                        <p><strong>4. Erden und kurzschließen:</strong> Anlagenteile im Arbeitsbereich zuerst erden und danach miteinander kurzschließen (gilt besonders für Hochspannung und stärkere Niederspannungsanlagen).</p>
-                        <p><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder absperren:</strong> Ungeschützte, unter Spannung stehende Nachbarteile durch isolierende Tücher, Matten oder Schläuche abdecken.</p>
+                        <p><strong>3. Spannungsfreiheit feststellen:</strong> Mit einem geeigneten zweipoligen Spannungsprüfer nach DIN EN 61243-3 allpolig auf Spannungsfreiheit prüfen.</p>
+                        <p><strong>4. Erden und Kurzschließen:</strong> Bei Anlagen über 1 kV (sowie in speziellen Niederspannungsbereichen nach Vorschrift) den Arbeitsbereich erden und kurzschließen.</p>
+                        <p><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder abschranken:</strong> Alle in der Nähe befindlichen aktiven Teile durch isolierende Tücher, Abdeckungen oder Schranken sichern.</p>
                     </div>
                 `
             }
         };
 
-        // Quiz Question Bank & Logic
-        const quizQuestions = [
-            {
-                question: "Welches Schaltsymbol zeigt einen klassischen Wechsel- bzw. Korrespondierenden Schalter?",
-                symbol: svgSymbols.switch_changeover,
-                options: ["Wechselschalter", "Ausschalter", "Kreuzschalter", "Taster"],
-                correct: 0,
-                explanation: "Der Wechselschalter leitet den Eingangsstrom wahlweise auf einen von zwei Ausgängen um. Im Symbol erkennbar an den zwei abgehenden Schaltkontakten."
-            },
-            {
-                question: "Wie groß ist der maximale Bemessungsfehlerstrom (IΔn) für RCDs zum Personenschutz im Wohnbereich?",
-                symbol: svgSymbols.rcd,
-                options: ["30 mA", "300 mA", "500 mA", "10 A"],
-                correct: 0,
-                explanation: "Nach DIN VDE 0100-410 ist für Steckdosenstromkreise im Wohnbereich ein RCD mit max. 30 mA (0,03 A) zum Schutz gegen direkten Berühren vorgeschrieben."
-            },
-            {
-                question: "Berechne den Strom I für einen Heizlüfter mit P = 2300 W an U = 230 V (ohmsche Last).",
-                symbol: svgSymbols.resistor,
-                options: ["10 A", "23 A", "1 A", "100 A"],
-                correct: 0,
-                explanation: "Nach dem Ohmschen Gesetz und der Leistungsformel gilt: I = P / U = 2300 W / 230 V = 10 A."
-            },
-            {
-                question: "Welches Netzsystem zeichnet sich dadurch aus, dass N und PE ab dem Hausanschluss getrennt geführt werden?",
-                symbol: svgSymbols.ground,
-                options: ["TN-S Netz", "TN-C Netz", "Klassische Nullung", "IT Netz"],
-                correct: 0,
-                explanation: "Im TN-S Netz sind Neutralleiter (N) und Schutzleiter (PE) als getrennte Leiter im gesamten System ausgeführt."
-            },
-            {
-                question: "Welches Symbol repräsentiert einen Taster mit Schließerfunktion?",
-                symbol: svgSymbols.push_button,
-                options: ["Taster (Schließer)", "Ausschalter", "Sicherung", "Diode"],
-                correct: 0,
-                explanation: "Der Schließer-Taster schließt den Stromkreis nur so lange er manuell betätigt (gedrückt) wird."
-            }
-        ];
-
-        let activeQuiz = [...quizQuestions];
-
-        // Init App UI
-        function initApp() {
-            renderTopicsList();
-            updateStatsDisplay();
-            checkOnlineStatus();
-            window.addEventListener('online', checkOnlineStatus);
-            window.addEventListener('offline', checkOnlineStatus);
-        }
-
-        function checkOnlineStatus() {
-            const badge = document.getElementById('connection-status');
-            if (navigator.onLine) {
-                badge.className = 'status-badge';
-                badge.innerHTML = '<div class="status-dot"></div> Online';
-            } else {
-                badge.className = 'status-badge offline';
-                badge.innerHTML = '<div class="status-dot"></div> Offline Modus';
-            }
-        }
-
-        function updateStatsDisplay() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-        }
-
-        function startMode(mode) {
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('mode-nav-area').style.display = 'block';
-            
-            // hide all content areas
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
-
-            if (mode === 'quiz') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-quiz').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').innerText = '⚡ Standard Quiz';
-                initQuiz(quizQuestions);
-            } else if (mode === 'schemas') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-schemas').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltpläne Quiz';
-                const schemaQuestions = quizQuestions.filter(q => q.symbol);
-                initQuiz(schemaQuestions.length > 0 ? schemaQuestions : quizQuestions);
-            } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-ai').classList.add('active');
-                document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').innerText = '✨ KI Modus (Adaptive Aufgaben)';
-                generateCustomAIQuestion();
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                backToTopics();
-            }
-            currentMode = mode;
-        }
-
-        function switchMode(mode) {
-            startMode(mode);
-        }
-
-        function backToWelcome() {
-            clearInterval(timerInterval);
-            document.getElementById('welcome-screen').style.display = 'block';
-            document.getElementById('mode-nav-area').style.display = 'none';
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-        }
-
-        // Quiz Engine
-        function initQuiz(questions) {
-            activeQuiz = questions;
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            clearInterval(timerInterval);
-            if (currentQuestion >= activeQuiz.length) {
-                showQuizResults();
-                return;
-            }
-
-            answered = false;
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleAnswer(-1);
-                }
-            }, 1000);
-
-            const q = activeQuiz[currentQuestion];
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuiz.length}`;
-            document.getElementById('question').innerText = q.question;
-            
-            const symbolBox = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symbolBox.style.display = 'flex';
-                symbolBox.innerHTML = q.symbol;
-            } else {
-                symbolBox.style.display = 'none';
-            }
-
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerText = opt;
-                btn.onclick = () => handleAnswer(idx);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-        }
-
-        function handleAnswer(selectedIdx) {
-            if (answered) return;
-            answered = true;
-            clearInterval(timerInterval);
-
-            const q = activeQuiz[currentQuestion];
-            const optionButtons = document.querySelectorAll('.option-card');
-
-            stats.total++;
-            if (selectedIdx === q.correct) {
-                score++;
-                stats.correct++;
-                stats.xp += 15;
-                if (selectedIdx >= 0 && optionButtons[selectedIdx]) {
-                    optionButtons[selectedIdx].classList.add('correct');
-                }
-            } else {
-                if (selectedIdx >= 0 && optionButtons[selectedIdx]) {
-                    optionButtons[selectedIdx].classList.add('incorrect');
-                }
-                if (q.correct >= 0 && optionButtons[q.correct]) {
-                    optionButtons[q.correct].classList.add('correct');
-                }
-            }
-
-            if (stats.xp >= 100 * stats.level) {
-                stats.level++;
-            }
-
-            if (score > stats.highscore) {
-                stats.highscore = score;
-            }
-
-            updateStatsDisplay();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
-            expBox.classList.add('show');
-            document.getElementById('next-btn').classList.add('show');
-        }
-
-        function nextQuestion() {
-            currentQuestion++;
-            loadQuestion();
-        }
-
-        function showQuizResults() {
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').innerText = `${score} / ${activeQuiz.length}`;
-            
-            let feedbackText = "Sehr gute Leistung! Du beherrschst die elektrotechnischen Grundlagen.";
-            if (score / activeQuiz.length < 0.5) {
-                feedbackText = "Da ist noch Luft nach oben! Schau dir den Lernbereich zu den Themen nochmals an.";
-            }
-            document.getElementById('feedback').innerText = feedbackText;
-        }
-
-        function restartQuiz() {
-            initQuiz(activeQuiz);
-        }
-
-        // KI Modus Generator Simulation
-        function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            const diff = document.getElementById('ai-diff-select').value;
-
-            let generated = {
-                question: "Wie verhält sich der Scheinwiderstand (Impedanz Z) in einem Reihenschwingkreis bei Resonanzfrequenz?",
-                symbol: svgSymbols.resistor,
-                options: ["Z wird minimal (Z = R)", "Z wird maximal", "Z geht gegen unendlich", "Z wird null"],
-                correct: 0,
-                explanation: "Bei Resonanz heben sich die induktiven und kapazitiven Blindwiderstände auf (XL = XC), wodurch nur der ohmsche Wirkwiderstand R übrig bleibt (Z = R)."
-            };
-
-            if (topic === 'ohm') {
-                generated = {
-                    question: "Welche Spannung fällt an einem Widerstand von R = 50 Ω ab, wenn ein Strom von I = 4.6 A fließt?",
-                    symbol: svgSymbols.resistor,
-                    options: ["230 V", "115 V", "46 V", "500 V"],
-                    correct: 0,
-                    explanation: "U = I * R = 4.6 A * 50 Ω = 230 V."
-                };
-            } else if (topic === 'symbols') {
-                generated = {
-                    question: "Welches Schaltsymbol zeigt einen zweipoligen Ausschalter nach DIN EN 60617?",
-                    symbol: svgSymbols.switch_2pole,
-                    options: ["2-poliger Schalter", "Wechselschalter", "Serienschalter", "Kreuzschalter"],
-                    correct: 0,
-                    explanation: "Der zweipolige Schalter trennt den Außenleiter und den Neutralleiter gleichzeitig allpolig ab."
-                };
-            }
-
-            activeQuiz = [generated];
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-            loadQuestion();
-        }
-
-        // Learning & Topics Render
-        function renderTopicsList(filter = '') {
+        // Render Topics & Logic
+        function renderTopics(filter = '') {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-
-            Object.keys(learningContent).forEach(key => {
-                const item = learningContent[key];
-                if (filter && !item.title.toLowerCase().includes(filter.toLowerCase()) && !item.description.toLowerCase().includes(filter.toLowerCase())) {
-                    return;
+            
+            for (let key in learningContent) {
+                let topic = learningContent[key];
+                if (filter && !topic.title.toLowerCase().includes(filter.toLowerCase()) && !topic.description.toLowerCase().includes(filter.toLowerCase())) {
+                    continue;
                 }
-
-                const card = document.createElement('div');
+                
+                let card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
+                card.onclick = () => openTopic(key);
                 card.innerHTML = `
-                    <div class="topic-icon-box">${item.icon}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
                 `;
                 container.appendChild(card);
-            });
+            }
         }
 
         function filterTopics() {
-            const val = document.getElementById('search-input').value;
-            renderTopicsList(val);
+            let query = document.getElementById('search-input').value;
+            renderTopics(query);
         }
 
-        function openArticle(key) {
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
+            let view = document.getElementById('content-view');
             view.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2045,42 +1768,175 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculators Functions
+        // Calculators
         function calculateOhm() {
-            const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = u / r;
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
+            let u = parseFloat(document.getElementById('calc-u').value) || 0;
+            let r = parseFloat(document.getElementById('calc-r').value) || 1;
+            let i = r > 0 ? (u / r).toFixed(2) : 0;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
         }
 
         function calculate3Phase() {
-            const i3 = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = Math.sqrt(3) * 400 * i3 * cos / 1000;
+            let i3 = parseFloat(document.getElementById('calc-i3').value) || 0;
+            let cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            let p = (Math.sqrt(3) * 400 * i3 * cos) / 1000;
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
-            const l = parseFloat(document.getElementById('calc-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const a = parseFloat(document.getElementById('calc-q').value) || 1.5;
-            const gamma = 56; // Cu
-            const du = (2 * l * i) / (gamma * a);
-            const percent = (du / 230) * 100;
+            let l = parseFloat(document.getElementById('calc-len').value) || 0;
+            let i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            let a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            let gamma = 56; // Kupfer
+            let du = (2 * l * i) / (gamma * a);
+            let percent = (du / 230) * 100;
             document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 1;
-            const gamma = 56;
-            const a = (2 * l * i) / (gamma * du);
+            let l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            let i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            let du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            let gamma = 56;
+            let a = du > 0 ? (2 * l * i) / (gamma * du) : 0;
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
 
-        // Initialize on load
-        window.onload = initApp;
+        // Mode Switching & App Control
+        function startMode(mode) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
+                document.getElementById('quiz-mode').classList.add('active');
+                if(mode === 'quiz') document.getElementById('toggle-quiz').classList.add('active');
+                if(mode === 'schemas') document.getElementById('toggle-schemas').classList.add('active');
+                if(mode === 'ai') document.getElementById('toggle-ai').classList.add('active');
+                
+                document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
+                initQuiz(mode);
+            } else if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+                renderTopics();
+            }
+        }
+
+        // Quiz Engine Placeholder & Runner
+        function initQuiz(mode) {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('result-screen').style.display = 'none';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            document.getElementById('explanation').className = 'explanation-box';
+            document.getElementById('next-btn').className = 'btn-action';
+            document.getElementById('question').innerText = "Beispielfrage: Wofür steht der Begriff RCD?";
+            let symbolDisp = document.getElementById('symbol-display');
+            symbolDisp.style.display = 'none';
+
+            let opts = document.getElementById('options');
+            opts.innerHTML = `
+                <button class="option-card" onclick="selectOption(0, true)">Fehlerstromschutzschalter (Residual Current Device)</button>
+                <button class="option-card" onclick="selectOption(1, false)">Leitungsschutzschalter für Drehstrom</button>
+                <button class="option-card" onclick="selectOption(2, false)">Relais zur Stromdichtebegrenzung</button>
+                <button class="option-card" onclick="selectOption(3, false)">Resonanz-Dämpfungsglied</button>
+            `;
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / 10`;
+            resetTimer();
+        }
+
+        function selectOption(index, isCorrect) {
+            if (answered) return;
+            answered = true;
+            clearInterval(timerInterval);
+
+            let cards = document.querySelectorAll('.option-card');
+            cards[index].classList.add(isCorrect ? 'correct' : 'incorrect');
+            if (isCorrect) score++;
+
+            let expl = document.getElementById('explanation');
+            expl.innerText = "Ein RCD (Residual Current Device, im deutschen Sprachraum oft als FI-Schalter bezeichnet) überwacht die Strombilanz und schützt zuverlässig vor Fehlerströmen und Stromunfällen.";
+            expl.classList.add('show');
+            document.getElementById('next-btn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < 10) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-screen').style.display = 'none';
+                let resScreen = document.getElementById('result-screen');
+                resScreen.style.display = 'block';
+                document.getElementById('score').innerText = `${score} / 10`;
+                document.getElementById('feedback').innerText = score >= 8 ? "Hervorragende Leistung! Du bist bestens vorbereitet." : "Gutes Ergebnis! Wiederhole im Lernbereich noch einige Themen.";
+                
+                stats.total += 10;
+                stats.correct += score;
+                if(score > stats.highscore) stats.highscore = score;
+                localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
+                updateStatsBar();
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz(currentMode);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (!answered) {
+                        answered = true;
+                        let expl = document.getElementById('explanation');
+                        expl.innerText = "Zeit abgelaufen! Die Frage wurde als ungelöst gewertet.";
+                        expl.classList.add('show');
+                        document.getElementById('next-btn').classList.add('show');
+                    }
+                }
+            }, 1000);
+        }
+
+        function generateCustomAIQuestion() {
+            alert("KI-Modus: Generiere neue neuronale Aufgabe basierend auf ausgewählten Parametern...");
+            initQuiz('ai');
+        }
+
+        function updateStatsBar() {
+            document.getElementById('stat-completed').innerText = stats.correct;
+            let acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = acc + '%';
+            document.getElementById('stat-high').innerText = stats.highscore;
+        }
+
+        // Init App on load
+        window.onload = function() {
+            updateStatsBar();
+        };
     </script>
 </body>
 </html>
