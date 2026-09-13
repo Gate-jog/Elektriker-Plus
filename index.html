@@ -537,20 +537,6 @@
             filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.4));
         }
 
-        .ai-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--ai-color), var(--secondary));
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 8px;
-            margin-bottom: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            box-shadow: 0 4px 15px var(--ai-glow);
-        }
-
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1188,7 +1174,7 @@
             lamp: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><circle cx="50" cy="30" r="20"/><line x1="36" y1="16" x2="64" y2="44"/><line x1="36" y1="44" x2="64" y2="16"/></svg>`,
             resistor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
             capacitor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="45" y2="30"/><line x1="55" y1="30" x2="90" y2="30"/><line x1="45" y1="12" x2="45" y2="48"/><line x1="55" y1="12" x2="55" y2="48"/></svg>`,
-            diode: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><polygon points="35,15 35,45 65,30"/><line x1="65" y1="15" x2="65" y2="45"/></svg>`,
+            diode: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="90"/><polygon points="35,15 35,45 65,30"/><line x1="65" y1="15" x2="65" y2="45"/></svg>`,
             transformer: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="40" cy="30" r="15"/><circle cx="60" cy="30" r="15"/></svg>`,
             rcd: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><path d="M 35 30 Q 42 20 50 30 T 65 30"/><line x1="50" y1="15" x2="50" y2="20"/><text x="50" y="44" font-size="10" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">IΔn</text></svg>`,
             fuse: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
@@ -1240,7 +1226,7 @@
                     </div>
                     <div class="article-section">
                         <h3>Taster & Stromstoßschaltung</h3>
-                        <p>Ein <strong>Taster (Schließer)</strong> gibt den Kontakt nur während des Manuelle Drückens frei (Federkraft holt ihn zurück). Ein <strong>Öffner-Taster</strong> unterbricht bei Druck den Kontakt (z.b. Aus-Taster bei Relaisschaltungen). Für Flurbeleuchtungen mit vielen Betätigungsstellen nutzt man eine <b>Stromstoßschaltung (Relais/Eltako)</b>, die bei jedem elektrischen Impuls den Schaltzustand (EIN/AUS) dauerhaft wechselt.</p>
+                        <p>Ein <strong>Taster (Schließer)</strong> gibt den Kontakt nur während des manuellen Drückens frei (Federkraft holt ihn zurück). Ein <strong>Öffner-Taster</strong> unterbricht bei Druck den Kontakt (z. B. Aus-Taster bei Relaisschaltungen). Für Flurbeleuchtungen mit vielen Betätigungsstellen nutzt man eine <b>Stromstoßschaltung (Relais/Eltako)</b>, die bei jedem elektrischen Impuls den Schaltzustand (EIN/AUS) dauerhaft wechselt.</p>
                     </div>
                 `
             },
@@ -1358,7 +1344,7 @@
                             <line x1="450" y1="165" x2="450" y2="145" stroke="#10b981" stroke-width="2"/>
                             <circle cx="450" cy="145" r="3" fill="#10b981"/>
                         </svg>
-                        <p><em>Sicherheitshinweis:</em> Wegen der Gefahr von Unterbrechungen des PEN-Leiters (Strombruch führt zu voller Netzspannung am Gehäuse!) in Neuanlagen nach DIN VDE 0100-444 verboten (Mindestquerschnitt Cu 10 mm² / Al 16 mm²).</p>
+                        <p><em>Sicherheitshinweis:</em> Wegen der Gefahr von Unterbrechungen des PEN-Leiters in Neuanlagen nach DIN VDE 0100-444 stark reglementiert (Mindestquerschnitt Cu 10 mm² / Al 16 mm²).</p>
                     </div>
 
                     <div class="article-section">
@@ -1553,24 +1539,87 @@
             basics: {
                 title: "Grundlagen & Formeln",
                 icon: "⚡",
-                description: "Spannung, Strom, Widerstand, Leistungskreis",
+                description: "Spannung, Strom, Widerstand, Leistung, Drehstrom & Elektrotechnik-Formelsammlung",
                 content: `
-                    <h2>Grundlagen der Elektrotechnik</h2>
-                    <p class="article-desc">Die physikalischen Basisgrößen und deren Zusammenspiel.</p>
+                    <h2>Grundlagen & Umfassende Elektrotechnik-Formelsammlung</h2>
+                    <p class="article-desc">Alle wichtigen physikalischen Basisgrößen, Formeln für Gleich- und Wechselstrom, Leistung, Arbeit und Leitungsberechnung nach DIN / ÖVE.</p>
+                    
                     <div class="article-section">
-                        <h3>Wichtige Formeln</h3>
+                        <h3>1. Das Ohmsche Gesetz & Grundgrößen</h3>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formel</th></tr>
+                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formeln / Berechnungen</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>Spannung</td><td>U</td><td>Volt (V)</td><td>U = I × R</td></tr>
-                                <tr><td>Stromstärke</td><td>I</td><td>Ampere (A)</td><td>I = U / R</td></tr>
-                                <tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>R = U / I</td></tr>
-                                <tr><td>Wirkleistung</td><td>P</td><td>Watt (W)</td><td>P = U × I × cos φ</td></tr>
+                                <tr><td>Elektrische Spannung</td><td>U</td><td>Volt (V)</td><td>$U = I \cdot R \quad | \quad U = \\frac{P}{I} \quad | \quad U = \\sqrt{P \cdot R}$</td></tr>
+                                <tr><td>Elektrische Stromstärke</td><td>I</td><td>Ampere (A)</td><td>$I = \\frac{U}{R} \quad | \quad I = \\frac{P}{U} \quad | \quad I = \\sqrt{\\frac{P}{R}}$</td></tr>
+                                <tr><td>Elektrischer Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>$R = \\frac{U}{I} \quad | \quad R = \\frac{U^2}{P} \quad | \quad R = \\frac{P}{I^2}$</td></tr>
+                                <tr><td>Leitwert</td><td>G</td><td>Siemens (S)</td><td>$G = \\frac{1}{R}$</td></tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="article-section">
+                        <h3>2. Elektrische Leistung & Arbeit</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formeln</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Wirkleistung (Gleichstrom)</td><td>P</td><td>Watt (W)</td><td>$P = U \cdot I = I^2 \cdot R = \\frac{U^2}{R}$</td></tr>
+                                <tr><td>Wirkleistung (Wechselstrom 1-ph)</td><td>P</td><td>Watt (W)</td><td>$P = U \cdot I \cdot \\cos\\varphi$</td></tr>
+                                <tr><td>Wirkleistung (Drehstrom 3-ph)</td><td>P</td><td>Watt (W)</td><td>$P = \\sqrt{3} \cdot U_L \cdot I \cdot \\cos\\varphi$</td></tr>
+                                <tr><td>Blindleistung</td><td>Q</td><td>Var (var)</td><td>$Q = U \cdot I \cdot \\sin\\varphi \quad (\text{bzw. } \\sqrt{3} \cdot U_L \cdot I \cdot \\sin\\varphi)$</td></tr>
+                                <tr><td>Scheinleistung</td><td>S</td><td>Voltampere (VA)</td><td>$S = U \cdot I \quad | \quad S = \\sqrt{P^2 + Q^2}$</td></tr>
+                                <tr><td>Elektrische Arbeit / Energie</td><td>W</td><td>Wattstunden (Wh) / Joule (J)</td><td>$W = P \cdot t = U \cdot I \cdot t$</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>3. Leitungsberechnung & Spannungsfall</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Anwendung</th><th>Formel</th><th>Erklärung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Spannungsfall (1-phasig)</strong></td>
+                                    <td>$\\Delta U = 2 \cdot \\frac{l}{\\gamma \cdot A} \cdot I$</td>
+                                    <td>$l$ = einfache Länge in m, $\\gamma$ = Leitfähigkeit (Kupfer $\\approx 56$), $A$ = Querschnitt in mm²</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Spannungsfall (3-phasig Drehstrom)</strong></td>
+                                    <td>$\\Delta U = \\sqrt{3} \cdot \\frac{l}{\\gamma \cdot A} \cdot I \cdot \\cos\\varphi$</td>
+                                    <td>Spannungsverlust im Drehstromnetz</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mindestquerschnitt (A)</strong></td>
+                                    <td>$A = \\frac{2 \cdot l \cdot I}{\\gamma \cdot \\Delta U}$</td>
+                                    <td>Benötigter Leiterquerschnitt für zulässigen Spannungsfall</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>4. Wechselstrom- & Drehstrom-Kenngrößen</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Begriff</th><th>Formel / Wert</th><th>Beschreibung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Scheitelfaktor / Spitzenwert</td><td>$\\hat{U} = \\sqrt{2} \cdot U \\approx 1.414 \cdot U$</td><td>Spitzenspannung bei Sinus (z. B. $230\\text{V} \cdot 1.414 \\approx 325\\text{V}$)</td></tr>
+                                <tr><td>Kreisfrequenz</td><td>$\\omega = 2 \cdot \\pi \cdot f$</td><td>Frequenz $f = 50\\text{Hz} \\implies \\omega \\approx 314\\text{ s}^{-1}$</td></tr>
+                                <tr><td>Induktiver Widerstand (Spule)</td><td>$X_L = \\omega \cdot L = 2 \cdot \\pi \cdot f \cdot L$</td>
+                                <td>Widerstand einer Spule in Abhängigkeit von Frequenz und Induktivität</td>
+                            </tr>
+                            <tr><td>Kapazitiver Widerstand (Kondensator)</td><td>$X_C = \\frac{1}{\\omega \cdot C} = \\frac{1}{2 \cdot \\pi \cdot f \cdot C}$</td>
+                            <td>Widerstand eines Kondensators im Wechselstromkreis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
                 `
             },
             safety: {
@@ -1594,7 +1643,7 @@
         };
 
         const initialQuizData = [
-            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbole für eine Leuchte/Lampe." },
+            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbol für eine Leuchte/Lampe." },
             { question: "Welches elektrotechnische Bauelement wird hier dargestellt?", symbol: svgSymbols.resistor, options: ["Spule", "Sicherung", "Ohmscher Widerstand", "Diode"], answer: 2, explanation: "Ein einfaches Rechteck steht im Schaltplan für einen ohmschen Widerstand." },
             { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
             { question: "Welches Schaltsymbol ist hier abgebildet?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) gekennzeichnet durch das Wandlersymbol mit IΔn." },
@@ -1829,8 +1878,6 @@
 
         // KI Modus Generierung (Dynamisch)
         function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            
             const pool = [
                 { question: "Was beschreibt ein TN-C-S System im Hausanschlusskasten?", options: ["Aufteilung von PEN in N und PE", "Trennung durch Transformator", "Isolierter Sternpunkt", "Rein lokales Erdersystem"], answer: 0, explanation: "Im HAK wird der PEN-Leiter des Versorgers in PE und N aufgeteilt." },
                 { question: "Welches Schaltsymbol steht für einen 2-poligen Schutzschalter?", symbol: svgSymbols.switch_2pole, options: ["Ausschalter", "2-poliger Schalter", "Relais", "Kondensator"], answer: 1, explanation: "Zwei durch gestrichelte Linien gekoppelte Schalterkontakte kennzeichnen einen 2-poligen Schalter." },
@@ -1844,7 +1891,7 @@
             restartQuizState();
         }
 
-        // Lernbereich Funktionen
+        // Lernbereich Funktionen & Artikel
         function loadTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
@@ -1885,8 +1932,10 @@
 
         function showArticle(key) {
             document.getElementById('topics-view').style.display = 'none';
-            document.getElementById('content-view').style.display = 'block';
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
@@ -1894,7 +1943,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Profi-Rechner Logik
+        // Rechner Logik
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -1903,33 +1952,37 @@
         }
 
         function calculate3Phase() {
-            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
-            const p = Math.sqrt(3) * 400 * i * cos;
-            document.getElementById('calc-3p-res').textContent = `Leistung P = ${(p / 1000).toFixed(2)} kW`;
+            const i3 = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = (Math.sqrt(3) * 400 * i3 * cos) / 1000;
+            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
-            const l = parseFloat(document.getElementById('calc-len').value) || 0;
+            const len = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Kupfer
-            const du = (2 * l * i) / (kappa * q);
-            const pct = (du / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const gamma = 56; // Kupfer
+            const deltaU = (2 * len * i) / (gamma * q);
+            const pct = (deltaU / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const len = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            const q = (2 * l * i) / (kappa * du);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+            const uMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const gamma = 56;
+            const a = (2 * len * i) / (gamma * uMax);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
 
-        function shuffleArray(arr) {
-            return arr.sort(() => Math.random() - 0.5);
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
     </script>
 </body>
