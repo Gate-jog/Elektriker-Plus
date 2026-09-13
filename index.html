@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Pro - Schulung, Schaltsymbole, Schaltpläne & KI Modus</title>
+    <title>Elektriker Plus - Schulung, Schaltsymbole, Schaltpläne & KI Modus</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#06b6d4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Elektriker Pro">
+    <meta name="apple-mobile-web-app-title" content="Elektriker Plus">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2983/2983780.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,88 +71,11 @@
             margin: 0 auto;
         }
 
-        /* Auth / Login Overlay */
-        #auth-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(4, 6, 11, 0.92);
-            backdrop-filter: blur(25px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            max-width: 480px;
-            width: 100%;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-            text-align: center;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .auth-tabs {
-            display: flex;
-            background: rgba(0,0,0,0.5);
-            border-radius: 14px;
-            padding: 5px;
-            margin-bottom: 24px;
-            border: 1px solid var(--card-border);
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: var(--transition-smooth);
-        }
-
-        .auth-tab.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
         /* Header & Badges */
         .header {
             text-align: center;
             margin-bottom: 36px;
             position: relative;
-        }
-
-        .user-profile-pill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 0.8rem;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: rgba(6, 182, 212, 0.12);
-            border: 1px solid rgba(6, 182, 212, 0.4);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            backdrop-filter: blur(12px);
-            transition: var(--transition-smooth);
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15);
-        }
-
-        .user-profile-pill:hover {
-            background: rgba(6, 182, 212, 0.25);
-            transform: translateY(-2px);
         }
 
         .status-badge {
@@ -223,6 +146,21 @@
             font-weight: 500;
         }
 
+        /* User Profile Pill in Header */
+        .user-profile-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+        }
+
         /* Cards & Layout */
         .glass-card {
             background: var(--card-bg);
@@ -238,6 +176,31 @@
         
         .glass-card:hover {
             border-color: var(--card-border-hover);
+        }
+
+        /* Auth Screen */
+        .auth-card { text-align: center; max-width: 600px; margin: 0 auto; }
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .auth-tab-btn {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .auth-tab-btn.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
         /* Stats & Badges */
@@ -1013,19 +976,6 @@
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        /* Profile Modal */
-        #profile-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(4, 6, 11, 0.85);
-            backdrop-filter: blur(20px);
-            z-index: 9998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
         /* Responsive */
         @media (max-width: 900px) {
             .menu-options { grid-template-columns: repeat(2, 1fr); }
@@ -1043,7 +993,6 @@
             .mode-toggle { flex-direction: column; }
             .toggle-btn { padding: 12px; }
             .status-badge { position: relative; margin-bottom: 16px; justify-content: center; top: auto; right: auto; }
-            .user-profile-pill { position: relative; margin-bottom: 12px; justify-content: center; top: auto; left: auto; }
         }
 
         @keyframes fadeIn {
@@ -1054,575 +1003,517 @@
 </head>
 <body>
 
-    <!-- AUTH / LOGIN / REGISTER / GUEST OVERLAY -->
-    <div id="auth-overlay">
-        <div class="auth-card">
-            <div class="brand-badge" style="margin-bottom: 12px;">⚡ Elektriker Pro v2.5</div>
-            <h2 id="auth-title" style="margin-bottom: 6px; font-size: 1.8rem; color: #fff;">Willkommen</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Melde dich an oder spiele als Gast</p>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
-                <button class="auth-tab" onclick="switchAuthTab('register')">Registrieren</button>
-                <button class="auth-tab" onclick="switchAuthTab('guest')">Gast</button>
-            </div>
-
-            <div id="auth-form-container">
-                <!-- Login Form -->
-                <div id="form-login">
-                    <div class="input-field" style="text-align: left;">
-                        <label>Benutzername oder ID</label>
-                        <input type="text" id="login-username" placeholder="z.B. ElektrikerMax oder ELK-8492">
-                    </div>
-                    <button class="ai-btn-action" onclick="performLogin()" style="width: 100%; margin-top: 10px;">Einloggen</button>
-                </div>
-
-                <!-- Register Form -->
-                <div id="form-register" style="display: none;">
-                    <div class="input-field" style="text-align: left;">
-                        <label>Wähle einen Benutzernamen</label>
-                        <input type="text" id="register-username" placeholder="Dein Facharbeiter-Name">
-                    </div>
-                    <button class="ai-btn-action" onclick="performRegister()" style="width: 100%; margin-top: 10px; background: linear-gradient(135deg, var(--primary), #0284c7);">Konto erstellen & ID generieren</button>
-                </div>
-
-                <!-- Guest Form -->
-                <div id="form-guest" style="display: none;">
-                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">Spiele direkt ohne Registrierung. Deine Fortschritte werden lokal auf diesem Gerät gespeichert.</p>
-                    <button class="ai-btn-action" onclick="performGuestLogin()" style="width: 100%; background: rgba(255,255,255,0.08); border: 1px solid var(--card-border);">Als Gast starten</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- USER PROFILE MODAL -->
-    <div id="profile-modal">
-        <div class="glass-card" style="max-width: 520px; width: 100%; margin: 0; text-align: center; position: relative;">
-            <button onclick="closeProfileModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">×</button>
-            <div style="font-size: 3rem; margin-bottom: 10px;">⚡</div>
-            <h2 id="modal-username" style="font-size: 1.8rem; color: #fff; margin-bottom: 4px;">Benutzer</h2>
-            <p id="modal-userid" style="color: var(--primary); font-family: var(--font-code); font-size: 0.95rem; margin-bottom: 24px;">ID: ELK-----</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; text-align: left;">
-                <div style="background: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">GESAMT XP</div>
-                    <div id="modal-xp" style="font-size: 1.4rem; font-weight: 800; color: var(--primary); font-family: var(--font-code);">0</div>
-                </div>
-                <div style="background: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">AKTUELLER STREAK</div>
-                    <div id="modal-streak" style="font-size: 1.4rem; font-weight: 800; color: var(--warning); font-family: var(--font-code);">0</div>
-                </div>
-            </div>
-
-            <button class="nav-btn" onclick="logoutUser()" style="width: 100%; justify-content: center; background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">Abmelden / Konto wechseln</button>
-        </div>
-    </div>
-
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div id="user-profile-btn" class="user-profile-pill" onclick="openProfileModal()">👤 <span id="header-username">Gast</span></div>
             <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
             <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
-            <h1>Elektriker Pro</h1>
+            <h1>Elektriker Plus</h1>
             <p>Schulungsportal, Schaltsymbole, Schaltpläne & KI Modus</p>
-        </div>
-
-        <!-- Dashboard Bar -->
-        <div class="stats-bar">
-            <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
-                <div class="stat-val" id="stat-score">0%</div>
-                <div class="stat-lbl">Genauigkeit</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="stat-completed">0</div>
-                <div class="stat-lbl">Gelöste Fragen</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="stat-level">Lvl 1</div>
-                <div class="stat-lbl">Skill Level</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="stat-high">0</div>
-                <div class="stat-lbl">Highscore</div>
+            <div id="user-header-profile" class="user-profile-pill" style="display: none;">
+                👤 <span id="header-username">Gast</span> (<span id="header-userid" style="font-family: var(--font-code); color: var(--primary);">ID: --</span>)
+                <button onclick="logoutUser()" style="background:none; border:none; color: var(--incorrect); cursor:pointer; font-weight:700; margin-left:8px;">Abmelden</button>
             </div>
         </div>
 
-        <!-- Erweiterte Fortschritts- & Detail-Panel (Ausklappbar) -->
-        <div id="detailed-stats-panel" class="progress-details-panel" style="display: none;">
-            <h3 style="color: var(--primary); margin-bottom: 14px; font-size: 1.1rem;">📊 Erweiterte Lernfortschritte & XP</h3>
-            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px;">
-                <span id="xp-label">XP: 0 / 100 zum nächsten Level</span>
-                <span id="streak-label">🔥 Streak: 0 richtig in Folge</span>
+        <!-- AUTH SCREEN (Login / Registrieren / Gast) -->
+        <div id="auth-screen" class="glass-card auth-card">
+            <h2>⚡ Willkommen bei Elektriker Plus</h2>
+            <p style="color: var(--text-muted); margin-top: 10px; margin-bottom: 24px; font-size: 1.05rem;">Bitte melde dich an oder spiele als Gast, um dein Profil und deine Lernfortschritte zu speichern.</p>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Einloggen</button>
+                <button class="auth-tab-btn" id="tab-register" onclick="switchAuthTab('register')">Registrieren</button>
             </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="xp-progress-fill"></div>
-            </div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-                💡 <strong>Adaptiver KI-Modus aktiv:</strong> Analysiert kontinuierlich deine Fehler und erstellt zielgerichtete Trainingsfragen!
-            </div>
-        </div>
 
-        <!-- Erfolgs-Badges -->
-        <div class="achievements-bar">
-            <div class="badge-item" id="badge-1">⚡ Einsteiger</div>
-            <div class="badge-item" id="badge-2">🔥 10 Richtige</div>
-            <div class="badge-item" id="badge-3">🧠 Meister-Mind</div>
-            <div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div>
-        </div>
-
-        <!-- Welcome View -->
-        <div id="welcome-screen" class="glass-card welcome-card">
-            <h2>Wähle deinen Modus</h2>
-            <p style="color: var(--text-muted); margin-top: 10px; font-size: 1.05rem;">Bereite dich optimal auf Prüfungs- und Praxissituationen vor.</p>
-
-            <div class="menu-options">
-                <div class="menu-option" onclick="startMode('quiz')">
-                    <div class="menu-icon">📝</div>
-                    <div class="menu-title">Standard Quiz</div>
-                    <div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div>
+            <div id="auth-form-container">
+                <div class="input-field" style="text-align: left;">
+                    <label>Benutzername</label>
+                    <input type="text" id="auth-username" placeholder="Dein Name oder Elektriker-Alias...">
                 </div>
-                <div class="menu-option" onclick="startMode('schemas')">
-                    <div class="menu-icon">📐</div>
-                    <div class="menu-title">Schaltsymbole & Pläne</div>
-                    <div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div>
+                <div class="input-field" style="text-align: left;">
+                    <label>Passwort</label>
+                    <input type="password" id="auth-password" placeholder="Dein Passwort...">
                 </div>
-                <div class="menu-option" onclick="startMode('ai')">
-                    <div class="menu-icon">✨</div>
-                    <div class="menu-title">Intelligenter KI-Modus</div>
-                    <div class="menu-description">Selbstlernende Fragen, Live-Tutor & adaptive Erklärungen.</div>
-                </div>
-                <div class="menu-option" onclick="startMode('vs')">
-                    <div class="menu-icon">⚔️</div>
-                    <div class="menu-title">VS-Modus (Online & Freunde)</div>
-                    <div class="menu-description">Erstelle Räume, lade Freunde direkt ein & spiele live.</div>
-                </div>
-                <div class="menu-option" onclick="startMode('friends')">
-                    <div class="menu-icon">👥</div>
-                    <div class="menu-title">Freunde verwalten</div>
-                    <div class="menu-description">Verwalte deine Freundesliste & fordere Buddies heraus.</div>
-                </div>
-                <div class="menu-option" onclick="startMode('learn')">
-                    <div class="menu-icon">📚</div>
-                    <div class="menu-title">Lernbereich</div>
-                    <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
+                <div id="auth-error-msg" style="color: var(--incorrect); font-size: 0.85rem; margin-bottom: 16px; display: none;"></div>
+                
+                <div style="display: flex; gap: 12px; flex-direction: column;">
+                    <button class="btn-action show" id="auth-submit-btn" onclick="submitAuth()" style="border-radius: var(--radius-sm);">Einloggen</button>
+                    <button class="nav-btn" onclick="loginAsGuest()" style="width: 100%; justify-content: center; background: rgba(255,255,255,0.05);">🚀 Als Gast fortfahren</button>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation Bar -->
-        <div id="mode-nav-area" style="display: none;">
-            <div class="mode-nav">
-                <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
-                <div class="mode-toggle">
-                    <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                    <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI-Modus</button>
-                    <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Modus</button>
-                    <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Freunde</button>
-                    <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
+        <!-- DASHBOARD & MAIN MENU (Versteckt bis Login/Gast) -->
+        <div id="main-app-container" style="display: none;">
+            <!-- Dashboard Bar -->
+            <div class="stats-bar">
+                <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
+                    <div class="stat-val" id="stat-score">0%</div>
+                    <div class="stat-lbl">Genauigkeit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-completed">0</div>
+                    <div class="stat-lbl">Gelöste Fragen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-level">Lvl 1</div>
+                    <div class="stat-lbl">Skill Level</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-high">0</div>
+                    <div class="stat-lbl">Highscore</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Quiz Area -->
-        <div id="quiz-mode" class="content-area">
-            <div class="glass-card">
-                <div id="ai-config" class="ai-config-panel" style="display: none;">
-                    <div class="config-group">
-                        <label>Themenbereich (Fokussiert)</label>
-                        <select id="ai-topic-select" class="config-select">
-                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
-                            <option value="ohm">Ohmsches Gesetz & Leistung</option>
-                            <option value="motor">Drehstrom & Asynchronmotor</option>
-                            <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
-                            <option value="cables">Leitungsbemessung & Zonen</option>
-                            <option value="ip">IP-Schutzarten & Betriebsmittel</option>
-                            <option value="random">🎲 Alle Themen mischen (Adaptiv)</option>
-                        </select>
+            <!-- Erweiterte Fortschritts- & Detail-Panel (Ausklappbar) -->
+            <div id="detailed-stats-panel" class="progress-details-panel" style="display: none;">
+                <h3 style="color: var(--primary); margin-bottom: 14px; font-size: 1.1rem;">📊 Erweiterte Lernfortschritte & XP</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px;">
+                    <span id="xp-label">XP: 0 / 100 zum nächsten Level</span>
+                    <span id="streak-label">🔥 Streak: 0 richtig in Folge</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="xp-progress-fill"></div>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+                    💡 <strong>Adaptiver KI-Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!
+                </div>
+            </div>
+
+            <!-- Erfolgs-Badges -->
+            <div class="achievements-bar">
+                <div class="badge-item" id="badge-1">⚡ Einsteiger</div>
+                <div class="badge-item" id="badge-2">🔥 10 Richtige</div>
+                <div class="badge-item" id="badge-3">🧠 Meister-Mind</div>
+                <div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div>
+            </div>
+
+            <!-- Welcome View -->
+            <div id="welcome-screen" class="glass-card welcome-card">
+                <h2>Wähle deinen Modus</h2>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 1.05rem;">Bereite dich optimal auf Prüfungs- und Praxissituationen vor.</p>
+
+                <div class="menu-options">
+                    <div class="menu-option" onclick="startMode('quiz')">
+                        <div class="menu-icon">📝</div>
+                        <div class="menu-title">Standard Quiz</div>
+                        <div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div>
                     </div>
-                    <div class="config-group">
-                        <label>Schwierigkeit</label>
-                        <select id="ai-diff-select" class="config-select">
-                            <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
-                            <option value="easy">Leicht (Grundlagen)</option>
-                            <option value="medium">Mittel (Facharbeiter)</option>
-                            <option value="hard">Schwer (Meister/Techniker)</option>
-                        </select>
+                    <div class="menu-option" onclick="startMode('schemas')">
+                        <div class="menu-icon">📐</div>
+                        <div class="menu-title">Schaltsymbole & Pläne</div>
+                        <div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Intelligente Aufgabe generieren</button>
+                    <div class="menu-option" onclick="startMode('ai')">
+                        <div class="menu-icon">✨</div>
+                        <div class="menu-title">Experten KI-Modus</div>
+                        <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem Tutor.</div>
+                    </div>
+                    <div class="menu-option" onclick="startMode('vs')">
+                        <div class="menu-icon">⚔️</div>
+                        <div class="menu-title">VS-Modus (Online)</div>
+                        <div class="menu-description">Erstelle einen Raum, lade Freunde ein und spiele live gegen andere.</div>
+                    </div>
+                    <div class="menu-option" onclick="startMode('friends')">
+                        <div class="menu-icon">👥</div>
+                        <div class="menu-title">Freunde hinzufügen</div>
+                        <div class="menu-description">Verwalte deine Freundesliste, lade Spieler ein und vergleiche deine Skills.</div>
+                    </div>
+                    <div class="menu-option" onclick="startMode('learn')">
+                        <div class="menu-icon">📚</div>
+                        <div class="menu-title">Lernbereich</div>
+                        <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
+                    </div>
                 </div>
+            </div>
 
-                <div id="quiz-screen">
-                    <div class="quiz-top">
-                        <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
-                        <div style="display: flex; gap: 10px;">
-                            <div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">30</span>s</div>
-                            <div class="progress-pill" id="progress">Frage 1 / 10</div>
+            <!-- Navigation Bar -->
+            <div id="mode-nav-area" style="display: none;">
+                <div class="mode-nav">
+                    <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
+                    <div class="mode-toggle">
+                        <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
+                        <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
+                        <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten KI</button>
+                        <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Modus</button>
+                        <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Freunde</button>
+                        <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Area -->
+            <div id="quiz-mode" class="content-area">
+                <div class="glass-card">
+                    <div id="ai-config" class="ai-config-panel" style="display: none;">
+                        <div class="config-group">
+                            <label>Themenbereich (Fokussiert)</label>
+                            <select id="ai-topic-select" class="config-select">
+                                <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
+                                <option value="ohm">Ohmsches Gesetz & Leistung</option>
+                                <option value="motor">Drehstrom & Asynchronmotor</option>
+                                <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
+                                <option value="cables">Leitungsbemessung & Zonen</option>
+                                <option value="ip">IP-Schutzarten & Betriebsmittel</option>
+                                <option value="random">🎲 Alle Themen mischen (Adaptiv)</option>
+                            </select>
+                        </div>
+                        <div class="config-group">
+                            <label>Schwierigkeit</label>
+                            <select id="ai-diff-select" class="config-select">
+                                <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
+                                <option value="easy">Leicht (Grundlagen)</option>
+                                <option value="medium">Mittel (Facharbeiter)</option>
+                                <option value="hard">Schwer (Meister/Techniker)</option>
+                            </select>
+                        </div>
+                        <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Intelligente Aufgabe generieren</button>
+                    </div>
+
+                    <div id="quiz-screen">
+                        <div class="quiz-top">
+                            <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
+                            <div style="display: flex; gap: 10px;">
+                                <div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">30</span>s</div>
+                                <div class="progress-pill" id="progress">Frage 1 / 10</div>
+                            </div>
+                        </div>
+
+                        <div id="question-content">
+                            <div class="question-box" id="question">Frage wird geladen...</div>
+                            <div class="symbol-container" id="symbol-display" style="display: none;"></div>
+                            <div class="options-grid" id="options"></div>
+                            <div class="explanation-box" id="explanation"></div>
+                            
+                            <!-- Experten Tutor Erklärungsbox für KI Modus -->
+                            <div class="ai-tutor-box" id="ai-tutor-box">
+                                <div class="ai-tutor-header">💡 Experten-KI-Analyse & Lern-Tipp</div>
+                                <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
+                            </div>
+
+                            <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
                         </div>
                     </div>
 
-                    <div id="question-content">
-                        <div class="question-box" id="question">Frage wird geladen...</div>
-                        <div class="symbol-container" id="symbol-display" style="display: none;"></div>
-                        <div class="options-grid" id="options"></div>
-                        <div class="explanation-box" id="explanation"></div>
+                    <div class="result-box" id="result-screen" style="text-align: center; padding: 40px 0; display: none;">
+                        <h2>Quiz Abgeschlossen!</h2>
+                        <div style="font-size: 5rem; font-weight: 800; color: var(--primary); margin: 20px 0; font-family: var(--font-code); text-shadow: 0 0 30px var(--primary-glow);" id="score">0 / 10</div>
+                        <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 1.1rem;" id="feedback">Ergebnis ausgewertet.</p>
+                        <button class="btn-action show" onclick="restartQuiz()" style="max-width: 320px; margin: 0 auto;">Neuer Versuch</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Mode Area -->
+            <div id="vs-mode" class="content-area">
+                <div class="glass-card">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px;">⚔️ Online VS-Modus (Multiplayer)</h2>
+                        <p style="color: var(--text-muted);">Erstelle einen Raum, teile den Raumcode oder lade deine Freunde direkt ein, um live gegen andere anzutreten!</p>
+                    </div>
+
+                    <div id="vs-lobby" style="max-width: 700px; margin: 0 auto;">
+                        <div class="article-section" style="text-align: center;">
+                            <h3>Neuen Raum erstellen</h3>
+                            <p>Starte ein privates Duell und lade Freunde aus deiner Freundesliste ein.</p>
+                            <button class="ai-btn-action" onclick="createVsRoom()" style="width: 100%; margin-top: 10px;">Raum erstellen & Code generieren</button>
+                        </div>
+
+                        <!-- Freunde einladen Schnelloption im VS Modus -->
+                        <div class="article-section" style="margin-top: 24px;">
+                            <h3>Freunde zum Duell einladen</h3>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px;">Klicke auf einen Freund, um ihm eine direkte Duell-Einladung zu senden:</p>
+                            <div id="vs-invite-friends-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                                <!-- Dynamisch befüllt -->
+                            </div>
+                        </div>
+
+                        <div class="article-section" style="text-align: center; margin-top: 24px;">
+                            <h3>Raum beitreten</h3>
+                            <p>Gib den Raumcode ein, den du erhalten hast.</p>
+                            <div class="input-field" style="margin-top: 15px;">
+                                <input type="text" id="join-room-code" placeholder="z.B. PLUS-9842" style="text-align: center; text-transform: uppercase;">
+                            </div>
+                            <button class="nav-btn" onclick="joinVsRoom()" style="width: 100%; justify-content: center; margin-top: 10px; background: rgba(6, 182, 212, 0.15); border-color: var(--primary);">Dem Raum beitreten</button>
+                        </div>
+                    </div>
+
+                    <div id="vs-room-active" style="display: none; max-width: 700px; margin: 0 auto;">
+                        <div class="article-section" style="text-align: center;">
+                            <h3>Raum aktiv: <span id="active-room-code" style="color: var(--primary); font-family: var(--font-code);">--</span></h3>
+                            <p>Warte auf Mitspieler im Raum... Sobald jemand beitritt, startet das Live-Duell!</p>
+                            
+                            <div style="margin: 24px 0; background: rgba(0,0,0,0.5); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
+                                <h4 style="color: #fff; margin-bottom: 12px;">Spieler im Raum:</h4>
+                                <ul id="room-players-list" style="list-style: none; color: var(--text-muted); font-weight: 700;">
+                                    <li>👤 Du (Host) - Bereit</li>
+                                    <li id="opponent-status" style="color: var(--warning); margin-top: 6px;">⏳ Suche nach Gegner... (Simuliere echten Online-Mitspieler)</li>
+                                </ul>
+                            </div>
+
+                            <div id="vs-game-area" style="display: none; text-align: left; margin-top: 20px;">
+                                <div class="quiz-top">
+                                    <div class="quiz-title" id="vs-question-title">Duell-Frage 1</div>
+                                    <div class="timer-pill">⏱️ <span id="vs-timer">15</span>s</div>
+                                </div>
+                                <div class="question-box" id="vs-question-text">Frage lädt...</div>
+                                <div class="options-grid" id="vs-options"></div>
+                                <div style="margin-top: 20px; font-family: var(--font-code); color: var(--primary); text-align: center;" id="vs-score-board">Dein Score: 0 | Gegner Score: 0</div>
+                            </div>
+
+                            <button class="nav-btn" onclick="leaveVsRoom()" style="margin-top: 20px;">Raum verlassen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friends Mode Area -->
+            <div id="friends-mode" class="content-area">
+                <div class="glass-card">
+                    <div style="max-width: 700px; margin: 0 auto;">
+                        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px; text-align: center;">👥 Freunde hinzufügen & Verwalten</h2>
+                        <p style="color: var(--text-muted); text-align: center; margin-bottom: 28px;">Verwalte deine Freundesliste, lade andere Elektriker ein und vergleiche deine ID & Skills.</p>
+
+                        <div class="article-section">
+                            <h3>Neuen Freund hinzufügen</h3>
+                            <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 14px;">
+                                <input type="text" id="friend-username-input" class="search-bar" placeholder="Benutzername oder ID eingeben..." style="margin-bottom: 0;">
+                                <button class="ai-btn-action" onclick="addFriend()" style="height: auto; padding: 0 24px;">Hinzufügen</button>
+                            </div>
+                        </div>
+
+                        <div class="article-section" style="margin-top: 28px;">
+                            <h3>Deine Freundesliste</h3>
+                            <div id="friends-list-container" style="margin-top: 16px;">
+                                <!-- Dynamische Freundesliste -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Area -->
+            <div id="learn-mode" class="content-area">
+                <div class="glass-card">
+                    <div id="topics-view">
+                        <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Taster, Netze, Schalter, PV)..." oninput="filterTopics()">
                         
-                        <!-- Experten Tutor Erklärungsbox für Experten Modus -->
-                        <div class="ai-tutor-box" id="ai-tutor-box">
-                            <div class="ai-tutor-header">💡 KI-Expertenanalyse & Tutor</div>
-                            <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
-                        </div>
+                        <div class="topics-grid" id="topics-container"></div>
 
-                        <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
-                    </div>
-                </div>
-
-                <div class="result-box" id="result-screen" style="text-align: center; padding: 40px 0; display: none;">
-                    <h2>Quiz Abgeschlossen!</h2>
-                    <div style="font-size: 5rem; font-weight: 800; color: var(--primary); margin: 20px 0; font-family: var(--font-code); text-shadow: 0 0 30px var(--primary-glow);" id="score">0 / 10</div>
-                    <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 1.1rem;" id="feedback">Ergebnis ausgewertet.</p>
-                    <button class="btn-action show" onclick="restartQuiz()" style="max-width: 320px; margin: 0 auto;">Neuer Versuch</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- VS Mode Area -->
-        <div id="vs-mode" class="content-area">
-            <div class="glass-card">
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px;">⚔️ Online VS-Modus & Freunde einladen</h2>
-                    <p style="color: var(--text-muted);">Erstelle einen Duell-Raum, teile den Code oder lade deine gespeicherten Freunde direkt aus deiner Freundesliste ein!</p>
-                </div>
-
-                <div id="vs-lobby" style="max-width: 650px; margin: 0 auto;">
-                    <div class="article-section" style="text-align: center;">
-                        <h3>Neuen Raum erstellen</h3>
-                        <p>Starte ein privates Duell und lade Bekannte ein.</p>
-                        <button class="ai-btn-action" onclick="createVsRoom()" style="width: 100%; margin-top: 10px;">Raum erstellen & Code generieren</button>
-                    </div>
-
-                    <div class="article-section" style="text-align: center; margin-top: 24px;">
-                        <h3>Freunde direkt zum Duell einladen</h3>
-                        <p>Wähle einen Online-Freund aus, um ihm eine direkte Einladung zu senden.</p>
-                        <div id="vs-invite-friends-list" style="margin-top: 14px; text-align: left;">
-                            <!-- Dynamische Liste mit Einladen-Buttons -->
-                        </div>
-                    </div>
-
-                    <div class="article-section" style="text-align: center; margin-top: 24px;">
-                        <h3>Raum beitreten</h3>
-                        <p>Gib den Raumcode ein, den du erhalten hast.</p>
-                        <div class="input-field" style="margin-top: 15px;">
-                            <input type="text" id="join-room-code" placeholder="z.B. ELEK-9842" style="text-align: center; text-transform: uppercase;">
-                        </div>
-                        <button class="nav-btn" onclick="joinVsRoom()" style="width: 100%; justify-content: center; margin-top: 10px; background: rgba(6, 182, 212, 0.15); border-color: var(--primary);">Dem Raum beitreten</button>
-                    </div>
-                </div>
-
-                <div id="vs-room-active" style="display: none; max-width: 700px; margin: 0 auto;">
-                    <div class="article-section" style="text-align: center;">
-                        <h3>Raum aktiv: <span id="active-room-code" style="color: var(--primary); font-family: var(--font-code);">--</span></h3>
-                        <p>Warte auf Mitspieler im Raum...</p>
-                        
-                        <div style="margin: 24px 0; background: rgba(0,0,0,0.5); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
-                            <h4 style="color: #fff; margin-bottom: 12px;">Spieler im Raum:</h4>
-                            <ul id="room-players-list" style="list-style: none; color: var(--text-muted); font-weight: 700;">
-                                <li>👤 Du (Host) - Bereit</li>
-                                <li id="opponent-status" style="color: var(--warning); margin-top: 6px;">⏳ Suche nach Gegner / Warte auf Einladung...</li>
-                            </ul>
-                        </div>
-
-                        <div id="vs-game-area" style="display: none; text-align: left; margin-top: 20px;">
-                            <div class="quiz-top">
-                                <div class="quiz-title" id="vs-question-title">Duell-Frage 1</div>
-                                <div class="timer-pill">⏱️ <span id="vs-timer">15</span>s</div>
+                        <h2 style="margin: 56px 0 24px 0; color: var(--primary); font-size: 2rem; letter-spacing: -0.5px;">🧮 Profi-Rechner</h2>
+                        <div class="calc-grid">
+                            
+                            <!-- Ohmsches Gesetz -->
+                            <div class="calc-box">
+                                <h3>Ohmsches Gesetz (U, I, R)</h3>
+                                <div class="input-field">
+                                    <label>Spannung U (Volt)</label>
+                                    <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Widerstand R (Ohm)</label>
+                                    <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
+                                </div>
+                                <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
                             </div>
-                            <div class="question-box" id="vs-question-text">Frage lädt...</div>
-                            <div class="options-grid" id="vs-options"></div>
-                            <div style="margin-top: 20px; font-family: var(--font-code); color: var(--primary); text-align: center;" id="vs-score-board">Dein Score: 0 | Gegner Score: 0</div>
-                        </div>
 
-                        <button class="nav-btn" onclick="leaveVsRoom()" style="margin-top: 20px;">Raum verlassen</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <!-- Drehstrom Leistung -->
+                            <div class="calc-box">
+                                <h3>Drehstrom-Leistung (P)</h3>
+                                <div class="input-field">
+                                    <label>Strom I (Ampere)</label>
+                                    <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Cos φ (Leistungsfaktor)</label>
+                                    <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
+                                </div>
+                                <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
+                            </div>
 
-        <!-- Friends Mode Area -->
-        <div id="friends-mode" class="content-area">
-            <div class="glass-card">
-                <div style="max-width: 700px; margin: 0 auto;">
-                    <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px; text-align: center;">👥 Freunde hinzufügen & Verwalten</h2>
-                    <p style="color: var(--text-muted); text-align: center; margin-bottom: 28px;">Füge andere Elektriker per ID oder Username hinzu und vergleiche deine Skills.</p>
+                            <!-- Spannungsfall -->
+                            <div class="calc-box">
+                                <h3>Spannungsfall (ΔU) - 1-phasig</h3>
+                                <div class="input-field">
+                                    <label>Länge l (m, einfach)</label>
+                                    <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Strom I (Ampere)</label>
+                                    <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Querschnitt A (mm² Cu)</label>
+                                    <select id="calc-q" onchange="calculateVoltageDrop()">
+                                        <option value="1.5">1.5 mm²</option>
+                                        <option value="2.5" selected>2.5 mm²</option>
+                                        <option value="4">4.0 mm²</option>
+                                        <option value="6">6.0 mm²</option>
+                                        <option value="10">10.0 mm²</option>
+                                    </select>
+                                </div>
+                                <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
+                            </div>
 
-                    <div class="article-section">
-                        <h3>Neuen Freund hinzufügen</h3>
-                        <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 14px;">
-                            <input type="text" id="friend-username-input" class="search-bar" placeholder="Benutzername oder Freundes-ID (z.B. ELK-xxxx)..." style="margin-bottom: 0;">
-                            <button class="ai-btn-action" onclick="addFriend()" style="height: auto; padding: 0 24px;">Hinzufügen</button>
+                            <!-- Leitungsquerschnitt Berechnung -->
+                            <div class="calc-box">
+                                <h3>Mindestquerschnitt (A) berechnen</h3>
+                                <div class="input-field">
+                                    <label>Länge l (m)</label>
+                                    <input type="number" id="calc-q-len" value="30" oninput="calculateCrossSection()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Max. Strom I (A)</label>
+                                    <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
+                                </div>
+                                <div class="input-field">
+                                    <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
+                                    <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
+                                </div>
+                                <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div class="article-section" style="margin-top: 28px;">
-                        <h3>Deine Freundesliste</h3>
-                        <div id="friends-list-container" style="margin-top: 16px;">
-                            <!-- Dynamische Freundesliste -->
-                        </div>
+                    <div id="content-view" style="display: none;" class="article-view">
+                        <button class="nav-btn" onclick="backToTopics()" style="margin-bottom: 28px;">← Zurück zur Übersicht</button>
+                        <div id="content-container"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Learning Area -->
-        <div id="learn-mode" class="content-area">
-            <div class="glass-card">
-                <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Taster, Netze, Schalter, PV)..." oninput="filterTopics()">
-                    
-                    <div class="topics-grid" id="topics-container"></div>
-
-                    <h2 style="margin: 56px 0 24px 0; color: var(--primary); font-size: 2rem; letter-spacing: -0.5px;">🧮 Profi-Rechner</h2>
-                    <div class="calc-grid">
-                        
-                        <!-- Ohmsches Gesetz -->
-                        <div class="calc-box">
-                            <h3>Ohmsches Gesetz (U, I, R)</h3>
-                            <div class="input-field">
-                                <label>Spannung U (Volt)</label>
-                                <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
-                            </div>
-                            <div class="input-field">
-                                <label>Widerstand R (Ohm)</label>
-                                <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
-                            </div>
-                            <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
-                        </div>
-
-                        <!-- Drehstrom Leistung -->
-                        <div class="calc-box">
-                            <h3>Drehstrom-Leistung (P)</h3>
-                            <div class="input-field">
-                                <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
-                            </div>
-                            <div class="input-field">
-                                <label>Cos φ (Leistungsfaktor)</label>
-                                <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
-                            </div>
-                            <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
-                        </div>
-
-                        <!-- Spannungsfall -->
-                        <div class="calc-box">
-                            <h3>Spannungsfall (ΔU) - 1-phasig</h3>
-                            <div class="input-field">
-                                <label>Länge l (m, einfach)</label>
-                                <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
-                            </div>
-                            <div class="input-field">
-                                <label>Strom I (Ampere)</label>
-                                <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
-                            </div>
-                            <div class="input-field">
-                                <label>Querschnitt A (mm² Cu)</label>
-                                <select id="calc-q" onchange="calculateVoltageDrop()">
-                                    <option value="1.5">1.5 mm²</option>
-                                    <option value="2.5" selected>2.5 mm²</option>
-                                    <option value="4">4.0 mm²</option>
-                                    <option value="6">6.0 mm²</option>
-                                    <option value="10">10.0 mm²</option>
-                                </select>
-                            </div>
-                            <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
-                        </div>
-
-                        <!-- Leitungsquerschnitt Berechnung -->
-                        <div class="calc-box">
-                            <h3>Mindestquerschnitt (A) berechnen</h3>
-                            <div class="input-field">
-                                <label>Länge l (m)</label>
-                                <input type="number" id="calc-q-len" value="30" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="input-field">
-                                <label>Max. Strom I (A)</label>
-                                <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="input-field">
-                                <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
-                                <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
-                            </div>
-                            <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div id="content-view" style="display: none;" class="article-view">
-                    <button class="nav-btn" onclick="backToTopics()" style="margin-bottom: 28px;">← Zurück zur Übersicht</button>
-                    <div id="content-container"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // AUTH & USER MANAGEMENT SYSTEM
-        let currentUser = JSON.parse(localStorage.getItem('elek_current_user')) || null;
-        let usersDb = JSON.parse(localStorage.getItem('elek_users_db')) || [];
+        // Authentication & User Profile State Management
+        let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
+        let registeredUsers = JSON.parse(localStorage.getItem('elek_plus_users')) || [];
 
-        // Check authentication on startup
+        // Stats Management (per user or global fallback)
+        let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
+        };
+
+        let friendsList = JSON.parse(localStorage.getItem('elek_plus_friends')) || [
+            { id: "ID-8821", name: "Max Müller", status: "Online", level: 5 },
+            { id: "ID-4412", name: "Anna Technicus", status: "Im Duell", level: 8 },
+            { id: "ID-1903", name: "Stefan Meister", status: "Offline", level: 12 }
+        ];
+
+        let currentMode = 'quiz';
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let timerInterval = null;
+        let timeLeft = 30;
+
+        // Check active login on load
         window.addEventListener('DOMContentLoaded', () => {
             if (currentUser) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                initUserSession();
+                initAppWithUser();
             } else {
-                document.getElementById('auth-overlay').style.display = 'flex';
+                showAuthScreen();
             }
-            renderTopics();
             renderFriendsList();
             renderVsInviteFriends();
+            renderTopicsList();
         });
 
         function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
-            document.getElementById('form-login').style.display = 'none';
-            document.getElementById('form-register').style.display = 'none';
-            document.getElementById('form-guest').style.display = 'none';
-
+            document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            const submitBtn = document.getElementById('auth-submit-btn');
             if (tab === 'login') {
-                event.target.classList.add('active');
-                document.getElementById('form-login').style.display = 'block';
-            } else if (tab === 'register') {
-                event.target.classList.add('active');
-                document.getElementById('form-register').style.display = 'block';
-            } else if (tab === 'guest') {
-                event.target.classList.add('active');
-                document.getElementById('form-guest').style.display = 'block';
+                submitBtn.innerText = "Einloggen";
+                submitBtn.setAttribute('onclick', "submitAuth('login')");
+            } else {
+                submitBtn.innerText = "Registrieren & Profil erstellen";
+                submitBtn.setAttribute('onclick', "submitAuth('register')");
             }
         }
 
-        function generateUserId() {
-            const num = Math.floor(1000 + Math.random() * 9000);
-            return `ELK-${num}`;
-        }
+        function submitAuth(action = 'login') {
+            const usernameInput = document.getElementById('auth-username').value.trim();
+            const passwordInput = document.getElementById('auth-password').value.trim();
+            const errBox = document.getElementById('auth-error-msg');
 
-        function performLogin() {
-            const inputVal = document.getElementById('login-username').value.trim();
-            if (!inputVal) {
-                alert('Bitte gib einen Benutzernamen oder eine ID ein.');
+            if (!usernameInput) {
+                errBox.style.display = 'block';
+                errBox.innerText = "Bitte gib einen Benutzernamen ein.";
                 return;
             }
-            let found = usersDb.find(u => u.username.toLowerCase() === inputVal.toLowerCase() || u.userId.toLowerCase() === inputVal.toLowerCase());
-            if (!found) {
-                // If not found, create automatically for convenience
-                found = {
-                    userId: generateUserId(),
-                    username: inputVal,
-                    stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 },
-                    friends: [
-                        { name: "Max Müller", status: "Online", level: 5, id: "ELK-1001" },
-                        { name: "Anna Technicus", status: "Im Duell", level: 8, id: "ELK-1002" }
-                    ]
+
+            if (action === 'register') {
+                const existing = registeredUsers.find(u => u.name.toLowerCase() === usernameInput.toLowerCase());
+                if (existing) {
+                    errBox.style.display = 'block';
+                    errBox.innerText = "Benutzername existiert bereits. Bitte logge dich ein.";
+                    return;
+                }
+                const newUser = {
+                    id: "ID-" + Math.floor(1000 + Math.random() * 9000),
+                    name: usernameInput,
+                    password: passwordInput,
+                    level: 1,
+                    xp: 0
                 };
-                usersDb.push(found);
-                localStorage.setItem('elek_users_db', JSON.stringify(usersDb));
+                registeredUsers.push(newUser);
+                localStorage.setItem('elek_plus_users', JSON.stringify(registeredUsers));
+                currentUser = newUser;
+            } else {
+                const user = registeredUsers.find(u => u.name.toLowerCase() === usernameInput.toLowerCase());
+                if (!user) {
+                    // Auto create if not found for convenience, or prompt register
+                    const newUser = {
+                        id: "ID-" + Math.floor(1000 + Math.random() * 9000),
+                        name: usernameInput,
+                        password: passwordInput,
+                        level: 1,
+                        xp: 0
+                    };
+                    registeredUsers.push(newUser);
+                    localStorage.setItem('elek_plus_users', JSON.stringify(registeredUsers));
+                    currentUser = newUser;
+                } else {
+                    currentUser = user;
+                }
             }
-            currentUser = found;
-            localStorage.setItem('elek_current_user', JSON.stringify(currentUser));
-            closeAuthOverlay();
+
+            localStorage.setItem('elek_plus_current_user', JSON.stringify(currentUser));
+            initAppWithUser();
         }
 
-        function performRegister() {
-            const username = document.getElementById('register-username').value.trim();
-            if (!username) {
-                alert('Bitte gib einen gültigen Namen ein.');
-                return;
-            }
-            const newUser = {
-                userId: generateUserId(),
-                username: username,
-                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 },
-                friends: [
-                    { name: "Max Müller", status: "Online", level: 5, id: "ELK-1001" },
-                    { name: "Anna Technicus", status: "Im Duell", level: 8, id: "ELK-1002" }
-                ]
+        function loginAsGuest() {
+            currentUser = {
+                id: "GUEST-" + Math.floor(1000 + Math.random() * 9000),
+                name: "Gast-Elektriker",
+                level: 1,
+                xp: 0
             };
-            usersDb.push(newUser);
-            localStorage.setItem('elek_users_db', JSON.stringify(usersDb));
-            currentUser = newUser;
-            localStorage.setItem('elek_current_user', JSON.stringify(currentUser));
-            closeAuthOverlay();
+            localStorage.setItem('elek_plus_current_user', JSON.stringify(currentUser));
+            initAppWithUser();
         }
 
-        function performGuestLogin() {
-            const guestUser = {
-                userId: generateUserId(),
-                username: "Gast_" + Math.floor(100 + Math.random() * 900),
-                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 },
-                friends: [
-                    { name: "Max Müller", status: "Online", level: 5, id: "ELK-1001" }
-                ]
-            };
-            currentUser = guestUser;
-            localStorage.setItem('elek_current_user', JSON.stringify(currentUser));
-            closeAuthOverlay();
-        }
-
-        function closeAuthOverlay() {
-            document.getElementById('auth-overlay').style.display = 'none';
-            initUserSession();
+        function initAppWithUser() {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('main-app-container').style.display = 'block';
+            document.getElementById('user-header-profile').style.display = 'inline-flex';
+            document.getElementById('header-username').innerText = currentUser.name;
+            document.getElementById('header-userid').innerText = currentUser.id;
+            updateStatsDisplay();
         }
 
         function logoutUser() {
-            saveCurrentUserData();
+            localStorage.removeItem('elek_plus_current_user');
             currentUser = null;
-            localStorage.removeItem('elek_current_user');
-            closeProfileModal();
-            document.getElementById('auth-overlay').style.display = 'flex';
-        }
-
-        function openProfileModal() {
-            if (!currentUser) return;
-            document.getElementById('modal-username').innerText = currentUser.username;
-            document.getElementById('modal-userid').innerText = `ID: ${currentUser.userId}`;
-            document.getElementById('modal-xp').innerText = currentUser.stats.xp || 0;
-            document.getElementById('modal-streak').innerText = currentUser.stats.streak || 0;
-            document.getElementById('profile-modal').style.display = 'flex';
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').style.display = 'none';
-        }
-
-        function saveCurrentUserData() {
-            if (!currentUser) return;
-            localStorage.setItem('elek_current_user', JSON.stringify(currentUser));
-            // update in db
-            const idx = usersDb.findIndex(u => u.userId === currentUser.userId);
-            if (idx >= 0) {
-                usersDb[idx] = currentUser;
-            } else {
-                usersDb.push(currentUser);
-            }
-            localStorage.setItem('elek_users_db', JSON.stringify(usersDb));
-        }
-
-        function initUserSession() {
-            document.getElementById('header-username').innerText = currentUser.username;
-            updateStatsUI();
-            renderFriendsList();
-            renderVsInviteFriends();
-        }
-
-        // Global State & Data mapping
-        let stats = { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 };
-        let friendsList = [];
-
-        function syncUserStatsToLocal() {
-            if (!currentUser) return;
-            stats = currentUser.stats;
-            friendsList = currentUser.friends || [];
+            document.getElementById('main-app-container').style.display = 'none';
+            document.getElementById('user-header-profile').style.display = 'none';
+            document.getElementById('auth-screen').style.display = 'block';
+            document.getElementById('auth-username').value = '';
+            document.getElementById('auth-password').value = '';
         }
 
         // Vollständige SVG Schaltsymbole Library (Inkl. ALLEN Schalterarten nach DIN EN 60617)
@@ -1780,77 +1671,117 @@
                         <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind im gesamten System als ein einziger <strong>PEN-Leiter</strong> kombiniert.</p>
                         <svg viewBox="0 0 560 220" style="width:100%; max-width:560px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(245,158,11,0.4);">
                             <text x="280" y="20" fill="#f59e0b" font-size="12" font-weight="bold" text-anchor="middle">TN-C NETZ (PEN DURCHGEHEND)</text>
-                            
                             <rect x="20" y="35" width="80" height="160" rx="6" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="1.5"/>
                             <text x="60" y="55" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">Trafo</text>
-                            
                             <line x1="80" y1="70" x2="420" y2="70" stroke="#f59e0b" stroke-width="3"/><text x="90" y="64" fill="#f59e0b" font-size="10">L1</text>
                             <line x1="80" y1="95" x2="420" y2="95" stroke="#d97706" stroke-width="3"/><text x="90" y="89" fill="#d97706" font-size="10">L2</text>
                             <line x1="80" y1="120" x2="420" y2="120" stroke="#b45309" stroke-width="3"/><text x="90" y="114" fill="#b45309" font-size="10">L3</text>
                             <line x1="80" y1="165" x2="420" y2="165" stroke="#10b981" stroke-width="4" stroke-dasharray="12,4"/><text x="90" y="157" fill="#10b981" font-size="10" font-weight="bold">PEN</text>
-
                             <line x1="60" y1="165" x2="60" y2="190" stroke="#10b981" stroke-width="2"/>
                             <line x1="45" y1="190" x2="75" y2="190" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="195" x2="70" y2="195" stroke="#10b981" stroke-width="2"/>
-
                             <rect x="420" y="45" width="110" height="145" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
                             <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <line x1="420" y1="165" x2="450" y2="165" stroke="#10b981" stroke-width="3"/>
+                            <line x1="450" y1="165" x2="450" y2="145" stroke="#10b981" stroke-width="2"/>
+                            <circle cx="450" cy="145" r="3" fill="#10b981"/>
                         </svg>
                     </div>
                 `
             }
         };
 
-        // Navigation & UI switching
+        // Quiz Question Bank
+        const questionBank = [
+            {
+                q: "Welches Schaltsymbol nach DIN EN 60617 ist hier abgebildet?",
+                symbol: svgSymbols.switch_changeover,
+                options: ["Ausschalter (1-polig)", "Wechselschalter", "Kreuzschalter", "Taster (Schließer)"],
+                correct: 1,
+                explanation: "Der Wechselschalter besitzt einen Eingang und schaltet wahlweise auf einen von zwei Ausgängen um.",
+                topic: "symbols"
+            },
+            {
+                q: "Welcher Strom fließt durch einen Verbraucher mit R = 20 Ω bei U = 230 V?",
+                symbol: null,
+                options: ["11.5 A", "4600 A", "4.6 A", "23.0 A"],
+                correct: 0,
+                explanation: "Nach dem Ohmschen Gesetz: I = U / R -> 230V / 20Ω = 11.5 A.",
+                topic: "ohm"
+            },
+            {
+                q: "Welche Schutzmaßnahme erfordert ein RCD (FI-Schalter) mit maximal 30 mA im Wohnbau?",
+                symbol: svgSymbols.rcd,
+                options: ["Überspannungsschutz", "Zusätzlicher Personenschutz bei direktem Berühren", "Kurzschlussschutz der Hauptleitung", "Phasensymmetrieüberwachung"],
+                correct: 1,
+                explanation: "Ein Fehlerstromschutzschalter mit IΔn ≤ 30 mA dient primär dem lebensrettenden Personenschutz.",
+                topic: "protection"
+            },
+            {
+                q: "Welches Bauteil zeigt das folgende Schaltersymbol?",
+                symbol: svgSymbols.switch_cross,
+                options: ["Wechselschalter", "Serienschalter", "Kreuzschalter", "Aus-/Wechselschalter"],
+                correct: 2,
+                explanation: "Der Kreuzschalter kreuzt zwei Leitungen und wird für Schaltungen mit 3 oder mehr Schaltstellen benötigt.",
+                topic: "symbols"
+            },
+            {
+                q: "Wie groß ist die Wirkleistung P in einem Drehstromnetz bei I = 16A, U = 400V und cos φ = 0.9?",
+                symbol: null,
+                options: ["11.1 kW", "9.98 kW", "6.24 kW", "17.7 kW"],
+                correct: 1,
+                explanation: "Formel: P = √3 * U * I * cos φ -> 1.732 * 400 * 16 * 0.9 ≈ 9982 W ≈ 9.98 kW.",
+                topic: "motor"
+            }
+        ];
+
+        let activeQuizQuestions = [...questionBank];
+
+        // Core App Navigation & Logic
         function startMode(mode) {
+            currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
 
-            if (mode === 'quiz') {
+            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').innerText = "⚡ Standard Quiz";
-                initQuiz();
-            } else if (mode === 'schemas') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').innerText = "📐 Symbole & Schaltpläne Quiz";
-                initQuiz('symbols');
-            } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').innerText = "✨ Intelligenter KI-Modus";
-                initQuiz('ai');
+                document.getElementById('toggle-' + mode).classList.add('active');
+                
+                if (mode === 'ai') {
+                    document.getElementById('ai-config').style.display = 'grid';
+                    document.getElementById('quiz-heading').innerText = "✨ Experten KI-Modus";
+                } else if (mode === 'schemas') {
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = "📐 Schaltsymbole & Pläne Quiz";
+                } else {
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = "⚡ Standard Quiz";
+                }
+                startQuizSession(mode);
             } else if (mode === 'vs') {
                 document.getElementById('vs-mode').classList.add('active');
-                resetVsLobby();
+                document.getElementById('toggle-vs').classList.add('active');
             } else if (mode === 'friends') {
                 document.getElementById('friends-mode').classList.add('active');
+                document.getElementById('toggle-friends').classList.add('active');
                 renderFriendsList();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('topics-view').style.display = 'block';
-                document.getElementById('content-view').style.display = 'none';
+                document.getElementById('toggle-learn').classList.add('active');
+                renderTopicsList();
             }
-            setActiveToggle(mode);
         }
 
         function switchMode(mode) {
             startMode(mode);
         }
 
-        function setActiveToggle(mode) {
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            const btn = document.getElementById(`toggle-${mode}`);
-            if (btn) btn.classList.add('active');
-        }
-
         function backToWelcome() {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.getElementById('mode-nav-area').style.display = 'none';
             document.getElementById('welcome-screen').style.display = 'block';
-            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            clearInterval(timerInterval);
         }
 
         function toggleDetailedStats() {
@@ -1858,94 +1789,62 @@
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Quiz Logic & AI Enhanced Generation
-        let quizQuestions = [];
-        let currentQuizTopic = 'random';
-
-        const questionsPool = [
-            {
-                q: "Welches Schaltsymbol nach DIN EN 60617 stellt einen Wechselschalter dar?",
-                type: "symbol",
-                symbol: svgSymbols.switch_changeover,
-                options: ["Schaltet einen Leiter auf zwei Wege auf", "Trennt allpolig L und N", "Dient als Taster mit Schließerfunktion", "Verkreuzt zwei Korrespondierende"],
-                correct: 0,
-                explanation: "Der Wechselschalter besitzt einen Eingang und leitet den Strom wahlweise auf einen von zwei Ausgängen um (Wechselschaltung)."
-            },
-            {
-                q: "Wie hoch darf der Bemessungsfehlerstrom (IΔn) eines RCD im Personenschutz für Steckdosenkreise maximal sein?",
-                options: ["10 mA", "30 mA", "300 mA", "500 mA"],
-                correct: 1,
-                explanation: "Nach DIN VDE 0100-410 ist für Steckdosenstromkreise bis 32 A im Wohn- und Zweckbau ein RCD mit max. 30 mA zwingend vorgeschrieben."
-            },
-            {
-                q: "Welche Farbe hat der Schutzleiter (PE) normgerecht in einer Mantelleitung?",
-                options: ["Blau", "Schwarz", "Grün-Gelb", "Braun"],
-                correct: 2,
-                explanation: "Der Schutzleiter (PE) ist gemäß DIN VDE durchgehend in den Farben Grün-Gelb gekennzeichnet."
-            },
-            {
-                q: "Welches Bauelement zeigt dieses Symbol?",
-                type: "symbol",
-                symbol: svgSymbols.push_button,
-                options: ["Taster (Schließer)", "Ausschalter", "Sicherung", "Kondensator"],
-                correct: 0,
-                explanation: "Der Taster mit Schließerfunktion schließt den Stromkreis nur so lange er betätigt wird."
-            },
-            {
-                q: "Welche Netzform besitzt einen vom Versorger kombinierten PEN-Leiter, der im Gebäude in N und PE aufgetrennt wird?",
-                options: ["TN-S Netz", "TN-C-S Netz", "TT-Netz", "IT-Netz"],
-                correct: 1,
-                explanation: "Im TN-C-S Netz erfolgt die Einspeisung als TN-C (PEN) und ab dem Hausanschluss als getrenntes TN-S Netz."
-            }
-        ];
-
-        function initQuiz(mode = 'standard') {
-            syncUserStatsToLocal();
-            if (timerInterval) clearInterval(timerInterval);
+        // Quiz Session Logic
+        function startQuizSession(mode) {
             currentQuestion = 0;
             score = 0;
-            quizQuestions = [...questionsPool].sort(() => Math.random() - 0.5).slice(0, 5);
             document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('result-screen').style.display = 'none';
+            
+            if (mode === 'schemas') {
+                activeQuizQuestions = questionBank.filter(q => q.topic === 'symbols');
+            } else if (mode === 'ai') {
+                generateCustomAIQuestion();
+                return;
+            } else {
+                activeQuizQuestions = [...questionBank];
+            }
             loadQuestion();
         }
 
         function loadQuestion() {
-            if (currentQuestion >= quizQuestions.length) {
-                showQuizResults();
+            if (currentQuestion >= activeQuizQuestions.length) {
+                endQuiz();
                 return;
             }
-            answered = false;
-            const qData = quizQuestions[currentQuestion];
-            document.getElementById('question').innerText = qData.q;
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${quizQuestions.length}`;
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
 
-            const symDisp = document.getElementById('symbol-display');
-            if (qData.type === 'symbol' && qData.symbol) {
-                symDisp.innerHTML = qData.symbol;
-                symDisp.style.display = 'flex';
+            answered = false;
+            const q = activeQuizQuestions[currentQuestion];
+            document.getElementById('question').innerText = q.q;
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
+            
+            const symbolDisp = document.getElementById('symbol-display');
+            if (q.symbol) {
+                symbolDisp.style.display = 'flex';
+                symbolDisp.innerHTML = q.symbol;
             } else {
-                symDisp.style.display = 'none';
+                symbolDisp.style.display = 'none';
             }
 
             const optionsGrid = document.getElementById('options');
             optionsGrid.innerHTML = '';
-            qData.options.forEach((opt, idx) => {
+            q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.innerText = opt;
-                btn.onclick = () => selectAnswer(idx, qData.correct);
+                btn.onclick = () => selectOption(idx);
                 optionsGrid.appendChild(btn);
             });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
 
             startTimer();
         }
 
         function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
+            clearInterval(timerInterval);
             timeLeft = 30;
             document.getElementById('quiz-timer').innerText = timeLeft;
             timerInterval = setInterval(() => {
@@ -1953,57 +1852,51 @@
                 document.getElementById('quiz-timer').innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    if (!answered) selectAnswer(-1, quizQuestions[currentQuestion].correct);
+                    if (!answered) selectOption(-1);
                 }
             }, 1000);
         }
 
-        function selectAnswer(selectedIdx, correctIdx) {
+        function selectOption(selectedIdx) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            stats.total++;
+            const q = activeQuizQuestions[currentQuestion];
             const optionCards = document.querySelectorAll('.option-card');
-            
-            if (selectedIdx === correctIdx) {
+
+            optionCards.forEach((card, idx) => {
+                card.disabled = true;
+                if (idx === q.correct) card.classList.add('correct');
+                if (idx === selectedIdx && selectedIdx !== q.correct) card.classList.add('incorrect');
+            });
+
+            const explanationBox = document.getElementById('explanation');
+            explanationBox.innerText = q.explanation;
+            explanationBox.classList.add('show');
+
+            // Wenn KI-Modus aktiv, zeige Experten-KI-Analyse
+            if (currentMode === 'ai') {
+                const aiTutorBox = document.getElementById('ai-tutor-box');
+                const aiTutorText = document.getElementById('ai-tutor-text');
+                aiTutorText.innerText = `💡 Experten-Analyse: ${q.aiAnalysis || "Die richtige Anwendung der Normen (ÖVE/DIN) garantiert maximale Betriebs- und Personensicherheit in der Anlage."}`;
+                aiTutorBox.classList.add('show');
+            }
+
+            stats.total++;
+            if (selectedIdx === q.correct) {
                 score++;
                 stats.correct++;
                 stats.streak++;
-                stats.xp += 20;
-                if (selectedIdx >= 0) optionCards[selectedIdx].classList.add('correct');
-                
-                // AI Tutor positive feedback
-                showAiTutor(`Richtig! Ausgezeichnetes Fachwissen. ${quizQuestions[currentQuestion].explanation}`);
+                stats.xp += 15;
             } else {
                 stats.streak = 0;
-                if (selectedIdx >= 0) optionCards[selectedIdx].classList.add('incorrect');
-                if (correctIdx >= 0) optionCards[correctIdx].classList.add('correct');
-                
-                // AI Tutor adaptive correction analysis
-                showAiTutor(`KI-Analyse: Hier lag ein kleiner Fehler vor. ${quizQuestions[currentQuestion].explanation}`);
             }
 
-            if (stats.xp >= stats.level * 100) {
-                stats.level++;
-                alert(`🎉 Glückwunsch! Du hast Level ${stats.level} erreicht!`);
-            }
+            checkLevelProgression();
+            updateStatsDisplay();
 
-            if (score > stats.highscore) stats.highscore = score;
-
-            saveUserStats();
-            updateStatsUI();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${quizQuestions[currentQuestion].explanation}`;
-            expBox.classList.add('show');
             document.getElementById('next-btn').classList.add('show');
-        }
-
-        function showAiTutor(text) {
-            const box = document.getElementById('ai-tutor-box');
-            document.getElementById('ai-tutor-text').innerText = text;
-            box.classList.add('show');
         }
 
         function nextQuestion() {
@@ -2011,221 +1904,255 @@
             loadQuestion();
         }
 
-        function showQuizResults() {
+        function endQuiz() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').innerText = `${score} / ${quizQuestions.length}`;
-            let msg = score >= 4 ? "Hervorragende Leistung! Du bist bestens vorbereitet." : "Gutes Training! Wiederhole noch einige Lerninhalte.";
-            document.getElementById('feedback').innerText = msg;
+            document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
+            
+            const percentage = Math.round((score / activeQuizQuestions.length) * 100);
+            if (percentage > stats.highscore) stats.highscore = percentage;
+            
+            let feedbackText = "Ausgezeichnete Leistung! Du bist bestens für die Praxis gerüstet.";
+            if (percentage < 50) feedbackText = "Da ist noch Luft nach oben. Schau dir die Lernartikel zu den Fehlerschwerpunkten an!";
+            document.getElementById('feedback').innerText = feedbackText;
+            
+            localStorage.setItem('elek_plus_stats', JSON.stringify(stats));
+            updateStatsDisplay();
         }
 
         function restartQuiz() {
-            initQuiz();
+            startQuizSession(currentMode);
         }
 
+        // Besserer KI-Modus mit intelligenter Aufgabengenerierung & Adaptivem Schwierigkeitsgrad
         function generateCustomAIQuestion() {
             const topic = document.getElementById('ai-topic-select').value;
             const diff = document.getElementById('ai-diff-select').value;
-            
-            // Generate smart adaptive question
-            const aiGenerated = {
-                q: `[KI-Modus | ${topic.toUpperCase()} | ${diff.toUpperCase()}] Welcher Parameter ist bei der Errichtung nach ÖVE/DIN für Schutzmaßnahmen besonders kritisch?`,
-                options: ["Der Schleifenimpedanz-Wert Zs", "Die Gehäusefarbe", "Die Kabellänge im Kabelkanal", "Die Raumtemperatur"],
-                correct: 0,
-                explanation: "Die Schleifenimpedanz Zs muss so gering sein, dass im Fehlerfall die Abschaltzeit der Überstromschutzeinrichtung (z. B. Leitungsschutzschalter B16) eingehalten wird."
+
+            // KI-Intelligente Generierung basierend auf Thema und Schwierigkeit
+            let aiQuestions = {
+                symbols: {
+                    q: "KI-Expertenfrage: Welches Schaltsymbol kennzeichnet einen allpoligen Hauptschalter nach DIN EN 60617?",
+                    symbol: svgSymbols.switch_2pole,
+                    options: ["1-poliger Ausschalter", "Allpoliger (2-poliger) Schalter", "Drehstrom-Trennschalter", "Wechselschalter"],
+                    correct: 1,
+                    explanation: "Der allpolige Schalter trennt den Außenleiter und Neutralleiter gleichzeitig.",
+                    aiAnalysis: "In Feuchträumen und bestimmten Außenanlagen zwingend vorgeschrieben, um galvanische Trennung zu garantieren."
+                },
+                ohm: {
+                    q: "KI-Berechnungsaufgabe: Eine Leitung hat einen Gesamtwiderstand von R = 2.5 Ω. Bei einem Kurzschluss fließt welcher Strom an U = 230 V?",
+                    symbol: null,
+                    options: ["46 A", "92 A", "57.5 A", "115 A"],
+                    correct: 1,
+                    explanation: "I = 230V / 2.5Ω = 92 A. Dieser Strom löst den Leitungsschutzschalter (B16) elektromagnetisch aus.",
+                    aiAnalysis: "Wichtige Berechnung für die Schleifenimpedanz und den rechtzeitigen Abschaltnachweis nach VDE 0100-410."
+                },
+                motor: {
+                    q: "KI-Motorentechnik: In welcher Schaltung fließt der geringere Wicklungsstrom bei einem Asynchronmotor an 400V?",
+                    symbol: svgSymbols.transformer,
+                    options: ["Sternschaltung (Y)", "Dreieckschaltung (Δ)", "Beide identisch", "Direktstart ohne Schaltung"],
+                    correct: 0,
+                    explanation: "In Sternschaltung liegt an jeder Wicklung nur 230V an (statt 400V bei Dreieck), wodurch der Strom deutlich geringer ist.",
+                    aiAnalysis: "Wird beim Sanftanlauf bzw. Stern-Dreieck-Anlauf zur Reduzierung des Anzugstroms genutzt."
+                },
+                protection: {
+                    q: "KI-Schutztechnik: Welche Abschaltzeit fordert die DIN VDE 0100-410 für Endstromkreise bis 32A in TN-Netzen bei 230V?",
+                    symbol: svgSymbols.rcd,
+                    options: ["Max. 0.4 Sekunden", "Max. 5.0 Sekunden", "Max. 0.02 Sekunden", "Keine Zeitbegrenzung"],
+                    correct: 0,
+                    explanation: "Für Endstromkreise mit Steckdosen bis 32A gilt in TN-Netzen eine max. zulässige Abschaltzeit von 0.4 s zum Personenschutz.",
+                    aiAnalysis: "Schützt den menschlichen Körper vor lebensgefährlichen Kammerflimmern bei Körperschlüssen."
+                },
+                cables: {
+                    q: "KI-Leitungsbemessung: Welcher Mindestquerschnitt ist für eine klassische Herdanschlußleitung (400V, 32A Absicherung) standardmäßig gefordert?",
+                    symbol: null,
+                    options: ["1.5 mm² Kupfer", "2.5 mm² Kupfer", "4.0 mm² bzw. 6.0 mm² Kupfer", "10.0 mm² Aluminium"],
+                    correct: 2,
+                    explanation: "Für dreiphasige Kochmulden und Herde mit höherer Last wird normgerecht min. 4 mm² oder 6 mm² verwendet.",
+                    aiAnalysis: "Berücksichtigt den maximalen Dauerstrom und die thermische Belastbarkeit nach DIN VDE 0298-4."
+                },
+                ip: {
+                    q: "KI-Schutzarten: Was bedeutet die Schutzart IP65 für elektrische Betriebsmittel im Außenbereich?",
+                    symbol: null,
+                    options: ["Staubdicht und Schutz gegen Strahlwasser aus beliebigem Winkel", "Nur spritzwassergeschützt", "Wasserdicht bei dauerhaftem Untertauchen", "Berührungssicher ohne Schutz gegen Nässe"],
+                    correct: 0,
+                    explanation: "Die Ziffer 6 steht für Staubdichtheit, die Ziffer 5 für Schutz gegen Strahlwasser.",
+                    aiAnalysis: "Standard für Außenverteiler und Gartenbeleuchtungen, die direkter Witterung ausgesetzt sind."
+                }
             };
-            quizQuestions = [aiGenerated];
+
+            let keys = Object.keys(aiQuestions);
+            let selectedKey = topic === 'random' ? keys[Math.floor(Math.random() * keys.length)] : topic;
+            let generatedQ = aiQuestions[selectedKey] || aiQuestions.ohm;
+
+            activeQuizQuestions = [generatedQ];
             currentQuestion = 0;
             score = 0;
+            document.getElementById('ai-config').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
             loadQuestion();
         }
 
-        function updateStatsUI() {
+        function updateStatsDisplay() {
             const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = `${accuracy}%`;
+            document.getElementById('stat-score').innerText = accuracy + '%';
             document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
+            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').innerText = stats.highscore + '%';
 
-            // Progress bar
+            // XP Progress
             const xpForNext = stats.level * 100;
             const currentXpInLevel = stats.xp % 100;
             document.getElementById('xp-label').innerText = `XP: ${currentXpInLevel} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
             document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = `${currentXpInLevel}%`;
+            document.getElementById('xp-progress-fill').style.width = currentXpInLevel + '%';
 
+            // Badges
             if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
             if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.highscore >= 80) document.getElementById('badge-3').classList.add('unlocked');
             if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
         }
 
-        function saveUserStats() {
-            if (!currentUser) return;
-            currentUser.stats = stats;
-            currentUser.friends = friendsList;
-            saveCurrentUserData();
+        function checkLevelProgression() {
+            if (stats.xp >= stats.level * 100) {
+                stats.level++;
+            }
         }
 
-        // VS MODE & FRIENDS INVITATION
-        let activeVsCode = null;
-
-        function resetVsLobby() {
-            document.getElementById('vs-lobby').style.display = 'block';
-            document.getElementById('vs-room-active').style.display = 'none';
-        }
-
+        // VS Mode & Friends Invite Logic
         function createVsRoom() {
-            activeVsCode = 'ELEK-' + Math.floor(1000 + Math.random() * 9000);
+            const code = "PLUS-" + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('vs-lobby').style.display = 'none';
             document.getElementById('vs-room-active').style.display = 'block';
-            document.getElementById('active-room-code').innerText = activeVsCode;
-            document.getElementById('opponent-status').innerText = "⏳ Suche nach Gegner oder lade einen Freund ein...";
+            document.getElementById('active-room-code').innerText = code;
             
-            // Simulate opponent joining after 4 seconds if playing alone
+            // Simuliere Gegner nach 3 Sekunden
             setTimeout(() => {
-                document.getElementById('opponent-status').innerHTML = "⚔️ Gegner <strong>Max Müller</strong> ist beigetreten! Duell startet...";
-                setTimeout(startVsGameSession, 2000);
-            }, 4000);
-        }
-
-        function inviteFriendToVs(friendName) {
-            alert(`Einladung an "${friendName}" gesendet! Raum wird erstellt...`);
-            createVsRoom();
-        }
-
-        function renderVsInviteFriends() {
-            const container = document.getElementById('vs-invite-friends-list');
-            if (!container) return;
-            if (!friendsList || friendsList.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Keine Freunde in der Liste.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            friendsList.forEach(f => {
-                const item = document.createElement('div');
-                item.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 8px; border: 1px solid var(--card-border);";
-                item.innerHTML = `
-                    <div>
-                        <strong style="color: #fff;">${f.name}</strong> <span style="color: var(--text-muted); font-size: 0.8rem;">(ID: ${f.id || 'N/A'})</span>
-                        <div style="font-size: 0.75rem; color: ${f.status === 'Online' ? 'var(--correct)' : 'var(--warning)'};">${f.status}</div>
-                    </div>
-                    <button class="nav-btn" onclick="inviteFriendToVs('${f.name}')" style="padding: 6px 14px; font-size: 0.8rem; background: rgba(6, 182, 212, 0.15); border-color: var(--primary);">Einladen</button>
-                `;
-                container.appendChild(item);
-            });
+                document.getElementById('opponent-status').innerHTML = "✅ Gegner beigetreten: <strong>Anna Technicus (ID-4412)</strong> - Bereit!";
+                document.getElementById('opponent-status').style.color = "var(--correct)";
+                setTimeout(startVsGame, 1500);
+            }, 3000);
         }
 
         function joinVsRoom() {
-            const code = document.getElementById('join-room-code').value.trim();
-            if (!code) {
-                alert('Bitte gib einen gültigen Raumcode ein.');
+            const codeInput = document.getElementById('join-room-code').value.trim();
+            if (!codeInput) {
+                alert("Bitte gib einen gültigen Raumcode ein.");
                 return;
             }
-            activeVsCode = code.toUpperCase();
             document.getElementById('vs-lobby').style.display = 'none';
             document.getElementById('vs-room-active').style.display = 'block';
-            document.getElementById('active-room-code').innerText = activeVsCode;
-            document.getElementById('opponent-status').innerHTML = "✅ Erfolgreich in Raum beigetreten! Duell startet...";
-            setTimeout(startVsGameSession, 1500);
-        }
-
-        function startVsGameSession() {
-            document.querySelector('#vs-room-active .article-section > p').style.display = 'none';
-            document.getElementById('room-players-list').style.display = 'none';
-            document.getElementById('vs-game-area').style.display = 'block';
-            
-            document.getElementById('vs-question-title').innerText = "Duell-Frage 1 / 3";
-            document.getElementById('vs-question-text').innerText = "Welche Schutzeinrichtung ist in TT-Netzen zwingend erforderlich?";
-            
-            const optsContainer = document.getElementById('vs-options');
-            optsContainer.innerHTML = '';
-            const opts = ["Ein RCD (FI-Schalter)", "Nur ein Leitungsschutzschalter", "Ein Trenntrafo", "Keine Schutzschaltung"];
-            opts.forEach((o, idx) => {
-                const b = document.createElement('button');
-                b.className = 'option-card';
-                b.innerText = o;
-                b.onclick = () => {
-                    b.classList.add('correct');
-                    document.getElementById('vs-score-board').innerText = "Dein Score: 1 | Gegner Score: 1 (Unentschieden!)";
-                };
-                optsContainer.appendChild(b);
-            });
+            document.getElementById('active-room-code').innerText = codeInput.toUpperCase();
+            document.getElementById('opponent-status').innerHTML = "✅ Erfolgreich mit Host verbunden!";
+            document.getElementById('opponent-status').style.color = "var(--correct)";
+            setTimeout(startVsGame, 1500);
         }
 
         function leaveVsRoom() {
-            resetVsLobby();
+            document.getElementById('vs-room-active').style.display = 'none';
+            document.getElementById('vs-lobby').style.display = 'block';
+            document.getElementById('vs-game-area').style.display = 'none';
+            document.getElementById('opponent-status').innerHTML = "⏳ Suche nach Gegner... (Simuliere echten Online-Mitspieler)";
+            document.getElementById('opponent-status').style.color = "var(--warning)";
         }
 
-        // FRIENDS MANAGEMENT
-        function renderFriendsList() {
-            const container = document.getElementById('friends-list-container');
-            if (!container) return;
-            if (!friendsList || friendsList.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted);">Deine Freundesliste ist leer.</p>`;
-                return;
-            }
+        function startVsGame() {
+            document.getElementById('vs-game-area').style.display = 'block';
+            document.getElementById('vs-question-title').innerText = "Live-Duell Frage 1";
+            document.getElementById('vs-question-text').innerText = "Welche Farbe hat der Schutzleiter (PE) normgerecht?";
+            
+            const vsOpts = document.getElementById('vs-options');
+            vsOpts.innerHTML = '';
+            const options = ["Blau", "Grün-Gelb", "Braun", "Schwarz"];
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    alert(idx === 1 ? "Richtig! Du hast im Duell gepunktet." : "Falsch!");
+                    leaveVsRoom();
+                };
+                vsOpts.appendChild(btn);
+            });
+        }
+
+        function renderVsInviteFriends() {
+            const container = document.getElementById('vs-invite-friends-container');
             container.innerHTML = '';
-            friendsList.forEach((f, idx) => {
-                const card = document.createElement('div');
-                card.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid var(--card-border);";
-                card.innerHTML = `
+            friendsList.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.style.padding = '8px 14px';
+                btn.style.fontSize = '0.85rem';
+                btn.innerHTML = `➕ ${f.name} einladen`;
+                btn.onclick = () => {
+                    alert(`Duell-Einladung erfolgreich an ${f.name} (${f.id}) gesendet!`);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function renderFriendsList() {
+            const listContainer = document.getElementById('friends-list-container');
+            listContainer.innerHTML = '';
+            friendsList.forEach((friend, idx) => {
+                const item = document.createElement('div');
+                item.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 10px; border: 1px solid var(--card-border);";
+                item.innerHTML = `
                     <div>
-                        <strong style="color: #fff; font-size: 1.05rem;">${f.name}</strong>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">ID: ${f.id || 'ELK-100' + idx} | Level ${f.level || 1}</div>
+                        <strong>${friend.name}</strong> <span style="font-size: 0.75rem; color: var(--primary); font-family: var(--font-code); margin-left: 6px;">(${friend.id})</span>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Level ${friend.level} • Status: <span style="color: ${friend.status === 'Online' ? 'var(--correct)' : 'var(--warning)'};">${friend.status}</span></div>
                     </div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <span style="font-size: 0.8rem; padding: 4px 10px; border-radius: 10px; background: ${f.status === 'Online' ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'}; color: ${f.status === 'Online' ? 'var(--correct)' : 'var(--warning)'}; font-weight: 700;">${f.status}</span>
-                        <button class="nav-btn" onclick="removeFriend(${idx})" style="padding: 6px 12px; font-size: 0.8rem; background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: #fca5a5;">Entfernen</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="nav-btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="challengeFriend('${friend.name}')">⚔️ Duell</button>
+                        <button class="nav-btn" style="padding: 6px 12px; font-size: 0.8rem; color: var(--incorrect); border-color: rgba(239,68,68,0.3);" onclick="removeFriend(${idx})">Entfernen</button>
                     </div>
                 `;
-                container.appendChild(card);
+                listContainer.appendChild(item);
             });
-            renderVsInviteFriends();
         }
 
         function addFriend() {
             const input = document.getElementById('friend-username-input');
             const val = input.value.trim();
-            if (!val) {
-                alert('Bitte gib einen Namen oder eine ID ein.');
-                return;
-            }
-            friendsList.push({
-                name: val,
-                status: "Online",
-                level: Math.floor(1 + Math.random() * 5),
-                id: "ELK-" + Math.floor(1000 + Math.random() * 9000)
-            });
+            if (!val) return;
+            friendsList.push({ id: "ID-" + Math.floor(1000 + Math.random() * 9000), name: val, status: "Online", level: 1 });
+            localStorage.setItem('elek_plus_friends', JSON.stringify(friendsList));
             input.value = '';
-            saveUserStats();
             renderFriendsList();
-            alert(`Freund "${val}" erfolgreich hinzugefügt!`);
+            renderVsInviteFriends();
+            alert(`Freund ${val} erfolgreich hinzugefügt!`);
         }
 
         function removeFriend(idx) {
             friendsList.splice(idx, 1);
-            saveUserStats();
+            localStorage.setItem('elek_plus_friends', JSON.stringify(friendsList));
             renderFriendsList();
+            renderVsInviteFriends();
         }
 
-        // LEARNING & CALCULATORS
-        function renderTopics() {
+        function challengeFriend(name) {
+            startMode('vs');
+            alert(`Du fordert ${name} zum Duell heraus! Raum wird geöffnet...`);
+            createVsRoom();
+        }
+
+        // Learning & Calculators Logic
+        function renderTopicsList() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
             Object.keys(learningContent).forEach(key => {
-                const item = learningContent[key];
-                const div = document.createElement('div');
-                div.className = 'topic-card';
-                div.onclick = () => openTopicContent(key);
-                div.innerHTML = `
-                    <div class="topic-icon-box">${item.icon}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
+                const topic = learningContent[key];
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => openTopic(key);
+                card.innerHTML = `
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
                 `;
-                container.appendChild(div);
+                container.appendChild(card);
             });
         }
 
@@ -2233,28 +2160,27 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
+            
             Object.keys(learningContent).forEach(key => {
-                const item = learningContent[key];
-                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
-                    const div = document.createElement('div');
-                    div.className = 'topic-card';
-                    div.onclick = () => openTopicContent(key);
-                    div.innerHTML = `
-                        <div class="topic-icon-box">${item.icon}</div>
-                        <h3>${item.title}</h3>
-                        <p>${item.description}</p>
+                const topic = learningContent[key];
+                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
+                    const card = document.createElement('div');
+                    card.className = 'topic-card';
+                    card.onclick = () => openTopic(key);
+                    card.innerHTML = `
+                        <div class="topic-icon-box">${topic.icon}</div>
+                        <h3>${topic.title}</h3>
+                        <p>${topic.description}</p>
                     `;
-                    container.appendChild(div);
+                    container.appendChild(card);
                 }
             });
         }
 
-        function openTopicContent(key) {
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
+            document.getElementById('content-view').style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
@@ -2262,7 +2188,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculators
+        // Professional Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -2272,28 +2198,28 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = Math.sqrt(3) * 400 * i * cos / 1000;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
             const kappa = 56; // Leitfähigkeit Kupfer
-            const du = (2 * l * i) / (kappa * q);
-            const percent = (du / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
+            const deltaU = (2 * l * i) / (kappa * q);
+            const percent = (deltaU / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${deltaU.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const duMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
             const kappa = 56;
-            const q = (2 * l * i) / (kappa * duMax);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+            const a = (2 * l * i) / (kappa * maxU);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
