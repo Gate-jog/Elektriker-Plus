@@ -1802,60 +1802,65 @@
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-schemas').classList.add('active');
                 document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = '📐 Symbole & Schaltpläne';
-                quizData = initialQuizData.filter(q => q.symbol);
+                document.getElementById('quiz-heading').textContent = '📐 Schaltsymbole & Schaltplan Quiz';
+                quizData = shuffleArray(initialQuizData.filter(q => q.symbol)).slice(0, 5);
                 restartQuizState();
             } else if (mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = '✨ KI Generierter Test';
+                document.getElementById('quiz-heading').textContent = '✨ KI Modus (Adaptiv)';
                 generateCustomAIQuestion();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
                 document.getElementById('toggle-learn').classList.add('active');
+                backToTopics();
             }
         }
 
-        // Quiz Handling
+        // Quiz Logic
         function restartQuizState() {
             currentQuestion = 0;
             score = 0;
-            document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('result-screen').style.display = 'none';
-            showQuestion();
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
         }
 
-        function showQuestion() {
-            answered = false;
+        function loadQuestion() {
             clearInterval(timerInterval);
-            startTimer();
+            answered = false;
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+            
+            if (currentQuestion >= quizData.length) {
+                showQuizResult();
+                return;
+            }
 
             const q = quizData[currentQuestion];
             document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
             document.getElementById('question').textContent = q.question;
-            
-            const symDisplay = document.getElementById('symbol-display');
+
+            const symDisp = document.getElementById('symbol-display');
             if (q.symbol) {
-                symDisplay.style.display = 'flex';
-                symDisplay.innerHTML = q.symbol;
+                symDisp.style.display = 'flex';
+                symDisp.innerHTML = q.symbol;
             } else {
-                symDisplay.style.display = 'none';
+                symDisp.style.display = 'none';
             }
 
-            const optGrid = document.getElementById('options');
-            optGrid.innerHTML = '';
-
+            const optContainer = document.getElementById('options');
+            optContainer.innerHTML = '';
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.textContent = opt;
                 btn.onclick = () => selectOption(idx);
-                optGrid.appendChild(btn);
+                optContainer.appendChild(btn);
             });
 
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
+            startTimer();
         }
 
         function startTimer() {
@@ -1866,141 +1871,124 @@
                 document.getElementById('quiz-timer').textContent = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    autoTimeOut();
+                    if (!answered) selectOption(-1);
                 }
             }, 1000);
         }
 
-        function selectOption(index) {
+        function selectOption(selectedIdx) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
             const q = quizData[currentQuestion];
-            const buttons = document.querySelectorAll('.option-card');
+            const opts = document.querySelectorAll('.option-card');
+
+            opts.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.answer) btn.classList.add('correct');
+                if (idx === selectedIdx && selectedIdx !== q.answer) btn.classList.add('incorrect');
+            });
 
             stats.total++;
-
-            if (index === q.answer) {
-                buttons[index].classList.add('correct');
+            if (selectedIdx === q.answer) {
                 score++;
                 stats.correct++;
-                stats.xp += 10;
-            } else {
-                buttons[index].classList.add('incorrect');
-                buttons[q.answer].classList.add('correct');
+                stats.xp += 20;
             }
 
-            if (stats.xp >= stats.level * 50) {
+            if (stats.xp >= stats.level * 100) {
                 stats.level++;
             }
 
+            if (score > stats.highscore) {
+                stats.highscore = score;
+            }
             updateStatsUI();
 
             const expBox = document.getElementById('explanation');
-            expBox.textContent = q.explanation;
-            expBox.classList.add('show');
-
-            document.getElementById('next-btn').classList.add('show');
-        }
-
-        function autoTimeOut() {
-            if (answered) return;
-            answered = true;
-            const q = quizData[currentQuestion];
-            const buttons = document.querySelectorAll('.option-card');
-            buttons[q.answer].classList.add('correct');
-
-            stats.total++;
-            updateStatsUI();
-
-            const expBox = document.getElementById('explanation');
-            expBox.textContent = "⏱️ Zeit abgelaufen! " + q.explanation;
+            expBox.innerHTML = `<strong>${selectedIdx === q.answer ? '✅ Richtig!' : '❌ Falsch!'}</strong><br>${q.explanation}`;
             expBox.classList.add('show');
             document.getElementById('next-btn').classList.add('show');
         }
 
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion < quizData.length) {
-                showQuestion();
-            } else {
-                showResult();
-            }
+            loadQuestion();
         }
 
-        function showResult() {
+        function showQuizResult() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').textContent = `${score} / ${quizData.length}`;
             
-            if (score > stats.highscore) {
-                stats.highscore = score;
-            }
-            updateStatsUI();
-
-            const fb = document.getElementById('feedback');
-            if (score === quizData.length) {
-                fb.textContent = "🏆 Hervorragend! Volle Punktzahl. Du bist ein echter Profi!";
-            } else if (score >= quizData.length / 2) {
-                fb.textContent = "👍 Gutes Ergebnis! Mit ein bisschen Übung sitzt alles perfekt.";
-            } else {
-                fb.textContent = "💡 Schau dir den Lernbereich zu den schwierigen Themen an und probiere es nochmal!";
-            }
+            let fb = "Ausgezeichnete Leistung! Du bist bestens vorbereitet.";
+            if (score < quizData.length * 0.6) fb = "Da gibt es noch Trainingsbedarf. Schau in den Lernbereich!";
+            document.getElementById('feedback').textContent = fb;
         }
 
         function restartQuiz() {
-            if (currentMode === 'quiz') {
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-            } else if (currentMode === 'schemas') {
-                quizData = initialQuizData.filter(q => q.symbol);
+            if (currentMode === 'ai') {
+                generateCustomAIQuestion();
+            } else {
+                quizData = shuffleArray([...quizData]);
+                restartQuizState();
             }
-            restartQuizState();
         }
 
-        // KI Generator Mockup
+        // KI Modus Generierung
         function generateCustomAIQuestion() {
             const topic = document.getElementById('ai-topic-select').value;
             const diff = document.getElementById('ai-diff-select').value;
             
-            const aiPools = {
+            // Simulierter KI-Generator basierend auf echten Fachfragen nach Themen
+            let aiQuestionsBank = {
                 symbols: [
-                    { question: "Welches Schaltsymbol wird hier dargestellt?", symbol: svgSymbols.switch_changeover, options: ["Ausschalter", "Wechselschalter", "Kreuzschalter", "Taster"], answer: 1, explanation: "Ein Wechselschalter schaltet einen Eingang wahlweise auf zwei verschiedene Ausgänge um." },
-                    { question: "Welches Bauteil zeigt dieses Symbol im Schaltplan?", symbol: svgSymbols.switch_cross, options: ["Serienschalter", "Taster", "Kreuzschalter", "2-poliger Schalter"], answer: 2, explanation: "Der Kreuzschalter verbindet zwei Leitungen gekreuzt und wird für Schaltungen ab 3 Stellen benötigt." }
+                    { question: "Welches Bauteil drückt dieses Symbol aus?", symbol: svgSymbols.diode, options: ["Widerstand", "Kondensator", "Diode", "Transformator"], answer: 2, explanation: "Das Dreieck mit senkrechter Balkenbegrenzung ist das Standardsymbol für eine Diode." },
+                    { question: "Welche Funktion hat ein Öffner-Taster im Steuerstromkreis?", symbol: svgSymbols.push_button_nc, options: ["Schließt bei Betätigung den Strom", "Unterbricht bei Betätigung den Strom", "Schaltet dauerhaft um", "Dient als Motorschutz"], answer: 1, explanation: "Ein Öffner-Taster unterbricht im betätigten Zustand den Stromfluss." }
                 ],
                 ohm: [
-                    { question: "Ein Verbraucher hat bei 230 V einen Widerstand von 46 Ω. Wie groß ist der Strom I?", options: ["2 A", "5 A", "10 A", "50 A"], answer: 1, explanation: "Nach dem Ohmschen Gesetz: I = U / R = 230 V / 46 Ω = 5 A." },
-                    { question: "Welche Leistung P nimmt ein Heizwiderstand bei 230 V und 10 A auf?", options: ["2,3 kW", "230 W", "23 kW", "460 W"], answer: 0, explanation: "P = U × I = 230 V × 10 A = 2300 W = 2,3 kW." }
+                    { question: "Ein Verbraucher hat an 230 V einen Widerstand von 46 Ω. Welcher Strom fließt?", options: ["2 A", "5 A", "10 A", "23 A"], answer: 1, explanation: "Nach dem Ohmschen Gesetz: I = U / R = 230 V / 46 Ω = 5 A." },
+                    { question: "Welche elektrische Leistung setzt ein Heizstab bei 230 V und 10 A um?", options: ["1.15 kW", "2.30 kW", "4.60 kW", "23.0 kW"], answer: 1, explanation: "P = U × I = 230 V × 10 A = 2300 W = 2.30 kW." }
+                ],
+                motor: [
+                    { question: "Wie ist das Drehfeld bei einem Linkslauf an einer CEE-Steckdose zu erzeugen?", options: ["L1 und L2 tauschen", "L1 und N tauschen", "PE und N tauschen", "Keine Änderung nötig"], answer: 0, explanation: "Durch das Vertauschen von zwei beliebigen Außenleitern (z.B. L1 und L2) kehrt sich das Drehfeld um." }
                 ],
                 protection: [
-                    { question: "Welche Abschaltzeit ist für Endstromkreise im TN-Netz bis 63 A bei 230 V vorgeschrieben?", options: ["0,1 Sekunden", "0,2 Sekunden", "0,4 Sekunden", "5,0 Sekunden"], answer: 2, explanation: "Nach DIN VDE 0100-410 beträgt die max. Abschaltzeit im Endstromkreis bis 63 A bei 230 V genau 0,4 s." },
-                    { question: "Welcher Schutzleiterquerschnitt ist bei Verlegung im Erdbereich ohne mechanischen Schutz mind. erforderlich (Cu)?", options: ["1,5 mm²", "2,5 mm²", "6,0 mm²", "10,0 mm²"], answer: 3, explanation: "Für Erder und Fundamenterder bzw. ungeführte PE im Erdreich werden mind. 10 mm² Cu gefordert." }
+                    { question: "Warum ist im TT-Netz ein RCD zwingend erforderlich?", options: ["Weil sonst der Kurzschlussstrom zu hoch ist", "Weil der Erdungswiderstand zu hoch für die automatische Abschaltung durch Sicherungen ist", "Weil kein Neutralleiter existiert", "Aus rein ästhetischen Gründen"], answer: 1, explanation: "Im TT-Netz limitiert der Erderwiderstand den Fehlerstrom, weshalb hochempfindliche RCDs (30mA) für die Abschaltung nötig sind." }
+                ],
+                cables: [
+                    { question: "Welcher maximale Spannungsfall ist in Niederspannungsanlagen vom Zähler zum Verbraucher meist zulässig?", options: ["1 %", "3 bis 4 %", "10 %", "20 %"], answer: 1, explanation: "Nach VDE/ÖVE liegt die Grenze für den Spannungsfall in Verbraucheranlagen bei max. 3% (Licht) bzw. 4%." }
+                ],
+                ip: [
+                    { question: "Was bedeutet die Schutzart IP65?", options: ["Vollständig berührungssicher & geschützt gegen Strahlwasser", "Nur tropfwassergeschützt", "Kurzschlussfest bis 65 Ampere", "Untertauchbar bis 5 Meter"], answer: 0, explanation: "IP6X = Staubdicht (vollständiger Berührungsschutz), IPX5 = Schutz gegen Strahlwasser aus allen Richtungen." }
                 ]
             };
 
-            const poolKey = aiPools[topic] ? topic : 'ohm';
-            const selectedPool = aiPools[poolKey];
-            const randomQ = selectedPool[Math.floor(Math.random() * selectedPool.length)];
-
-            quizData = [randomQ];
-            restartQuizState();
+            let pool = topic === 'random' ? [...aiQuestionsBank.symbols, ...aiQuestionsBank.ohm, ...aiQuestionsBank.motor, ...aiQuestionsBank.protection, ...aiQuestionsBank.cables, ...aiQuestionsBank.ip] : (aiQuestionsBank[topic] || aiQuestionsBank.ohm);
+            
+            quizData = shuffleArray(pool).slice(0, 1);
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
         }
 
-        // Learning & Search
+        // Lernbereich & Rechner
         function loadTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openTopic(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${item.icon}</div>
                     <h3>${item.title}</h3>
                     <p>${item.description}</p>
                 `;
+                card.onclick = () => openArticle(key);
                 container.appendChild(card);
             });
         }
@@ -2009,27 +1997,26 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
                 if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)) {
                     const card = document.createElement('div');
                     card.className = 'topic-card';
-                    card.onclick = () => openTopic(key);
                     card.innerHTML = `
                         <div class="topic-icon-box">${item.icon}</div>
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
                     `;
+                    card.onclick = () => openArticle(key);
                     container.appendChild(card);
                 }
             });
         }
 
-        function openTopic(key) {
+        function openArticle(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const contentView = document.getElementById('content-view');
-            contentView.style.display = 'block';
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -2037,10 +2024,9 @@
         function backToTopics() {
             document.getElementById('content-view').style.display = 'none';
             document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Rechner Logik
+        // Rechner Funktionen
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -2050,8 +2036,8 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
-            const p = Math.sqrt(3) * 400 * i * cos / 1000;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
             document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
@@ -2060,21 +2046,20 @@
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const a = parseFloat(document.getElementById('calc-q').value) || 1.5;
             const gamma = 56; // Kupfer
-            const deltaU = 2 * l * i / (gamma * a);
-            const pct = (deltaU / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const du = (2 * l * i) / (gamma * a);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 1;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
             const gamma = 56;
             const a = (2 * l * i) / (gamma * du);
             document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
 
-        // Utility
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
