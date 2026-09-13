@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -1220,7 +1221,7 @@
     </div>
 
     <script>
-        // State Management
+        // State Management with Persistent Storage
         let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
             topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
@@ -1232,6 +1233,7 @@
         let answered = false;
         let timerInterval = null;
         let timeLeft = 30;
+        let activeQuestions = [];
 
         // Vollständige SVG Schaltsymbole Library (Inkl. ALLEN Schalterarten nach DIN EN 60617)
         const svgSymbols = {
@@ -1252,7 +1254,67 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive präziser, korrigierter Grundlagen & Formeln
+        // Bank of Questions for Quiz and AI Mode
+        const questionBank = {
+            quiz: [
+                {
+                    q: "Welche Farbe hat der Schutzleiter (PE) in einer Festinstallation nach DIN VDE 0293-308?",
+                    options: ["Blau", "Grün-Gelb", "Schwarz", "Braun"],
+                    correct: 1,
+                    explanation: "Der Schutzleiter (PE) ist international und nach VDE eindeutig durch die Farbkennzeichnung grün-gelb genormt."
+                },
+                {
+                    q: "Welches Schaltsymbol zeigt einen Wechselschalter nach DIN EN 60617?",
+                    symbol: svgSymbols.switch_changeover,
+                    options: ["Ausschalter 1-polig", "Wechselschalter", "Kreuzschalter", "Taster"],
+                    correct: 1,
+                    explanation: "Der Wechselschalter leitet den Strom wahlweise auf einen von zwei Ausgängen weiter (gekennzeichnet durch die drei Anschlüsse)."
+                },
+                {
+                    q: "Wie hoch ist der max. Bemessungsfehlerstrom (IΔn) eines RCD (FI-Schalter) für den Personenschutz im Wohnbau?",
+                    options: ["10 mA", "30 mA", "300 mA", "500 A"],
+                    correct: 1,
+                    explanation: "30 mA ist der in Niederspannungsanlagen vorgeschriebene Grenzwert, bei dem ein RCD rechtzeitig vor lebensgefährlichen Kammerflimmern auslöst."
+                },
+                {
+                    q: "Welches Gesetz beschreibt den Zusammenhang U = R · I?",
+                    options: ["Faradaysches Gesetz", "Ohmsches Gesetz", "Kirchhoffsche Regel", "Coulombsches Gesetz"],
+                    correct: 1,
+                    explanation: "Das Ohmsche Gesetz besagt, dass die Spannung U proportional zum Produkt aus Stromstärke I und Widerstand R ist."
+                },
+                {
+                    q: "Was ist bei der 3. Sicherheitsregel ('Spannungsfreiheit feststellen') zu beachten?",
+                    options: ["Mit einem Phasenprüfer (Lügenstift)", "Mit einem zweipoligen Spannungsprüfer allpolig", "Mit den Fingerspitzen", "Es reicht der Sicherungsautomat"],
+                    correct: 1,
+                    explanation: "Es ist zwingend ein genormter zweipoliger Spannungsprüfer nach DIN EN 61243-3 zu verwenden und allpolig zu prüfen."
+                }
+            ],
+            schemas: [
+                {
+                    q: "Welches Schaltsymbol ist hier abgebildet?",
+                    symbol: svgSymbols.switch_cross,
+                    options: ["Serienschalter", "Kreuzschalter", "Wechselschalter", "Doppeltaster"],
+                    correct: 1,
+                    explanation: "Der Kreuzschalter besitzt vier Anschlüsse und kreuzt zwei Korrespondierende, um Schaltungen von &ge; 3 Stellen zu ermöglichen."
+                },
+                {
+                    q: "Welches Bauteil stellt dieses Symbol dar?",
+                    symbol: svgSymbols.push_button,
+                    options: ["Taster (Schließer)", "Ausschalter", "Sicherung", "Schütz"],
+                    correct: 0,
+                    explanation: "Das Symbol zeigt einen Schließer-Taster, der den Stromkreis nur während der manuellen Betätigung schließt."
+                },
+                {
+                    q: "Welches Bauteil ist durch dieses Symbol gekennzeichnet?",
+                    symbol: svgSymbols.rcd,
+                    options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Motorschutzschalter", "Zeitrelais"],
+                    correct: 1,
+                    explanation: "Das RCD-Symbol zeigt den Summenstromwandler und die Kennzeichnung IΔn für den Fehlerstromschutz."
+                }
+            ]
+        };
+
+        // Lerninhalte inklusive präziser, korrigierter Grundlagen & Formeln
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1798,299 +1860,193 @@
             }
         };
 
-        // Standard Fragenpool für Quiz & Experten-Modus
-        const questionPool = [
-            {
-                topic: "symbols",
-                question: "Welches Schaltsymbol nach DIN EN 60617 zeigt einen Wechselschalter?",
-                symbol: svgSymbols.switch_changeover,
-                options: ["Wechselschalter", "Ausschalter (1-polig)", "Kreuzschalter", "Serienschalter"],
-                correct: 0,
-                explanation: "Der Wechselschalter besitzt einen Eingang und zwei alternative Ausgänge, dargestellt durch zwei diagonale Kontaktwege."
-            },
-            {
-                topic: "symbols",
-                question: "Welche Funktion hat das dargestellte Schaltsymbol?",
-                symbol: svgSymbols.switch_cross,
-                options: ["Ausschalter", "Kreuzschalter", "Taster", "2-poliger Schalter"],
-                correct: 1,
-                explanation: "Der Kreuzschalter kreuzt zwei Korrespondierende und wird in Kreuzschaltungen (ab 3 Schaltstellen) eingesetzt."
-            },
-            {
-                topic: "ohm",
-                question: "Welcher Strom I fließt durch einen Heizwiderstand von R = 46 Ω an U = 230 V?",
-                symbol: null,
-                options: ["5.0 A", "10.5 A", "2.0 A", "4.6 A"],
-                correct: 0,
-                explanation: "Nach dem Ohmschen Gesetz: I = U / R = 230 V / 46 Ω = 5.0 A."
-            },
-            {
-                topic: "motor",
-                question: "Wie groß ist die Phasenverschiebung im symmetrischen Drehstromsystem zwischen den Außenleistern?",
-                symbol: null,
-                options: ["90°", "120°", "180°", "360°"],
-                correct: 1,
-                explanation: "Die drei Außenleiter L1, L2 und L3 eines Drehstromsystems sind zeitlich jeweils um 120° versetzt."
-            },
-            {
-                topic: "protection",
-                question: "Welcher max. Bemessungsfehlerstrom IΔn ist für RCDs zum Personenschutz im Wohnbereich vorgeschrieben?",
-                symbol: svgSymbols.rcd,
-                options: ["100 mA", "300 mA", "30 mA", "500 mA"],
-                correct: 2,
-                explanation: "Zum Personenschutz in Endstromkreisen bis 32A in Wohngebäuden ist ein RCD mit max. 30 mA vorgeschrieben."
-            },
-            {
-                topic: "symbols",
-                symbol: svgSymbols.switch_2pole,
-                question: "Welches Schaltzeichen ist hier abgebildet?",
-                options: ["2-poliger Schalter", "Serienschalter", "Wechselschalter", "Taster"],
-                correct: 0,
-                explanation: "Der 2-polige Schalter trennt zwei aktive Leiter (z.B. L und N) gleichzeitig allpolig vom Netz."
-            },
-            {
-                topic: "cables",
-                question: "Welcher maximale Spannungsfall ΔU ist bei Beleuchtungsanlagen nach DIN VDE 0100-520 ab Hausanschluss empfohlen?",
-                symbol: null,
-                options: ["1.5%", "3.0%", "5.0%", "8.0%"],
-                correct: 1,
-                explanation: "Für Beleuchtungsanlagen beträgt der empfohlene max. Spannungsfall 3%, für sonstige Verbraucher max. 4%."
-            },
-            {
-                topic: "symbols",
-                symbol: svgSymbols.push_button,
-                question: "Wie nennt man dieses elektrotechnische Betriebsmittel?",
-                options: ["Taster (Schließer)", "Ausschalter", "Sicherung", "Kondensator"],
-                correct: 0,
-                explanation: "Das Symbol zeigt einen Taster als Schließer (Momentkontakt mit Rückstellfeder)."
-            },
-            {
-                topic: "ohm",
-                question: "Welche Wirkleistung P nimmt ein Drehstrommotor bei U_L = 400 V, I = 10 A und cos(φ) = 0.9 auf?",
-                symbol: null,
-                options: ["3.46 kW", "6.24 kW", "4.00 kW", "7.20 kW"],
-                correct: 1,
-                explanation: "P = √3 · U_L · I · cos(φ) = 1.732 · 400 V · 10 A · 0.9 ≈ 6235 W ≈ 6.24 kW."
-            },
-            {
-                topic: "protection",
-                question: "In welchem Netzsystem ist ein RCD (FI-Schalter) aufgrund hoher Schleifenwiderstände zwingend vorgeschrieben?",
-                symbol: null,
-                options: ["TN-S-Netz", "TN-C-Netz", "TT-Netz", "IT-Netz"],
-                correct: 2,
-                explanation: "Im TT-Netz fließt der Fehlerstrom über das Erdreich zurück; der Schleifenwiderstand ist zu hoch für reine Überstromsicherung – ein RCD ist zwingend."
-            }
-        ];
-
-        let activeQuizQuestions = [...questionPool];
-
-        // Initialisierung
+        // Initialize App
         window.onload = function() {
-            renderTopicsList();
-            updateStatsDisplay();
-            checkOnlineStatus();
-            window.addEventListener('online', checkOnlineStatus);
-            window.addEventListener('offline', checkOnlineStatus);
+            renderTopics();
+            updateStatsUI();
+            checkBadges();
         };
 
-        function checkOnlineStatus() {
-            const statusEl = document.getElementById('connection-status');
-            if (navigator.onLine) {
-                statusEl.className = 'status-badge';
-                statusEl.innerHTML = '<div class="status-dot"></div> Online';
-            } else {
-                statusEl.className = 'status-badge offline';
-                statusEl.innerHTML = '<div class="status-dot"></div> Offline Modus';
-            }
+        function saveStats() {
+            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
+            updateStatsUI();
+            checkBadges();
         }
 
-        // Navigation & Moduswechsel
+        function updateStatsUI() {
+            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = accuracy + '%';
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').innerText = stats.highscore;
+            
+            // XP & Streak in detailed panel
+            const xpNeeded = stats.level * 100;
+            const currentXpInLevel = stats.xp % 100;
+            document.getElementById('xp-label').innerText = `XP: ${currentXpInLevel} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
+            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = `${currentXpInLevel}%`;
+        }
+
+        function toggleDetailedStats() {
+            const panel = document.getElementById('detailed-stats-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function checkBadges() {
+            if (stats.correct >= 1) { document.getElementById('badge-1').classList.add('unlocked'); }
+            if (stats.streak >= 10 || stats.correct >= 10) { document.getElementById('badge-2').classList.add('unlocked'); }
+            if (stats.level >= 3) { document.getElementById('badge-3').classList.add('unlocked'); }
+            if (stats.highscore >= 8) { document.getElementById('badge-4').classList.add('unlocked'); }
+        }
+
         function startMode(mode) {
-            currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
-            
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-
-            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-' + mode).classList.add('active');
-                
-                const aiConfig = document.getElementById('ai-config');
-                const heading = document.getElementById('quiz-heading');
-                
-                if (mode === 'ai') {
-                    aiConfig.style.display = 'grid';
-                    heading.innerHTML = '✨ Experten & KI-Modus';
-                } else if (mode === 'schemas') {
-                    aiConfig.style.display = 'none';
-                    heading.innerHTML = '📐 Schaltsymbole & Pläne Quiz';
-                } else {
-                    aiConfig.style.display = 'none';
-                    heading.innerHTML = '📝 Standard Fachfragen Quiz';
-                }
-                initQuiz(mode);
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                backToTopics();
-            }
-        }
-
-        function switchMode(mode) {
-            startMode(mode);
+            switchMode(mode);
         }
 
         function backToWelcome() {
-            clearInterval(timerInterval);
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.getElementById('mode-nav-area').style.display = 'none';
             document.getElementById('welcome-screen').style.display = 'block';
+            document.getElementById('mode-nav-area').style.display = 'none';
+            if (timerInterval) clearInterval(timerInterval);
         }
 
-        // Quiz Logic
-        function initQuiz(mode) {
-            clearInterval(timerInterval);
+        function switchMode(mode) {
+            currentMode = mode;
+            if (timerInterval) clearInterval(timerInterval);
+            
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+
+            if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+            } else {
+                document.getElementById('quiz-mode').classList.add('active');
+                if (mode === 'quiz') {
+                    document.getElementById('toggle-quiz').classList.add('active');
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = '⚡ Standard Quiz';
+                    activeQuestions = [...questionBank.quiz];
+                    initQuiz();
+                } else if (mode === 'schemas') {
+                    document.getElementById('toggle-schemas').classList.add('active');
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = '📐 Symbole & Schaltpläne Quiz';
+                    activeQuestions = [...questionBank.schemas];
+                    initQuiz();
+                } else if (mode === 'ai') {
+                    document.getElementById('toggle-ai').classList.add('active');
+                    document.getElementById('ai-config').style.display = 'grid';
+                    document.getElementById('quiz-heading').innerText = '✨ Experten Modus & KI Tutor';
+                    generateCustomAIQuestion();
+                }
+            }
+        }
+
+        function initQuiz() {
             currentQuestion = 0;
             score = 0;
-            answered = false;
-            
-            document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-
-            if (mode === 'schemas') {
-                activeQuizQuestions = questionPool.filter(q => q.topic === 'symbols' || q.symbol);
-            } else if (mode === 'ai') {
-                activeQuizQuestions = [...questionPool].sort(() => Math.random() - 0.5);
-            } else {
-                activeQuizQuestions = [...questionPool].sort(() => Math.random() - 0.5).slice(0, 10);
-            }
-
-            if (activeQuizQuestions.length === 0) activeQuizQuestions = [...questionPool];
+            document.getElementById('quiz-screen').style.display = 'block';
             loadQuestion();
         }
 
         function loadQuestion() {
-            clearInterval(timerInterval);
-            if (currentQuestion >= activeQuizQuestions.length) {
+            if (currentQuestion >= activeQuestions.length) {
                 endQuiz();
                 return;
             }
 
             answered = false;
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('ai-tutor-box').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
-            
-            const q = activeQuizQuestions[currentQuestion];
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
-            document.getElementById('question').innerText = q.question;
 
-            const symDisp = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symDisp.style.display = 'flex';
-                symDisp.innerHTML = q.symbol;
+            const qData = activeQuestions[currentQuestion];
+            document.getElementById('question').innerText = qData.q;
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuestions.length}`;
+
+            const symbolDisplay = document.getElementById('symbol-display');
+            if (qData.symbol) {
+                symbolDisplay.innerHTML = qData.symbol;
+                symbolDisplay.style.display = 'flex';
             } else {
-                symDisp.style.display = 'none';
-                symDisp.innerHTML = '';
+                symbolDisplay.style.display = 'none';
             }
 
-            const optionsGrid = document.getElementById('options');
-            optionsGrid.innerHTML = '';
-            
-            // Antworten mischen für mehr Abwechslung
-            let indices = [0, 1, 2, 3];
-            indices.sort(() => Math.random() - 0.5);
-
-            indices.forEach(origIdx => {
-                const optText = q.options[origIdx];
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            qData.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
-                btn.innerText = optText;
-                btn.onclick = () => selectAnswer(origIdx, q.correct, btn);
-                optionsGrid.appendChild(btn);
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index, qData.correct);
+                optionsContainer.appendChild(btn);
             });
 
             startTimer();
         }
 
         function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('quiz-timer').innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    handleTimeout();
+                    if (!answered) selectOption(-1, activeQuestions[currentQuestion].correct);
                 }
             }, 1000);
         }
 
-        function handleTimeout() {
-            if (answered) return;
-            answered = true;
-            const q = activeQuizQuestions[currentQuestion];
-            
-            const optionCards = document.querySelectorAll('.option-card');
-            optionCards.forEach(card => {
-                if (card.innerText === q.options[q.correct]) {
-                    card.classList.add('correct');
-                } else {
-                    card.style.opacity = '0.5';
-                }
-                card.disabled = true;
-            });
-
-            showExplanationAndTutor(q, false);
-            updateScoreData(false);
-        }
-
-        function selectAnswer(selected, correctIdx, btnElement) {
+        function selectOption(selected, correct) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            const q = activeQuizQuestions[currentQuestion];
-            const isCorrect = (selected === correctIdx);
+            stats.total++;
             const optionCards = document.querySelectorAll('.option-card');
 
-            optionCards.forEach((card, idx) => {
-                card.disabled = true;
-                if (card.innerText === q.options[correctIdx]) {
-                    card.classList.add('correct');
-                } else if (card === btnElement && !isCorrect) {
-                    card.classList.add('incorrect');
-                } else {
-                    card.style.opacity = '0.5';
+            if (selected === correct) {
+                score++;
+                stats.correct++;
+                stats.streak++;
+                stats.xp += 15;
+                if (stats.streak > stats.highscore) stats.highscore = stats.streak;
+                if (stats.xp >= stats.level * 100) {
+                    stats.level++;
                 }
-            });
+                if (selected >= 0 && selected < optionCards.length) {
+                    optionCards[selected].classList.add('correct');
+                }
+            } else {
+                stats.streak = 0;
+                stats.xp = Math.max(0, stats.xp - 5);
+                if (selected >= 0 && selected < optionCards.length) {
+                    optionCards[selected].classList.add('incorrect');
+                }
+                if (correct >= 0 && correct < optionCards.length) {
+                    optionCards[correct].classList.add('correct');
+                }
+            }
+            saveStats();
 
-            if (isCorrect) score++;
-
-            showExplanationAndTutor(q, isCorrect);
-            updateScoreData(isCorrect);
-        }
-
-        function showExplanationAndTutor(q, isCorrect) {
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>${isCorrect ? '✅ Richtig!' : '❌ Falsch!'}</strong> ${q.explanation}`;
-            expBox.classList.add('show');
+            const qData = activeQuestions[currentQuestion];
+            const explanationBox = document.getElementById('explanation');
+            explanationBox.innerHTML = `<strong>Erklärung:</strong> ${qData.explanation}`;
+            explanationBox.classList.add('show');
 
             if (currentMode === 'ai') {
-                const tutorBox = document.getElementById('ai-tutor-box');
-                const tutorText = document.getElementById('ai-tutor-text');
-                tutorBox.classList.add('show');
-                
-                if (isCorrect) {
-                    tutorText.innerHTML = `Ausgezeichnete Analyse! Dein fundiertes Wissen über <strong>${q.topic.toUpperCase()}</strong> entspricht exakten VDE/ÖVE Richtlinien. Weiter so auf diesem Anforderungsniveau!`;
-                } else {
-                    tutorText.innerHTML = `<strong>Tipp vom Experten:</strong> Achte bei Aufgaben zu <em>${q.topic.toUpperCase()}</em> besonders auf die normgerechte Terminologie und die physikalischen Randbedingungen (wie Schleifenimpedanz und Schutzziel).`;
-                }
+                const aiTutorBox = document.getElementById('ai-tutor-box');
+                document.getElementById('ai-tutor-text').innerText = selected === correct 
+                    ? "Exzellente Analyse! Dein technisches Verständnis entspricht dem Standard für Fachkräfte. Weiter so."
+                    : "Hinweis vom Experten-Tutor: Achte bei dieser Fragestellung besonders auf die einschlägigen Normvorgaben und Kennzeichnungen.";
+                aiTutorBox.classList.add('show');
             }
 
             document.getElementById('next-btn').classList.add('show');
@@ -2102,94 +2058,65 @@
         }
 
         function endQuiz() {
-            clearInterval(timerInterval);
             document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('score').innerText = `${score} / ${activeQuestions.length}`;
+            document.getElementById('feedback').innerText = score === activeQuestions.length 
+                ? "Hervorragend! Volle Punktzahl erreicht. Du beherrschst dieses Thema perfekt."
+                : "Gut gemacht! Analysiere die Erklärungen im Lernbereich, um dich weiter zu verbessern.";
             document.getElementById('result-screen').style.display = 'block';
-            
-            document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
-            let percentage = Math.round((score / activeQuizQuestions.length) * 100);
-            
-            let feedbackText = "Sehr gute Leistung! Du bist bestens für die Praxis gerüstet.";
-            if (percentage < 50) feedbackText = "Wiederhole die Grundlagen im Lernbereich, um deine Sicherheit zu erhöhen.";
-            else if (percentage < 80) /****************/ document.getElementById('feedback').innerText = "Gute Arbeit! Noch ein wenig Feinschliff bei den Normen.";
-
-            document.getElementById('feedback').innerText = feedbackText;
-
-            // Stats update
-            stats.total += activeQuizQuestions.length;
-            stats.correct += score;
-            if (score > stats.highscore) stats.highscore = score;
-            
-            // XP & Level
-            stats.xp += score * 15;
-            if (stats.xp >= stats.level * 100) {
-                stats.level++;
-            }
-            if (score === activeQuizQuestions.length) {
-                stats.streak++;
-            } else {
-                stats.streak = 0;
-            }
-
-            saveStats();
-            updateStatsDisplay();
-            checkBadges();
         }
 
         function restartQuiz() {
-            startMode(currentMode);
+            initQuiz();
         }
 
-        // Generierung von neuen Experten-Fragen
         function generateCustomAIQuestion() {
             const topic = document.getElementById('ai-topic-select').value;
             const diff = document.getElementById('ai-diff-select').value;
-
-            let customPool = questionPool;
-            if (topic !== 'random') {
-                customPool = questionPool.filter(q => q.topic === topic);
-                if (customPool.length === 0) customPool = questionPool;
+            
+            let generated = [];
+            if (topic === 'symbols' || topic === 'random') {
+                generated.push({
+                    q: "Welches Schaltsymbol entspricht einem 2-poligen Schalter nach DIN EN 60617?",
+                    symbol: svgSymbols.switch_2pole,
+                    options: ["Ausschalter", "2-poliger Schalter", "Wechselschalter", "Taster"],
+                    correct: 1,
+                    explanation: "Der 2-polige Schalter trennt sowohl den Außenleiter (L) als auch den Neutralleiter (N) gleichzeitig allpolig ab."
+                });
+            }
+            if (topic === 'ohm' || topic === 'random') {
+                generated.push({
+                    q: "Welcher Strom I fließt durch einen Verbraucher mit R = 46 Ω an einer Spannung von U = 230 V?",
+                    options: ["2.0 A", "5.0 A", "10.0 A", "23.0 A"],
+                    correct: 1,
+                    explanation: "Nach dem Ohmschen Gesetz gilt I = U / R = 230 V / 46 Ω = 5.0 A."
+                });
+            }
+            if (topic === 'protection' || topic === 'random') {
+                generated.push({
+                    q: "In welchem Netzsystem ist der Einbau eines RCD (FI-Schalter) wegen hoher Erdungswiderstände zwingend vorgeschrieben?",
+                    options: ["TN-S-Netz", "TT-Netz", "IT-Netz", "TN-C-Netz"],
+                    correct: 1,
+                    explanation: "Im TT-Netz fließt der Fehlerstrom über das Erdreich, weshalb Sicherungen oft nicht schnell genug auslösen; der RCD ist hier zwingend."
+                });
+            }
+            if (generated.length === 0) {
+                generated = [...questionBank.quiz];
             }
 
-            // Generiere eine dynamische Variation aus dem Pool
-            const baseQ = customPool[Math.floor(Math.random() * customPool.length)];
-            let newQ = JSON.parse(JSON.stringify(baseQ));
-            
-            if (topic === 'ohm') {
-                const uVal = Math.floor(Math.random() * 300) + 50;
-                const rVal = Math.floor(Math.random() * 50) + 5;
-                const iVal = (uVal / rVal).toFixed(2);
-                newQ.question = `Welcher Strom I fließt bei einer Betriebsspannung von U = ${uVal} V durch einen ohmschen Widerstand von R = ${rVal} Ω?`;
-                newQ.options = [`${iVal} A`, `${(Number(iVal)*1.5).toFixed(2)} A`, `${(Number(iVal)*0.8).toFixed(2)} A`, `${(Number(iVal)+2).toFixed(2)} A`];
-                newQ.options.sort(() => Math.random() - 0.5);
-                newQ.correct = newQ.options.indexOf(`${iVal} A`);
-                newQ.explanation = `Berechnung nach dem Ohmschen Gesetz: I = U / R = ${uVal} V / ${rVal} Ω = ${iVal} A.`;
-                newQ.symbol = null;
-            } else {
-                // Mische Optionen neu
-                newQ.options.sort(() => Math.random() - 0.5);
-                newQ.correct = newQ.options.indexOf(baseQ.options[baseQ.correct]);
-            }
-
-            activeQuizQuestions = [newQ];
-            currentQuestion = 0;
-            score = 0;
-            
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            loadQuestion();
+            activeQuestions = generated;
+            initQuiz();
         }
 
-        // Lernbereich & Nachschlagewerk
-        function renderTopicsList() {
+        // Learning & Calculators
+        function renderTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-
-            for (const [key, topic] of Object.entries(learningContent)) {
+            for (let key in learningContent) {
+                const topic = learningContent[key];
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
+                card.onclick = () => openTopic(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${topic.icon}</div>
                     <h3>${topic.title}</h3>
@@ -2203,12 +2130,12 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-
-            for (const [key, topic] of Object.entries(learningContent)) {
+            for (let key in learningContent) {
+                const topic = learningContent[key];
                 if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
                     const card = document.createElement('div');
                     card.className = 'topic-card';
-                    card.onclick = () => openArticle(key);
+                    card.onclick = () => openTopic(key);
                     card.innerHTML = `
                         <div class="topic-icon-box">${topic.icon}</div>
                         <h3>${topic.title}</h3>
@@ -2219,11 +2146,10 @@
             }
         }
 
-        function openArticle(key) {
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
             const contentView = document.getElementById('content-view');
             contentView.style.display = 'block';
-            
             document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -2231,81 +2157,40 @@
         function backToTopics() {
             document.getElementById('content-view').style.display = 'none';
             document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Profi-Rechner Logik
+        // Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = (u / r).toFixed(2);
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
+            const i = u / r;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
             const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
+            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const gamma = 56; // Leitfähigkeit Kupfer
-            
-            const deltaU = (2 * l * i) / (gamma * q);
-            const percent = (deltaU / 230 * 100).toFixed(2);
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${deltaU.toFixed(2)} V (${percent}%)`;
+            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            const gamma = 56;
+            const drop = (2 * l * i) / (gamma * a);
+            const percent = (drop / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${drop.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
             const gamma = 56;
-
-            const a = (2 * l * i) / (gamma * maxU);
+            const a = (2 * l * i) / (gamma * du);
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
-        }
-
-        // Statistik & Gamification
-        function updateScoreData(isCorrect) {
-            stats.total++;
-            if (isCorrect) stats.correct++;
-            saveStats();
-            updateStatsDisplay();
-        }
-
-        function updateStatsDisplay() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            const xpNeeded = stats.level * 100;
-            const currentXpInLevel = stats.xp % 100;
-            document.getElementById('xp-label').innerText = `XP: ${stats.xp} Gesamt (Level ${stats.level})`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} in Folge`;
-            document.getElementById('xp-progress-fill').style.width = Math.min(100, (currentXpInLevel / 100) * 100) + '%';
-        }
-
-        function toggleDetailedStats() {
-            const panel = document.getElementById('detailed-stats-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function checkBadges() {
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.streak >= 3) document.getElementById('badge-4').classList.add('unlocked');
-        }
-
-        function saveStats() {
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
         }
     </script>
 </body>
