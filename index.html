@@ -1232,6 +1232,7 @@
         let answered = false;
         let timerInterval = null;
         let timeLeft = 30;
+        let activeQuestions = [];
 
         // Vollständige SVG Schaltsymbole Library (Inkl. ALLEN Schalterarten nach DIN EN 60617)
         const svgSymbols = {
@@ -1591,55 +1592,62 @@
             basics: {
                 title: "Grundlagen & Formeln",
                 icon: "⚡",
-                description: "Spannung, Strom, Widerstand, Leistung, Drehstrom & Elektrotechnik-Formelsammlung",
+                description: "Spannung, Strom, Widerstand, Leistung, Drehstrom & umfassende Elektrotechnik-Formelsammlung",
                 content: `
                     <h2>Grundlagen & Umfassende Elektrotechnik-Formelsammlung</h2>
                     <p class="article-desc">Fundamentale mathematisch-physikalische Zusammenhänge, Formeln und Wirkungsweisen der Elektrotechnik nach DIN EN / ÖVE Standards.</p>
                     
                     <div class="article-section">
                         <h3>1. Das Ohmsche Gesetz & Grundgrößen der Elektrotechnik</h3>
-                        <p>Das Ohmsche Gesetz verknüpft die drei elementaren elektrischen Größen Spannung (U), Stromstärke (I) und Widerstand (R) in linearen Stromkreisen. Jede dieser Größen lässt sich aus den jeweils anderen beiden ableiten:</p>
+                        <p>Das Ohmsche Gesetz verknüpft die drei elementaren elektrischen Größen Spannung (U), Stromstärke (I) und Widerstand (R) in linearen Stromkreisen:</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Elektrische Größe</th><th>Formelzeichen</th><th>Einheit</th><th>Berechnungsformeln</th><th>Physikalische Definition & Praxisbezug</th></tr>
+                                <tr><th>Größe</th><th>Formelzeichen</th><th>Einheit</th><th>Berechnungsformeln</th><th>Beschreibung</th></tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><strong>Spannung</strong></td>
-                                    <td>U</td>
-                                    <td>Volt (V)</td>
-                                    <td>U = I &middot; R<br>U = P / I<br>U = &radic;(P &middot; R)</td>
-                                    <td>Die elektrische Spannung ist die Potentialdifferenz zwischen zwei Punkten. Sie treibt die Ladungsträger durch den Leiter.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Stromstärke</strong></td>
-                                    <td>I</td>
-                                    <td>Ampere (A)</td>
-                                    <td>I = U / R<br>I = P / U<br>I = &radic;(P / R)</td>
-                                    <td>Die Stromstärke ist der Fluss von elektrischen Ladungsträgern pro Zeiteinheit durch einen Querschnitt.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Widerstand</strong></td>
-                                    <td>R</td>
-                                    <td>Ohm (&Omega;)</td>
-                                    <td>R = U / I<br>R = P / I²<br>R = U² / P</td>
-                                    <td>Der elektrische Widerstand hemmt den Elektronenfluss und bewirkt einen Spannungsabfall sowie Wärmeentwicklung.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Leistung</strong></td>
-                                    <td>P</td>
-                                    <td>Watt (W)</td>
-                                    <td>P = U &middot; I<br>P = I² &middot; R<br>P = U² / R</td>
-                                    <td>Die elektrische Wirkleistung gibt an, wie viel Energie pro Zeit in andere Energieformen (Licht, Wärme, Mechanik) umgewandelt wird.</td>
-                                </tr>
+                                <tr><td><strong>Spannung</strong></td><td>U</td><td>Volt (V)</td><td>$U = I \cdot R$<br>$U = P / I$<br>$U = \sqrt{P \cdot R}$</td><td>Potentialdifferenz, treibt den Strom an.</td></tr>
+                                <tr><td><strong>Stromstärke</strong></td><td>I</td><td>Ampere (A)</td><td>$I = U / R$<br>$I = P / U$<br>$I = \sqrt{P / R}$</td><td>Elektrischer Ladungsfluss pro Zeit.</td></tr>
+                                <tr><td><strong>Widerstand</strong></td><td>R</td><td>Ohm ($\Omega$)</td><td>$R = U / I$<br>$R = P / I^2$<br>$R = U^2 / P$</td><td>Hemmt den Elektronenfluss, erzeugt Wärme.</td></tr>
+                                <tr><td><strong>Leistung</strong></td><td>P</td><td>Watt (W)</td><td>$P = U \cdot I$<br>$P = I^2 \cdot R$<br>$P = U^2 / R$</td><td>Umgesetzte Energie pro Zeiteinheit.</td></tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>2. Wechselstrom- und Drehstrom-Formeln</h3>
+                        <p>In Drehstromsystemen (3-phasig) sowie bei Wechselstrom sind Phasenverschiebung und Verkettungsfaktoren zu berücksichtigen:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Größe / Leistungsart</th><th>Drehstrom (3-phasig)</th><th>Wechselstrom (1-phasig)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Wirkleistung ($P$)</strong></td><td>$P = \sqrt{3} \cdot U_n \cdot I \cdot \cos\varphi$</td><td>$P = U \cdot I \cdot \cos\varphi$</td></tr>
+                                <tr><td><strong>Blindleistung ($Q$)</strong></td><td>$Q = \sqrt{3} \cdot U_n \cdot I \cdot \sin\varphi$</td><td>$Q = U \cdot I \cdot \sin\varphi$</td></tr>
+                                <tr><td><strong>Scheinleistung ($S$)</strong></td><td>$S = \sqrt{3} \cdot U_n \cdot I$</td><td>$S = U \cdot I$</td></tr>
+                                <tr><td><strong>Leistungsfaktor ($\cos\varphi$)</strong></td><td>$\cos\varphi = P / S$</td><td>$\cos\varphi = P / S$</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>3. Leitungsberechnung & Spannungsfall</h3>
+                        <p>Berechnung des Spannungsfalls ($\Delta U$) und des Mindestquerschnitts ($A$) für Kupferleitungen:</p>
+                        <p><strong>Spannungsfall einphasig:</strong> $\Delta U = \frac{2 \cdot l \cdot I}{\gamma \cdot A}$</p>
+                        <p><strong>Spannungsfall dreiphasig:</strong> $\Delta U = \frac{\sqrt{3} \cdot l \cdot I \cdot \cos\varphi}{\gamma \cdot A}$</p>
+                        <p><strong>Mindestquerschnitt:</strong> $A = \frac{2 \cdot l \cdot I}{\gamma \cdot \Delta U}$ (mit spezifischer Leitfähigkeit $\gamma \approx 56 \, \text{m}/(\Omega\cdot\text{mm}^2)$ für Kupfer)</p>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>4. Materialkonstanten & Joulesche Wärme</h3>
+                        <p><strong>Widerstand eines Leiters:</strong> $R = \rho \cdot \frac{l}{A}$ (wobei $\rho$ der spezifische Widerstand ist, z.B. $\rho_{\text{Cu}} \approx 0.0178 \, \Omega\cdot\text{mm}^2/\text{m}$).</p>
+                        <p><strong>Temperaturabhängigkeit des Widerstands:</strong> $R(\vartheta) = R_20 \cdot (1 + \alpha \cdot \Delta\vartheta)$.</p>
+                        <p><strong>Elektrische Arbeit / Joulesche Wärme:</strong> $W = P \cdot t = I^2 \cdot R \cdot t$.</p>
                     </div>
                 `
             }
         };
 
-        // Quiz Questions Database
+        // Quiz Questions Database (Vollständig & Repariert)
         const quizQuestions = {
             quiz: [
                 {
@@ -1655,168 +1663,349 @@
                     explanation: "Der 1-polige Ausschalter besitzt einen festen Eingang, einen Ausgang und eine bewegliche Schaltkontaktzunge zum Öffnen und Schließen des Stromkreises."
                 },
                 {
-                    question: "Wie groß ist the maximale Bemessungsfehlerstrom (IΔn) für RCDs im Wohnbereich zum Personenschutz?",
+                    question: "Wie groß ist der maximale Bemessungsfehlerstrom (IΔn) für RCDs im Wohnbereich zum Personenschutz?",
                     symbol: svgSymbols.rcd,
                     options: [
-                        "100 mA",
-                        "300 mA",
-                        "30 mA",
-                        "500 mA"
-                    ],
-                    correct: 2,
-                    explanation: "Nach DIN VDE 0100-410 und ÖVE ist im Wohnbereich für Steckdosenstromkreise ein RCD mit einem Bemessungsfehlerstrom von höchstens 30 mA zum Schutz von Personen vorgeschrieben."
-                },
-                {
-                    question: "Welche Netzform besitzt einen kombinierten PEN-Leiter im gesamten Netz?",
-                    symbol: null,
-                    options: [
-                        "TN-S-Netz",
-                        "TN-C-Netz",
-                        "TT-Netz",
-                        "IT-Netz"
-                    ],
-                    correct: 1,
-                    explanation: "Im TN-C-Netz (Terre Neutre Combiné) sind Neutralleiter (N) und Schutzleiter (PE) als gemeinsamer PEN-Leiter ausgeführt."
-                },
-                {
-                    question: "Wie berechnet sich die elektrische Wirkleistung P in einem einphasigen Wechselstromkreis?",
-                    symbol: null,
-                    options: [
-                        "P = U &middot; I &middot; cos(φ)",
-                        "P = R &middot; I²",
-                        "P = U / R",
-                        "P = U &middot; I"
+                        "10 mA bis 30 mA",
+                        "300 mA bis 500 mA",
+                        "1 A bis 2 A",
+                        "Unbegrenzt"
                     ],
                     correct: 0,
-                    explanation: "Die Wirkleistung in Wechselstromkreisen mit induktiven oder kapazitiven Lasten berücksichtigt den Leistungsfaktor cos(φ): P = U &middot; I &middot; cos(φ)."
+                    explanation: "Im Wohnbereich ist zum Schutz von Personen bei direktem und indirektem Berühren ein Bemessungsfehlerstrom von max. 30 mA (0,03 A) vorgeschrieben."
                 },
                 {
-                    question: "Welches Bauteil zeigt dieses Symbol?",
+                    question: "Welcher Schaltertyp wird benötigt, um eine Lampe von 3 verschiedenen Stellen aus zu schalten?",
                     symbol: svgSymbols.switch_changeover,
                     options: [
-                        "Ausschalter",
-                        "Wechselschalter",
-                        "Serienschalter",
-                        "Kreuzschalter"
+                        "Zwei Wechselschalter und dazwischen ein Kreuzschalter",
+                        "Drei Wechselschalter hintereinander",
+                        "Ein Serienschalter und zwei Taster",
+                        "Zwei Ausschalter"
                     ],
-                    correct: 1,
-                    explanation: "Der Wechselschalter schaltet einen Eingang wahlweise auf einen von zwei Ausgängen durch."
+                    correct: 0,
+                    explanation: "Für eine Schaltung von 3 oder mehr Stellen (Kreuzschaltung) benötigt man an den Enden zwei Wechselschalter und dazwischen mindestens einen Kreuzschalter."
+                },
+                {
+                    question: "Wie lautet die korrekte Formel zur Berechnung der elektrischen Wirkleistung P in einem einphasigen Wechselstromkreis?",
+                    symbol: svgSymbols.resistor,
+                    options: [
+                        "P = U · I · cos(φ)",
+                        "P = U / I",
+                        "P = R · I²",
+                        "P = U² · R"
+                    ],
+                    correct: 0,
+                    explanation: "Die Wirkleistung in Wechselstromkreisen berechnet sich aus Spannung mal Strom mal Leistungsfaktor cos(φ)."
+                },
+                {
+                    question: "Welche Farbe hat der Schutzleiter (PE) in einer modernen Elektroinstallation?",
+                    symbol: svgSymbols.ground,
+                    options: [
+                        "Grün-Gelb",
+                        "Blau",
+                        "Braun oder Schwarz",
+                        "Grau"
+                    ],
+                    correct: 0,
+                    explanation: "Der Schutzleiter (PE) ist international und nach DIN VDE normiert durchgehend grün-gelb gekennzeichnet."
                 }
             ],
             schemas: [
                 {
-                    question: "Welches Schaltsymbol zeigt einen Kreuzschalter?",
-                    symbol: svgSymbols.switch_cross,
-                    options: [
-                        "Serienschalter",
-                        "Wechselschalter",
-                        "Kreuzschalter",
-                        "2-poliger Schalter"
-                    ],
-                    correct: 2,
-                    explanation: "Der Kreuzschalter kreuzt die zwei korrespondierenden Leitungen zwischen zwei Wechselschaltern."
-                },
-                {
-                    question: "Welches Symbol stellt einen Schließer-Taster dar?",
+                    question: "Welches Symbol zeigt einen Schließer-Taster nach DIN EN 60617?",
                     symbol: svgSymbols.push_button,
                     options: [
-                        "Taster (Schließer)",
-                        "Taster (Öffner)",
+                        "Taster mit nach unten federndem Kontakt (Schließer)",
                         "Ausschalter",
-                        "Sicherung"
+                        "Wechselschalter",
+                        "Öffner-Taster"
                     ],
                     correct: 0,
-                    explanation: "Der Taster schließt den Kontakt nur so lange er betätigt wird (Rückstellung durch Feder)."
+                    explanation: "Der Taster (Schließer) schließt den Stromkreis nur während der manuellen Betätigung."
                 },
                 {
-                    question: "Welches Schaltsymbol repräsentiert einen Kondensator?",
-                    symbol: svgSymbols.capacitor,
+                    question: "Welches Schaltsymbol stellt einen polumschaltbaren Wechselschalter dar?",
+                    symbol: svgSymbols.switch_changeover,
                     options: [
-                        "Widerstand",
-                        "Kondensator",
-                        "Transformator",
-                        "Diode"
+                        "Wechselschalter",
+                        "Kreuzschalter",
+                        "Serienschalter",
+                        "Ausschalter"
                     ],
-                    correct: 1,
-                    explanation: "Zwei parallele Platten mit Zwischenraum symbolisieren einen Kondensator zur Energiespeicherung im elektrischen Feld."
+                    correct: 0,
+                    explanation: "Der Wechselschalter verzweigt den Eingangsstrom auf einen von zwei möglichen Ausgängen."
                 }
             ],
             ai: [
                 {
-                    question: "In einem IT-Netz tritt ein erster Körperschluss auf. Was passiert?",
-                    symbol: svgSymbols.ground,
+                    question: "Wie berechnet sich der maximale Spannungsfall ΔU in einer einphasigen Kupferleitung (cos(φ) = 1)?",
+                    symbol: svgSymbols.resistor,
                     options: [
-                        "Die Vorsicherung schaltet sofort ab",
-                        "Der RCD löst aus",
-                        "Es fließt nur ein sehr geringer kapazitiver Fehlerstrom; die Anlage bleibt betriebsbereit und der Isolationswächter meldet den Fehler",
-                        "Es entsteht ein Kurzschluss"
+                        "ΔU = (2 · l · I) / (γ · A)",
+                        "ΔU = (l · I) / A",
+                        "ΔU = U · I · R",
+                        "ΔU = R / (I · A)"
                     ],
-                    correct: 2,
-                    explanation: "Das Besondere am IT-Netz ist, dass die aktiven Leiter isoliert sind. Beim ersten Fehler fließt kein gefährlicher Strom, sodass the Betrieb aufrechterhalten werden kann."
+                    correct: 0,
+                    explanation: "Der einphasige Spannungsfall berücksichtigt Hin- und Rückleiter (Faktor 2), Länge l, Strom I, Leitfähigkeit γ und Querschnitt A."
                 },
                 {
-                    question: "Welcher RCD-Typ ist für Wallboxen mit DC-Fehlerstromkomponenten zwingend vorgeschrieben?",
+                    question: "Welcher RCD-Typ ist für Photovoltaik-Wechselrichter und Wallboxen mit glatten Gleichfehlerströmen zwingend vorgeschrieben?",
                     symbol: svgSymbols.rcd,
                     options: [
-                        "Typ AC",
+                        "Typ B (allstromsensitiv)",
                         "Typ A",
-                        "Typ B oder B+ (allstromsensitiv)",
-                        "Standard LS-Schalter"
+                        "Typ AC",
+                        "Typ F"
                     ],
-                    correct: 2,
-                    explanation: "Da elektronische Ladeeinrichtungen glatte Gleichfehlerströme erzeugen können, die Typ-A RCDs blind machen, ist Typ B oder B+ (allstromsensitiv) erforderlich."
+                    correct: 0,
+                    explanation: "Bei Anlagen mit elektronischen Umrichtern oder DC-Fehlerstrompotentialen (Wallboxen, PV) sind allstromsensitive RCDs des Typs B vorgeschrieben."
+                },
+                {
+                    question: "Welche Schutzmaßnahme liegt vor, wenn ein Betriebsmittel eine doppelte oder verstärkte Isolierung aufweist?",
+                    symbol: svgSymbols.fuse,
+                    options: [
+                        "Schutzklasse II (Schutzisolierung)",
+                        "Schutzklasse I (Schutzerdung)",
+                        "Schutztrennung",
+                        "Schutzkleinspannung"
+                    ],
+                    correct: 0,
+                    explanation: "Schutzklasse II Geräte verfügen über doppelte/verstärkte Isolierung ohne Anschluss an den Schutzleiter."
                 }
             ]
         };
 
-        // App Initialization & Rendering
-        function initApp() {
-            renderTopics(learningContent);
-            updateStatsDisplay();
-        }
-
-        function renderTopics(topicsObj) {
-            const container = document.getElementById('topics-container');
-            if (!container) return;
-            container.innerHTML = '';
-            for (let key in topicsObj) {
-                let topic = topicsObj[key];
-                let card = document.createElement('div');
-                card.className = 'topic-card';
-                card.onclick = () => showTopicContent(key);
-                card.innerHTML = `
-                    <div class="topic-icon-box">${topic.icon}</div>
-                    <h3>${topic.title}</h3>
-                    <p>${topic.description}</p>
-                `;
-                container.appendChild(card);
+        // Navigation and Mode Logic (Repariert & Robust)
+        function startMode(mode) {
+            currentMode = mode;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            
+            if(mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                renderTopics();
+            } else if(mode === 'quiz') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                initQuiz('quiz');
+            } else if(mode === 'schemas') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                initQuiz('schemas');
+            } else if(mode === 'ai') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('ai-config').style.display = 'grid';
+                initQuiz('ai');
             }
+            updateToggleButtons(mode);
         }
 
-        function filterTopics() {
-            let query = document.getElementById('search-input').value.toLowerCase();
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            for (let key in learningContent) {
+        function switchMode(mode) {
+            startMode(mode);
+        }
+
+        function updateToggleButtons(mode) {
+            ['quiz', 'schemas', 'ai', 'learn'].forEach(m => {
+                let btn = document.getElementById(`toggle-${m}`);
+                if(btn) {
+                    if(m === mode) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+        }
+
+        function backToWelcome() {
+            document.getElementById('welcome-screen').style.display = 'block';
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+        }
+
+        // Quiz Engine
+        let currentQIndex = 0;
+
+        function initQuiz(type) {
+            currentQIndex = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            
+            if(type === 'quiz') {
+                document.getElementById('quiz-heading').innerText = '📝 Standard Quiz';
+                activeQuestions = [...quizQuestions.quiz];
+            } else if(type === 'schemas') {
+                document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Pläne';
+                activeQuestions = [...quizQuestions.schemas];
+            } else if(type === 'ai') {
+                document.getElementById('quiz-heading').innerText = '✨ Experten & KI Modus';
+                activeQuestions = generateAIQuestions();
+            }
+            
+            loadQuestion();
+        }
+
+        function generateAIQuestions() {
+            // Kombiniere alle Fragen und mische sie für den KI / Expertenmodus
+            let combined = [...quizQuestions.ai, ...quizQuestions.quiz, ...quizQuestions.schemas];
+            return combined.sort(() => Math.random() - 0.5).slice(0, 8);
+        }
+
+        function loadQuestion() {
+            if(currentQIndex >= activeQuestions.length) {
+                showResults();
+                return;
+            }
+            answered = false;
+            resetTimer();
+            
+            let q = activeQuestions[currentQIndex];
+            document.getElementById('progress').innerText = `Frage ${currentQIndex + 1} / ${activeQuestions.length}`;
+            document.getElementById('question').innerText = q.question;
+            
+            let symbolDisp = document.getElementById('symbol-display');
+            if(q.symbol) {
+                symbolDisp.innerHTML = q.symbol;
+                symbolDisp.style.display = 'flex';
+            } else {
+                symbolDisp.style.display = 'none';
+            }
+            
+            let optionsHTML = '';
+            q.options.forEach((optText, origIdx) => {
+                optionsHTML += `<button class="option-card" onclick="selectOption(${origIdx}, ${q.correct}, this)">${optText}</button>`;
+            });
+            
+            document.getElementById('options').innerHTML = optionsHTML;
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+        }
+
+        function selectOption(selectedIdx, correctIdx, btnElement) {
+            if(answered) return;
+            answered = true;
+            clearInterval(timerInterval);
+            
+            let options = document.querySelectorAll('.option-card');
+            options.forEach(opt => opt.disabled = true);
+            
+            let isCorrect = (selectedIdx === correctIdx);
+            if(isCorrect) {
+                btnElement.classList.add('correct');
+                score++;
+                stats.correct++;
+                stats.streak++;
+                stats.xp += 15;
+            } else {
+                btnElement.classList.add('incorrect');
+                options.forEach((opt, idx) => {
+                    if(idx === correctIdx) opt.classList.add('correct');
+                });
+                stats.streak = 0;
+                stats.xp += 5;
+            }
+            
+            stats.total++;
+            updateStatsAndBadges();
+            
+            let q = activeQuestions[currentQIndex];
+            let expBox = document.getElementById('explanation');
+            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
+            expBox.classList.add('show');
+            
+            let aiTutor = document.getElementById('ai-tutor-box');
+            document.getElementById('ai-tutor-text').innerText = isCorrect 
+                ? "Exzellent! Deine Antwort entspricht den geltenden DIN VDE / ÖVE Normen. Du hast dieses Konzept verstanden." 
+                : "Tipp vom Experten-Tutor: Achte bei dieser Fragestellung besonders auf die normativen Vorgaben (DIN VDE 0100 / ÖVE E 8001) und die physikalischen Wirkzusammenhänge.";
+            aiTutor.classList.add('show');
+            
+            document.getElementById('next-btn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            loadQuestion();
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if(!answered) {
+                        // Timeout Handling
+                        answered = true;
+                        let options = document.querySelectorAll('.option-card');
+                        options.forEach(opt => opt.disabled = true);
+                        let q = activeQuestions[currentQIndex];
+                        options.forEach((opt, idx) => {
+                            if(idx === q.correct) opt.classList.add('correct');
+                        });
+                        document.getElementById('explanation').innerHTML = `<strong>Zeit abgelaufen!</strong> ${q.explanation}`;
+                        document.getElementById('explanation').classList.add('show');
+                        document.getElementById('next-btn').classList.add('show');
+                    }
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            let percent = Math.round((score / activeQuestions.length) * 100);
+            document.getElementById('score').innerText = `${score} / ${activeQuestions.length} (${percent}%)`;
+            document.getElementById('feedback').innerText = percent >= 80 ? 'Hervorragende Leistung! Du bist ein echter Elektriker-Profi.' : percent >= 50 ? 'Gute Arbeit! Mit etwas Wiederholung sitzt das Fachwissen perfekt.' : 'Weiter üben! Schau dir den Lernbereich zu den schwierigen Themen an.';
+            
+            if(score > stats.highscore) {
+                stats.highscore = score;
+            }
+            saveStats();
+            updateStatsAndBadges();
+        }
+
+        function restartQuiz() {
+            initQuiz(currentMode);
+        }
+
+        // Learning & Calculators Logic
+        function renderTopics(filter = '') {
+            let container = document.getElementById('topics-container');
+            let html = '';
+            
+            Object.keys(learningContent).forEach(key => {
                 let topic = learningContent[key];
-                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
-                    let card = document.createElement('div');
-                    card.className = 'topic-card';
-                    card.onclick = () => showTopicContent(key);
-                    card.innerHTML = `
+                if(filter && !topic.title.toLowerCase().includes(filter.toLowerCase()) && !topic.description.toLowerCase().includes(filter.toLowerCase())) {
+                    return;
+                }
+                html += `
+                    <div class="topic-card" onclick="openTopic('${key}')">
                         <div class="topic-icon-box">${topic.icon}</div>
                         <h3>${topic.title}</h3>
                         <p>${topic.description}</p>
-                    `;
-                    container.appendChild(card);
-                }
-            }
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         }
 
-        function showTopicContent(key) {
+        function filterTopics() {
+            let val = document.getElementById('search-input').value;
+            renderTopics(val);
+        }
+
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            let contentDiv = document.getElementById('content-view');
-            contentDiv.style.display = 'block';
+            let view = document.getElementById('content-view');
+            view.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1826,208 +2015,28 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Mode Switching
-        function startMode(mode) {
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('mode-nav-area').style.display = 'block';
-            switchMode(mode);
-        }
-
-        function backToWelcome() {
-            document.getElementById('welcome-screen').style.display = 'block';
-            document.getElementById('mode-nav-area').style.display = 'none';
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            if (timerInterval) clearInterval(timerInterval);
-        }
-
-        function switchMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-
-            if (mode === 'quiz') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-quiz').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('ai-tutor-box').style.display = 'none';
-                initQuiz('quiz');
-            } else if (mode === 'schemas') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-schemas').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('ai-tutor-box').style.display = 'none';
-                initQuiz('schemas');
-            } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-ai').classList.add('active');
-                document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('ai-tutor-box').style.display = 'block';
-                initQuiz('ai');
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                if (timerInterval) clearInterval(timerInterval);
-            }
-        }
-
-        // Quiz Logic
-        let activeQuestions = [];
-        function initQuiz(type) {
-            currentQuestion = 0;
-            score = 0;
-            answered = false;
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-            
-            if (type === 'ai') {
-                activeQuestions = [...quizQuestions.quiz, ...quizQuestions.schemas, ...quizQuestions.ai];
-            } else {
-                activeQuestions = quizQuestions[type] || quizQuestions.quiz;
-            }
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            if (currentQuestion >= activeQuestions.length) {
-                endQuiz();
-                return;
-            }
-            answered = false;
-            let q = activeQuestions[currentQuestion];
-            document.getElementById('question').innerText = q.question;
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuestions.length}`;
-            
-            let symbolBox = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symbolBox.style.display = 'flex';
-                symbolBox.innerHTML = q.symbol;
-            } else {
-                symbolBox.style.display = 'none';
-            }
-
-            let optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                let btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerHTML = opt;
-                btn.onclick = () => selectOption(idx, q.correct);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-
-            resetTimer();
-        }
-
-        function selectOption(selectedIdx, correctIdx) {
-            if (answered) return;
-            answered = true;
-            if (timerInterval) clearInterval(timerInterval);
-
-            let options = document.querySelectorAll('.options-grid .option-card');
-            options.forEach((btn, idx) => {
-                btn.disabled = true;
-                if (idx === correctIdx) {
-                    btn.classList.add('correct');
-                } else if (idx === selectedIdx) {
-                    btn.classList.add('incorrect');
-                }
-            });
-
-            let q = activeQuestions[currentQuestion];
-            let expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
-            expBox.classList.add('show');
-
-            if (currentMode === 'ai') {
-                let tutorBox = document.getElementById('ai-tutor-box');
-                document.getElementById('ai-tutor-text').innerText = `Tutor-Analyse: ${selectedIdx === correctIdx ? 'Ausgezeichnete Analyse! Das Konzept wurde präzise angewendet.' : 'Hier gab es eine Abweichung vom Normstandard. Achten Sie auf die korrekte Definition.'}`;
-                tutorBox.classList.add('show');
-            }
-
-            stats.total++;
-            if (selectedIdx === correctIdx) {
-                score++;
-                stats.correct++;
-                stats.streak++;
-                stats.xp += 20;
-            } else {
-                stats.streak = 0;
-            }
-
-            if (stats.xp >= 100) {
-                stats.level++;
-                stats.xp -= 100;
-            }
-
-            if (score > stats.highscore) {
-                stats.highscore = score;
-            }
-
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            updateStatsDisplay();
-
-            document.getElementById('next-btn').classList.add('show');
-        }
-
-        function nextQuestion() {
-            currentQuestion++;
-            loadQuestion();
-        }
-
-        function endQuiz() {
-            if (timerInterval) clearInterval(timerInterval);
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').innerText = `${score} / ${activeQuestions.length}`;
-            document.getElementById('feedback').innerText = score === activeQuestions.length ? "Perfekt! Meisterhafte Leistung!" : score >= activeQuestions.length / 2 ? "Gut gemacht! Solides Fachwissen." : "Weiter üben! Schau dir den Lernbereich an.";
-        }
-
-        function restartQuiz() {
-            initQuiz(currentMode === 'schemas' ? 'schemas' : currentMode === 'ai' ? 'ai' : 'quiz');
-        }
-
-        function resetTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    if (!answered) {
-                        let q = activeQuestions[currentQuestion];
-                        selectOption(-1, q.correct);
-                    }
-                }
-            }, 1000);
-        }
-
         // Calculators
         function calculateOhm() {
             let u = parseFloat(document.getElementById('calc-u').value) || 0;
             let r = parseFloat(document.getElementById('calc-r').value) || 1;
-            let i = r !== 0 ? u / r : 0;
+            let i = u / r;
             document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
             let i = parseFloat(document.getElementById('calc-i3').value) || 0;
             let cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            let p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            let un = 400;
+            let p = (Math.sqrt(3) * un * i * cos) / 1000;
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             let l = parseFloat(document.getElementById('calc-len').value) || 0;
             let i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            let q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            let kappa = 56; // Leitfähigkeit Kupfer
-            let du = (2 * l * i) / (kappa * q);
+            let a = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            let gamma = 56; // Cu
+            let du = (2 * l * i) / (gamma * a);
             let percent = (du / 230) * 100;
             document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
@@ -2036,9 +2045,33 @@
             let l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             let i = parseFloat(document.getElementById('calc-q-i').value) || 0;
             let du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            let kappa = 56;
-            let a = (2 * l * i) / (kappa * du);
+            let gamma = 56;
+            let a = (2 * l * i) / (gamma * du);
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+        }
+
+        // Stats & Badges Management
+        function updateStatsAndBadges() {
+            let accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = `${accuracy}%`;
+            document.getElementById('stat-completed').innerText = stats.total;
+            
+            stats.level = Math.floor(stats.xp / 100) + 1;
+            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
+            document.getElementById('stat-high').innerText = stats.highscore;
+            
+            let xpInLevel = stats.xp % 100;
+            document.getElementById('xp-label').innerText = `XP: ${xpInLevel} / 100 zum nächsten Level (Lvl ${stats.level})`;
+            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = `${xpInLevel}%`;
+
+            // Check Badges
+            if(stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if(stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if(stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            if(stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
+
+            saveStats();
         }
 
         function toggleDetailedStats() {
@@ -2046,23 +2079,15 @@
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
 
-        function updateStatsDisplay() {
-            let accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
-            
-            document.getElementById('xp-label').innerText = `XP: ${stats.xp} / 100 zum nächsten Level`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = stats.xp + '%';
-
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+        function saveStats() {
+            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
         }
 
-        window.onload = initApp;
+        // Initial setup on load
+        window.onload = function() {
+            updateStatsAndBadges();
+            renderTopics();
+        };
     </script>
 </body>
 </html>
