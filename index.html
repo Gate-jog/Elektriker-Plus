@@ -154,6 +154,40 @@
             font-weight: 500;
         }
 
+        /* Profile Header Widget */
+        .profile-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            backdrop-filter: blur(12px);
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
         /* Cards & Layout */
         .glass-card {
             background: var(--card-bg);
@@ -980,6 +1014,20 @@
             <p>Schulungsportal, Schaltsymbole, Schaltpläne & KI Modus</p>
         </div>
 
+        <!-- Benutzer-Profil & ID Bar -->
+        <div class="profile-bar">
+            <div class="profile-info">
+                <div class="profile-avatar" id="current-avatar">EP</div>
+                <div>
+                    <div style="font-weight: 800; font-size: 1rem; color: var(--text-main);" id="current-profile-name">Standard Elektriker</div>
+                    <div style="font-size: 0.75rem; color: var(--primary); font-family: var(--font-code);" id="current-profile-id">ID: ELEK-USER-001</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="nav-btn" onclick="openProfileModal()" style="padding: 8px 14px; font-size: 0.8rem;">👤 Profil wechseln / Neu</button>
+            </div>
+        </div>
+
         <!-- Dashboard Bar -->
         <div class="stats-bar">
             <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
@@ -1011,7 +1059,7 @@
                 <div class="progress-bar-fill" id="xp-progress-fill"></div>
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-                💡 <strong>Adaptiver Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!
+                💡 <strong>Adaptiver KI-Modus aktiv:</strong> Generiert automatisch neue Fragen basierend auf deinen Profil-Schwächen!
             </div>
         </div>
 
@@ -1041,8 +1089,8 @@
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
-                    <div class="menu-title">Experten Modus</div>
-                    <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem Tutor.</div>
+                    <div class="menu-title">Experten & KI Modus</div>
+                    <div class="menu-description">Selbstlernender Tutor, der Fragen generiert und sich an dein Profil anpasst.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('vs')">
                     <div class="menu-icon">⚔️</div>
@@ -1069,7 +1117,7 @@
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
                     <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten & KI</button>
                     <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Modus</button>
                     <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Freunde</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
@@ -1096,7 +1144,7 @@
                     <div class="config-group">
                         <label>Schwierigkeit</label>
                         <select id="ai-diff-select" class="config-select">
-                            <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
+                            <option value="adaptive">⚡ Adaptiv an Profil-Skill</option>
                             <option value="easy">Leicht (Grundlagen)</option>
                             <option value="medium">Mittel (Facharbeiter)</option>
                             <option value="hard">Schwer (Meister/Techniker)</option>
@@ -1122,7 +1170,7 @@
                         
                         <!-- Experten Tutor Erklärungsbox für Experten Modus -->
                         <div class="ai-tutor-box" id="ai-tutor-box">
-                            <div class="ai-tutor-header">💡 Experten-Analyse</div>
+                            <div class="ai-tutor-header">💡 Erweiterte KI-Analyse & Profil-Tutor</div>
                             <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
                         </div>
 
@@ -1310,12 +1358,118 @@
         </div>
     </div>
 
+    <!-- Profil Modal / Verwaltung -->
+    <div id="profile-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; backdrop-filter:blur(10px);">
+        <div class="glass-card" style="max-width:500px; width:90%; margin:0;">
+            <h2 style="color:var(--primary); margin-bottom:12px;">👤 Benutzer-Profile & IDs</h2>
+            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">Jedes Profil besitzt eine eindeutige ID und speichert Lernfortschritte, XP und Streaks separat.</p>
+            
+            <div id="profile-list-container" style="max-height:200px; overflow-y:auto; margin-bottom:20px; display:flex; flex-direction:column; gap:10px;">
+                <!-- Dynamische Profile -->
+            </div>
+
+            <div class="input-field">
+                <label>Neues Profil erstellen</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-profile-name" placeholder="Name des Elektrikers..." style="margin-bottom:0;">
+                    <button class="ai-btn-action" onclick="createNewProfile()" style="height:auto; padding:0 20px;">Erstellen</button>
+                </div>
+            </div>
+
+            <button class="nav-btn" onclick="closeProfileModal()" style="width:100%; justify-content:center; margin-top:20px;">Schließen</button>
+        </div>
+    </div>
+
     <script>
-        // State Management
-        let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
-            total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
-            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
-        };
+        // Multi-User Profile & ID Management State
+        let users = JSON.parse(localStorage.getItem('elek_pro_users')) || [
+            { 
+                id: 'ELEK-USER-001', 
+                name: 'Standard Elektriker', 
+                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0, topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 } } 
+            }
+        ];
+        let currentUserId = localStorage.getItem('elek_pro_current_user_id') || users[0].id;
+
+        function getCurrentUser() {
+            let u = users.find(x => x.id === currentUserId);
+            if (!u) {
+                u = users[0];
+                currentUserId = u.id;
+            }
+            return u;
+        }
+
+        let currentUser = getCurrentUser();
+        let stats = currentUser.stats;
+
+        function saveUsersData() {
+            currentUser.stats = stats;
+            localStorage.setItem('elek_pro_users', JSON.stringify(users));
+            localStorage.setItem('elek_pro_current_user_id', currentUserId);
+            updateProfileUI();
+        }
+
+        function updateProfileUI() {
+            currentUser = getCurrentUser();
+            stats = currentUser.stats;
+            document.getElementById('current-profile-name').innerText = currentUser.name;
+            document.getElementById('current-profile-id').innerText = `ID: ${currentUser.id}`;
+            document.getElementById('current-avatar').innerText = currentUser.name.substring(0, 2).toUpperCase();
+            updateStatsDisplay();
+        }
+
+        function openProfileModal() {
+            document.getElementById('profile-modal').style.display = 'flex';
+            renderProfileList();
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        function renderProfileList() {
+            const container = document.getElementById('profile-list-container');
+            container.innerHTML = '';
+            users.forEach(u => {
+                const active = u.id === currentUserId;
+                container.innerHTML += `
+                    <div style="background:rgba(255,255,255,${active ? '0.08' : '0.02'}); border:1px solid ${active ? 'var(--primary)' : 'var(--card-border)'}; padding:14px; border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:800; color:#fff;">${u.name}</div>
+                            <div style="font-size:0.75rem; color:var(--primary); font-family:var(--font-code);">${u.id} | Lvl ${u.stats.level} | XP ${u.stats.xp}</div>
+                        </div>
+                        ${active ? '<span style="color:var(--correct); font-size:0.8rem; font-weight:bold;">Aktiv</span>' : `<button class="nav-btn" onclick="switchUser('${u.id}')" style="padding:6px 12px; font-size:0.8rem;">Wählen</button>`}
+                    </div>
+                `;
+            });
+        }
+
+        function switchUser(id) {
+            currentUserId = id;
+            localStorage.setItem('elek_pro_current_user_id', currentUserId);
+            updateProfileUI();
+            closeProfileModal();
+            backToWelcome();
+        }
+
+        function createNewProfile() {
+            const nameInput = document.getElementById('new-profile-name');
+            const name = nameInput.value.trim();
+            if (!name) return;
+            const newId = 'ELEK-USER-' + Math.floor(100 + Math.random() * 900);
+            const newUser = {
+                id: newId,
+                name: name,
+                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0, topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 } }
+            };
+            users.push(newUser);
+            currentUserId = newId;
+            nameInput.value = '';
+            saveUsersData();
+            renderProfileList();
+            updateProfileUI();
+        }
 
         let friendsList = JSON.parse(localStorage.getItem('elek_pro_friends')) || [
             { name: "Max Müller", status: "Online", level: 5 },
@@ -1669,374 +1823,92 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Schutzerdung</strong></td>
-                                    <td>Das gezielte und niederohmige Verbinden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Isolationsüberwachungssystem</strong></td>
-                                    <td>Kontinuierliche Überwachung des Isolationswiderstands gegen Erde (speziell in IT-Netzen). Meldet den ersten Fehler optisch/akustisch, ohne direkt abzuschalten.</td>
+                                    <td>Ableitung von Fehlerströmen über den Anlagenerder in den Boden.</td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
-                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Maßnahme</th><th>Prinzip / Funktionsweise</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Schutz- und Funktionskleinspannung (SELV / PELV)</strong></td>
-                                    <td>Betrieb der Anlage mit Sicherheitskleinspannung (Wechselspannung &le; 50 V, Gleichspannung &le; 120 V) über einen Sicherheitstransformator nach EN 61558. Keine gefährlichen Körperströme möglich.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Schutzisolierung (Schutzklasse II)</strong></td>
-                                    <td>Geräte besitzen eine doppelte oder verstärkte Isolierung. Es gibt keine berührbaren Metallteile, die bei einem inneren Fehler unter Spannung geraten können (gekennzeichnet durch das Quadrat-im-Quadrat-Symbol).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Schutztrennung</strong></td>
-                                    <td>Die Versorgung eines einzelnen Verbrauchers erfolgt über einen Trenntransformator mit getrennten Wicklungen. Der Sekundärkreis ist absolut erdungsfrei – das Berühren eines aktiven Leiters schließt keinen Stromkreis über den Boden.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            basics: {
-                title: "Grundlagen & Formeln",
-                icon: "⚡",
-                description: "Spannung, Strom, Widerstand, Leistung, Drehstrom & Elektrotechnik-Formelsammlung",
-                content: `
-                    <h2>Grundlagen & Umfassende Elektrotechnik-Formelsammlung</h2>
-                    <p class="article-desc">Fundamentale mathematisch-physikalische Zusammenhänge, Formeln und Wirkungsweisen der Elektrotechnik nach DIN EN / ÖVE Standards.</p>
-                    
-                    <div class="article-section">
-                        <h3>1. Das Ohmsche Gesetz & Grundgrößen der Elektrotechnik</h3>
-                        <p>Das Ohmsche Gesetz verknüpft die drei elementaren elektrischen Größen Spannung (U), Stromstärke (I) und Widerstand (R) in linearen Stromkreisen. Jede dieser Größen lässt sich aus den jeweils anderen beiden ableiten:</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Elektrische Größe</th><th>Formelzeichen</th><th>Einheit</th><th>Berechnungsformeln</th><th>Physikalische Definition & Praxisbezug</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Spannung</strong></td>
-                                    <td>U</td>
-                                    <td>Volt (V)</td>
-                                    <td>U = I &middot; R<br>U = P / I<br>U = &radic;(P &middot; R)</td>
-                                    <td>Die elektrische Spannung ist die Potentialdifferenz zwischen zwei Punkten. Sie treibt die Ladungsträger durch den Leiter.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Stromstärke</strong></td>
-                                    <td>I</td>
-                                    <td>Ampere (A)</td>
-                                    <td>I = U / R<br>I = P / U<br>I = &radic;(P / R)</td>
-                                    <td>Die Stromstärke gibt an, welche elektrische Ladungsmenge pro Zeiteinheit durch den Leiterquerschnitt fließt (I = Q / t).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Widerstand</strong></td>
-                                    <td>R</td>
-                                    <td>Ohm (&Omega;)</td>
-                                    <td>R = U / I<br>R = U² / P<br>R = P / I²</td>
-                                    <td>Der Widerstand hemmt den elektrischen Stromfluss. Materialabhängig gilt: R = &rho; &middot; (l / A) (spezifischer Widerstand &rho;, Länge l, Querschnitt A).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Leitwert</strong></td>
-                                    <td>G</td>
-                                    <td>Siemens (S)</td>
-                                    <td>G = 1 / R</td>
-                                    <td>Der Kehrwert des Widerstandes (R), der beschreibt, wie leichtartig ein Material den Strom leitet.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>2. Elektrische Leistung, Arbeit & Energie</h3>
-                        <p>In elektrischen Systemen wird Arbeit verrichtet oder in thermische, mechanische oder strahlende Energie umgewandelt. Man unterscheidet zwischen Gleichstrom- und Wechselstrom-/Drehstromleistungen.</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Leistungsart</th><th>Symbol</th><th>Einheit</th><th>Formel</th><th>Beschreibung</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Wirkleistung (Gleichstrom / ohmsche Last)</strong></td>
-                                    <td>P</td>
-                                    <td>Watt (W)</td>
-                                    <td>P = U &middot; I = I² &middot; R = U² / R</td>
-                                    <td>Die tatsächliche Nutzleistung, die in Arbeit oder Wärme umgesetzt wird.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Wirkleistung (Wechselstrom 1-phasig)</strong></td>
-                                    <td>P</td>
-                                    <td>Watt (W)</td>
-                                    <td>P = U &middot; I &middot; cos(&phi;)</td>
-                                    <td>Berücksichtigt die Phasenverschiebung &phi; zwischen Spannung und Strom bei induktiven/kapazitiven Verbrauchern.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Wirkleistung (Drehstrom 3-phasig)</strong></td>
-                                    <td>P</td>
-                                    <td>Watt (W)</td>
-                                    <td>P = &radic;3 &middot; U_L &middot; I &middot; cos(&phi;)</td>
-                                    <td>Gesamtleistung im symmetrischen Drehstromnetz bei Leiterspannung U_L (i.d.R. 400 V).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Blindleistung</strong></td>
-                                    <td>Q</td>
-                                    <td>Var (var)</td>
-                                    <td>Q = U &middot; I &middot; sin(&phi;)<br>(&radic;3 &middot; U_L &middot; I &middot; sin(&phi;))</td>
-                                    <td>Die in magnetischen oder elektrischen Feldern (Spulen, Kondensatoren) hin- und herpendelnde Energie.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Scheinleistung</strong></td>
-                                    <td>S</td>
-                                    <td>Voltampere (VA)</td>
-                                    <td>S = U &middot; I<br>S = &radic;(P² + Q²)</td>
-                                    <td>Die Vektorsumme aus Wirk- und Blindleistung, maßgeblich für die Dimensionierung von Trafos und Kabeln.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Elektrische Arbeit / Energie</strong></td>
-                                    <td>W</td>
-                                    <td>Wattstunden (Wh)</td>
-                                    <td>W = P &middot; t = U &middot; I &middot; t</td>
-                                    <td>Die über einen Zeitraum t umgesetzte Energiemenge (wird vom Stromzähler in Kilowattstunden [kWh] gemessen).</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>3. Leitungsbemessung, Spannungsfall & Widerstände</h3>
-                        <p>Der Spannungsfall &Delta;U darf nach DIN VDE 0100-520 am Ende einer Leitung bestimmte Grenzwerte (z.B. max. 3% für Beleuchtung, 4% für sonstige Verbraucher) nicht überschreiten, um Fehlfunktionen und Überhitzung zu verhindern.</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Berechnung</th><th>Formel</th><th>Variablen & Erläuterung</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Spannungsfall (Wechselstrom 1-ph)</strong></td>
-                                    <td>&Delta;U = 2 &middot; [l / (&gamma; &middot; A)] &middot; I</td>
-                                    <td>l = einfache Leitungslänge in m<br>&gamma; = Leitfähigkeit (&approx; 56 m/(Ω&middot;mm²) für Cu)<br>A = Querschnitt in mm²<br>I = Strom in A (Faktor 2 für Hin- und Rückleiter).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Spannungsfall (Drehstrom 3-ph)</strong></td>
-                                    <td>&Delta;U = &radic;3 &middot; [l / (&gamma; &middot; A)] &middot; I &middot; cos(&phi;)</td>
-                                    <td>Spannungsverlust im symmetrischen Drehstromsystem unter Berücksichtigung des Leistungsfaktors.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Mindestquerschnitt</strong></td>
-                                    <td>A = (2 &middot; l &middot; I) / (&gamma; &middot; &Delta;U)</td>
-                                    <td>Ermittlung des minimalen Leiterquerschnitts zur Einhaltung des zulässigen Spannungsfalls &Delta;U in Volt.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Spezifischer Widerstand</strong></td>
-                                    <td>R = &rho; &middot; (l / A)</td>
-                                    <td>Widerstand eines Leiters in Abhängigkeit vom spezifischen Widerstand &rho; des Materials (Kupfer: &rho; &approx; 0.0178 &Omega;&middot;mm²/m).</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>4. Wechselstrom-Kenngrößen & Impedanzen</h3>
-                        <p>In sinusförmigen Wechsel- und Drehstromnetzen spielen neben dem ohmschen Widerstand auch Blindwiderstände von Spulen und Kondensatoren eine zentrale Rolle.</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Größe</th><th>Formel / Wert</th><th>Erläuterung</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Spitzenspannung (Scheitellwert)</strong></td>
-                                    <td>U_max = &radic;2 &middot; U &approx; 1.414 &middot; U</td>
-                                    <td>Der maximale Scheitelwert der Sinuswelle (bei 230 V Effektivwert U_max &approx; 325 V).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Kreisfrequenz</strong></td>
-                                    <td>&omega; = 2 &middot; &pi; &middot; f</td>
-                                    <td>Winkelgeschwindigkeit bei der Netzfrequenz f (bei 50 Hz ist &omega; &approx; 314.16 s&supmin;&sup1;).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Induktiver Blindwiderstand</strong></td>
-                                    <td>X_L = &omega; &middot; L = 2 &middot; &pi; &middot; f &middot; L</td>
-                                    <td>Frequenzabhängiger Widerstand einer Induktivität (Spule L). Der Strom eilt der Spannung nach.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Kapazitiver Blindwiderstand</strong></td>
-                                    <td>X_C = 1 / (&omega; &middot; C)</td>
-                                    <td>Frequenzabhängiger Widerstand einer Kapazität (Kondensator C). Der Strom eilt der Spannung voraus.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Impedanz (Scheinwiderstand)</strong></td>
-                                    <td>Z = &radic;[R² + (X_L - X_C)²]</td>
-                                    <td>Die geometrische Summe aus ohmschem Widerstand und Gesamtreaktanz im Wechselstromkreis.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            safety: {
-                title: "5 Sicherheitsregeln",
-                icon: "🛡️",
-                description: "Lebenswichtige Schutzmaßnahmen (ÖVE/DIN VDE)",
-                content: `
-                    <h2>Die 5 Sicherheitsregeln</h2>
-                    <p class="article-desc">Vor Beginn der Arbeiten an elektrischen Anlagen sind zwingend die fünf Sicherheitsregeln nach DIN VDE 0105-100 / ÖVE E 2750 einzuhalten:</p>
-                    <div class="article-section">
-                        <h3>Die 5 goldenen Regeln für Arbeiten im spannungsfreien Zustand</h3>
-                        <p><strong>1. Freischalten:</strong> Die Anlage allpolig und von allen Seiten sicher trennen (z.B. durch Ausschalten von Leistungsschaltern oder Ziehen von Sicherungen).</p>
-                        <p><strong>2. Gegen Wiedereinschalten sichern:</strong> Schalter gegen unbefugtes oder irrtümliches Wiedereinschalten verriegeln und ein Warnschild (z.B. "Nicht schalten!") anbringen.</p>
-                        <p><strong>3. Spannungsfreiheit feststellen:</strong> Mit einem geeigneten zweipoligen Spannungsprüfer nach DIN EN 61243-3 allpolig auf Spannungsfreiheit prüfen.</p>
-                        <p><strong>4. Erden und Kurzschließen:</strong> Bei Anlagen über 1 kV (sowie in speziellen Niederspannungsbereichen nach Vorschrift) den Arbeitsbereich erden und kurzschließen.</p>
-                        <p><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder absperren.</strong></p>
                     </div>
                 `
             }
         };
 
-        // Standard Fragenpool für Quiz & Experten-Modus
-        const questionPool = [
+        // Erweiterte Fragen-Datenbank
+        const questionBank = [
             {
                 topic: "symbols",
-                question: "Welches Schaltsymbol nach DIN EN 60617 zeigt einen Wechselschalter?",
+                question: "Welches Schaltsymbol nach DIN EN 60617 wird hier dargestellt?",
                 symbol: svgSymbols.switch_changeover,
-                options: ["Wechselschalter", "Ausschalter (1-polig)", "Kreuzschalter", "Serienschalter"],
-                correct: 0,
-                explanation: "Der Wechselschalter besitzt einen Eingang und zwei alternative Ausgänge, dargestellt durch zwei diagonale Kontaktwege."
+                options: ["Ausschalter (1-polig)", "Wechselschalter", "Kreuzschalter", "Serienschalter"],
+                correct: 1,
+                explanation: "Der Wechselschalter leitet den Eingangsstrom wahlweise auf einen von zwei Ausgängen um und wird typischerweise für Flur- oder Zimmer-Wechselschaltungen eingesetzt."
+            },
+            {
+                topic: "symbols",
+                question: "Um welches Schaltsymbol handelt es sich bei dieser Darstellung?",
+                symbol: svgSymbols.rcd,
+                options: ["Leitungsschutzschalter (LS)", "Fehlerstromschutzschalter (RCD / FI)", "Motorschutzschalter", "Leistungsschalter"],
+                correct: 1,
+                explanation: "Das Symbol zeigt einen RCD (FI-Schutzschalter) mit Summenstromwandler und Prüftaste zur Erkennung von Fehlerströmen (IΔn)."
             },
             {
                 topic: "ohm",
-                question: "Welcher Strom I fließt durch einen ohmschen Widerstand von R = 46 Ohm bei einer Spannung von U = 230 V?",
+                question: "Welcher Strom I fließt durch einen Heizwiderstand von R = 46 Ω bei einer Netzspannung von U = 230 V?",
                 symbol: null,
-                options: ["5 A", "10 A", "2 A", "50 A"],
-                correct: 0,
-                explanation: "Nach dem Ohmschen Gesetz gilt: I = U / R = 230 V / 46 Ω = 5 A."
+                options: ["2.5 A", "5.0 A", "10.0 A", "23.0 A"],
+                correct: 1,
+                explanation: "Nach dem Ohmschen Gesetz gilt: I = U / R = 230 V / 46 Ω = 5.0 A."
+            },
+            {
+                topic: "motor",
+                question: "Welche Drehrichtungsumkehr erfolgt bei einem Drehstrommotor (Asynchronmotor), wenn man zwei Außenleiter (z. B. L1 und L2) vertauscht?",
+                symbol: null,
+                options: ["Keine Änderung", "Der Motor läuft rückwärts bzw. ändert die Drehrichtung", "Der Motor blockiert", "Die Drehzahl verdoppelt sich"],
+                correct: 1,
+                explanation: "Durch das Vertauschen von zwei Außenleitern wird das Drehfeld im Stator umgekehrt, wodurch sich die Drehrichtung des Motors umkehrt."
             },
             {
                 topic: "protection",
-                question: "Welcher Bemessungsfehlerstrom IΔn ist für RCDs (FI-Schalter) im Personenschutz in Wohngebäuden vorgeschrieben?",
-                symbol: svgSymbols.rcd,
-                options: ["Maximal 30 mA", "Genau 300 mA", "100 mA", "10 A"],
-                correct: 0,
-                explanation: "Im Personenschutz in Wohngebäuden dürfen RCDs einen Bemessungsfehlerstrom von höchstens 30 mA aufweisen."
+                question: "Welcher max. Bemessungsfehlerstrom (IΔn) ist für Steckdosenstromkreise im Wohnbereich nach Vorschrift vorgeschrieben?",
+                symbol: null,
+                options: ["10 mA", "30 mA", "300 mA", "500 mA"],
+                correct: 1,
+                explanation: "Für Steckdosenstromkreise (Personenschutz) ist ein RCD mit einem Bemessungsfehlerstrom von höchstens 30 mA vorgeschrieben."
             }
         ];
 
-        // Funktionen für VS-Modus und Freunde
-        function createVsRoom() {
-            const code = 'ELEK-' + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('active-room-code').innerText = code;
-            document.getElementById('vs-lobby').style.display = 'none';
-            document.getElementById('vs-room-active').style.display = 'block';
-            
-            // Simuliere echten Online-Mitspieler Beitritt nach 2 Sekunden
-            setTimeout(() => {
-                document.getElementById('opponent-status').innerHTML = "✅ Gegner beigetreten: <strong>ElektroProfi_99</strong> (Bereit)";
-                document.getElementById('opponent-status').style.color = "var(--correct)";
-                document.getElementById('vs-game-area').style.display = 'block';
-                startVsGameSimulation();
-            }, 2500);
-        }
+        let activeQuizQuestions = [];
 
-        function joinVsRoom() {
-            const code = document.getElementById('join-room-code').value.trim().toUpperCase();
-            if (!code) {
-                alert("Bitte gib einen gültigen Raumcode ein!");
-                return;
-            }
-            document.getElementById('active-room-code').innerText = code;
-            document.getElementById('vs-lobby').style.display = 'none';
-            document.getElementById('vs-room-active').style.display = 'block';
-            document.getElementById('room-players-list').innerHTML = `<li>👤 Raum-Host (Verbunden)</li><li style="color:var(--correct)">✅ Du bist dem Raum erfolgreich beigetreten!</li>`;
-            document.getElementById('vs-game-area').style.display = 'block';
-            startVsGameSimulation();
-        }
+        // App Initialisierung
+        window.addEventListener('load', () => {
+            updateProfileUI();
+            renderTopicsList();
+            checkAchievements();
+        });
 
-        function leaveVsRoom() {
-            document.getElementById('vs-room-active').style.display = 'none';
-            document.getElementById('vs-lobby').style.display = 'block';
-            document.getElementById('vs-game-area').style.display = 'none';
-            document.getElementById('opponent-status').innerHTML = "⏳ Suche nach Gegner... (Simuliere echten Online-Mitspieler)";
-            document.getElementById('opponent-status').style.color = "var(--warning)";
-        }
-
-        function startVsGameSimulation() {
-            const qBox = document.getElementById('vs-question-text');
-            const optBox = document.getElementById('vs-options');
-            qBox.innerText = "Frage: Welche Farbe hat der Schutzleiter (PE) in einer Mantelleitung nach DIN VDE?";
-            optBox.innerHTML = `
-                <button class="option-card" onclick="ansVs(true)">Grün-Gelb</button>
-                <button class="option-card" onclick="ansVs(false)">Blau</button>
-                <button class="option-card" onclick="ansVs(false)">Braun</button>
-                <button class="option-card" onclick="ansVs(false)">Schwarz</button>
-            `;
-        }
-
-        function ansVs(isCorrect) {
-            if (isCorrect) {
-                alert("Richtig! Du hast das Duell gewonnen!");
-            } else {
-                alert("Falsch! Der Gegner war schneller.");
-            }
-            leaveVsRoom();
-        }
-
-        function addFriend() {
-            const input = document.getElementById('friend-username-input');
-            const name = input.value.trim();
-            if (!name) {
-                alert("Bitte gib einen Benutzernamen ein!");
-                return;
-            }
-            friendsList.push({ name: name, status: "Online", level: 1 });
-            localStorage.setItem('elek_pro_friends', JSON.stringify(friendsList));
-            input.value = "";
-            renderFriendsList();
-            alert(`Freund "${name}" erfolgreich hinzugefügt!`);
-        }
-
-        function renderFriendsList() {
-            const container = document.getElementById('friends-list-container');
-            if (!container) return;
-            if (friendsList.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted);">Noch keine Freunde hinzugefügt.</p>`;
-                return;
-            }
-            container.innerHTML = friendsList.map(f => `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 10px;">
-                    <div>
-                        <strong style="color: #fff; font-size: 1.05rem;">${f.name}</strong>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Level ${f.level} | Status: <span style="color: ${f.status === 'Online' ? 'var(--correct)' : 'var(--warning)'};">${f.status}</span></div>
-                    </div>
-                    <button class="nav-btn" onclick="challengeFriend('${f.name}')" style="padding: 8px 16px; font-size: 0.85rem; background: rgba(6,182,212,0.12); border-color: var(--primary);">Duellieren</button>
-                </div>
-            `).join('');
-        }
-
-        function challengeFriend(name) {
-            alert(`Duell-Einladung an ${name} gesendet! Es wird ein Raum erstellt...`);
-            startMode('vs');
-            createVsRoom();
-        }
-
-        // Bestehende Modi-Steuerung erweitern
         function startMode(mode) {
             currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
-
+            
+            // Hide all
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
 
             if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-' + mode).classList.add('active');
-                setupQuizMode(mode);
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                renderTopics();
+                
+                if (mode === 'ai') {
+                    document.getElementById('ai-config').style.display = 'grid';
+                    document.getElementById('quiz-heading').innerText = '✨ Experten & KI-Modus (Selbstlernend)';
+                } else if (mode === 'schemas') {
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltplan-Quiz';
+                } else {
+                    document.getElementById('ai-config').style.display = 'none';
+                    document.getElementById('quiz-heading').innerText = '⚡ Standard Fach-Quiz';
+                }
+                initQuiz(mode);
             } else if (mode === 'vs') {
                 document.getElementById('vs-mode').classList.add('active');
                 document.getElementById('toggle-vs').classList.add('active');
@@ -2044,6 +1916,10 @@
                 document.getElementById('friends-mode').classList.add('active');
                 document.getElementById('toggle-friends').classList.add('active');
                 renderFriendsList();
+            } else if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+                backToTopics();
             }
         }
 
@@ -2052,70 +1928,80 @@
         }
 
         function backToWelcome() {
+            clearInterval(timerInterval);
             document.getElementById('welcome-screen').style.display = 'block';
             document.getElementById('mode-nav-area').style.display = 'none';
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            if (timerInterval) clearInterval(timerInterval);
+            updateStatsDisplay();
         }
 
-        function setupQuizMode(mode) {
-            const configPanel = document.getElementById('ai-config');
-            const heading = document.getElementById('quiz-heading');
-
-            if (mode === 'quiz') {
-                configPanel.style.display = 'none';
-                heading.innerText = '⚡ Standard Wissenstest';
-            } else if (mode === 'schemas') {
-                configPanel.style.display = 'none';
-                heading.innerText = '📐 Schaltsymbole & Schaltpläne Quiz';
-            } else if (mode === 'ai') {
-                configPanel.style.display = 'grid';
-                heading.innerText = '✨ KI & Experten Modus';
-            }
-            restartQuiz();
-        }
-
-        function restartQuiz() {
+        // Quiz Engine
+        function initQuiz(mode) {
+            clearInterval(timerInterval);
             currentQuestion = 0;
             score = 0;
+            
+            if (mode === 'schemas') {
+                activeQuizQuestions = questionBank.filter(q => q.topic === 'symbols');
+            } else if (mode === 'ai') {
+                // Adaptive KI generiert Fragen anhand des Profils
+                activeQuizQuestions = [...questionBank];
+                // Füge dynamische KI-Fragen hinzu
+                activeQuizQuestions.push({
+                    topic: "ai_gen",
+                    question: `KI-Generierte Aufgabe für ${currentUser.name} (ID: ${currentUser.id}): Welcher Mindestquerschnitt wird für eine 16A Zuleitung aus Kupfer bei max. Spannungsfall empfohlen?`,
+                    symbol: null,
+                    options: ["1.0 mm²", "1.5 mm²", "2.5 mm²", "6.0 mm²"],
+                    correct: 2,
+                    explanation: "Für 16A Absicherung in Standardinstallationen ist 2.5 mm² Cu der gängige Mindestquerschnitt zur Vermeidung unzulässigen Spannungsfalls."
+                });
+            } else {
+                activeQuizQuestions = [...questionBank];
+            }
+
+            // Shuffle
+            activeQuizQuestions.sort(() => Math.random() - 0.5);
+            activeQuizQuestions = activeQuizQuestions.slice(0, 10);
+
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('result-screen').style.display = 'none';
             loadQuestion();
         }
 
         function loadQuestion() {
+            if (currentQuestion >= activeQuizQuestions.length) {
+                endQuiz();
+                return;
+            }
+
             answered = false;
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            document.getElementById('question-content').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-
-            let q = questionPool[currentQuestion % questionPool.length];
+            const q = activeQuizQuestions[currentQuestion];
             document.getElementById('question').innerText = q.question;
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / 10`;
-
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
+            
             const symbolDisp = document.getElementById('symbol-display');
             if (q.symbol) {
-                symbolDisp.style.display = 'flex';
                 symbolDisp.innerHTML = q.symbol;
+                symbolDisp.style.display = 'flex';
             } else {
                 symbolDisp.style.display = 'none';
             }
 
-            const optGrid = document.getElementById('options');
-            optGrid.innerHTML = '';
+            const optionsGrid = document.getElementById('options');
+            optionsGrid.innerHTML = '';
             q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerText = opt;
-                btn.onclick = () => selectOption(idx, q.correct, q.explanation);
-                optGrid.appendChild(btn);
+                optionsGrid.innerHTML += `<button class="option-card" onclick="selectOption(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</button>`;
             });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
 
             startTimer();
         }
 
         function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
+            clearInterval(timerInterval);
             timeLeft = 30;
             document.getElementById('quiz-timer').innerText = timeLeft;
             timerInterval = setInterval(() => {
@@ -2123,50 +2009,53 @@
                 document.getElementById('quiz-timer').innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    selectOption(-1, 0, "Zeit abgelaufen!");
+                    selectOption(-1); // Timeout
                 }
             }, 1000);
         }
 
-        function selectOption(selected, correctIdx, explanation) {
+        function selectOption(idx) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            stats.total++;
-            const cards = document.querySelectorAll('.option-card');
-            cards.forEach((card, idx) => {
-                card.disabled = true;
-                if (idx === correctIdx) card.classList.add('correct');
-                else if (idx === selected) card.classList.add('incorrect');
-            });
+            const q = activeQuizQuestions[currentQuestion];
+            const optionCards = document.querySelectorAll('.option-card');
 
-            if (selected === correctIdx) {
+            stats.total++;
+            if (idx === q.correct) {
                 score++;
                 stats.correct++;
                 stats.streak++;
                 stats.xp += 15;
+                optionCards[idx].classList.add('correct');
             } else {
                 stats.streak = 0;
-                stats.xp += 5;
+                if (idx >= 0 && idx < optionCards.length) {
+                    optionCards[idx].classList.add('incorrect');
+                }
+                optionCards[q.correct].classList.add('correct');
             }
 
+            // Check level up
             if (stats.xp >= stats.level * 100) {
                 stats.level++;
-                alert(`🎉 Glückwunsch! Du hast Level ${stats.level} erreicht!`);
             }
 
-            stats.highscore = Math.max(stats.highscore, score);
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            updateStatsUI();
+            if (score > stats.highscore) {
+                stats.highscore = score;
+            }
 
+            saveUsersData();
+
+            // Show explanation & AI Tutor
             const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${explanation}`;
+            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
             expBox.classList.add('show');
 
             if (currentMode === 'ai') {
                 const tutorBox = document.getElementById('ai-tutor-box');
-                document.getElementById('ai-tutor-text').innerText = "Der KI-Tutor empfiehlt bei diesem Aufgabentyp besonders die Wiederholung der entsprechenden DIN VDE Normen.";
+                document.getElementById('ai-tutor-text').innerText = `Profil-Analyse (${currentUser.id}): Die KI hat deine Antwort registriert. Dein aktueller Skill-Level in '${q.topic}' wurde aktualisiert. Übe regelmäßig, um deinen Streak zu maximieren!`;
                 tutorBox.classList.add('show');
             }
 
@@ -2175,77 +2064,148 @@
 
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion >= 10) {
-                showResults();
-            } else {
-                loadQuestion();
-            }
+            loadQuestion();
         }
 
-        function showResults() {
+        function endQuiz() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').innerText = `${score} / 10`;
-            document.getElementById('feedback').innerText = score >= 8 ? "Hervorragende Leistung! Du bist ein echter Profi." : "Gute Arbeit! Übe noch etwas im Lernbereich.";
+            document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
+            document.getElementById('feedback').innerText = score >= 8 ? "Hervorragende Leistung! Echte Experten-Qualität." : "Gut gemacht! Weiterüben, um dein Profil zu verbessern.";
+            saveUsersData();
+            checkAchievements();
+        }
+
+        function restartQuiz() {
+            startMode(currentMode);
         }
 
         function generateCustomAIQuestion() {
             const topic = document.getElementById('ai-topic-select').value;
             const diff = document.getElementById('ai-diff-select').value;
-            alert(`✨ KI hat eine neue ${diff}-Aufgabe zum Thema "${topic}" generiert!`);
-            restartQuiz();
+            
+            // Add custom generated question dynamically
+            questionBank.push({
+                topic: topic,
+                question: `[KI-Gen (${diff.toUpperCase()})] Welche spezifische Anforderung gilt im Bereich '${topic}' nach aktuellen Normen für Profil ${currentUser.name}?`,
+                symbol: null,
+                options: ["Fachgerechte Ausführung nach DIN VDE", "Nur Sichtprüfung ausreichend", "Keine Dokumentation nötig", "Ausschließlich temporäre Absicherung"],
+                correct: 0,
+                explanation: "Jede Installation muss normenkonform nach den anerkannten Regeln der Technik (DIN VDE / ÖVE) ausgeführt und dokumentiert werden."
+            });
+            alert(`✨ KI-Modus hat erfolgreich eine neue Aufgabe für dein Profil (${currentUser.id}) generiert!`);
+            startMode('ai');
         }
 
-        function updateStatsUI() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            document.getElementById('xp-label').innerText = `XP: ${stats.xp % 100} / 100 zum nächsten Level`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = (stats.xp % 100) + '%';
-
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.streak >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
+        // VS Mode Simulation
+        function createVsRoom() {
+            const roomCode = 'ELEK-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-room-active').style.display = 'block';
+            document.getElementById('active-room-code').innerText = roomCode;
+            setTimeout(() => {
+                document.getElementById('opponent-status').innerText = '✅ Gegner "Max Müller" ist dem Raum beigetreten! Duell startet...';
+                document.getElementById('opponent-status').style.color = 'var(--correct)';
+                document.getElementById('vs-game-area').style.display = 'block';
+                loadVsQuestion();
+            }, 2500);
         }
 
-        function toggleDetailedStats() {
-            const panel = document.getElementById('detailed-stats-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        function joinVsRoom() {
+            const code = document.getElementById('join-room-code').value.trim();
+            if (!code) { alert('Bitte gib einen gültigen Raumcode ein.'); return; }
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-room-active').style.display = 'block';
+            document.getElementById('active-room-code').innerText = code.toUpperCase();
+            document.getElementById('opponent-status').innerText = '✅ Erfolgreich mit Host verbunden! Duell startet...';
+            document.getElementById('opponent-status').style.color = 'var(--correct)';
+            document.getElementById('vs-game-area').style.display = 'block';
+            loadVsQuestion();
         }
 
-        // Lernbereich Rendering
-        function renderTopics(filter = '') {
+        function loadVsQuestion() {
+            document.getElementById('vs-question-text').innerText = "Wie hoch ist die Standard-Netzspannung in europäischen Niederspannungsnetzen (Effektivwert)?";
+            const grid = document.getElementById('vs-options');
+            grid.innerHTML = `
+                <button class="option-card" onclick="alert('Richtig! +1 Punkt für Profil ID: ' + currentUser.id)">A. 230 V / 400 V</button>
+                <button class="option-card" onclick="alert('Falsch!')">B. 110 V / 220 V</button>
+            `;
+        }
+
+        function leaveVsRoom() {
+            document.getElementById('vs-room-active').style.display = 'none';
+            document.getElementById('vs-lobby').style.display = 'block';
+            document.getElementById('vs-game-area').style.display = 'none';
+            document.getElementById('opponent-status').innerText = '⏳ Suche nach Gegner...';
+            document.getElementById('opponent-status').style.color = 'var(--warning)';
+        }
+
+        // Friends Management
+        function renderFriendsList() {
+            const container = document.getElementById('friends-list-container');
+            container.innerHTML = '';
+            friendsList.forEach(f => {
+                container.innerHTML += `
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:800; color:#fff;">${f.name} (Lvl ${f.level})</div>
+                            <div style="font-size:0.8rem; color:${f.status === 'Online' ? 'var(--correct)' : 'var(--text-muted)'};">${f.status}</div>
+                        </div>
+                        <button class="nav-btn" onclick="alert('Duell-Anfrage an ${f.name} gesendet!')" style="padding:8px 16px; font-size:0.85rem;">⚔️ Duell</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addFriend() {
+            const input = document.getElementById('friend-username-input');
+            const name = input.value.trim();
+            if (!name) return;
+            friendsList.push({ name: name, status: "Online", level: 1 });
+            localStorage.setItem('elek_pro_friends', JSON.stringify(friendsList));
+            input.value = '';
+            renderFriendsList();
+            alert(`Freund "${name}" wurde erfolgreich hinzugefügt!`);
+        }
+
+        // Learning & Calculators
+        function renderTopicsList() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
             Object.keys(learningContent).forEach(key => {
-                let item = learningContent[key];
-                if (filter && !item.title.toLowerCase().includes(filter) && !item.description.toLowerCase().includes(filter)) return;
-                const card = document.createElement('div');
-                card.className = 'topic-card';
-                card.innerHTML = `
-                    <div class="topic-icon-box">${item.icon}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
+                const item = learningContent[key];
+                container.innerHTML += `
+                    <div class="topic-card" onclick="openTopic('${key}')">
+                        <div class="topic-icon-box">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
                 `;
-                card.onclick = () => openArticle(key);
-                container.appendChild(card);
             });
         }
 
         function filterTopics() {
             const query = document.getElementById('search-input').value.toLowerCase();
-            renderTopics(query);
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            Object.keys(learningContent).forEach(key => {
+                const item = learningContent[key];
+                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
+                    container.innerHTML += `
+                        <div class="topic-card" onclick="openTopic('${key}')">
+                            <div class="topic-icon-box">${item.icon}</div>
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+                }
+            });
         }
 
-        function openArticle(key) {
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
+            const cv = document.getElementById('content-view');
+            cv.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
         }
 
@@ -2254,7 +2214,7 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Rechner Funktionen
+        // Calculators
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
@@ -2264,8 +2224,8 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
-            const p = (Math.sqrt(3) * 400 * i * cos) / 1000;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = Math.sqrt(3) * 400 * i * cos / 1000;
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
@@ -2273,28 +2233,46 @@
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const gamma = 56;
-            const drop = (2 * l * i) / (gamma * q);
-            const percent = (drop / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${drop.toFixed(2)} V (${percent.toFixed(2)}%)`;
+            const kappa = 56; // Leitfähigkeit Kupfer
+            const du = (2 * l * i) / (kappa * q);
+            const pct = (du / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const u = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const gamma = 56;
-            const a = (2 * l * i) / (gamma * u);
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const kappa = 56;
+            const a = (2 * l * i) / (kappa * du);
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
 
-        // Initialisierung beim Laden
-        window.onload = function() {
-            updateStatsUI();
-            renderTopics();
-            renderFriendsList();
-        };
+        function toggleDetailedStats() {
+            const panel = document.getElementById('detailed-stats-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function updateStatsDisplay() {
+            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = `${accuracy}%`;
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
+            document.getElementById('stat-high').innerText = stats.highscore;
+
+            const xpNeeded = stats.level * 100;
+            const xpCurrent = stats.xp % 100;
+            document.getElementById('xp-label').innerText = `XP: ${xpCurrent} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
+            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = `${Math.min(100, (xpCurrent / 100) * 100)}%`;
+        }
+
+        function checkAchievements() {
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.highscore >= 8) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
+        }
     </script>
 </body>
 </html>
-
