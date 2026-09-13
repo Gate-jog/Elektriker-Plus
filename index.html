@@ -1027,15 +1027,8 @@
         let timerInterval = null;
         let timeLeft = 30;
 
-        // Hochauflösende, verbesserte SVG Schaltsymbole Library
+        // Hochauflösende, verbesserte SVG Schaltsymbole Library (Andere Symbole bleiben verfügbar)
         const svgSymbols = {
-            switch_off: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="76" y2="15"/><text x="60" y="60" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Ausschalter (1-pol)</text></svg>`,
-            switch_series: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="35" y1="20" x2="55" y2="20"/><line x1="35" y1="50" x2="55" y2="50"/><line x1="75" y1="20" x2="110" y2="20"/><line x1="75" y1="50" x2="110" y2="50"/><circle cx="35" cy="35" r="4" fill="#06b6d4"/><line x1="35" y1="35" x2="52" y2="20"/><line x1="35" y1="35" x2="52" y2="50"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Serienschalter</text></svg>`,
-            switch_change: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="75" y1="20" x2="110" y2="20"/><line x1="75" y1="50" x2="110" y2="50"/><circle cx="35" cy="35" r="4" fill="#06b6d4"/><circle cx="75" cy="20" r="3" fill="#06b6d4"/><circle cx="75" cy="50" r="3" fill="#06b6d4"/><line x1="35" y1="35" x2="72" y2="20"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Wechselschalter</text></svg>`,
-            switch_cross: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="28" y2="35"/><line x1="82" y1="35" x2="110" y2="35"/><line x1="28" y1="20" x2="82" y2="50"/><line x1="28" y1="50" x2="82" y2="20"/><rect x="28" y="15" width="54" height="40" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="2,2"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Kreuzschalter</text></svg>`,
-            push_button: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="80" y2="35" stroke-dasharray="2,2"/><line x1="60" y1="12" x2="60" y2="33"/><line x1="48" y1="12" x2="72" y2="12"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Taster (Schließer)</text></svg>`,
-            push_button_nc: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="80" y2="35"/><line x1="60" y1="12" x2="60" y2="33"/><line x1="48" y1="12" x2="72" y2="12"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Taster (Öffner)</text></svg>`,
-            impulse_switch: `<svg viewBox="0 0 120 70"><rect x="30" y="15" width="60" height="40" rx="6"/><line x1="10" y1="35" x2="30" y2="35"/><line x1="90" y1="35" x2="110" y2="35"/><text x="60" y="40" font-size="14" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">K</text><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Stromstoßrelais</text></svg>`,
             lamp: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="85" y1="35" x2="110" y2="35"/><circle cx="60" cy="35" r="22"/><line x1="44" y1="19" x2="76" y2="51"/><line x1="44" y1="51" x2="76" y2="19"/><text x="60" y="66" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Leuchte</text></svg>`,
             resistor: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="85" y1="35" x2="110" y2="35"/><rect x="35" y="23" width="50" height="24"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Widerstand</text></svg>`,
             capacitor: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="52" y2="35"/><line x1="68" y1="35" x2="110" y2="35"/><line x1="52" y1="15" x2="52" y2="55"/><line x1="68" y1="15" x2="68" y2="55"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Kondensator</text></svg>`,
@@ -1046,7 +1039,7 @@
             ground: `<svg viewBox="0 0 120 70"><line x1="60" y1="12" x2="60" y2="35"/><line x1="38" y1="35" x2="82" y2="35"/><line x1="46" y1="44" x2="74" y2="44"/><line x1="53" y1="53" x2="67" y2="53"/><text x="60" y="67" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Erde (PE)</text></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive aller Schalter, Taster, Pläne und Symbole
+        // Lerninhalte ohne Bilder bei Schaltern und Tastern
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1056,13 +1049,13 @@
                     <h2>Übersicht der wichtigsten Schaltsymbole</h2>
                     <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
                     <div class="symbol-gallery">
-                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Ausschalter (1-polig)</h4><p>Ein / Aus Schalter</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_series}<h4>Serienschalter</h4><p>Zwei Kreise unabhängig</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_change}<h4>Wechselschalter</h4><p>Wechselkontakt</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_cross}<h4>Kreuzschalter</h4><p>Kreuzung f. Wechselschaltung</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Momentkontakt Schließer</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Momentkontakt Öffner</p></div>
-                        <div class="symbol-card">${svgSymbols.impulse_switch}<h4>Stromstoßschalter</h4><p>Fernschalter / Eltako</p></div>
+                        <div class="symbol-card"><h4>Ausschalter (1-polig)</h4><p>Ein / Aus Schalter</p></div>
+                        <div class="symbol-card"><h4>Serienschalter</h4><p>Zwei Kreise unabhängig</p></div>
+                        <div class="symbol-card"><h4>Wechselschalter</h4><p>Wechselkontakt</p></div>
+                        <div class="symbol-card"><h4>Kreuzschalter</h4><p>Kreuzung f. Wechselschaltung</p></div>
+                        <div class="symbol-card"><h4>Taster (Schließer)</h4><p>Momentkontakt Schließer</p></div>
+                        <div class="symbol-card"><h4>Taster (Öffner)</h4><p>Momentkontakt Öffner</p></div>
+                        <div class="symbol-card"><h4>Stromstoßschalter</h4><p>Fernschalter / Eltako</p></div>
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
                         <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
@@ -1072,71 +1065,33 @@
             schalter_taster: {
                 title: "Alle Schalter, Taster, Pläne & Symbole",
                 icon: "🔘",
-                description: "Vollständige Übersicht aller Schaltungsarten, hochauflösende Schaltpläne & Symbole (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
+                description: "Vollständige Übersicht aller Schaltungsarten (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
                 content: `
                     <h2>Sämtliche Schalter, Taster und Installationsschaltungen</h2>
-                    <p class="article-desc">Detaillierte Stromlaufpläne, Funktionsweisen und genormte Symbole für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE 0100.</p>
+                    <p class="article-desc">Detaillierte Beschreibungen, Funktionsweisen und genormte Begriffe für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE 0100.</p>
 
                     <div class="article-section">
                         <h3>1. Ausschaltung (1-polig)</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte oder einer Verbrauchergruppe von einer einzigen Bedien Stelle aus.</p>
                         <p><strong>Schaltplan-Prinzip:</strong> Der Außenleiter (L) wird über den 1-poligen Ausschalter zur Leuchte geführt. Der Neutralleiter (N) und der Schutzleiter (PE) werden direkt zur Leuchte durchgeschleift.</p>
-                        <svg viewBox="0 0 650 200" style="width:100%; max-width:650px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
-                            <text x="325" y="22" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">AUSSCHALTUNG - PRINZIPSCHALTPLAN</text>
-                            <line x1="30" y1="60" x2="620" y2="60" stroke="#f59e0b" stroke-width="3"/><text x="45" y="52" fill="#f59e0b" font-size="10" font-weight="bold">L (Außenleiter)</text>
-                            <line x1="30" y1="100" x2="620" y2="100" stroke="#3b82f6" stroke-width="3"/><text x="45" y="92" fill="#3b82f6" font-size="10" font-weight="bold">N (Neutralleiter)</text>
-                            <line x1="30" y1="140" x2="620" y2="140" stroke="#10b981" stroke-width="3"/><text x="45" y="132" fill="#10b981" font-size="10" font-weight="bold">PE (Schutzleiter)</text>
-                            <!-- Schalter in L -->
-                            <rect x="200" y="45" width="60" height="30" fill="rgba(255,255,255,0.08)" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="230" y="65" fill="#fff" font-size="10" text-anchor="middle">S1</text>
-                            <!-- Lampe -->
-                            <circle cx="480" cy="80" r="22" fill="none" stroke="#06b6d4" stroke-width="2"/>
-                            <line x1="464" y1="64" x2="496" y2="96" stroke="#06b6d4" stroke-width="2"/>
-                            <line x1="464" y1="96" x2="496" y2="64" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="480" y="120" fill="#06b6d4" font-size="10" text-anchor="middle">E1 (Leuchte)</text>
-                            <!-- Verbindungen -->
-                            <line x1="260" y1="60" x2="458" y2="60" stroke="#f59e0b" stroke-width="2"/>
-                            <line x1="480" y1="102" x2="480" y2="100" stroke="#3b82f6" stroke-width="2"/>
-                        </svg>
-                        <div class="symbol-container">${svgSymbols.switch_off}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>2. Serienschaltung (Doppelausschalter)</h3>
                         <p><strong>Verwendung:</strong> Schalten von zwei verschiedenen Leuchten (oder Leuchtengruppen) von einer gemeinsamen Stelle aus (z.B. Deckenleuchte und Wandleuchte getrennt über eine Wippe).</p>
                         <p><strong>Schaltplan-Prinzip:</strong> Ein gemeinsamer Eingang für L, zwei separate getrennte Ausgänge zu den jeweiligen Verbrauchern über zwei Wippen.</p>
-                        <div class="symbol-container">${svgSymbols.switch_series}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>3. Wechselschaltung</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte von zwei verschiedenen Orten aus (z.B. Flur, Schlafzimmer am Eingang und am Bett).</p>
                         <p><strong>Schaltplan-Prinzip:</strong> Zwei Wechselschalter werden über zwei korrespondierende Adern (K1 und K2) miteinander verbunden. Der Eingang des ersten Schalters erhält den Außenleiter (L), der Ausgang des zweiten Schalters führt direkt zur Lampe.</p>
-                        <svg viewBox="0 0 650 210" style="width:100%; max-width:650px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
-                            <text x="325" y="22" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">WECHSELSCHALTUNG - KORRESPONDIERENDE LEITER</text>
-                            <line x1="30" y1="50" x2="620" y2="50" stroke="#f59e0b" stroke-width="3"/><text x="45" y="42" fill="#f59e0b" font-size="10" font-weight="bold">L</text>
-                            <!-- Schalter 1 -->
-                            <rect x="150" y="35" width="50" height="40" fill="rgba(255,255,255,0.08)" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="175" y="60" fill="#fff" font-size="10" text-anchor="middle">W1</text>
-                            <!-- Korrespondierende -->
-                            <line x1="200" y1="45" x2="380" y2="45" stroke="#ec4899" stroke-width="2"/>
-                            <line x1="200" y1="65" x2="380" y2="65" stroke="#ec4899" stroke-width="2"/>
-                            <text x="290" y="38" fill="#ec4899" font-size="9" text-anchor="middle">Korrespondierende (K1, K2)</text>
-                            <!-- Schalter 2 -->
-                            <rect x="380" y="35" width="50" height="40" fill="rgba(255,255,255,0.08)" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="405" y="60" fill="#fff" font-size="10" text-anchor="middle">W2</text>
-                            <!-- Lampe -->
-                            <circle cx="530" cy="55" r="18" fill="none" stroke="#06b6d4" stroke-width="2"/>
-                            <line x1="430" y1="55" x2="512" y2="55" stroke="#f59e0b" stroke-width="2"/>
-                        </svg>
-                        <div class="symbol-container">${svgSymbols.switch_change}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>4. Kreuzschaltung</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte von drei oder mehr verschiedenen Orten aus.</p>
                         <p><strong>Schaltplan-Prinzip:</strong> Zwischen zwei Wechselschalter wird ein Kreuzschalter eingefügt, der die beiden korrespondierenden Leitungen entweder geradlinig oder gekreuzt durchschleift.</p>
-                        <div class="symbol-container">${svgSymbols.switch_cross}</div>
                     </div>
 
                     <div class="article-section">
@@ -1144,9 +1099,9 @@
                         <p><strong>Verwendung:</strong> Schalten von Leuchten von beliebig vielen Stellen aus über Taster (Rückstellfeder, Schließer) und ein Stromstoßrelais (Schütz / Eltako).</p>
                         <p><strong>Funktionsweise:</strong> Jeder Tastendruck gibt einen kurzen Steuerimpuls auf die Spule des Stromstoßrelais, welches den Hauptkontakt mechanisch oder magnetisch von Ein auf Aus umschaltet. Ideal für Stiegenhäuser (spart Kupfer durch dünne Steuerleitungen).</p>
                         <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 16px 0;">
-                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Standard Lichttaster</p></div>
-                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Unterbricht bei Druck</p></div>
-                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.impulse_switch}<h4>Stromstoßrelais</h4><p>Schaltrelais (Eltako)</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Taster (Schließer)</h4><p>Standard Lichttaster</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Taster (Öffner)</h4><p>Unterbricht bei Druck</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Stromstoßrelais</h4><p>Schaltrelais (Eltako)</p></div>
                         </div>
                     </div>
 
@@ -1347,566 +1302,112 @@
                             <line x1="325" y1="50" x2="590" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="325" y1="80" x2="590" y2="80" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="325" y1="110" x2="590" y2="110" stroke="#f59e0b" stroke-width="3.5"/>
-                            <line x1="302" y1="155" x2="590" y2="135" stroke="#3b82f6" stroke-width="3.5"/>
+                            <line x1="302" y1="155" x2="590" y2="140" stroke="#3b82f6" stroke-width="3.5"/>
                             <line x1="302" y1="155" x2="590" y2="175" stroke="#10b981" stroke-width="4.5"/>
-
-                            <text x="340" y="125" fill="#3b82f6" font-size="10" font-weight="bold">N (getrennt)</text>
-                            <text x="340" y="193" fill="#10b981" font-size="10" font-weight="bold">PE (getrennt)</text>
-
-                            <!-- Verbraucher -->
-                            <rect x="450" y="35" width="150" height="165" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="525" y="100" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
                         </svg>
-                        <p><em>Standard:</em> Das in Europa am häufigsten eingesetzte Netzsystem im Wohnbau (vom EVU im TN-C geliefert, im Gebäude als TN-S weitergeführt).</p>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>4. TT-Netz</h3>
-                        <p><strong>Prinzip:</strong> Die Stromquelle hat eine direkte Betriebserdung, aber die Körper der Verbraucher sind über einen eigenen, vom Versorger unabhängigen Erder (lokaler Erder $R_A$) verbunden. Zwingend mit RCD (FI) abzusichern!</p>
-                        <svg viewBox="0 0 650 240" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(139,92,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                            <text x="325" y="24" fill="#8b5cf6" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">TT NETZSCHEMA (LOKALER ERDER RA AM VERBRAUCHER)</text>
-                            
-                            <!-- Trafo -->
-                            <rect x="30" y="40" width="90" height="145" rx="8" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
-                            <text x="75" y="65" fill="#8b5cf6" font-size="11" font-weight="bold" text-anchor="middle">TRAFO</text>
-                            <line x1="75" y1="145" x2="75" y2="170" stroke="#10b981" stroke-width="2.5"/>
-                            <line x1="60" y1="170" x2="90" y2="170" stroke="#10b981" stroke-width="2.5"/>
-                            <line x1="66" y1="176" x2="84" y2="176" stroke="#10b981" stroke-width="2.5"/>
-                            <text x="75" y="195" fill="#10b981" font-size="9" text-anchor="middle">Quell-Erder</text>
-
-                            <!-- Leiter -->
-                            <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
-                            <line x1="120" y1="110" x2="590" y2="110" stroke="#3b82f6" stroke-width="3.5"/>
-                            <text x="135" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
-                            <text x="135" y="102" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
-
-                            <!-- Verbraucher mit lokalem Erder -->
-                            <rect x="440" y="35" width="150" height="155" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="515" y="80" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">VERBRAUCHER</text>
-                            
-                            <!-- Lokaler Erder Ra -->
-                            <line x1="515" y1="140" x2="515" y2="175" stroke="#10b981" stroke-width="3.5"/>
-                            <line x1="495" y1="175" x2="535" y2="175" stroke="#10b981" stroke-width="3.5"/>
-                            <line x1="503" y1="182" x2="527" y2="182" stroke="#10b981" stroke-width="3.5"/>
-                            <text x="515" y="200" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">Lokaler Erder (RA)</text>
-                        </svg>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>5. IT-Netz</h3>
-                        <p><strong>Prinzip:</strong> Die aktive Einspeisung ist isoliert oder hochohmig geerdet. Bei einem ersten Erdschluss fließt kaum Strom, die Anlage bleibt betriebsbereit. Ein Isolationswächter warnt.</p>
-                        <svg viewBox="0 0 650 240" style="width:100%; max-width:650px; background:linear-gradient(135deg, rgba(15,23,42,0.9), rgba(7,10,18,0.95)); border-radius:14px; padding:20px; margin:16px 0; border:1px solid rgba(236,72,153,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                            <text x="325" y="24" fill="#ec4899" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1">IT NETZSCHEMA (ISOLIERTE / HOCHOHMIGE EINSPEISUNG)</text>
-                            
-                            <!-- Isolierte Quelle -->
-                            <rect x="30" y="40" width="90" height="145" rx="8" fill="rgba(236,72,153,0.08)" stroke="#ec4899" stroke-width="2"/>
-                            <text x="75" y="65" fill="#ec4899" font-size="11" font-weight="bold" text-anchor="middle">TRAFO (IT)</text>
-                            <circle cx="75" cy="110" r="18" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="75" y="114" fill="#fff" font-size="9" text-anchor="middle">Isoliert</text>
-
-                            <!-- Leiter -->
-                            <line x1="120" y1="60" x2="590" y2="60" stroke="#f59e0b" stroke-width="3.5"/>
-                            <line x1="120" y1="110" x2="590" y2="110" stroke="#3b82f6" stroke-width="3.5"/>
-                            <text x="135" y="52" fill="#f59e0b" font-size="11" font-weight="bold">L1</text>
-                            <text x="135" y="102" fill="#3b82f6" font-size="11" font-weight="bold">L2 / N</text>
-
-                            <!-- Verbraucher + Körpererdung -->
-                            <rect x="440" y="35" width="150" height="155" rx="10" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="515" y="80" fill="#06b6d4" font-size="11" font-weight="bold" text-anchor="middle">GERÄT (IT)</text>
-                            <line x1="515" y1="140" x2="515" y2="175" stroke="#10b981" stroke-width="3.5"/>
-                            <line x1="495" y1="175" x2="535" y2="175" stroke="#10b981" stroke-width="3.5"/>
-                            <line x1="503" y1="182" x2="527" y2="182" stroke="#10b981" stroke-width="3.5"/>
-                            <text x="515" y="200" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">Körper-Erder</text>
-                        </svg>
-                    </div>
-                `
-            },
-            fehlerschutz: {
-                title: "Fehlerschutzmaßnahmen (Netzabhängig & Netzunabhängig)",
-                icon: "🛡️",
-                description: "Korrekt nach ÖVE / VDE: Maßnahmen mit und ohne Schutzleiter",
-                content: `
-                    <h2>Fehlerschutzmaßnahmen (Schutz bei indirektem Berühren / im Fehlerfall)</h2>
-                    <p class="article-desc">Nach DIN VDE 0100-410 / ÖVE E 8001 müssen elektrische Betriebsmittel so geschützt sein, dass bei einem Isolationsfehler (Körperschluss) keine gefährlichen berührbaren Spannungen an geerdeten Metallteilen verbleiben.</p>
-                    
-                    <div class="article-section">
-                        <h3>1. Netzabhängige Fehlerschutzmaßnahmen (Erfordern netzseitige Erdung / Schutzleiter / Schleife)</h3>
-                        <p>Diese Schutzmaßnahmen nutzen das bestehende Netzsystem und schalten im Fehlerfall über Schutzorgane ab:</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Maßnahme</th><th>Funktionsweise & Details</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Fehlerstromschutzschaltung (RCD / FI)</strong></td>
-                                    <td>Überwacht die Summe der Ströme. Fließt bei einem Fehlerstrom über den Körper Strom zur Erde ab, löst der RCD in Millisekunden allpolig aus. Unverzichtbar in modernen TN- und TT-Netzen.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Nullung (Klassische Nullung & Schutzziel im TN-Netz)</strong></td>
-                                    <td>Verbindung der Körper elektrischer Betriebsmittel mit dem PEN-Leiter (Nullung) bzw. dem separaten PE. Ein Körperschluss wird dadurch zu einem satten Kurzschluss, der die Überstromschutzeinrichtung (Sicherung/LS) sofort auslöst.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Schutzerdung</strong></td>
-                                    <td>Das gezielte und niederohmige Verbinden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Isolationsüberwachungssystem</strong></td>
-                                    <td>Kontinuierliche Überwachung des Isolationswiderstands gegen Erde (speziell in IT-Netzen). Meldet den ersten Fehler optisch/akustisch, ohne direkt abzuschalten.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
-                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche oder schaltungstechnische Maßnahmen unabhängig vom Netz:</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Maßnahme</th><th>Prinzip / Funktionsweise</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Schutz- und Funktionskleinspannung (SELV / PELV)</strong></td>
-                                    <td>Betrieb der Anlage mit Sicherheitskleinspannung (Wechselspannung $\le 50\,\text{V}$, Gleichspannung $\le 120\,\text{V}$) über einen Sicherheitstransformator nach EN 61558. Keine gefährlichen Körperströme möglich.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Schutzisolierung (Schutzklasse II)</strong></td>
-                                    <td>Geräte besitzen eine doppelte oder verstärkte Isolierung. Es gibt keine berührbaren Metallteile, die bei einem inneren Fehler unter Spannung geraten können (gekennzeichnet durch das Quadrat-im-Quadrat-Symbol).</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Schutztrennung</strong></td>
-                                    <td>Die Versorgung eines einzelnen Verbrauchers erfolgt über einen Trenntransformator mit getrennten Wicklungen. Der Sekundärkreis ist absolut erdungsfrei – das Berühren eines aktiven Leiters schließt keinen Stromkreis über den Boden.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            basics: {
-                title: "Grundlagen & Formeln",
-                icon: "⚡",
-                description: "Spannung, Strom, Widerstand, Leistungskreis",
-                content: `
-                    <h2>Grundlagen der Elektrotechnik</h2>
-                    <p class="article-desc">Die physikalischen Basisgrößen und deren Zusammenspiel.</p>
-                    <div class="article-section">
-                        <h3>Wichtige Formeln</h3>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formel</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Spannung</td><td>U</td><td>Volt (V)</td><td>U = I × R</td></tr>
-                                <tr><td>Stromstärke</td><td>I</td><td>Ampere (A)</td><td>I = U / R</td></tr>
-                                <tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>R = U / I</td></tr>
-                                <tr><td>Wirkleistung</td><td>P</td><td>Watt (W)</td><td>P = U × I × cos φ</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            safety: {
-                title: "5 Sicherheitsregeln",
-                icon: "🛡️",
-                description: "Lebenswichtige Schutzmaßnahmen (ÖVE/DIN VDE)",
-                content: `
-                    <h2>Die 5 Sicherheitsregeln</h2>
-                    <p class="article-desc">Vor Beginn der Arbeiten an elektrischen Anlagen stets in dieser Reihenfolge anwenden.</p>
-                    <div class="article-section">
-                        <ol style="margin-left:20px; line-height: 1.8;">
-                            <li><strong>1. Freischalten:</strong> Allpolige Trennung der Anlage von der Spannungsquelle.</li>
-                            <li><strong>2. Gegen Wiedereinschalten sichern:</strong> Verhindern, dass Dritte die Anlage einschalten.</li>
-                            <li><strong>3. Spannungsfreiheit feststellen:</strong> Allpolig mit zweipoligem Spannungsprüfer (Duspol) prüfen.</li>
-                            <li><strong>4. Erden und Kurzschließen:</strong> Vor allem bei Hochspannung.</li>
-                            <li><strong>5. Benachbarte unter Spannung stehende Teile abdecken.</strong></li>
-                        </ol>
                     </div>
                 `
             }
         };
 
-        const initialQuizData = [
-            { question: "Welches Bauteil stellt dieses Schaltsymbol dar?", symbol: svgSymbols.lamp, options: ["Schalter", "Leuchte / Lampe", "Widerstand", "Kondensator"], answer: 1, explanation: "Ein Kreis mit einem 'X' darin ist das standardisierte Schaltsymbole für eine Leuchte/Lampe." },
-            { question: "Welches elektrotechnische Bauelement wird hier dargestellt?", symbol: svgSymbols.resistor, options: ["Spule", "Sicherung", "Ohmscher Widerstand", "Diode"], answer: 2, explanation: "Ein einfaches Rechteck steht im Schaltplan für einen ohmschen Widerstand." },
-            { question: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "U = I × R", "I = U × R", "P = U × I"], answer: 1, explanation: "Das Ohmsche Gesetz besagt: U (Spannung) = I (Strom) × R (Widerstand)." },
-            { question: "Welches Schaltsymbol ist hier abgebildet?", symbol: svgSymbols.rcd, options: ["Leitungsschutzschalter", "Fehlerstromschutzschalter (RCD)", "Transformator", "Relais"], answer: 1, explanation: "Das Symbol zeigt einen RCD (FI-Schalter) gekennzeichnet durch das Wandlersymbol mit IΔn." },
-            { question: "Welche Farbe hat der Schutzleiter (PE)?", options: ["Blau", "Braun", "Grün-Gelb", "Schwarz"], answer: 2, explanation: "Der Schutzleiter (PE) ist international zwingend grün-gelb." },
-            { question: "Welches Schaltsymbol stellt einen Taster (Schließer) dar?", symbol: svgSymbols.push_button, options: ["Ausschalter", "Taster (Schließer)", "Wechselschalter", "Serienschalter"], answer: 1, explanation: "Der Taster ist durch die unterbrochene Linie mit dem Betätigungskopf oben gekennzeichnet." },
-            { question: "Welcher RCD-Typ ist für glatte Gleichfehlerströme (z.B. Wallbox) nötig?", options: ["Typ A", "Typ AC", "Typ F", "Typ B"], answer: 3, explanation: "Typ B ist allstromsensitiv und erkennt glatte Gleichfehlerströme." },
-            { question: "Wie viel mA Auslösestrom (IΔn) darf an einem FI für den Personenschutz maximal anliegen?", options: ["10 mA", "30 mA", "100 mA", "300 mA"], answer: 1, explanation: "Für den Personenschutz sind maximal 30 mA zulässig." }
-        ];
-
-        let quizData = [...initialQuizData];
-
-        window.onload = () => {
-            updateOnlineStatus();
-            updateStatsUI();
-            loadTopics();
-            calculateOhm();
-            calculate3Phase();
-            calculateVoltageDrop();
-            calculateCrossSection();
-        };
-
-        function updateOnlineStatus() {
-            const badge = document.getElementById('connection-status');
-            if (navigator.onLine) {
-                badge.innerHTML = '<div class="status-dot"></div> Online';
-                badge.classList.remove('offline');
-            } else {
-                badge.innerHTML = '<div class="status-dot"></div> Offline Modus';
-                badge.classList.add('offline');
-            }
-        }
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        function updateStatsUI() {
-            document.getElementById('stat-completed').textContent = stats.total;
-            document.getElementById('stat-high').textContent = stats.highscore;
-            document.getElementById('stat-level').textContent = `Lvl ${stats.level}`;
-            const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').textContent = `${pct}%`;
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.highscore >= 8) document.getElementById('badge-4').classList.add('unlocked');
-        }
-
-        // Navigation & Views
+        // Navigation & Layout Functions
         function startMode(mode) {
-            currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
             switchMode(mode);
         }
 
         function backToWelcome() {
-            clearInterval(timerInterval);
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.getElementById('welcome-screen').style.display = 'block';
             document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
         }
 
         function switchMode(mode) {
             currentMode = mode;
-            clearInterval(timerInterval);
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
 
-            if (mode === 'quiz') {
+            const activeBtn = document.getElementById(`toggle-${mode}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-quiz').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = '⚡ Standard Wissenstest';
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-                restartQuizState();
-            } else if (mode === 'schemas') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-schemas').classList.add('active');
-                document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('quiz-heading').textContent = '📐 Schaltsymbole & Pläne Quiz';
-                quizData = generateSymbolQuizBatch(5);
-                restartQuizState();
-            } else if (mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-ai').classList.add('active');
-                document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').textContent = '✨ Erweiterte KI-Synthese (Unendlich)';
-                generateAICampaignBatch();
+                document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
+                renderTopics();
             }
+            updateStatsDisplay();
         }
 
-        function restartQuizState() {
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('quiz-screen').style.display = 'block';
-            loadQuestion();
+        function updateStatsDisplay() {
+            document.getElementById('stat-score').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
+            document.getElementById('stat-high').innerText = stats.highscore;
         }
 
-        // Quiz Logic
-        function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timeLeft = 30;
-            document.getElementById('quiz-timer').textContent = timeLeft;
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    autoFailQuestion();
-                }
-            }, 1000);
+        // Rechner Funktionen
+        function calculateOhm() {
+            const u = parseFloat(document.getElementById('calc-u').value) || 0;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0;
+            const i = r !== 0 ? (u / r).toFixed(2) : 0;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
         }
 
-        function autoFailQuestion() {
-            if (answered) return;
-            answered = true;
-            const current = quizData[currentQuestion];
-            const buttons = document.querySelectorAll('.option-card');
-            buttons.forEach(btn => btn.disabled = true);
-            if (buttons[current.answer]) {
-                buttons[current.answer].classList.add('correct');
-            }
-            
-            stats.total++;
-            updateStatsUI();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Zeit abgelaufen!</strong> ${current.explanation}`;
-            expBox.classList.add('show');
-            document.getElementById('next-btn').classList.add('show');
+        function calculate3Phase() {
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
+            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
         }
 
-        function loadQuestion() {
-            answered = false;
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizData.length}`;
-            
-            const current = quizData[currentQuestion];
-            let qHtml = current.aiGenerated ? `<span class="ai-tag">✨ Erweiterte Neuronale KI-Synthese</span><br>` : '';
-            qHtml += current.question;
-            document.getElementById('question').innerHTML = qHtml;
-
-            const symbolDisp = document.getElementById('symbol-display');
-            if (current.symbol) {
-                symbolDisp.innerHTML = current.symbol;
-                symbolDisp.style.display = 'flex';
-            } else {
-                symbolDisp.style.display = 'none';
-            }
-
-            const optsDiv = document.getElementById('options');
-            optsDiv.innerHTML = '';
-            
-            current.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerHTML = opt;
-                btn.onclick = () => selectAnswer(idx, btn);
-                optsDiv.appendChild(btn);
-            });
-            startTimer();
+        function calculateVoltageDrop() {
+            const l = parseFloat(document.getElementById('calc-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const du = (2 * l * i) / (56 * q);
+            const percent = (du / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
-        function selectAnswer(idx, btnElement) {
-            if (answered) return;
-            answered = true;
-            clearInterval(timerInterval);
-            
-            const current = quizData[currentQuestion];
-            const buttons = document.querySelectorAll('.option-card');
-            buttons.forEach(btn => btn.disabled = true);
-            
-            stats.total++;
-
-            if (idx === current.answer) {
-                btnElement.classList.add('correct');
-                score++;
-                stats.correct++;
-                stats.xp += 10;
-                if (stats.xp >= stats.level * 50) {
-                    stats.level++;
-                    stats.xp = 0;
-                }
-            } else {
-                btnElement.classList.add('incorrect');
-                if (buttons[current.answer]) {
-                    buttons[current.answer].classList.add('correct');
-                }
-            }
-
-            updateStatsUI();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>${idx === current.answer ? '✅ Richtig!' : '❌ Falsch.'}</strong><br><br>${current.explanation}`;
-            expBox.classList.add('show');
-            document.getElementById('next-btn').classList.add('show');
+        function calculateCrossSection() {
+            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const q = (2 * l * i) / (56 * du);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
         }
 
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < quizData.length) {
-                loadQuestion();
-            } else {
-                endQuiz();
-            }
-        }
-
-        function endQuiz() {
-            clearInterval(timerInterval);
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').textContent = `${score} / ${quizData.length}`;
-            
-            if (score > stats.highscore) {
-                stats.highscore = score;
-                updateStatsUI();
-            }
-
-            let fb = "Gutes Training!";
-            if (score === quizData.length) fb = "Perfekt! Du bist ein Meister-Elektriker.";
-            else if (score < quizData.length / 2) fb = "Da ist noch Luft nach oben. Schau mal im Lernbereich vorbei.";
-            document.getElementById('feedback').textContent = fb;
-        }
-
-        function restartQuiz() {
-            clearInterval(timerInterval);
-            if (currentMode === 'schemas') {
-                quizData = generateSymbolQuizBatch(5);
-            } else if (currentMode === 'quiz') {
-                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
-            } else if (currentMode === 'ai') {
-                generateAICampaignBatch();
-                return;
-            }
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('quiz-screen').style.display = 'block';
-            loadQuestion();
-        }
-
-        function generateSymbolQuizBatch(count) {
-            let batch = [];
-            for (let i = 0; i < count; i++) {
-                batch.push(generateDynamicSymbolQuestion());
-            }
-            return batch;
-        }
-
-        function generateDynamicSymbolQuestion() {
-            const symbolList = [
-                { name: "Ausschalter (1-polig)", svg: svgSymbols.switch_off, desc: "Mechanischer Schalter zum Trennen eines Stromkreises." },
-                { name: "Serienschalter", svg: svgSymbols.switch_series, desc: "Schaltet zwei Verbraucher von einer Stelle unabhängig voneinander." },
-                { name: "Wechselschalter", svg: svgSymbols.switch_change, desc: "Leitet den Strom wahlweise auf einen von zwei Ausgängen um." },
-                { name: "Kreuzschalter", svg: svgSymbols.switch_cross, desc: "Wird zwischen zwei Wechselschalter gesetzt für Schaltung von 3+ Stellen." },
-                { name: "Taster (Schließer)", svg: svgSymbols.push_button, desc: "Schließt den Kontakt nur solange die Betätigung erfolgt." },
-                { name: "Taster (Öffner)", svg: svgSymbols.push_button_nc, desc: "Öffnet den Kontakt beim Drücken." },
-                { name: "Stromstoßschalter", svg: svgSymbols.impulse_switch, desc: "Fernschalter / Eltako für Tasterschaltungen." },
-                { name: "Leuchte / Lampe", svg: svgSymbols.lamp, desc: "Standard-Schaltsymbole für ein optisches Leuchtmittel." },
-                { name: "Ohmscher Widerstand", svg: svgSymbols.resistor, desc: "Standardrechteck für Festwiderstände in Schaltplänen." },
-                { name: "Kondensator", svg: svgSymbols.capacitor, desc: "Zwei parallele Platten symbolisieren die Kapazität." },
-                { name: "Diode", svg: svgSymbols.diode, desc: "Pfeil zeigt die Durchlassrichtung des Stroms an." },
-                { name: "Transformator", svg: svgSymbols.transformer, desc: "Zwei überlappende Kreise symbolisieren die induktive Kopplung." },
-                { name: "RCD (FI-Schalter)", svg: svgSymbols.rcd, desc: "Zeigt das Gehäuse mit Summenstromwandler und Fehlerstromangabe." },
-                { name: "Sicherung", svg: svgSymbols.fuse, desc: "Rechteck mit durchgehender Kennlinie für Überstromschutz." },
-                { name: "Erder / Masse", svg: svgSymbols.ground, desc: "Kennzeichnet das Potenzial der Erde bzw. der Schutzerdung." }
-            ];
-
-            const correctSymbol = symbolList[Math.floor(Math.random() * symbolList.length)];
-            let wrongOptions = symbolList.filter(s => s.name !== correctSymbol.name).map(s => s.name);
-            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
-            const allOptions = shuffleArray([correctSymbol.name, ...wrongOptions]);
-            const correctIndex = allOptions.indexOf(correctSymbol.name);
-
-            return {
-                question: `Welche elektrotechnische Funktion/Komponente gehört zu diesem Norm-Schaltsymbol?`,
-                symbol: correctSymbol.svg,
-                options: allOptions,
-                answer: correctIndex,
-                explanation: `<b>${correctSymbol.name}:</b> ${correctSymbol.desc}`,
-                aiGenerated: true
-            };
-        }
-
-        function generateAICampaignBatch() {
-            clearInterval(timerInterval);
-            const selectedTopic = document.getElementById('ai-topic-select').value;
-            const selectedDiff = document.getElementById('ai-diff-select').value;
-
-            let batch = [];
-            for (let i = 0; i < 5; i++) {
-                let topicToUse = selectedTopic;
-                if (topicToUse === 'random') {
-                    const topics = ['symbols', 'ohm', 'motor', 'protection', 'cables', 'ip'];
-                    topicToUse = topics[Math.floor(Math.random() * topics.length)];
-                }
-                if (topicToUse === 'symbols') {
-                    batch.push(generateDynamicSymbolQuestion());
-                } else {
-                    batch.push(generateDynamicAIQuestion(topicToUse, selectedDiff));
-                }
-            }
-            quizData = batch;
-            restartQuizState();
-        }
-
-        function generateCustomAIQuestion() {
-            generateAICampaignBatch();
-        }
-
-        function generateDynamicAIQuestion(topic, difficulty) {
-            const questionsPool = {
-                ohm: [
-                    { question: "Welche Leistung P nimmt ein Verbraucher bei U = 230V und I = 10A auf?", options: ["230 W", "2300 W", "23 kW", "2.3 W"], answer: 1, explanation: "P = U * I = 230V * 10A = 2300 W (2.3 kW)." },
-                    { question: "Wie groß ist der Widerstand R bei U = 24V und I = 3A?", options: ["8 Ohm", "72 Ohm", "0.125 Ohm", "21 Ohm"], answer: 0, explanation: "R = U / I = 24 / 3 = 8 Ohm." }
-                ],
-                motor: [
-                    { question: "Wann tritt bei einem Asynchronmotor der maximale Schlupf auf?", options: ["Bei Nenndrehzahl", "Beim Anlauf (Stillstand s=1)", "Im Leerlauf", "Bei synchrone Drehzahl"], answer: 1, explanation: "Beim Anlauf (Stillstand der Welle) ist die Drehzahl n=0, somit ist der Schlupf s = 1 (100%)." },
-                    { question: "Welche Schaltungsart wird bei einem Drehstrommotor für das höhere Netz (Stern/Dreieck) an kleinerer Spannung verwendet?", options: ["Sternschaltung", "Dreieckschaltung", "Reihenschaltung", "Parallelschaltung"], answer: 1, explanation: "In Dreieckschaltung liegt die volle Leiterspannung an jeder Wicklung." }
-                ],
-                protection: [
-                    { question: "Welche Abschaltdauer ist für Endstromkreise bis 32A im TN-Netz bei 230V vorgeschrieben?", options: ["0.4 Sekunden", "5.0 Sekunden", "0.2 Sekunden", "1.0 Sekunde"], answer: 0, explanation: "Nach ÖVE / VDE 0100-410 beträgt die max. Ausschaltzeit für Endstromkreise bis 32A in 230V-Netzen 0.4 Sekunden." },
-                    { question: "Welche Farbe hat der Neutralleiter (N)?", options: ["Grün-Gelb", "Schwarz", "Blau", "Braun"], answer: 2, explanation: "Der Neutralleiter N ist international blau gekennzeichnet." }
-                ],
-                cables: [
-                    { question: "Wovon hängt die Strombelastbarkeit I_z einer Leitung in der Praxis ab?", options: ["Nur von der Kabellänge", "Verlegeart, Häufung, Umgebungstemperatur", "Nur von der Sicherungsgröße", "Nur vom Material Kupfer/Alu"], answer: 1, explanation: "Die Strombelastbarkeit hängt von Verlegeart (A1, A2, C, E etc.), Häufung und Umgebungstemperatur ab." },
-                    { question: "Welcher Faktor beeinflusst den Spannungsfall in einer Leitung primär?", options: ["Leitungslänge und Querschnitt", "Nur die Farbe der Ader", "Isolationsmaterial", "Die Gehäuseschutzart"], answer: 0, explanation: "Der Spannungsfall ΔU ist proportional zur Länge l und umgekehrt proportional zum Querschnitt A." }
-                ],
-                ip: [
-                    { question: "Was bedeutet die zweite Ziffer bei der IP-Schutzart (z.B. IP65)?", options: ["Schutz gegen Berührung und Fremdkörper", "Schutz gegen Wasser", "Schutz gegen Stoßfestigkeit (IK)", "Maximale Temperatur"], answer: 1, explanation: "Die erste Ziffer steht für Fremdkörper/Berührung, die zweite Ziffer (hier 5) steht für Schutz gegen Wasser (Strahlwasser)." },
-                    { question: "Welche IP-Schutzart ist für Leuchten in der Zone 1 einer Dusche/Badewanne mindestens erforderlich?", options: ["IPX0", "IPX4 (bzw. IPX5 bei Strahlwasser)", "IP68", "IP20"], answer: 1, explanation: "In Feuchträumen/Duschen Zone 1 mind. IPX4 (bzw. gegen allseitiges Spritzwasser)." }
-                ]
-            };
-
-            const pool = questionsPool[topic] || questionsPool.ohm;
-            const q = pool[Math.floor(Math.random() * pool.length)];
-            return {
-                question: q.question,
-                options: q.options,
-                answer: q.answer,
-                explanation: q.explanation,
-                aiGenerated: true
-            };
-        }
-
-        function loadTopics() {
+        // Lernbereich Funktionen
+        function renderTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-            for (let key in learningContent) {
+            Object.keys(learningContent).forEach(key => {
                 const topic = learningContent[key];
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => openTopic(key);
+                card.onclick = () => showTopic(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${topic.icon}</div>
                     <h3>${topic.title}</h3>
                     <p>${topic.description}</p>
                 `;
                 container.appendChild(card);
-            }
+            });
         }
 
         function filterTopics() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-            for (let key in learningContent) {
+            Object.keys(learningContent).forEach(key => {
                 const topic = learningContent[key];
                 if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
                     const card = document.createElement('div');
                     card.className = 'topic-card';
-                    card.onclick = () => openTopic(key);
+                    card.onclick = () => showTopic(key);
                     card.innerHTML = `
                         <div class="topic-icon-box">${topic.icon}</div>
                         <h3>${topic.title}</h3>
@@ -1914,54 +1415,22 @@
                     `;
                     container.appendChild(card);
                 }
-            }
+            });
         }
 
-        function openTopic(key) {
+        function showTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
             document.getElementById('content-view').style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
             document.getElementById('content-view').style.display = 'none';
             document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function calculateOhm() {
-            const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = u / r;
-            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i.toFixed(2)} A`;
-        }
-
-        function calculate3Phase() {
-            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = Math.sqrt(3) * 400 * i * cos / 1000;
-            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
-        }
-
-        function calculateVoltageDrop() {
-            const l = parseFloat(document.getElementById('calc-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
-            const kappa = 56; // Leitfähigkeit Kupfer
-            const du = (2 * l * i) / (kappa * q);
-            const pct = (du / 230) * 100;
-            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
-        }
-
-        function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const duMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            const q = (2 * l * i) / (kappa * duMax);
-            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
-        }
+        // Init
+        updateStatsDisplay();
     </script>
 </body>
 </html>
