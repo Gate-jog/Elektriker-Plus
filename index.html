@@ -465,19 +465,6 @@
             stroke-linejoin: round;
         }
 
-        .ai-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--ai-color), var(--secondary));
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -593,10 +580,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-
-        .topic-icon-box { font-size: 2.2rem; margin-bottom: 16px; }
-        .topic-card h3 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 8px; font-weight: 700; }
-        .topic-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
 
         .calc-grid {
             display: grid;
@@ -1027,8 +1010,15 @@
         let timerInterval = null;
         let timeLeft = 30;
 
-        // Hochauflösende, verbesserte SVG Schaltsymbole Library (Andere Symbole bleiben verfügbar)
+        // Hochauflösende, verbesserte SVG Schaltsymbole Library
         const svgSymbols = {
+            switch_off: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="76" y2="15"/><text x="60" y="60" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Ausschalter (1-pol)</text></svg>`,
+            switch_series: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="35" y1="20" x2="55" y2="20"/><line x1="35" y1="50" x2="55" y2="50"/><line x1="75" y1="20" x2="110" y2="20"/><line x1="75" y1="50" x2="110" y2="50"/><circle cx="35" cy="35" r="4" fill="#06b6d4"/><line x1="35" y1="35" x2="52" y2="20"/><line x1="35" y1="35" x2="52" y2="50"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Serienschalter</text></svg>`,
+            switch_change: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="75" y1="20" x2="110" y2="20"/><line x1="75" y1="50" x2="110" y2="50"/><circle cx="35" cy="35" r="4" fill="#06b6d4"/><circle cx="75" cy="20" r="3" fill="#06b6d4"/><circle cx="75" cy="50" r="3" fill="#06b6d4"/><line x1="35" y1="35" x2="72" y2="20"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Wechselschalter</text></svg>`,
+            switch_cross: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="28" y2="35"/><line x1="82" y1="35" x2="110" y2="35"/><line x1="28" y1="20" x2="82" y2="50"/><line x1="28" y1="50" x2="82" y2="20"/><rect x="28" y="15" width="54" height="40" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="2,2"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Kreuzschalter</text></svg>`,
+            push_button: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="80" y2="35" stroke-dasharray="2,2"/><line x1="60" y1="12" x2="60" y2="33"/><line x1="48" y1="12" x2="72" y2="12"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Taster (Schließer)</text></svg>`,
+            push_button_nc: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="40" y2="35"/><line x1="80" y1="35" x2="110" y2="35"/><circle cx="40" cy="35" r="4" fill="#06b6d4"/><circle cx="80" cy="35" r="4" fill="#06b6d4"/><line x1="40" y1="35" x2="80" y2="35"/><line x1="60" y1="12" x2="60" y2="33"/><line x1="48" y1="12" x2="72" y2="12"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Taster (Öffner)</text></svg>`,
+            impulse_switch: `<svg viewBox="0 0 120 70"><rect x="30" y="15" width="60" height="40" rx="6"/><line x1="10" y1="35" x2="30" y2="35"/><line x1="90" y1="35" x2="110" y2="35"/><text x="60" y="40" font-size="14" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">K</text><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Stromstoßrelais</text></svg>`,
             lamp: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="85" y1="35" x2="110" y2="35"/><circle cx="60" cy="35" r="22"/><line x1="44" y1="19" x2="76" y2="51"/><line x1="44" y1="51" x2="76" y2="19"/><text x="60" y="66" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Leuchte</text></svg>`,
             resistor: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="35" y2="35"/><line x1="85" y1="35" x2="110" y2="35"/><rect x="35" y="23" width="50" height="24"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Widerstand</text></svg>`,
             capacitor: `<svg viewBox="0 0 120 70"><line x1="10" y1="35" x2="52" y2="35"/><line x1="68" y1="35" x2="110" y2="35"/><line x1="52" y1="15" x2="52" y2="55"/><line x1="68" y1="15" x2="68" y2="55"/><text x="60" y="65" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Kondensator</text></svg>`,
@@ -1039,7 +1029,7 @@
             ground: `<svg viewBox="0 0 120 70"><line x1="60" y1="12" x2="60" y2="35"/><line x1="38" y1="35" x2="82" y2="35"/><line x1="46" y1="44" x2="74" y2="44"/><line x1="53" y1="53" x2="67" y2="53"/><text x="60" y="67" font-size="9" text-anchor="middle" fill="#94a3b8" stroke="none">Erde (PE)</text></svg>`
         };
 
-        // Lerninhalte ohne Bilder bei Schaltern und Tastern
+        // Erweiterte Lerninhalte
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1049,13 +1039,13 @@
                     <h2>Übersicht der wichtigsten Schaltsymbole</h2>
                     <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
                     <div class="symbol-gallery">
-                        <div class="symbol-card"><h4>Ausschalter (1-polig)</h4><p>Ein / Aus Schalter</p></div>
-                        <div class="symbol-card"><h4>Serienschalter</h4><p>Zwei Kreise unabhängig</p></div>
-                        <div class="symbol-card"><h4>Wechselschalter</h4><p>Wechselkontakt</p></div>
-                        <div class="symbol-card"><h4>Kreuzschalter</h4><p>Kreuzung f. Wechselschaltung</p></div>
-                        <div class="symbol-card"><h4>Taster (Schließer)</h4><p>Momentkontakt Schließer</p></div>
-                        <div class="symbol-card"><h4>Taster (Öffner)</h4><p>Momentkontakt Öffner</p></div>
-                        <div class="symbol-card"><h4>Stromstoßschalter</h4><p>Fernschalter / Eltako</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Ausschalter (1-polig)</h4><p>Ein / Aus Schalter</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_series}<h4>Serienschalter</h4><p>Zwei Kreise unabhängig</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_change}<h4>Wechselschalter</h4><p>Wechselkontakt</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_cross}<h4>Kreuzschalter</h4><p>Kreuzung f. Wechselschaltung</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Momentkontakt Schließer</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Momentkontakt Öffner</p></div>
+                        <div class="symbol-card">${svgSymbols.impulse_switch}<h4>Stromstoßschalter</h4><p>Fernschalter / Eltako</p></div>
                         <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
                         <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
                         <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
@@ -1063,35 +1053,39 @@
                 `
             },
             schalter_taster: {
-                title: "Alle Schalter, Taster, Pläne & Symbole",
+                title: "Alle Schalter, Taster & Symbole",
                 icon: "🔘",
-                description: "Vollständige Übersicht aller Schaltungsarten (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
+                description: "Vollständige Übersicht aller Schaltungsarten & Symbole (Aus-, Wechsel-, Kreuz-, Serienschaltung & Taster)",
                 content: `
                     <h2>Sämtliche Schalter, Taster und Installationsschaltungen</h2>
-                    <p class="article-desc">Detaillierte Beschreibungen, Funktionsweisen und genormte Begriffe für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE 0100.</p>
+                    <p class="article-desc">Funktionsweisen und genormte Symbole für alle gängigen Schalt- und Tasterarten nach ÖVE / VDE 0100.</p>
 
                     <div class="article-section">
                         <h3>1. Ausschaltung (1-polig)</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte oder einer Verbrauchergruppe von einer einzigen Bedien Stelle aus.</p>
-                        <p><strong>Schaltplan-Prinzip:</strong> Der Außenleiter (L) wird über den 1-poligen Ausschalter zur Leuchte geführt. Der Neutralleiter (N) und der Schutzleiter (PE) werden direkt zur Leuchte durchgeschleift.</p>
+                        <p><strong>Schaltprinzip:</strong> Der Außenleiter (L) wird über den 1-poligen Ausschalter zur Leuchte geführt. Der Neutralleiter (N) und der Schutzleiter (PE) werden direkt zur Leuchte durchgeschleift.</p>
+                        <div class="symbol-container">${svgSymbols.switch_off}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>2. Serienschaltung (Doppelausschalter)</h3>
                         <p><strong>Verwendung:</strong> Schalten von zwei verschiedenen Leuchten (oder Leuchtengruppen) von einer gemeinsamen Stelle aus (z.B. Deckenleuchte und Wandleuchte getrennt über eine Wippe).</p>
-                        <p><strong>Schaltplan-Prinzip:</strong> Ein gemeinsamer Eingang für L, zwei separate getrennte Ausgänge zu den jeweiligen Verbrauchern über zwei Wippen.</p>
+                        <p><strong>Schaltprinzip:</strong> Ein gemeinsamer Eingang für L, zwei separate getrennte Ausgänge zu den jeweiligen Verbrauchern über zwei Wippen.</p>
+                        <div class="symbol-container">${svgSymbols.switch_series}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>3. Wechselschaltung</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte von zwei verschiedenen Orten aus (z.B. Flur, Schlafzimmer am Eingang und am Bett).</p>
-                        <p><strong>Schaltplan-Prinzip:</strong> Zwei Wechselschalter werden über zwei korrespondierende Adern (K1 und K2) miteinander verbunden. Der Eingang des ersten Schalters erhält den Außenleiter (L), der Ausgang des zweiten Schalters führt direkt zur Lampe.</p>
+                        <p><strong>Schaltprinzip:</strong> Zwei Wechselschalter werden über zwei korrespondierende Adern (K1 und K2) miteinander verbunden. Der Eingang des ersten Schalters erhält den Außenleiter (L), der Ausgang des zweiten Schalters führt direkt zur Lampe.</p>
+                        <div class="symbol-container">${svgSymbols.switch_change}</div>
                     </div>
 
                     <div class="article-section">
                         <h3>4. Kreuzschaltung</h3>
                         <p><strong>Verwendung:</strong> Schalten einer Leuchte von drei oder mehr verschiedenen Orten aus.</p>
-                        <p><strong>Schaltplan-Prinzip:</strong> Zwischen zwei Wechselschalter wird ein Kreuzschalter eingefügt, der die beiden korrespondierenden Leitungen entweder geradlinig oder gekreuzt durchschleift.</p>
+                        <p><strong>Schaltprinzip:</strong> Zwischen zwei Wechselschalter wird ein Kreuzschalter eingefügt, der die beiden korrespondierenden Leitungen entweder geradlinig oder gekreuzt durchschleift.</p>
+                        <div class="symbol-container">${svgSymbols.switch_cross}</div>
                     </div>
 
                     <div class="article-section">
@@ -1099,9 +1093,9 @@
                         <p><strong>Verwendung:</strong> Schalten von Leuchten von beliebig vielen Stellen aus über Taster (Rückstellfeder, Schließer) und ein Stromstoßrelais (Schütz / Eltako).</p>
                         <p><strong>Funktionsweise:</strong> Jeder Tastendruck gibt einen kurzen Steuerimpuls auf die Spule des Stromstoßrelais, welches den Hauptkontakt mechanisch oder magnetisch von Ein auf Aus umschaltet. Ideal für Stiegenhäuser (spart Kupfer durch dünne Steuerleitungen).</p>
                         <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 16px 0;">
-                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Taster (Schließer)</h4><p>Standard Lichttaster</p></div>
-                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Taster (Öffner)</h4><p>Unterbricht bei Druck</p></div>
-                            <div class="symbol-card" style="flex:1; min-width:180px;"><h4>Stromstoßrelais</h4><p>Schaltrelais (Eltako)</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Standard Lichttaster</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Unterbricht bei Druck</p></div>
+                            <div class="symbol-card" style="flex:1; min-width:180px;">${svgSymbols.impulse_switch}<h4>Stromstoßrelais</h4><p>Schaltrelais (Eltako)</p></div>
                         </div>
                     </div>
 
@@ -1302,15 +1296,32 @@
                             <line x1="325" y1="50" x2="590" y2="50" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="325" y1="80" x2="590" y2="80" stroke="#f59e0b" stroke-width="3.5"/>
                             <line x1="325" y1="110" x2="590" y2="110" stroke="#f59e0b" stroke-width="3.5"/>
-                            <line x1="302" y1="155" x2="590" y2="140" stroke="#3b82f6" stroke-width="3.5"/>
-                            <line x1="302" y1="155" x2="590" y2="175" stroke="#10b981" stroke-width="4.5"/>
+                            <line x1="325" y1="140" x2="590" y2="140" stroke="#3b82f6" stroke-width="3.5"/>
+                            <line x1="325" y1="175" x2="590" y2="175" stroke="#10b981" stroke-width="4.5"/>
+
+                            <text x="340" y="133" fill="#3b82f6" font-size="10" font-weight="bold">N-Leiter</text>
+                            <text x="340" y="168" fill="#10b981" font-size="10" font-weight="bold">PE-Leiter</text>
                         </svg>
+                        <p><em>Anwendung:</em> Standard in heutigen Elektroinstallationen im Wohnbau.</p>
                     </div>
                 `
             }
         };
 
-        // Navigation & Layout Functions
+        // Navigation & Functions
+        function updateStats() {
+            document.getElementById('stat-score').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').innerText = stats.highscore;
+
+            if(stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if(stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if(stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            
+            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
+        }
+
         function startMode(mode) {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
@@ -1326,29 +1337,59 @@
         function switchMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
 
-            const activeBtn = document.getElementById(`toggle-${mode}`);
-            if (activeBtn) activeBtn.classList.add('active');
+            const activeToggle = document.getElementById('toggle-' + mode);
+            if(activeToggle) activeToggle.classList.add('active');
 
-            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
+            if(mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
-            } else if (mode === 'learn') {
+                document.getElementById('quiz-heading').innerText = mode === 'ai' ? '✨ KI Modus' : (mode === 'schemas' ? '📐 Schaltsymbole Test' : '📝 Standard Quiz');
+            } else if(mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
                 renderTopics();
             }
-            updateStatsDisplay();
         }
 
-        function updateStatsDisplay() {
-            document.getElementById('stat-score').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
+        function renderTopics() {
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            Object.keys(learningContent).forEach(key => {
+                const topic = learningContent[key];
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => showTopic(key);
+                card.innerHTML = `
+                    <div style="font-size:2rem; margin-bottom:12px;">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                `;
+                container.appendChild(card);
+            });
         }
 
-        // Rechner Funktionen
+        function showTopic(key) {
+            document.getElementById('topics-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
+        }
+
+        function backToTopics() {
+            document.getElementById('topics-view').style.display = 'block';
+            document.getElementById('content-view').style.display = 'none';
+        }
+
+        function filterTopics() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.topic-card');
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // Calculations
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 0;
@@ -1358,7 +1399,7 @@
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
             const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
             document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
         }
@@ -1366,7 +1407,7 @@
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
             const du = (2 * l * i) / (56 * q);
             const percent = (du / 230) * 100;
             document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
@@ -1380,57 +1421,8 @@
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
         }
 
-        // Lernbereich Funktionen
-        function renderTopics() {
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            Object.keys(learningContent).forEach(key => {
-                const topic = learningContent[key];
-                const card = document.createElement('div');
-                card.className = 'topic-card';
-                card.onclick = () => showTopic(key);
-                card.innerHTML = `
-                    <div class="topic-icon-box">${topic.icon}</div>
-                    <h3>${topic.title}</h3>
-                    <p>${topic.description}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function filterTopics() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            Object.keys(learningContent).forEach(key => {
-                const topic = learningContent[key];
-                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
-                    const card = document.createElement('div');
-                    card.className = 'topic-card';
-                    card.onclick = () => showTopic(key);
-                    card.innerHTML = `
-                        <div class="topic-icon-box">${topic.icon}</div>
-                        <h3>${topic.title}</h3>
-                        <p>${topic.description}</p>
-                    `;
-                    container.appendChild(card);
-                }
-            });
-        }
-
-        function showTopic(key) {
-            document.getElementById('topics-view').style.display = 'none';
-            document.getElementById('content-view').style.display = 'block';
-            document.getElementById('content-container').innerHTML = learningContent[key].content;
-        }
-
-        function backToTopics() {
-            document.getElementById('content-view').style.display = 'none';
-            document.getElementById('topics-view').style.display = 'block';
-        }
-
         // Init
-        updateStatsDisplay();
+        updateStats();
     </script>
 </body>
 </html>
