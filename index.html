@@ -1542,61 +1542,124 @@
                 description: "Spannung, Strom, Widerstand, Leistung, Drehstrom & Elektrotechnik-Formelsammlung",
                 content: `
                     <h2>Grundlagen & Umfassende Elektrotechnik-Formelsammlung</h2>
-                    <p class="article-desc">Alle wichtigen physikalischen Basisgrößen, Formeln für Gleich- und Wechselstrom, Leistung, Arbeit und Leitungsberechnung nach DIN / ÖVE.</p>
+                    <p class="article-desc">Fundamentale mathematisch-physikalische Zusammenhänge, Formeln und Wirkungsweisen der Elektrotechnik nach DIN / ÖVE.</p>
                     
                     <div class="article-section">
                         <h3>1. Das Ohmsche Gesetz & Grundgrößen</h3>
+                        <p>Das Ohmsche Gesetz beschreibt die fundamentale Proportionalität zwischen elektrischer Spannung ($U$), Stromstärke ($I$) und elektrischem Widerstand ($R$) in einem linearen, ohmschen Stromkreis. Es bildet die Basis für fast alle Berechnungen in der Elektrotechnik.</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formeln / Berechnungen</th></tr>
+                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formeln / Berechnungen</th><th>Physikalische Erklärung</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>Elektrische Spannung</td><td>U</td><td>Volt (V)</td><td>$U = I \cdot R \quad | \quad U = \\frac{P}{I} \quad | \quad U = \\sqrt{P \cdot R}$</td></tr>
-                                <tr><td>Elektrische Stromstärke</td><td>I</td><td>Ampere (A)</td><td>$I = \\frac{U}{R} \quad | \quad I = \\frac{P}{U} \quad | \quad I = \\sqrt{\\frac{P}{R}}$</td></tr>
-                                <tr><td>Elektrischer Widerstand</td><td>R</td><td>Ohm (Ω)</td><td>$R = \\frac{U}{I} \quad | \quad R = \\frac{U^2}{P} \quad | \quad R = \\frac{P}{I^2}$</td></tr>
-                                <tr><td>Leitwert</td><td>G</td><td>Siemens (S)</td><td>$G = \\frac{1}{R}$</td></tr>
+                                <tr>
+                                    <td><strong>Elektrische Spannung</strong></td>
+                                    <td>$U$</td>
+                                    <td>Volt (V)</td>
+                                    <td>$U = I \cdot R$<br>$U = \\frac{P}{I}$<br>$U = \\sqrt{P \cdot R}$</td>
+                                    <td>Die Potentialdifferenz bzw. die treibende Kraft (elektrischer Druck), die Ladungsträger durch einen geschlossenen Stromkreis bewegt.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Elektrische Stromstärke</strong></td>
+                                    <td>$I$</td>
+                                    <td>Ampere (A)</td>
+                                    <td>$I = \\frac{U}{R}$<br>$I = \\frac{P}{U}$<br>$I = \\sqrt{\\frac{P}{R}}$</td>
+                                    <td>Die pro Zeiteinheit durch den Querschnitt eines Leiters fließende elektrische Ladungsmenge ($I = \\frac{Q}{t}$).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Elektrischer Widerstand</strong></td>
+                                    <td>$R$</td>
+                                    <td>Ohm (Ω)</td>
+                                    <td>$R = \\frac{U}{I}$<br>$R = \\frac{U^2}{P}$<br>$R = \\frac{P}{I^2}$</td>
+                                    <td>Das Maß dafür, welchen "Gegendruck" ein elektrischer Leiter oder Bauteil dem fließenden Strom entgegensetzt. Abhängig von Material, Länge und Querschnitt: $R = \\rho \\cdot \\frac{l}{A}$.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Elektrischer Leitwert</strong></td>
+                                    <td>$G$</td>
+                                    <td>Siemens (S)</td>
+                                    <td>$G = \\frac{1}{R}$</td>
+                                    <td>Der Kehrwert des elektrischen Widerstandes. Er gibt an, wie gut ein Material oder Bauteil den elektrischen Strom leitet.</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="article-section">
-                        <h3>2. Elektrische Leistung & Arbeit</h3>
+                        <h3>2. Elektrische Leistung & Energie</h3>
+                        <p>Die Leistung ($P$) beschreibt die pro Zeiteinheit umgesetzte oder übertragene Energie. Im Wechsel- und Drehstromnetz unterscheidet man zusätzlich zwischen Wirk-, Blindschneller und Scheinleistung.</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Größe</th><th>Symbol</th><th>Einheit</th><th>Formeln</th></tr>
+                                <tr><th>Leistungsart</th><th>Symbol</th><th>Einheit</th><th>Formel</th><th>Erklärung</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>Wirkleistung (Gleichstrom)</td><td>P</td><td>Watt (W)</td><td>$P = U \cdot I = I^2 \cdot R = \\frac{U^2}{R}$</td></tr>
-                                <tr><td>Wirkleistung (Wechselstrom 1-ph)</td><td>P</td><td>Watt (W)</td><td>$P = U \cdot I \cdot \\cos\\varphi$</td></tr>
-                                <tr><td>Wirkleistung (Drehstrom 3-ph)</td><td>P</td><td>Watt (W)</td><td>$P = \\sqrt{3} \cdot U_L \cdot I \cdot \\cos\\varphi$</td></tr>
-                                <tr><td>Blindleistung</td><td>Q</td><td>Var (var)</td><td>$Q = U \cdot I \cdot \\sin\\varphi \quad (\text{bzw. } \\sqrt{3} \cdot U_L \cdot I \cdot \\sin\\varphi)$</td></tr>
-                                <tr><td>Scheinleistung</td><td>S</td><td>Voltampere (VA)</td><td>$S = U \cdot I \quad | \quad S = \\sqrt{P^2 + Q^2}$</td></tr>
-                                <tr><td>Elektrische Arbeit / Energie</td><td>W</td><td>Wattstunden (Wh) / Joule (J)</td><td>$W = P \cdot t = U \cdot I \cdot t$</td></tr>
+                                <tr>
+                                    <td><strong>Wirkleistung (Gleichstrom)</strong></td>
+                                    <td>$P$</td>
+                                    <td>Watt (W)</td>
+                                    <td>$P = U \cdot I = I^2 \cdot R = \\frac{U^2}{R}$</td>
+                                    <td>Die tatsächlich in nutzbare Arbeit (z. B. Wärme, mechanische Bewegung, Licht) umgesetzte Leistung.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wirkleistung (Wechselstrom 1-ph)</strong></td>
+                                    <td>$P$</td>
+                                    <td>Watt (W)</td>
+                                    <td>$P = U \cdot I \cdot \\cos\\varphi$</td>
+                                    <td>Bei induktiven/kapazitiven Verbrauchern phasenverschobene Wirkleistung ($\\varphi$ = Phasenverschiebungswinkel).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wirkleistung (Drehstrom 3-ph)</strong></td>
+                                    <td>$P$</td>
+                                    <td>Watt (W)</td>
+                                    <td>$P = \\sqrt{3} \cdot U_L \cdot I \cdot \\cos\\varphi$</td>
+                                    <td>Gesamtwirkleistung in einem symmetrisch belasteten Dreiphasen-Drehstromnetz ($U_L$ = Leiterspannung, i.d.R. $400\\text{V}$).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Blindleistung</strong></td>
+                                    <td>$Q$</td>
+                                    <td>Var (var)</td>
+                                    <td>$Q = U \cdot I \cdot \\sin\\varphi$<br>($\\sqrt{3} \cdot U_L \cdot I \cdot \\sin\\varphi$)</td>
+                                    <td>Pendelt ungenutzt zwischen Erzeuger und den magnetischen bzw. elektrischen Feldern von Spulen und Kondensatoren hin und her.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Scheinleistung</strong></td>
+                                    <td>$S$</td>
+                                    <td>Voltampere (VA)</td>
+                                    <td>$S = U \cdot I$<br>$S = \\sqrt{P^2 + Q^2}$</td>
+                                    <td>Die geometrische Summe aus Wirk- und Blindleistung. Sie bestimmt die Dimensionierung von Trafos und Leitungen.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Elektrische Arbeit / Energie</strong></td>
+                                    <td>$W$</td>
+                                    <td>Wattstunden (Wh) / Joule (J)</td>
+                                    <td>$W = P \cdot t = U \cdot I \cdot t$</td>
+                                    <td>Die über einen bestimmten Zeitraum ($t$) verbrauchte oder erzeugte elektrische Energie (z. B. am Stromzähler in kWh).</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="article-section">
                         <h3>3. Leitungsberechnung & Spannungsfall</h3>
+                        <p>Um unzulässige Erwärmung und Spannungsverluste beim Verbraucher zu vermeiden, darf der Spannungsfall ($\Delta U$) in Niederspannungsanlagen nach Norm (z.B. ÖVE / DIN VDE 0100-520) in der Regel 3% (Licht) bzw. 4% (sonstige Verbraucher) vom Nennwert nicht überschreiten.</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Anwendung</th><th>Formel</th><th>Erklärung</th></tr>
+                                <tr><th>Berechnungsart</th><th>Formel</th><th>Formelzeichen & physikalische Bedeutung</th></tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><strong>Spannungsfall (1-phasig)</strong></td>
+                                    <td><strong>Spannungsfall (1-phasig Wechselstrom)</strong></td>
                                     <td>$\\Delta U = 2 \cdot \\frac{l}{\\gamma \cdot A} \cdot I$</td>
-                                    <td>$l$ = einfache Länge in m, $\\gamma$ = Leitfähigkeit (Kupfer $\\approx 56$), $A$ = Querschnitt in mm²</td>
+                                    <td>$l$ = einfache Leitungslänge in m<br>$\\gamma$ = spezifische Leitfähigkeit (Kupfer: $\\approx 56\\,\text{m}/(\\Omega\\cdot\\text{mm}^2)$)<br>$A$ = Leiterquerschnitt in $\\text{mm}^2$<br>$I$ = Betriebsstrom in A (Faktor 2 berücksichtigt Hin- und Rückleiter).</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Spannungsfall (3-phasig Drehstrom)</strong></td>
                                     <td>$\\Delta U = \\sqrt{3} \cdot \\frac{l}{\\gamma \cdot A} \cdot I \cdot \\cos\\varphi$</td>
-                                    <td>Spannungsverlust im Drehstromnetz</td>
+                                    <td>Spannungsverlust im symmetrisch belasteten Drehstrom-Dreileiter- oder Vierleitersystem.</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Mindestquerschnitt (A)</strong></td>
+                                    <td><strong>Mindestleiterquerschnitt ($A$)</strong></td>
                                     <td>$A = \\frac{2 \cdot l \cdot I}{\\gamma \cdot \\Delta U}$</td>
-                                    <td>Benötigter Leiterquerschnitt für zulässigen Spannungsfall</td>
+                                    <td>Ermittlung des erforderlichen Mindestquerschnitts in $\\text{mm}^2$ bei vorgegebenem maximal zulässigem Spannungsfall $\\Delta U$ (in Volt).</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1604,22 +1667,35 @@
 
                     <div class="article-section">
                         <h3>4. Wechselstrom- & Drehstrom-Kenngrößen</h3>
+                        <p>Im sinusförmigen Wechselstromnetz unterscheiden wir zwischen Augenblickswerten, Effektivwerten (dem thermisch wirksamen Wert, z. B. $230\\text{V}$) und Spitzenwerten.</p>
                         <table class="custom-table">
                             <thead>
-                                <tr><th>Begriff</th><th>Formel / Wert</th><th>Beschreibung</th></tr>
+                                <tr><th>Kenngröße</th><th>Formel / Wert</th><th>Detaillierte Erläuterung</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>Scheitelfaktor / Spitzenwert</td><td>$\\hat{U} = \\sqrt{2} \cdot U \\approx 1.414 \cdot U$</td><td>Spitzenspannung bei Sinus (z. B. $230\\text{V} \cdot 1.414 \\approx 325\\text{V}$)</td></tr>
-                                <tr><td>Kreisfrequenz</td><td>$\\omega = 2 \cdot \\pi \cdot f$</td><td>Frequenz $f = 50\\text{Hz} \\implies \\omega \\approx 314\\text{ s}^{-1}$</td></tr>
-                                <tr><td>Induktiver Widerstand (Spule)</td><td>$X_L = \\omega \cdot L = 2 \cdot \\pi \cdot f \cdot L$</td>
-                                <td>Widerstand einer Spule in Abhängigkeit von Frequenz und Induktivität</td>
-                            </tr>
-                            <tr><td>Kapazitiver Widerstand (Kondensator)</td><td>$X_C = \\frac{1}{\\omega \cdot C} = \\frac{1}{2 \cdot \\pi \cdot f \cdot C}$</td>
-                            <td>Widerstand eines Kondensators im Wechselstromkreis</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                <tr>
+                                    <td><strong>Scheitellwert / Spitzenspannung</strong></td>
+                                    <td>$\\hat{U} = \\sqrt{2} \cdot U \\approx 1.414 \cdot U$</td>
+                                    <td>Der maximale Ausschlag einer Sinuswelle. Bei einer eff. Netzspannung von $230\\text{V}$ beträgt die Spitzenspannung ca. $325\\text{V}$ ($230\\text{V} \\cdot 1.414$).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kreisfrequenz</strong></td>
+                                    <td>$\\omega = 2 \cdot \\pi \cdot f$</td>
+                                    <td>Die Winkelgeschwindigkeit der Schwingung im Bogenmaß pro Sekunde. Bei einer Netzfrequenz von $f = 50\\text{Hz}$ ist $\\omega \\approx 314\\,\text{s}^{-1}$.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Induktiver Widerstand (Spule)</strong></td>
+                                    <td>$X_L = \\omega \cdot L = 2 \cdot \\pi \cdot f \cdot L$</td>
+                                    <td>Der frequenzabhängige Blindwiderstand einer Spule mit der Induktivität $L$ (in Henry). Erzeugt eine Phasenverschiebung, bei der der Strom der Spannung nacheilt.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kapazitiver Widerstand (Kondensator)</strong></td>
+                                    <td>$X_C = \\frac{1}{\\omega \cdot C} = \\frac{1}{2 \cdot \\pi \cdot f \cdot C}$</td>
+                                    <td>Der frequenzabhängige Blindwiderstand eines Kondensators mit der Kapazität $C$ (in Farad). Lässt hochfrequente Anteile leichter passieren; der Strom eilt der Spannung hier voraus.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 `
             },
             safety: {
@@ -1857,49 +1933,69 @@
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').textContent = `${score} / ${quizData.length}`;
-
+            
             if (score > stats.highscore) {
                 stats.highscore = score;
-                updateStatsUI();
             }
+            updateStatsUI();
 
-            const pct = (score / quizData.length) * 100;
-            let fb = "Super gemacht! Weiter so.";
-            if (pct < 50) fb = "Übung macht den Meister! Wiederhole die Lerninhalte.";
-            else if (pct === 100) fb = "Perfekt! Du beherrschst dieses Thema meisterhaft.";
-
-            document.getElementById('feedback').textContent = fb;
+            const fb = document.getElementById('feedback');
+            if (score === quizData.length) {
+                fb.textContent = "🏆 Hervorragend! Volle Punktzahl. Du bist ein echter Profi!";
+            } else if (score >= quizData.length / 2) {
+                fb.textContent = "👍 Gutes Ergebnis! Mit ein bisschen Übung sitzt alles perfekt.";
+            } else {
+                fb.textContent = "💡 Schau dir den Lernbereich zu den schwierigen Themen an und probiere es nochmal!";
+            }
         }
 
         function restartQuiz() {
-            if (currentMode === 'ai') generateCustomAIQuestion();
-            else switchMode(currentMode);
-        }
-
-        // KI Modus Generierung (Dynamisch)
-        function generateCustomAIQuestion() {
-            const pool = [
-                { question: "Was beschreibt ein TN-C-S System im Hausanschlusskasten?", options: ["Aufteilung von PEN in N und PE", "Trennung durch Transformator", "Isolierter Sternpunkt", "Rein lokales Erdersystem"], answer: 0, explanation: "Im HAK wird der PEN-Leiter des Versorgers in PE und N aufgeteilt." },
-                { question: "Welches Schaltsymbol steht für einen 2-poligen Schutzschalter?", symbol: svgSymbols.switch_2pole, options: ["Ausschalter", "2-poliger Schalter", "Relais", "Kondensator"], answer: 1, explanation: "Zwei durch gestrichelte Linien gekoppelte Schalterkontakte kennzeichnen einen 2-poligen Schalter." },
-                { question: "Welcher Schutzleiterstrom-Schwellenwert darf laut ÖVE/VDE bei Fehlerstrom-Schutzeinrichtungen im Wohnbau nicht überschritten werden?", options: ["30 mA", "100 mA", "300 mA", "500 mA"], answer: 0, explanation: "Der Nennfehlerstrom IΔn beträgt maximal 30 mA für den zusätzlichen Schutz." },
-                { question: "Was kennzeichnet ein IT-Netzsystem?", options: ["Direkt geerdeter Neutralleiter", "Isolierter oder hochohmig geerdeter Neutralleiter", "Kombinierter Schutzleiter PEN", "Netz ohne Erder"], answer: 1, explanation: "Im IT-Netz ist der Sternpunkt isoliert oder über eine hohe Impedanz geerdet." },
-                { question: "Welches Bauteil verhindert das Verpolen von Wechselspannungen bei Diodenschaltungen?", symbol: svgSymbols.diode, options: ["Diode", "Kondensator", "Widerstand", "Transformator"], answer: 0, explanation: "Die Diode lässt Strom nur in einer Richtung (Durchlassrichtung) fließen." },
-                { question: "Welche Funktion erfüllt ein Kreuzschalter?", symbol: svgSymbols.switch_cross, options: ["Ein- und Ausschalten", "Verkreuzen zweier Leitungen", "Dimmen von Licht", "Fehlerstrommessung"], answer: 1, explanation: "Ein Kreuzschalter tauscht die zwei korrespondierenden Leitungen einer Wechselschaltung." }
-            ];
-
-            quizData = [pool[Math.floor(Math.random() * pool.length)]];
+            if (currentMode === 'quiz') {
+                quizData = shuffleArray([...initialQuizData]).slice(0, 5);
+            } else if (currentMode === 'schemas') {
+                quizData = initialQuizData.filter(q => q.symbol);
+            }
             restartQuizState();
         }
 
-        // Lernbereich Funktionen & Artikel
+        // KI Generator Mockup
+        function generateCustomAIQuestion() {
+            const topic = document.getElementById('ai-topic-select').value;
+            const diff = document.getElementById('ai-diff-select').value;
+            
+            const aiPools = {
+                symbols: [
+                    { question: "Welches Schaltsymbol wird hier dargestellt?", symbol: svgSymbols.switch_changeover, options: ["Ausschalter", "Wechselschalter", "Kreuzschalter", "Taster"], answer: 1, explanation: "Ein Wechselschalter schaltet einen Eingang wahlweise auf zwei verschiedene Ausgänge um." },
+                    { question: "Welches Bauteil zeigt dieses Symbol im Schaltplan?", symbol: svgSymbols.switch_cross, options: ["Serienschalter", "Taster", "Kreuzschalter", "2-poliger Schalter"], answer: 2, explanation: "Der Kreuzschalter verbindet zwei Leitungen gekreuzt und wird für Schaltungen ab 3 Stellen benötigt." }
+                ],
+                ohm: [
+                    { question: "Ein Verbraucher hat bei 230 V einen Widerstand von 46 Ω. Wie groß ist der Strom I?", options: ["2 A", "5 A", "10 A", "50 A"], answer: 1, explanation: "Nach dem Ohmschen Gesetz: I = U / R = 230 V / 46 Ω = 5 A." },
+                    { question: "Welche Leistung P nimmt ein Heizwiderstand bei 230 V und 10 A auf?", options: ["2,3 kW", "230 W", "23 kW", "460 W"], answer: 0, explanation: "P = U × I = 230 V × 10 A = 2300 W = 2,3 kW." }
+                ],
+                protection: [
+                    { question: "Welche Abschaltzeit ist für Endstromkreise im TN-Netz bis 63 A bei 230 V vorgeschrieben?", options: ["0,1 Sekunden", "0,2 Sekunden", "0,4 Sekunden", "5,0 Sekunden"], answer: 2, explanation: "Nach DIN VDE 0100-410 beträgt die max. Abschaltzeit im Endstromkreis bis 63 A bei 230 V genau 0,4 s." },
+                    { question: "Welcher Schutzleiterquerschnitt ist bei Verlegung im Erdbereich ohne mechanischen Schutz mind. erforderlich (Cu)?", options: ["1,5 mm²", "2,5 mm²", "6,0 mm²", "10,0 mm²"], answer: 3, explanation: "Für Erder und Fundamenterder bzw. ungeführte PE im Erdreich werden mind. 10 mm² Cu gefordert." }
+                ]
+            };
+
+            const poolKey = aiPools[topic] ? topic : 'ohm';
+            const selectedPool = aiPools[poolKey];
+            const randomQ = selectedPool[Math.floor(Math.random() * selectedPool.length)];
+
+            quizData = [randomQ];
+            restartQuizState();
+        }
+
+        // Learning & Search
         function loadTopics() {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
+
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
                 const card = document.createElement('div');
                 card.className = 'topic-card';
-                card.onclick = () => showArticle(key);
+                card.onclick = () => openTopic(key);
                 card.innerHTML = `
                     <div class="topic-icon-box">${item.icon}</div>
                     <h3>${item.title}</h3>
@@ -1913,13 +2009,13 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
-            
+
             Object.keys(learningContent).forEach(key => {
                 const item = learningContent[key];
-                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
+                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)) {
                     const card = document.createElement('div');
                     card.className = 'topic-card';
-                    card.onclick = () => showArticle(key);
+                    card.onclick = () => openTopic(key);
                     card.innerHTML = `
                         <div class="topic-icon-box">${item.icon}</div>
                         <h3>${item.title}</h3>
@@ -1930,10 +2026,10 @@
             });
         }
 
-        function showArticle(key) {
+        function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
+            const contentView = document.getElementById('content-view');
+            contentView.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1941,6 +2037,7 @@
         function backToTopics() {
             document.getElementById('content-view').style.display = 'none';
             document.getElementById('topics-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Rechner Logik
@@ -1952,31 +2049,32 @@
         }
 
         function calculate3Phase() {
-            const i3 = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = (Math.sqrt(3) * 400 * i3 * cos) / 1000;
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0;
+            const p = Math.sqrt(3) * 400 * i * cos / 1000;
             document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
-            const len = parseFloat(document.getElementById('calc-len').value) || 0;
+            const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const a = parseFloat(document.getElementById('calc-q').value) || 1.5;
             const gamma = 56; // Kupfer
-            const deltaU = (2 * len * i) / (gamma * q);
+            const deltaU = 2 * l * i / (gamma * a);
             const pct = (deltaU / 230) * 100;
             document.getElementById('calc-drop-res').textContent = `ΔU = ${deltaU.toFixed(2)} V (${pct.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
-            const len = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const uMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 1;
             const gamma = 56;
-            const a = (2 * len * i) / (gamma * uMax);
+            const a = (2 * l * i) / (gamma * du);
             document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
 
+        // Utility
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
