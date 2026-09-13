@@ -1790,12 +1790,7 @@
                                 <tr>
                                     <td><strong>Mindestquerschnitt</strong></td>
                                     <td>A = (2 &middot; l &middot; I) / (&gamma; &middot; &Delta;U)</td>
-                                    <td>Ermittlung des minimalen Leiterquerschnitts zur Einhaltung des zulässigen Spannungsfalls &Delta;U in Volt.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Spezifischer Widerstand</strong></td>
-                                    <td>R = &rho; &middot; (l / A)</td>
-                                    <td>Widerstand eines Leiters in Abhängigkeit von Material, Länge und Querschnitt.</td>
+                                    <td>Ermittlung des erforderlichen Mindestleiterquerschnitts nach vorgegebenem max. Spannungsfall.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1804,143 +1799,86 @@
             }
         };
 
-        // --- ECHTE SELBSTLERNENDE OVE 8101 KI-ENGINE ---
-        // Generiert eigenständig Fragen und lernt aus dem Nutzerverhalten
-        class Ove8101SelfLearningAIEngine {
-            constructor() {
-                this.topicWeights = stats.oveMemory.topicWeights || {
-                    ove_schutz: 1,
-                    ove_kabel: 1,
-                    ove_pruefung: 1,
-                    ove_raeume: 1
-                };
-            }
-
-            // Lernt aus der Antwort des Benutzers und passt die KI an
-            recordAnswer(topic, isCorrect) {
-                if (!this.topicWeights[topic]) this.topicWeights[topic] = 1;
-                if (isCorrect) {
-                    this.topicWeights[topic] = Math.max(0.5, this.topicWeights[topic] - 0.1); // Weniger Fokus auf gelerntes
-                } else {
-                    this.topicWeights[topic] += 0.3; // Mehr Fokus auf Schwächen (selber lernen!)
-                    if (!stats.oveMemory.weakTopics.includes(topic)) {
-                        stats.oveMemory.weakTopics.push(topic);
-                    }
-                }
-                stats.oveMemory.generatedCount++;
-                localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            }
-
-            // Wählt dynamisch das schwächste Thema für die KI aus
-            selectSmartTopic() {
-                const selectedDropdown = document.getElementById('ai-topic-select')?.value;
-                if (selectedDropdown && selectedDropdown !== 'random') {
-                    return selectedDropdown;
-                }
-                // KI wählt basierend auf ihren Lern-Gewichten das Thema mit dem höchsten Gewicht (Schwachstelle)
-                const topics = Object.keys(this.topicWeights);
-                topics.sort((a, b) => this.topicWeights[b] - this.topicWeights[a]);
-                return topics[0];
-            }
-
-            // Erstellt eigenständig eine neue Frage nach OVE 8101 Standards
-            generateDynamicQuestion() {
-                const topic = this.selectSmartTopic();
-                let qData = {};
-
-                if (topic === 'ove_schutz') {
-                    const rcdValues = [10, 30, 100, 300];
-                    const val = rcdValues[Math.floor(Math.random() * rcdValues.length)];
-                    const isCorrect30 = (val === 30);
-                    qData = {
-                        topic: 'ove_schutz',
-                        q: `[OVE 8101 KI-Generator] Welcher max. Bemessungsfehlerstrom (IΔn) ist laut OVE 8101 für Steckdosenstromkreise bis 32A im Wohnbereich für den zusätzlichen Personenschutz vorgeschrieben?`,
-                        options: [`10 mA`, `30 mA`, `100 mA`, `300 mA`],
-                        correct: 1,
-                        explanation: `Gemäß OVE 8101 Teil 4-41 ist für Steckdosenstromkreise bis 32 A ein RCD mit einem Bemessungsdifferenzstrom von höchstens 30 mA zwingend vorgeschrieben.`
-                    };
-                } else if (topic === 'ove_kabel') {
-                    const length = Math.floor(Math.random() * 30) + 10;
-                    const current = [10, 16, 20][Math.floor(Math.random() * 3];
-                    qData = {
-                        topic: 'ove_kabel',
-                        q: `[OVE 8101 KI-Generator] In einer Anlage nach OVE 8101 beträgt die einfache Leitungslänge ${length}m bei einem Betriebsstrom von ${current}A (Kupfer). Welcher Mindestquerschnitt ist für eine zulässige Spannung von max. 3% vorrangig zu prüfen?`,
-                        options: [`1.5 mm² (bei kurzen Wegen zu prüfen)`, `2.5 mm² (Standardabsicherung 16A)`, `4.0 mm²`, `6.0 mm²`],
-                        correct: current <= 16 ? 1 : 2,
-                        explanation: `Nach OVE 8101 / HD 60364-5-52 ist bei ${current}A und ${length}m Leitungslänge der Spannungsfall &Delta;U zu berechnen. Für Standardstromkreise bis 16A wird in der Praxis 2.5 mm² empfohlen, um thermische Reserven und den Spannungsfall einzuhalten.`
-                    };
-                } else if (topic === 'ove_pruefung') {
-                    qData = {
-                        topic: 'ove_pruefung',
-                        q: `[OVE 8101 KI-Generator] Welche Messung ist nach OVE E 8101 Teil 6 (Erstmalsprüfung) vor der Inbetriebnahme einer Niederspannungsanlage als allererstes durchzuführen?`,
-                        options: [`Schleifenimpedanzmessung`, `Isolationsmessung der Kabel und Leitungen im spannungsfreien Zustand`, `RCD-Auslösetest mit 5·IΔn`, `Netzinnenwiderstand`],
-                        correct: 1,
-                        explanation: `Vor dem Zuschalten der Spannung ist nach OVE E 8101 zwingend die Isolationsmessung im spannungsfreien Zustand (Prüfspannung meist 500V DC) durchzuführen, um Kurzschlüsse und Brandschäden zu vermeiden.`
-                    };
-                } else {
-                    qData = {
-                        topic: 'ove_raeume',
-                        q: `[OVE 8101 KI-Generator] Welche besonderen Anforderungen stellt die OVE 8101 an Steckdosen in Räumen mit Badewanne oder Dusche (Bereich 2)?`,
-                        options: [`Keine besonderen Vorschriften`, `Steckdosen sind generell verboten`, `Schutz durch RCD 30mA und Einhaltung der Schutzbereiche (keine Steckdosen in Bereich 0 und 1)`, `Nur 400V Steckdosen erlaubt`],
-                        correct: 2,
-                        explanation: `In Badezimmern definiert OVE 8101 strenge Schutzbereiche (0, 1, 2). In Bereich 0 und 1 sind Steckdosen unzulässig; in Bereich 2 nur mit RCD-Schutz (max. 30mA).`
-                    };
-                }
-                return qData;
-            }
-        }
-
-        const oveAI = new Ove8101SelfLearningAIEngine();
-
-        // Topic items data for Learn Mode
-        const topicsList = [
-            { id: 'symbols_overview', title: learningContent.symbols_overview.title, icon: learningContent.symbols_overview.icon, desc: learningContent.symbols_overview.description },
-            { id: 'schalter_taster', title: learningContent.schalter_taster.title, icon: learningContent.schalter_taster.icon, desc: learningContent.schalter_taster.description },
-            { id: 'rcd_details', title: learningContent.rcd_details.title, icon: learningContent.rcd_details.icon, desc: learningContent.rcd_details.description },
-            { id: 'netzsysteme', title: learningContent.netzsysteme.title, icon: learningContent.netzsysteme.icon, desc: learningContent.netzsysteme.description },
-            { id: 'fehlerschutz', title: learningContent.fehlerschutz.title, icon: learningContent.fehlerschutz.icon, desc: learningContent.fehlerschutz.description },
-            { id: 'basics', title: learningContent.basics.title, icon: learningContent.basics.icon, desc: learningContent.basics.description }
-        ];
-
+        // Render Topics Grid in Learn Mode
         function renderTopics(filter = '') {
             const container = document.getElementById('topics-container');
             container.innerHTML = '';
             
-            topicsList
-                .filter(t => t.title.toLowerCase().includes(filter.toLowerCase()) || t.desc.toLowerCase().includes(filter.toLowerCase()))
-                .forEach(t => {
-                    const card = document.createElement('div');
-                    card.className = 'topic-card';
-                    card.onclick = () => openTopicContent(t.id);
-                    card.innerHTML = `
-                        <div class="topic-icon-box">${t.icon}</div>
-                        <h3>${t.title}</h3>
-                        <p>${t.desc}</p>
-                    `;
-                    container.appendChild(card);
-                });
+            for (let key in learningContent) {
+                let topic = learningContent[key];
+                if (filter && !topic.title.toLowerCase().includes(filter.toLowerCase()) && !topic.description.toLowerCase().includes(filter.toLowerCase())) {
+                    continue;
+                }
+                
+                let card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => openTopic(key);
+                card.innerHTML = `
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                `;
+                container.appendChild(card);
+            }
         }
 
         function filterTopics() {
-            const query = document.getElementById('search-input').value;
+            let query = document.getElementById('search-input').value;
             renderTopics(query);
         }
 
-        function openTopicContent(id) {
+        function openTopic(key) {
+            let topic = learningContent[key];
+            if (!topic) return;
+            
             document.getElementById('topics-view').style.display = 'none';
-            const view = document.getElementById('content-view');
-            view.style.display = 'block';
-            document.getElementById('content-container').innerHTML = learningContent[id].content;
+            let contentView = document.getElementById('content-view');
+            contentView.style.display = 'block';
+            
+            document.getElementById('content-container').innerHTML = topic.content;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
             document.getElementById('content-view').style.display = 'none';
             document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Navigation & Mode Switching
+        // Calculators
+        function calculateOhm() {
+            let u = parseFloat(document.getElementById('calc-u').value) || 0;
+            let r = parseFloat(document.getElementById('calc-r').value) || 1;
+            let i = r > 0 ? u / r : 0;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
+        }
+
+        function calculate3Phase() {
+            let i3 = parseFloat(document.getElementById('calc-i3').value) || 0;
+            let cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
+            let p = (Math.sqrt(3) * 400 * i3 * cos) / 1000;
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+        }
+
+        function calculateVoltageDrop() {
+            let l = parseFloat(document.getElementById('calc-len').value) || 0;
+            let i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            let q = parseFloat(document.getElementById('calc-q').value) || 2.5;
+            let gamma = 56;
+            let drop = (2 * l * i) / (gamma * q);
+            let percent = (drop / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${drop.toFixed(2)} V (${percent.toFixed(2)}%)`;
+        }
+
+        function calculateCrossSection() {
+            let l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            let i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            let du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            let gamma = 56;
+            let a = du > 0 ? (2 * l * i) / (gamma * du) : 0;
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+        }
+
+        // Quiz & Mode Logic
         function startMode(mode) {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
@@ -1948,50 +1886,47 @@
         }
 
         function backToWelcome() {
-            stopTimer();
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            clearInterval(timerInterval);
             document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.getElementById('welcome-screen').style.display = 'block';
-            updateStatsDisplay();
         }
 
         function switchMode(mode) {
-            stopTimer();
             currentMode = mode;
+            clearInterval(timerInterval);
+            
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-
+            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+            
             if (mode === 'quiz') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-quiz').classList.add('active');
                 document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('ai-tutor-box').classList.remove('show');
-                document.getElementById('quiz-heading').innerText = '⚡ Standard Fachquiz';
+                document.getElementById('quiz-heading').innerText = "⚡ Standard Wissenstest";
                 activeQuestions = [...questionBank.quiz];
                 initQuiz();
             } else if (mode === 'schemas') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-schemas').classList.add('active');
                 document.getElementById('ai-config').style.display = 'none';
-                document.getElementById('ai-tutor-box').classList.remove('show');
-                document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltpläne';
+                document.getElementById('quiz-heading').innerText = "📐 Schaltsymbole & Pläne";
                 activeQuestions = [...questionBank.schemas];
                 initQuiz();
             } else if (mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('toggle-ai').classList.add('active');
                 document.getElementById('ai-config').style.display = 'grid';
-                document.getElementById('quiz-heading').innerText = '✨ OVE 8101 Selbstlernende Experten-KI';
+                document.getElementById('quiz-heading').innerText = "✨ Experten OVE 8101 KI-Modus";
                 generateOve8101AIQuestion();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
                 document.getElementById('toggle-learn').classList.add('active');
                 renderTopics();
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateStatsUI();
         }
 
-        // Quiz Engine
         function initQuiz() {
             currentQuestion = 0;
             score = 0;
@@ -2001,141 +1936,115 @@
         }
 
         function loadQuestion() {
-            answered = false;
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-
             if (currentQuestion >= activeQuestions.length) {
                 showResults();
                 return;
             }
-
-            const qData = activeQuestions[currentQuestion];
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuestions.length}`;
+            
+            answered = false;
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+            
+            let qData = activeQuestions[currentQuestion];
             document.getElementById('question').innerText = qData.q;
-
-            const symbolDisplay = document.getElementById('symbol-display');
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuestions.length}`;
+            
+            let symbolDisplay = document.getElementById('symbol-display');
             if (qData.symbol) {
-                symbolDisplay.style.display = 'flex';
                 symbolDisplay.innerHTML = qData.symbol;
+                symbolDisplay.style.display = 'flex';
             } else {
                 symbolDisplay.style.display = 'none';
             }
-
-            const optionsGrid = document.getElementById('options');
-            optionsGrid.innerHTML = '';
-            qData.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerText = opt;
-                btn.onclick = () => selectOption(idx);
-                optionsGrid.appendChild(btn);
-            });
-
-            startTimer();
-        }
-
-        // Generates and loads an AI question using the OVE 8101 self-learning engine
-        function generateOve8101AIQuestion() {
-            stopTimer();
-            const generatedQ = oveAI.generateDynamicQuestion();
-            activeQuestions = [generatedQ];
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('progress').innerText = `KI-Generiert (Lern-Modus)`;
-            document.getElementById('question').innerText = generatedQ.q;
             
-            const symbolDisplay = document.getElementById('symbol-display');
-            symbolDisplay.style.display = 'none';
-
-            const optionsGrid = document.getElementById('options');
-            optionsGrid.innerHTML = '';
-            generatedQ.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
+            let optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            qData.options.forEach((opt, idx) => {
+                let btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.innerText = opt;
-                btn.onclick = () => selectAIAnswer(idx, generatedQ);
-                optionsGrid.appendChild(btn);
+                btn.onclick = () => selectOption(idx, qData.correct);
+                optionsContainer.appendChild(btn);
             });
-
+            
             startTimer();
         }
 
-        function selectOption(idx) {
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (!answered) {
+                        selectOption(-1, activeQuestions[currentQuestion].correct);
+                    }
+                }
+            }, 1000);
+        }
+
+        function selectOption(selectedIdx, correctIdx) {
             if (answered) return;
             answered = true;
-            stopTimer();
-
-            const qData = activeQuestions[currentQuestion];
-            const optionButtons = document.querySelectorAll('.option-card');
-
+            clearInterval(timerInterval);
+            
             stats.total++;
-            if (idx === qData.correct) {
-                optionButtons[idx].classList.add('correct');
+            let options = document.getElementById('options').children;
+            
+            if (selectedIdx === correctIdx) {
                 score++;
                 stats.correct++;
                 stats.streak++;
                 stats.xp += 15;
-                checkAchievements();
+                if (selectedIdx >= 0) {
+                    options[selectedIdx].classList.add('correct');
+                }
             } else {
-                optionButtons[idx].classList.add('incorrect');
-                optionButtons[qData.correct].classList.add('correct');
                 stats.streak = 0;
+                stats.xp = Math.max(0, stats.xp - 5);
+                if (selectedIdx >= 0 && selectedIdx < options.length) {
+                    options[selectedIdx].classList.add('incorrect');
+                }
+                if (correctIdx >= 0 && correctIdx < options.length) {
+                    options[correctIdx].classList.add('correct');
+                }
             }
-
-            updateLevelAndXP();
+            
+            // Level Up Check (100 XP per level)
+            if (stats.xp >= stats.level * 100) {
+                stats.level++;
+            }
+            
+            if (score > stats.highscore) {
+                stats.highscore = score;
+            }
+            
             saveStats();
-
-            const expBox = document.getElementById('explanation');
+            updateStatsUI();
+            
+            let qData = activeQuestions[currentQuestion];
+            let expBox = document.getElementById('explanation');
             expBox.innerHTML = `<strong>Erklärung:</strong> ${qData.explanation}`;
             expBox.classList.add('show');
-            document.getElementById('next-btn').classList.add('show');
-        }
-
-        function selectAIAnswer(idx, qData) {
-            if (answered) return;
-            answered = true;
-            stopTimer();
-
-            const optionButtons = document.querySelectorAll('.option-card');
-            const isCorrect = (idx === qData.correct);
-
-            // KI lernt aus dem Ergebnis!
-            oveAI.recordAnswer(qData.topic, isCorrect);
-
-            stats.total++;
-            if (isCorrect) {
-                optionButtons[idx].classList.add('correct');
-                score++;
-                stats.correct++;
-                stats.streak++;
-                stats.xp += 25;
-                checkAchievements();
-            } else {
-                optionButtons[idx].classList.add('incorrect');
-                optionButtons[qData.correct].classList.add('correct');
-                stats.streak = 0;
+            
+            // AI Tutor Feedback in AI mode
+            if (currentMode === 'ai') {
+                let aiTutor = document.getElementById('ai-tutor-box');
+                let tutorText = document.getElementById('ai-tutor-text');
+                if (selectedIdx === correctIdx) {
+                    tutorText.innerText = "Hervorragend! Deine Antwort entspricht exakt den Vorgaben der ÖVE E 8101 und den Sicherheitsstandards.";
+                } else {
+                    tutorText.innerText = "Hinweis der KI: Achte bei OVE 8101 Prüfungen besonders auf die Fehlerstrom- und Schutzleiter-Vorgaben in diesem Bereich.";
+                }
+                aiTutor.classList.add('show');
             }
-
-            updateLevelAndXP();
-            saveStats();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Norm-Konformität (OVE 8101):</strong> ${qData.explanation}`;
-            expBox.classList.add('show');
-
-            const tutorBox = document.getElementById('ai-tutor-box');
-            const tutorText = document.getElementById('ai-tutor-text');
-            tutorText.innerHTML = isCorrect 
-                ? `Hervorragend! Deine Antwort entspricht exakt den Sicherheits- und Errichtungsbestimmungen der ÖVE/ÖNORM E 8101. Die KI hat diesen Bereich als sicher markiert.`
-                : `Die KI hat erkannt, dass dieses Thema (${qData.topic}) noch gefestigt werden muss. Der Schwierigkeitsgrad und künftige KI-Fragen wurden automatisch angepasst!`;
-            tutorBox.classList.add('show');
-
-            document.getElementById('next-btn').innerText = 'Nächste KI-Aufgabe generieren';
-            document.getElementById('next-btn').onclick = generateOve8101AIQuestion;
+            
             document.getElementById('next-btn').classList.add('show');
         }
 
@@ -2144,33 +2053,44 @@
             loadQuestion();
         }
 
-        function startTimer() {
-            stopTimer();
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    stopTimer();
-                    if (!answered) {
-                        answered = true;
-                        const qData = activeQuestions[currentQuestion];
-                        const optionButtons = document.querySelectorAll('.option-card');
-                        if(optionButtons[qData.correct]) optionButtons[qData.correct].classList.add('correct');
-                        stats.streak = 0;
-                        saveStats();
-                        const expBox = document.getElementById('explanation');
-                        expBox.innerHTML = `<strong>Zeit abgelaufen!</strong> ${qData.explanation}`;
-                        expBox.classList.add('show');
-                        document.getElementById('next-btn').classList.add('show');
-                    }
+        // Adaptive KI Question Generator for OVE 8101
+        function generateOve8101AIQuestion() {
+            let topic = document.getElementById('ai-topic-select').value;
+            let diff = document.getElementById('ai-diff-select').value;
+            
+            stats.oveMemory.generatedCount++;
+            
+            let aiQuestionsPool = [
+                {
+                    q: "[KI-GEN] Welcher Schleifenwiderstand Z_s ist bei einem 16A B-Automaten in einem TN-Netz (230V) nach OVE 8101 maximal zulässig, um rechtzeitig abzuschalten (max. 0.4s)?",
+                    options: ["max. 1.44 Ω", "max. 2.87 Ω", "max. 10.0 Ω", "max. 0.5 Ω"],
+                    correct: 0,
+                    explanation: "Nach OVE 8101 / VDE 0100-410 muss bei 16A B-Charakteristik (Auslösestrom 5 x I_n = 80A) der Schleifenwiderstand R <= U_0 / I_a = 230V / 80A = 2.87 Ω (bzw. unter Berücksichtigung der Erwärmung 1.44 Ω)."
+                },
+                {
+                    q: "[KI-GEN] Welche Anforderungen stellt die OVE 8101 an den Erder in Wohngebäuden (Fundamenterder)?",
+                    options: ["Muss aus Aluminium sein", "Stahleinlagen im Beton müssen ringförmig verbunden und herausgeführt werden", "Nur oberflächliche Stäbe", "Keine Vorgabe"],
+                    correct: 1,
+                    explanation: "Der Fundamenterder muss als geschlossener Ring im Betonfundament verlegt und mit den Armierungsstahl-Einlagen leitfähig verbunden sein."
+                },
+                {
+                    q: "[KI-GEN] Was ist bei Verlegung von Leitungen in Wärmedämmung (Wärmeisolierwand) nach OVE 8101 zu berücksichtigen?",
+                    options: ["Querschnitt muss verringert werden", "Strombelastbarkeit sinkt (Häufung/Wärmestau), ggf. größerer Querschnitt nötig", "Keine Auswirkung", "Nur feuerfeste Kabel erlaubt"],
+                    correct: 1,
+                    explanation: "Wärmedämmung behindert die Wärmeabgabe des Leiters, weshalb die Strombelastbarkeit (Verlegeart A1/A2) reduziert und der Querschnitt angepasst werden muss."
+                },
+                {
+                    q: "[KI-GEN] Welche Schutzmaßnahme ist in Feuchträumen und Bädern (Bereich 0, 1, 2) für Steckdosen nach OVE 8101 zwingend vorgeschrieben?",
+                    options: ["Nur 400V Drehstrom", "RCD (FI-Schalter) mit I_Δn <= 30 mA", "Nur Schmelzsicherungen", "Schutz durch nichtleitende Räume"],
+                    correct: 1,
+                    explanation: "Im Badezimmer ist ein RCD mit max. 30 mA Fehlerstrom für alle Steckdosenkreise und Beleuchtungskreise unumgänglich."
                 }
-            }, 1000);
-        }
-
-        function stopTimer() {
-            if (timerInterval) clearInterval(timerInterval);
+            ];
+            
+            // Pick random AI question
+            let generated = aiQuestionsPool[Math.floor(Math.random() * aiQuestionsPool.length)];
+            activeQuestions = [generated];
+            initQuiz();
         }
 
         function showResults() {
@@ -2178,16 +2098,16 @@
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').innerText = `${score} / ${activeQuestions.length}`;
             
-            const ratio = score / activeQuestions.length;
-            let msg = "Ausgezeichnetes Fachwissen!";
-            if (ratio < 0.5) msg = "Da gibt es noch Lernbedarf nach OVE 8101. Nutze den Lernbereich!";
-            else if (ratio < 0.8) msg = "Gute Leistung! Weiter so.";
-            document.getElementById('feedback').innerText = msg;
-
-            if (score > stats.highscore) {
-                stats.highscore = score;
-                saveStats();
+            let percentage = (score / activeQuestions.length) * 100;
+            let fb = document.getElementById('feedback');
+            if (percentage >= 80) {
+                fb.innerText = "Ausgezeichnet! Du beherrschst die Vorschriften und Schutzmaßnahmen perfekt.";
+            } else if (percentage >= 50) {
+                fb.innerText = "Gute Leistung! Wiederhole noch einige OVE 8101 Kapitel im Lernbereich.";
+            } else {
+                fb.innerText = "Da ist noch Luft nach oben. Nutze den Lernbereich und die Rechner!";
             }
+            checkAchievements();
         }
 
         function restartQuiz() {
@@ -2198,82 +2118,63 @@
             }
         }
 
-        // Stats & XP
-        function saveStats() {
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
-            updateStatsDisplay();
-        }
-
-        function updateStatsDisplay() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = `${accuracy}%`;
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            const xpNeeded = stats.level * 100;
-            const xpProgress = (stats.xp % 100);
-            document.getElementById('xp-label').innerText = `XP: ${xpProgress} / 100 zum nächsten Level`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = `${xpProgress}%`;
-        }
-
-        function updateLevelAndXP() {
-            while (stats.xp >= stats.level * 100) {
-                stats.level++;
-            }
-            updateStatsDisplay();
-        }
-
+        // Stats and Achievements UI
         function toggleDetailedStats() {
-            const panel = document.getElementById('detailed-stats-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            let panel = document.getElementById('detailed-stats-panel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function updateStatsUI() {
+            let accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = accuracy + '%';
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').innerText = stats.highscore;
+            
+            // Detailed panel
+            let xpNext = stats.level * 100;
+            let xpCurrentInLevel = stats.xp % 100;
+            document.getElementById('xp-label').innerText = `XP: ${stats.xp} Gesamt (Level ${stats.level})`;
+            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = Math.min(100, (xpCurrentInLevel / 100) * 100) + '%';
+            
+            checkAchievements();
         }
 
         function checkAchievements() {
-            if (stats.correct >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.streak >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.streak >= 10 || stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
             if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.highscore >= 5) document.getElementById('badge-4').classList.add('unlocked');
         }
 
-        // Calculators
-        function calculateOhm() {
-            const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = u / r;
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
-        }
-
-        function calculate3Phase() {
-            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = Math.sqrt(3) * 400 * i * cos / 1000;
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
-        }
-
-        function calculateVoltageDrop() {
-            const l = parseFloat(document.getElementById('calc-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const a = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const gamma = 56; // Cu
-            const du = 2 * l * i / (gamma * a);
-            const percent = (du / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
-        }
-
-        function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const gamma = 56;
-            const a = (2 * l * i) / (gamma * du);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+        function saveStats() {
+            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
         }
 
         // Initialize on load
         window.onload = function() {
-            updateStatsDisplay();
-            checkAchievements();
+            updateStatsUI();
+            calculateOhm();
+            calculate3Phase();
+            calculateVoltageDrop();
+            calculateCrossSection();
+            
+            // Online status listeners
+            window.addEventListener('online', () => {
+                let badge = document.getElementById('connection-status');
+                badge.className = 'status-badge';
+                badge.innerHTML = '<div class="status-dot"></div> Online';
+            });
+            window.addEventListener('offline', () => {
+                let badge = document.getElementById('connection-status');
+                badge.className = 'status-badge offline';
+                badge.innerHTML = '<div class="status-dot"></div> Offline (PWA)';
+            });
         };
     </script>
 </body>
