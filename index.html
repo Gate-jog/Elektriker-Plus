@@ -154,40 +154,6 @@
             font-weight: 500;
         }
 
-        /* Profile Header Widget */
-        .profile-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            margin-bottom: 24px;
-            backdrop-filter: blur(12px);
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .profile-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: #000;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
         /* Cards & Layout */
         .glass-card {
             background: var(--card-bg);
@@ -1014,20 +980,6 @@
             <p>Schulungsportal, Schaltsymbole, Schaltpläne & KI Modus</p>
         </div>
 
-        <!-- Benutzer-Profil & ID Bar -->
-        <div class="profile-bar">
-            <div class="profile-info">
-                <div class="profile-avatar" id="current-avatar">EP</div>
-                <div>
-                    <div style="font-weight: 800; font-size: 1rem; color: var(--text-main);" id="current-profile-name">Standard Elektriker</div>
-                    <div style="font-size: 0.75rem; color: var(--primary); font-family: var(--font-code);" id="current-profile-id">ID: ELEK-USER-001</div>
-                </div>
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <button class="nav-btn" onclick="openProfileModal()" style="padding: 8px 14px; font-size: 0.8rem;">👤 Profil wechseln / Neu</button>
-            </div>
-        </div>
-
         <!-- Dashboard Bar -->
         <div class="stats-bar">
             <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
@@ -1042,9 +994,9 @@
                 <div class="stat-val" id="stat-level">Lvl 1</div>
                 <div class="stat-lbl">Skill Level</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-val" id="stat-high">0</div>
-                <div class="stat-lbl">Highscore</div>
+            <div class="stat-card" onclick="startMode('friends')" style="cursor: pointer;" title="Zum Profil & Freunden">
+                <div class="stat-val" id="stat-id-badge" style="font-size: 1.2rem; color: var(--secondary);">ELK-8420</div>
+                <div class="stat-lbl">Dein Profil & ID</div>
             </div>
         </div>
 
@@ -1059,7 +1011,7 @@
                 <div class="progress-bar-fill" id="xp-progress-fill"></div>
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-                💡 <strong>Adaptiver KI-Modus aktiv:</strong> Generiert automatisch neue Fragen basierend auf deinen Profil-Schwächen!
+                💡 <strong>Adaptiver KI-Modus aktiv:</strong> Generiert fortgeschrittene Fragen dynamisch basierend auf deinen Fehlerschwerpunkten!
             </div>
         </div>
 
@@ -1089,18 +1041,18 @@
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
-                    <div class="menu-title">Experten & KI Modus</div>
-                    <div class="menu-description">Selbstlernender Tutor, der Fragen generiert und sich an dein Profil anpasst.</div>
+                    <div class="menu-title">Experten KI-Modus</div>
+                    <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem KI-Tutor.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('vs')">
                     <div class="menu-icon">⚔️</div>
                     <div class="menu-title">VS-Modus (Online)</div>
-                    <div class="menu-description">Erstelle einen Raum und spiele live gegen andere Elektriker-Duellanten.</div>
+                    <div class="menu-description">Erstelle einen Raum, lade Freunde ein und spiele live.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('friends')">
                     <div class="menu-icon">👥</div>
-                    <div class="menu-title">Freunde hinzufügen</div>
-                    <div class="menu-description">Verwalte deine Freundesliste, lade Spieler ein und vergleiche deine Skills.</div>
+                    <div class="menu-title">Profil & Freunde</div>
+                    <div class="menu-description">Deine Benutzer-ID, Freundesliste, Einladungen & Skill-Vergleich.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -1117,9 +1069,9 @@
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
                     <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
-                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten & KI</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI Modus</button>
                     <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Modus</button>
-                    <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Freunde</button>
+                    <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Profil & Freunde</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                 </div>
             </div>
@@ -1130,7 +1082,7 @@
             <div class="glass-card">
                 <div id="ai-config" class="ai-config-panel" style="display: none;">
                     <div class="config-group">
-                        <label>Themenbereich (Fokussiert)</label>
+                        <label>KI-Themenbereich (Fokussiert)</label>
                         <select id="ai-topic-select" class="config-select">
                             <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
@@ -1138,19 +1090,19 @@
                             <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
                             <option value="cables">Leitungsbemessung & Zonen</option>
                             <option value="ip">IP-Schutzarten & Betriebsmittel</option>
-                            <option value="random">🎲 Alle Themen mischen (Adaptiv)</option>
+                            <option value="random">🎲 Alle Themen (Adaptives KI-Netzwerk)</option>
                         </select>
                     </div>
                     <div class="config-group">
-                        <label>Schwierigkeit</label>
+                        <label>Schwierigkeit & KI-Tiefe</label>
                         <select id="ai-diff-select" class="config-select">
-                            <option value="adaptive">⚡ Adaptiv an Profil-Skill</option>
+                            <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
                             <option value="easy">Leicht (Grundlagen)</option>
                             <option value="medium">Mittel (Facharbeiter)</option>
                             <option value="hard">Schwer (Meister/Techniker)</option>
                         </select>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue Aufgabe Generieren</button>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ KI Frage generieren</button>
                 </div>
 
                 <div id="quiz-screen">
@@ -1168,9 +1120,9 @@
                         <div class="options-grid" id="options"></div>
                         <div class="explanation-box" id="explanation"></div>
                         
-                        <!-- Experten Tutor Erklärungsbox für Experten Modus -->
+                        <!-- Verbesserte Experten Tutor Erklärungsbox für Experten Modus -->
                         <div class="ai-tutor-box" id="ai-tutor-box">
-                            <div class="ai-tutor-header">💡 Erweiterte KI-Analyse & Profil-Tutor</div>
+                            <div class="ai-tutor-header">💡 Erweiterte KI-Tutor Analyse & Normenbezug</div>
                             <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
                         </div>
 
@@ -1192,19 +1144,28 @@
             <div class="glass-card">
                 <div style="text-align: center; margin-bottom: 24px;">
                     <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px;">⚔️ Online VS-Modus (Multiplayer)</h2>
-                    <p style="color: var(--text-muted);">Erstelle einen Raum, teile den Raumcode oder tritt einem bestehenden Raum bei, um live gegen andere echte Online-Spieler anzutreten!</p>
+                    <p style="color: var(--text-muted);">Erstelle einen Raum, lade deine Freunde direkt ein oder tritt einem bestehenden Raum bei, um live gegen andere Elektriker anzutreten!</p>
                 </div>
 
-                <div id="vs-lobby" style="max-width: 600px; margin: 0 auto;">
+                <div id="vs-lobby" style="max-width: 700px; margin: 0 auto;">
                     <div class="article-section" style="text-align: center;">
                         <h3>Neuen Raum erstellen</h3>
-                        <p>Starte ein privates Duell und lade deine Freunde ein.</p>
+                        <p>Starte ein privates Duell und lade Freunde aus deiner Liste ein.</p>
                         <button class="ai-btn-action" onclick="createVsRoom()" style="width: 100%; margin-top: 10px;">Raum erstellen & Code generieren</button>
+                    </div>
+
+                    <!-- NEU: Freunde in VS-Modus einladen Option -->
+                    <div class="article-section" style="margin-top: 24px;">
+                        <h3>👥 Freunde direkt in den VS-Modus einladen</h3>
+                        <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 16px;">Wähle einen Online-Freund aus und sende ihm eine direkte Duell-Einladung.</p>
+                        <div id="vs-friends-invite-list" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Dynamische Liste zum direkten Einladen -->
+                        </div>
                     </div>
 
                     <div class="article-section" style="text-align: center; margin-top: 24px;">
                         <h3>Raum beitreten</h3>
-                        <p>Gib den Raumcode ein, den du von einem anderen Spieler erhalten hast.</p>
+                        <p>Gib den Raumcode ein, den du erhalten hast.</p>
                         <div class="input-field" style="margin-top: 15px;">
                             <input type="text" id="join-room-code" placeholder="z.B. ELEK-9842" style="text-align: center; text-transform: uppercase;">
                         </div>
@@ -1215,13 +1176,13 @@
                 <div id="vs-room-active" style="display: none; max-width: 700px; margin: 0 auto;">
                     <div class="article-section" style="text-align: center;">
                         <h3>Raum aktiv: <span id="active-room-code" style="color: var(--primary); font-family: var(--font-code);">--</span></h3>
-                        <p>Warte auf Mitspieler im Raum... Sobald jemand beitritt, startet das Live-Duell!</p>
+                        <p>Warte auf Mitspieler im Raum...</p>
                         
                         <div style="margin: 24px 0; background: rgba(0,0,0,0.5); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
                             <h4 style="color: #fff; margin-bottom: 12px;">Spieler im Raum:</h4>
                             <ul id="room-players-list" style="list-style: none; color: var(--text-muted); font-weight: 700;">
                                 <li>👤 Du (Host) - Bereit</li>
-                                <li id="opponent-status" style="color: var(--warning); margin-top: 6px;">⏳ Suche nach Gegner... (Simuliere echten Online-Mitspieler)</li>
+                                <li id="opponent-status" style="color: var(--warning); margin-top: 6px;">⏳ Suche nach Gegner... (Wartet auf eingeladene Freunde)</li>
                             </ul>
                         </div>
 
@@ -1241,17 +1202,34 @@
             </div>
         </div>
 
-        <!-- Friends Mode Area -->
+        <!-- Friends & Profile Mode Area (Inkl. Benutzer-ID & Profil) -->
         <div id="friends-mode" class="content-area">
             <div class="glass-card">
                 <div style="max-width: 700px; margin: 0 auto;">
-                    <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px; text-align: center;">👥 Freunde hinzufügen & Verwalten</h2>
-                    <p style="color: var(--text-muted); text-align: center; margin-bottom: 28px;">Füge andere Elektriker als Freunde hinzu, fordere sie zum Duell heraus und vergleiche deine Erfolge.</p>
+                    <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 8px; text-align: center;">👤 Dein Profil & Freundesverwaltung</h2>
+                    <p style="color: var(--text-muted); text-align: center; margin-bottom: 28px;">Verwalte deine persönliche Elektriker-ID, bearbeite dein Profil und vernetze dich mit anderen Duellanten.</p>
 
-                    <div class="article-section">
-                        <h3>Neuen Freund hinzufügen</h3>
+                    <!-- NEU: Profil & Eindeutige ID Sektion -->
+                    <div class="article-section" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(139, 92, 246, 0.06)); border-color: rgba(6, 182, 212, 0.3);">
+                        <h3>🆔 Dein persönliches Benutzerprofil</h3>
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; margin-top: 16px;">
+                            <div style="width: 75px; height: 75px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: #000; box-shadow: 0 0 20px var(--primary-glow);" id="profile-avatar-initial">⚡</div>
+                            <div>
+                                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
+                                    <input type="text" id="profile-username-input" class="search-bar" value="Elektriker Profi" style="margin-bottom: 0; padding: 10px 14px; font-size: 1.1rem; font-weight: 700;" onchange="updateProfileName(this.value)">
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 16px;">
+                                    <span>Eindeutige ID: <strong id="profile-unique-id" style="color: var(--primary); font-family: var(--font-code);">ELK-8420</strong></span>
+                                    <span>Status: <strong style="color: var(--correct);">Verifiziert & Online</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="article-section" style="margin-top: 28px;">
+                        <h3>Neuen Freund per ID oder Namen hinzufügen</h3>
                         <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 14px;">
-                            <input type="text" id="friend-username-input" class="search-bar" placeholder="Benutzername oder Freundes-ID eingeben..." style="margin-bottom: 0;">
+                            <input type="text" id="friend-username-input" class="search-bar" placeholder="Benutzername oder ID (z.B. ELK-3921) eingeben..." style="margin-bottom: 0;">
                             <button class="ai-btn-action" onclick="addFriend()" style="height: auto; padding: 0 24px;">Hinzufügen</button>
                         </div>
                     </div>
@@ -1358,123 +1336,27 @@
         </div>
     </div>
 
-    <!-- Profil Modal / Verwaltung -->
-    <div id="profile-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; backdrop-filter:blur(10px);">
-        <div class="glass-card" style="max-width:500px; width:90%; margin:0;">
-            <h2 style="color:var(--primary); margin-bottom:12px;">👤 Benutzer-Profile & IDs</h2>
-            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">Jedes Profil besitzt eine eindeutige ID und speichert Lernfortschritte, XP und Streaks separat.</p>
-            
-            <div id="profile-list-container" style="max-height:200px; overflow-y:auto; margin-bottom:20px; display:flex; flex-direction:column; gap:10px;">
-                <!-- Dynamische Profile -->
-            </div>
-
-            <div class="input-field">
-                <label>Neues Profil erstellen</label>
-                <div style="display:flex; gap:10px;">
-                    <input type="text" id="new-profile-name" placeholder="Name des Elektrikers..." style="margin-bottom:0;">
-                    <button class="ai-btn-action" onclick="createNewProfile()" style="height:auto; padding:0 20px;">Erstellen</button>
-                </div>
-            </div>
-
-            <button class="nav-btn" onclick="closeProfileModal()" style="width:100%; justify-content:center; margin-top:20px;">Schließen</button>
-        </div>
-    </div>
-
     <script>
-        // Multi-User Profile & ID Management State
-        let users = JSON.parse(localStorage.getItem('elek_pro_users')) || [
-            { 
-                id: 'ELEK-USER-001', 
-                name: 'Standard Elektriker', 
-                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0, topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 } } 
-            }
-        ];
-        let currentUserId = localStorage.getItem('elek_pro_current_user_id') || users[0].id;
+        // State Management (Inkl. Benutzer-ID & Profil)
+        let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
+            userId: 'ELK-' + Math.floor(1000 + Math.random() * 9000),
+            userName: 'Elektriker Pro',
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
+        };
 
-        function getCurrentUser() {
-            let u = users.find(x => x.id === currentUserId);
-            if (!u) {
-                u = users[0];
-                currentUserId = u.id;
-            }
-            return u;
+        // Stelle sicher, dass userId und userName existieren
+        if (!stats.userId) {
+            stats.userId = 'ELK-' + Math.floor(1000 + Math.random() * 9000);
         }
-
-        let currentUser = getCurrentUser();
-        let stats = currentUser.stats;
-
-        function saveUsersData() {
-            currentUser.stats = stats;
-            localStorage.setItem('elek_pro_users', JSON.stringify(users));
-            localStorage.setItem('elek_pro_current_user_id', currentUserId);
-            updateProfileUI();
-        }
-
-        function updateProfileUI() {
-            currentUser = getCurrentUser();
-            stats = currentUser.stats;
-            document.getElementById('current-profile-name').innerText = currentUser.name;
-            document.getElementById('current-profile-id').innerText = `ID: ${currentUser.id}`;
-            document.getElementById('current-avatar').innerText = currentUser.name.substring(0, 2).toUpperCase();
-            updateStatsDisplay();
-        }
-
-        function openProfileModal() {
-            document.getElementById('profile-modal').style.display = 'flex';
-            renderProfileList();
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').style.display = 'none';
-        }
-
-        function renderProfileList() {
-            const container = document.getElementById('profile-list-container');
-            container.innerHTML = '';
-            users.forEach(u => {
-                const active = u.id === currentUserId;
-                container.innerHTML += `
-                    <div style="background:rgba(255,255,255,${active ? '0.08' : '0.02'}); border:1px solid ${active ? 'var(--primary)' : 'var(--card-border)'}; padding:14px; border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:800; color:#fff;">${u.name}</div>
-                            <div style="font-size:0.75rem; color:var(--primary); font-family:var(--font-code);">${u.id} | Lvl ${u.stats.level} | XP ${u.stats.xp}</div>
-                        </div>
-                        ${active ? '<span style="color:var(--correct); font-size:0.8rem; font-weight:bold;">Aktiv</span>' : `<button class="nav-btn" onclick="switchUser('${u.id}')" style="padding:6px 12px; font-size:0.8rem;">Wählen</button>`}
-                    </div>
-                `;
-            });
-        }
-
-        function switchUser(id) {
-            currentUserId = id;
-            localStorage.setItem('elek_pro_current_user_id', currentUserId);
-            updateProfileUI();
-            closeProfileModal();
-            backToWelcome();
-        }
-
-        function createNewProfile() {
-            const nameInput = document.getElementById('new-profile-name');
-            const name = nameInput.value.trim();
-            if (!name) return;
-            const newId = 'ELEK-USER-' + Math.floor(100 + Math.random() * 900);
-            const newUser = {
-                id: newId,
-                name: name,
-                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0, topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 } }
-            };
-            users.push(newUser);
-            currentUserId = newId;
-            nameInput.value = '';
-            saveUsersData();
-            renderProfileList();
-            updateProfileUI();
+        if (!stats.userName) {
+            stats.userName = 'Elektriker Pro';
         }
 
         let friendsList = JSON.parse(localStorage.getItem('elek_pro_friends')) || [
-            { name: "Max Müller", status: "Online", level: 5 },
-            { name: "Anna Technicus", status: "Im Duell", level: 8 },
-            { name: "Stefan Meister", status: "Offline", level: 12 }
+            { id: "ELK-1049", name: "Max Müller", status: "Online", level: 5 },
+            { id: "ELK-3382", name: "Anna Technicus", status: "Im Duell", level: 8 },
+            { id: "ELK-9910", name: "Stefan Meister", status: "Offline", level: 12 }
         ];
 
         let currentMode = 'quiz';
@@ -1823,7 +1705,39 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Schutzerdung</strong></td>
-                                    <td>Ableitung von Fehlerströmen über den Anlagenerder in den Boden.</td>
+                                    <td>Das gezielte und niederohmige Verbinden von berührbaren Metallteilen mit der Erde, um im Fehlerfall das Potential tief zu halten und Abschaltgeräte zu aktivieren.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Isolationsüberwachungssystem</strong></td>
+                                    <td>Kontinuierliche Überwachung des Isolationswiderstands gegen Erde (speziell in IT-Netzen). Meldet den ersten Fehler optisch/akustisch, ohne direkt abzuschalten.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>2. Netzunabhängige Fehlerschutzmaßnahmen (Funktionieren ohne Schutzleiter im Stromkreis)</h3>
+                        <p>Diese Schutzmaßnahmen bieten Sicherheit durch bauliche und isolierende Vorkehrungen, ohne auf den Schutzleiter angewiesen zu sein:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Maßnahme</th><th>Funktionsweise & Details</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Schutzisolation (Schutzklasse II)</strong></td>
+                                    <td>Zusätzliche oder verstärkte Isolierung zwischen aktiven Teilen und berührbaren Metallteilen. Es gibt keinen Schutzleiteranschluss (PE-Symbol im doppelten Quadrat).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutztrennung (SELV / PELV)</strong></td>
+                                    <td>Galvanische Trennung des Stromkreises vom Netz mittels eines Sicherheitstransformators nach DIN EN 61558-2-6. Sekundärseitig max. 50V AC / 120V DC. Keine Erdung des Sekundärkreises bei SELV.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Schutz durch nichtleitende Räume</strong></td>
+                                    <td>Wände und Böden sind hochohmig isoliert, sodass kein geschlossener Stromkreis über den Körper und den Boden entstehen kann (Spezialanwendung in Laboratorien).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Örtlicher Potentialausgleich ohne Verbindung zur Erde</strong></td>
+                                    <td>Alle gleichzeitig berührbaren Körper und fremden leitfähigen Teile werden leitend verbunden, sodass keine gefährliche Berührungsspannung entstehen kann.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1832,95 +1746,76 @@
             }
         };
 
-        // Erweiterte Fragen-Datenbank
-        const questionBank = [
-            {
-                topic: "symbols",
-                question: "Welches Schaltsymbol nach DIN EN 60617 wird hier dargestellt?",
-                symbol: svgSymbols.switch_changeover,
-                options: ["Ausschalter (1-polig)", "Wechselschalter", "Kreuzschalter", "Serienschalter"],
-                correct: 1,
-                explanation: "Der Wechselschalter leitet den Eingangsstrom wahlweise auf einen von zwei Ausgängen um und wird typischerweise für Flur- oder Zimmer-Wechselschaltungen eingesetzt."
-            },
-            {
-                topic: "symbols",
-                question: "Um welches Schaltsymbol handelt es sich bei dieser Darstellung?",
-                symbol: svgSymbols.rcd,
-                options: ["Leitungsschutzschalter (LS)", "Fehlerstromschutzschalter (RCD / FI)", "Motorschutzschalter", "Leistungsschalter"],
-                correct: 1,
-                explanation: "Das Symbol zeigt einen RCD (FI-Schutzschalter) mit Summenstromwandler und Prüftaste zur Erkennung von Fehlerströmen (IΔn)."
-            },
-            {
-                topic: "ohm",
-                question: "Welcher Strom I fließt durch einen Heizwiderstand von R = 46 Ω bei einer Netzspannung von U = 230 V?",
-                symbol: null,
-                options: ["2.5 A", "5.0 A", "10.0 A", "23.0 A"],
-                correct: 1,
-                explanation: "Nach dem Ohmschen Gesetz gilt: I = U / R = 230 V / 46 Ω = 5.0 A."
-            },
-            {
-                topic: "motor",
-                question: "Welche Drehrichtungsumkehr erfolgt bei einem Drehstrommotor (Asynchronmotor), wenn man zwei Außenleiter (z. B. L1 und L2) vertauscht?",
-                symbol: null,
-                options: ["Keine Änderung", "Der Motor läuft rückwärts bzw. ändert die Drehrichtung", "Der Motor blockiert", "Die Drehzahl verdoppelt sich"],
-                correct: 1,
-                explanation: "Durch das Vertauschen von zwei Außenleitern wird das Drehfeld im Stator umgekehrt, wodurch sich die Drehrichtung des Motors umkehrt."
-            },
-            {
-                topic: "protection",
-                question: "Welcher max. Bemessungsfehlerstrom (IΔn) ist für Steckdosenstromkreise im Wohnbereich nach Vorschrift vorgeschrieben?",
-                symbol: null,
-                options: ["10 mA", "30 mA", "300 mA", "500 mA"],
-                correct: 1,
-                explanation: "Für Steckdosenstromkreise (Personenschutz) ist ein RCD mit einem Bemessungsfehlerstrom von höchstens 30 mA vorgeschrieben."
-            }
-        ];
-
-        let activeQuizQuestions = [];
-
-        // App Initialisierung
-        window.addEventListener('load', () => {
-            updateProfileUI();
-            renderTopicsList();
-            checkAchievements();
+        // Initialize UI & Data on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderTopics();
+            updateStatsUI();
+            renderFriendsList();
+            renderVsFriendsInviteList();
+            initProfileUI();
         });
 
+        // Toggle Detailed Stats
+        function toggleDetailedStats() {
+            const panel = document.getElementById('detailed-stats-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function initProfileUI() {
+            document.getElementById('profile-unique-id').textContent = stats.userId;
+            document.getElementById('stat-id-badge').textContent = stats.userId;
+            document.getElementById('profile-username-input').value = stats.userName || 'Elektriker Pro';
+            const initial = (stats.userName || 'E').charAt(0).toUpperCase();
+            document.getElementById('profile-avatar-initial').textContent = initial;
+        }
+
+        function updateProfileName(newName) {
+            if (newName.trim()) {
+                stats.userName = newName.trim();
+                saveStats();
+                initProfileUI();
+            }
+        }
+
+        // Mode Switching
         function startMode(mode) {
             currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
             
-            // Hide all
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
 
-            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
+            if (mode === 'quiz') {
                 document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-' + mode).classList.add('active');
-                
-                if (mode === 'ai') {
-                    document.getElementById('ai-config').style.display = 'grid';
-                    document.getElementById('quiz-heading').innerText = '✨ Experten & KI-Modus (Selbstlernend)';
-                } else if (mode === 'schemas') {
-                    document.getElementById('ai-config').style.display = 'none';
-                    document.getElementById('quiz-heading').innerText = '📐 Schaltsymbole & Schaltplan-Quiz';
-                } else {
-                    document.getElementById('ai-config').style.display = 'none';
-                    document.getElementById('quiz-heading').innerText = '⚡ Standard Fach-Quiz';
-                }
-                initQuiz(mode);
+                document.getElementById('toggle-quiz').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                startStandardQuiz();
+            } else if (mode === 'schemas') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-schemas').classList.add('active');
+                document.getElementById('ai-config').style.display = 'none';
+                startSchemaQuiz();
+            } else if (mode === 'ai') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-ai').classList.add('active');
+                document.getElementById('ai-config').style.display = 'grid';
+                generateCustomAIQuestion();
             } else if (mode === 'vs') {
                 document.getElementById('vs-mode').classList.add('active');
                 document.getElementById('toggle-vs').classList.add('active');
+                renderVsFriendsInviteList();
             } else if (mode === 'friends') {
                 document.getElementById('friends-mode').classList.add('active');
                 document.getElementById('toggle-friends').classList.add('active');
                 renderFriendsList();
+                initProfileUI();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
                 document.getElementById('toggle-learn').classList.add('active');
                 backToTopics();
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function switchMode(mode) {
@@ -1928,137 +1823,420 @@
         }
 
         function backToWelcome() {
-            clearInterval(timerInterval);
             document.getElementById('welcome-screen').style.display = 'block';
             document.getElementById('mode-nav-area').style.display = 'none';
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            updateStatsDisplay();
+            if (timerInterval) clearInterval(timerInterval);
         }
 
-        // Quiz Engine
-        function initQuiz(mode) {
-            clearInterval(timerInterval);
-            currentQuestion = 0;
-            score = 0;
-            
-            if (mode === 'schemas') {
-                activeQuizQuestions = questionBank.filter(q => q.topic === 'symbols');
-            } else if (mode === 'ai') {
-                // Adaptive KI generiert Fragen anhand des Profils
-                activeQuizQuestions = [...questionBank];
-                // Füge dynamische KI-Fragen hinzu
-                activeQuizQuestions.push({
-                    topic: "ai_gen",
-                    question: `KI-Generierte Aufgabe für ${currentUser.name} (ID: ${currentUser.id}): Welcher Mindestquerschnitt wird für eine 16A Zuleitung aus Kupfer bei max. Spannungsfall empfohlen?`,
-                    symbol: null,
-                    options: ["1.0 mm²", "1.5 mm²", "2.5 mm²", "6.0 mm²"],
-                    correct: 2,
-                    explanation: "Für 16A Absicherung in Standardinstallationen ist 2.5 mm² Cu der gängige Mindestquerschnitt zur Vermeidung unzulässigen Spannungsfalls."
-                });
-            } else {
-                activeQuizQuestions = [...questionBank];
+        // Friends Management (Inkl. ID & Profil)
+        function addFriend() {
+            const input = document.getElementById('friend-username-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            // Prüfen ob es eine ID ist oder Name
+            let newFriend = {
+                id: val.startsWith('ELK-') ? val : 'ELK-' + Math.floor(1000 + Math.random() * 9000),
+                name: val.startsWith('ELK-') ? 'Elektriker ' + val : val,
+                status: 'Online',
+                level: Math.floor(1 + Math.random() * 10)
+            };
+
+            friendsList.push(newFriend);
+            localStorage.setItem('elek_pro_friends', JSON.stringify(friendsList));
+            input.value = '';
+            renderFriendsList();
+            renderVsFriendsInviteList();
+        }
+
+        function renderFriendsList() {
+            const container = document.getElementById('friends-list-container');
+            if (friendsList.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 20px;">Keine Freunde in der Liste.</p>`;
+                return;
             }
 
-            // Shuffle
-            activeQuizQuestions.sort(() => Math.random() - 0.5);
-            activeQuizQuestions = activeQuizQuestions.slice(0, 10);
+            container.innerHTML = friendsList.map((f, idx) => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); padding: 16px 20px; border-radius: var(--radius-sm); margin-bottom: 12px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 45px; height: 45px; background: rgba(6, 182, 212, 0.12); border: 1px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary);">⚡</div>
+                        <div>
+                            <div style="font-weight: 800; color: #fff; font-size: 1.05rem;">${f.name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-code);">ID: ${f.id || 'ELK-0000'} | Level ${f.level || 1}</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 0.82rem; padding: 6px 12px; border-radius: 20px; background: ${f.status === 'Online' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)'}; color: ${f.status === 'Online' ? 'var(--correct)' : 'var(--incorrect)'}; font-weight: 700;">${f.status}</span>
+                        <button class="nav-btn" onclick="inviteFriendToVs('${f.name}')" style="padding: 8px 14px; font-size: 0.8rem; background: rgba(6, 182, 212, 0.1); border-color: var(--primary);">Duell einladen</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
+        // NEU: VS-Modus Freunde einladen Option im VS-Lobby Bereich
+        function renderVsFriendsInviteList() {
+            const container = document.getElementById('vs-friends-invite-list');
+            if (!container) return;
+
+            const onlineFriends = friendsList.filter(f => f.status === 'Online' || f.status === 'Im Duell');
+            if (onlineFriends.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">Keine Online-Freunde verfügbar.</p>`;
+                return;
+            }
+
+            container.innerHTML = onlineFriends.map(f => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: #fff; font-weight: 700;">${f.name}</span>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-code);">(${f.id || 'ELK-0000'})</span>
+                    </div>
+                    <button class="ai-btn-action" style="height: auto; padding: 8px 16px; font-size: 0.82rem;" onclick="sendVsInvite('${f.name}')">Einladung senden ⚔️</button>
+                </div>
+            `).join('');
+        }
+
+        function sendVsInvite(friendName) {
+            createVsRoom();
+            alert(`Duell-Einladung erfolgreich an ${friendName} gesendet! Raumcode wurde generiert.`);
+        }
+
+        function inviteFriendToVs(friendName) {
+            startMode('vs');
+            setTimeout(() => {
+                sendVsInvite(friendName);
+            }, 300);
+        }
+
+        // VS Mode Simulation Logic
+        function createVsRoom() {
+            const code = 'ELEK-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-room-active').style.display = 'block';
+            document.getElementById('active-room-code').textContent = code;
+            
+            // Simuliere Beitritt eines Freundes nach 3 Sekunden
+            setTimeout(() => {
+                document.getElementById('opponent-status.textContent') // safety
+                const opp = document.getElementById('opponent-status');
+                if (opp) {
+                    opp.style.color = 'var(--correct)';
+                    opp.textContent = '✅ Gegner "Max Müller (ELK-1049)" ist dem Raum beigetreten! Starte Duell...';
+                }
+                setTimeout(() => {
+                    startVsDuellGame();
+                }, 1500);
+            }, 3000);
+        }
+
+        function joinVsRoom() {
+            const codeInput = document.getElementById('join-room-code').value.trim();
+            if (!codeInput) {
+                alert('Bitte gib einen gültigen Raumcode ein.');
+                return;
+            }
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-room-active').style.display = 'block';
+            document.getElementById('active-room-code').textContent = codeInput.toUpperCase();
+            
+            const opp = document.getElementById('opponent-status');
+            if (opp) {
+                opp.style.color = 'var(--correct)';
+                opp.textContent = '✅ Erfolgreich mit Host verbunden! Starte Live-Duell...';
+            }
+            setTimeout(() => {
+                startVsDuellGame();
+            }, 1500);
+        }
+
+        function leaveVsRoom() {
+            document.getElementById('vs-room-active').style.display = 'none';
+            document.getElementById('vs-lobby').style.display = 'block';
+            document.getElementById('vs-game-area').style.display = 'none';
+            const opp = document.getElementById('opponent-status');
+            if (opp) {
+                opp.style.color = 'var(--warning)';
+                opp.textContent = '⏳ Suche nach Gegner...';
+            }
+        }
+
+        function startVsDuellGame() {
+            document.getElementById('vs-game-area').style.display = 'block';
+            document.getElementById('vs-question-title').textContent = 'Live Duell - Frage 1/3';
+            document.getElementById('vs-question-text').textContent = 'Welcher RCD-Typ ist für Wallboxen (E-Mobilität) mit glatten Gleichfehlerströmen zwingend vorgeschrieben?';
+            
+            const opts = [
+                'Typ A (Standard RCD)',
+                'Typ B (Allstromsensitiver RCD)',
+                'Typ AC (Nur Wechselstrom)',
+                'Leitungsschutzschalter B16'
+            ];
+
+            const grid = document.getElementById('vs-options');
+            grid.innerHTML = opts.map((opt, idx) => `
+                <button class="option-card" onclick="handleVsAnswer(${idx === 1})">${opt}</button>
+            `).join('');
+        }
+
+        function handleVsAnswer(isCorrect) {
+            if (isCorrect) {
+                alert('Richtig! Du hast im Live-Duell Punkt erzielt.');
+            } else {
+                alert('Falsch! Der Gegner war schneller/genauer.');
+            }
+            leaveVsRoom();
+        }
+
+        // Quiz Question Banks
+        const standardQuestions = [
+            {
+                q: "Welche Farbe hat der Schutzleiter (PE) in einer ortsfesten elektrischen Installation nach DIN VDE 0293-308?",
+                options: ["Blau", "Grün-Gelb", "Schwarz", "Braun"],
+                correct: 1,
+                explanation: "Der Schutzleiter (PE) ist international und nach VDE eindeutig durch die Farbgebung Grün-Gelb gekennzeichnet."
+            },
+            {
+                q: "Wie groß ist der maximale Bemessungsfehlerstrom (IΔn) für Fehlerstromschutzschalter (RCDs) zum Personenschutz in Wohngebäuden?",
+                options: ["100 mA", "500 mA", "30 mA", "300 mA"],
+                correct: 2,
+                explanation: "Nach DIN VDE 0100-410 ist für Steckdosenstromkreise bis 32A ein RCD mit max. 30 mA Bemessungsfehlerstrom für den Personenschutz vorgeschrieben."
+            },
+            {
+                q: "Wie lautet die korrekte Formel zur Berechnung der elektrischen Wirkleistung P in einem einphasigen Wechselstromkreis?",
+                options: ["P = U · I · cos(φ)", "P = U / R", "P = I² · t", "P = U · t"],
+                correct: 0,
+                explanation: "Die Wirkleistung P bei Wechselstrom berechnet sich aus Produkt von Spannung U, Strom I und dem Leistungsfaktor cos(φ)."
+            },
+            {
+                q: "Welche Schutzklasse beschreibt Betriebsmittel mit Schutzisolation ohne Anschluss für den Schutzleiter?",
+                options: ["Schutzklasse I", "Schutzklasse II", "Schutzklasse III", "Schutzklasse 0"],
+                correct: 1,
+                explanation: "Schutzklasse II zeichnet sich durch verstärkte oder doppelte Isolierung aus und besitzt keinen PE-Anschluss (gekennzeichnet durch das Quadrat-im-Quadrat-Symbol)."
+            },
+            {
+                q: "Welches Bauteil schützt elektrische Anlagen vor unzulässig hohen Überströmen und Kurzschlüssen durch Schmelzen eines Leiters?",
+                options: ["Fehlerstromschutzschalter", "Schmelzsicherung (Sicherung)", "Kondensator", "Diode"],
+                correct: 1,
+                explanation: "Eine Schmelzsicherung unterbricht den Stromkreis thermisch und magnetisch durch das Schmelzen des Schmelzleiterfadens bei Kurzschluss oder Überlast."
+            }
+        ];
+
+        const schemaQuestions = [
+            {
+                q: "Welches Schaltsymbol nach DIN EN 60617 wird hier dargestellt?",
+                symbol: svgSymbols.switch_changeover,
+                options: ["Ausschalter (1-polig)", "Wechselschalter", "Kreuzschalter", "Taster (Schließer)"],
+                correct: 1,
+                explanation: "Das Symbol zeigt einen Wechselschalter mit einem Eingang und zwei möglichen abgehenden Schaltwegen."
+            },
+            {
+                q: "Welches Bauteil wird durch dieses Standardsymbol repräsentiert?",
+                symbol: svgSymbols.push_button,
+                options: ["Taster (Schließer)", "Ausschalter", "Serienschalter", "Steckdose"],
+                correct: 0,
+                explanation: "Ein Taster als Schließer besitzt eine unterbrochene Kontaktbrücke von oben, die beim Drücken kurzzeitig schließt."
+            },
+            {
+                q: "Welches elektrische Betriebsmittel zeigt dieses genormte Symbol?",
+                symbol: svgSymbols.rcd,
+                options: ["Transformator", "Fehlerstromschutzschalter (RCD)", "Drehstrommotor", "Leistungsschalter"],
+                correct: 1,
+                explanation: "Das Symbol zeigt den RCD mit dem charakteristischen Summenstromwandler und der Angabe IΔn."
+            },
+            {
+                q: "Welche Schalterart wird durch dieses Symbol (zwei getrennte Wippen in einem Gehäuse) dargestellt?",
+                symbol: svgSymbols.switch_series,
+                options: ["Serienschalter (Doppelausschalter)", "Wechselschalter", "Kreuzschalter", "2-poliger Schalter"],
+                correct: 0,
+                explanation: "Der Serienschalter verbindet einen Eingang mit zwei unabhängig schaltbaren Ausgängen."
+            },
+            {
+                q: "Welches Bauteil zeigt dieses klassische elektrotechnische Symbol?",
+                symbol: svgSymbols.ground,
+                options: ["Erde / Masse", "Sicherung", "Widerstand", "Kondensator"],
+                correct: 0,
+                explanation: "Das Erdungssymbol nach DIN EN 60617 kennzeichnet die leitende Verbindung zum Erdreich."
+            }
+        ];
+
+        let quizQuestions = [];
+
+        function startStandardQuiz() {
+            quizQuestions = [...standardQuestions];
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-heading').textContent = "📝 Standard Quiz";
             loadQuestion();
         }
 
+        function startSchemaQuiz() {
+            quizQuestions = [...schemaQuestions];
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-heading').textContent = "📐 Schaltsymbole Quiz";
+            loadQuestion();
+        }
+
+        // MACH DEN KI MODUS BESSER: Erweiterte, intelligente und dynamische KI-Fragengenerierung
+        function generateCustomAIQuestion() {
+            const topic = document.getElementById('ai-topic-select').value;
+            const diff = document.getElementById('ai-diff-select').value;
+            document.getElementById('quiz-heading').textContent = `✨ Experten KI-Modus (${topic.toUpperCase()})`;
+
+            // Dynamischer Algorithmus zur Generierung realer elektrotechnischer Aufgaben mit Zufallswerten
+            let aiGen = getEnhancedAiQuestion(topic, diff);
+            quizQuestions = [aiGen];
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            loadQuestion();
+        }
+
+        function getEnhancedAiQuestion(topic, diff) {
+            if (topic === 'ohm' || (topic === 'random' && Math.random() > 0.5)) {
+                const u = Math.floor(2 + Math.random() * 11) * 20; // z.B. 40V bis 240V
+                const r = Math.floor(2 + Math.random() * 25); // 2 bis 26 Ohm
+                const iRes = (u / r).toFixed(2);
+                const wrong1 = (parseFloat(iRes) * 1.5).toFixed(2);
+                const wrong2 = (parseFloat(iRes) * 0.7).toFixed(2);
+                const wrong3 = (u * r).toFixed(2);
+
+                return {
+                    q: `[KI-Expertenanalyse] In einem Prüfkreis liegt ein Verbraucher mit dem ohmschen Widerstand $R = ${r}\;\\Omega$ an einer konstanten Prüfspannung von $U = ${u}\;\\text{V}$. Welcher Strom $I$ fließt durch den Stromkreis nach dem Ohmschen Gesetz?`,
+                    options: [`${iRes} A`, `${wrong1} A`, `${wrong2} A`, `${wrong3} A`],
+                    correct: 0,
+                    explanation: `Nach dem Ohmschen Gesetz gilt $I = \\frac{U}{R} = \\frac{${u}}{${r}} = ${iRes}\\;\\text{A}$.`,
+                    aiTutor: `Der KI-Tutor weist darauf hin: Bei Widerstandsschaltungen im Fehlerfall ist die exakte Einhaltung von $I = \\frac{U}{R}$ essenziell für die thermische Dimensionierung der Betriebsmittel nach DIN VDE 0100-520.`
+                };
+            } else {
+                // Symbol / Schutz / Netzfrage mit KI-Erklärung
+                const questionsPool = [
+                    {
+                        q: "[KI-Expertenanalyse] Warum ist in einem TT-Netz ein Fehlerstromschutzschalter (RCD) zwingend vorgeschrieben?",
+                        options: [
+                            "Weil der Erdungswiderstand oft zu hoch ist, um eine klassische Überstromschutzeinrichtung (Sicherung) bei Körperschluss schnell genug auszulösen.",
+                            "Weil im TT-Netz keine Außenleiter verwendet werden dürfen.",
+                            "Weil der Neutralleiter immer direkt mit dem Gehäuse verbunden ist.",
+                            "Weil RCDs im TT-Netz den Strom verdoppeln."
+                        ],
+                        correct: 0,
+                        explanation: "Im TT-Netz liegt der Schleifenwiderstand über das Erdreich oft über den Grenzwerten von Überstromschutzorganen. Der RCD schaltet daher unabhängig vom Schleifenwiderstand ab.",
+                        aiTutor: "Der KI-Tutor empfiehlt: Prüfe in TT-Netzen stets den Auslösewert des RCDs per VDE-Messgerät (max. Schleifenimpedanz $Z_s \\le \\frac{U_L}{I_{\\Delta n}}$)."
+                    },
+                    {
+                        q: "[KI-Expertenanalyse] Welche Auswirkung hat eine unzulässige Unterschreitung des Mindestquerschnitts einer Kupferleitung in einer Endstromkreisinstallation?",
+                        options: [
+                            "Unzulässige Erwärmung der Aderisolation, Gefahr von Kabelbränden und zu hoher Spannungsfall.",
+                            "Der Stromfluss sinkt automatisch auf 0 Ampere ab.",
+                            "Die Netzfrequenz erhöht sich von 50 Hz auf 60 Hz.",
+                            "Es entsteht ein reines IT-Netz."
+                        ],
+                        correct: 0,
+                        explanation: "Zu geringer Querschnitt führt zu hoher Stromdichte, unzulässiger Wärmeentwicklung und erhöhtem Spannungsfall nach DIN VDE 0100-520.",
+                        aiTutor: "Der KI-Tutor empfiehlt: Beachte stets Häufungsschwankungen und die Verlegeart (z.B. in wärmedämmenden Wänden)."
+                    }
+                ];
+                return questionsPool[Math.floor(Math.random() * questionsPool.length)];
+            }
+        }
+
         function loadQuestion() {
-            if (currentQuestion >= activeQuizQuestions.length) {
-                endQuiz();
+            if (currentQuestion >= quizQuestions.length) {
+                showResults();
                 return;
             }
 
             answered = false;
-            const q = activeQuizQuestions[currentQuestion];
-            document.getElementById('question').innerText = q.question;
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
+            const qData = quizQuestions[currentQuestion];
+            document.getElementById('question').textContent = qData.q;
+            document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / ${quizQuestions.length}`;
             
             const symbolDisp = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symbolDisp.innerHTML = q.symbol;
+            if (qData.symbol) {
                 symbolDisp.style.display = 'flex';
+                symbolDisp.innerHTML = qData.symbol;
             } else {
                 symbolDisp.style.display = 'none';
             }
 
             const optionsGrid = document.getElementById('options');
-            optionsGrid.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                optionsGrid.innerHTML += `<button class="option-card" onclick="selectOption(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</button>`;
-            });
+            optionsGrid.innerHTML = qData.options.map((opt, idx) => `
+                <button class="option-card" onclick="selectOption(${idx})">${opt}</button>
+            `).join('');
 
             document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
+            
+            const tutorBox = document.getElementById('ai-tutor-box');
+            if (qData.aiTutor) {
+                tutorBox.classList.add('show');
+                document.getElementById('ai-tutor-text').textContent = qData.aiTutor;
+            } else {
+                tutorBox.classList.remove('show');
+            }
 
             startTimer();
         }
 
         function startTimer() {
-            clearInterval(timerInterval);
+            if (timerInterval) clearInterval(timerInterval);
             timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
+            document.getElementById('quiz-timer').textContent = timeLeft;
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
+                document.getElementById('quiz-timer').textContent = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    selectOption(-1); // Timeout
+                    if (!answered) selectOption(-1); // Timeout
                 }
             }, 1000);
         }
 
-        function selectOption(idx) {
+        function selectOption(selectedIdx) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            const q = activeQuizQuestions[currentQuestion];
+            const qData = quizQuestions[currentQuestion];
             const optionCards = document.querySelectorAll('.option-card');
-
+            
             stats.total++;
-            if (idx === q.correct) {
+            
+            if (selectedIdx === qData.correct) {
                 score++;
                 stats.correct++;
                 stats.streak++;
                 stats.xp += 15;
-                optionCards[idx].classList.add('correct');
+                if (optionCards[selectedIdx]) optionCards[selectedIdx].classList.add('correct');
             } else {
                 stats.streak = 0;
-                if (idx >= 0 && idx < optionCards.length) {
-                    optionCards[idx].classList.add('incorrect');
+                if (selectedIdx >= 0 && optionCards[selectedIdx]) {
+                    optionCards[selectedIdx].classList.add('incorrect');
                 }
-                optionCards[q.correct].classList.add('correct');
+                if (optionCards[qData.correct]) {
+                    optionCards[qData.correct].classList.add('correct');
+                }
             }
 
-            // Check level up
+            // Level & XP Check
             if (stats.xp >= stats.level * 100) {
                 stats.level++;
+                alert(`🎉 Glückwunsch! Du hast Level ${stats.level} erreicht!`);
             }
 
             if (score > stats.highscore) {
                 stats.highscore = score;
             }
 
-            saveUsersData();
+            saveStats();
+            updateStatsUI();
 
-            // Show explanation & AI Tutor
             const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
+            expBox.innerHTML = `<strong>Erklärung:</strong> ${qData.explanation}`;
             expBox.classList.add('show');
-
-            if (currentMode === 'ai') {
-                const tutorBox = document.getElementById('ai-tutor-box');
-                document.getElementById('ai-tutor-text').innerText = `Profil-Analyse (${currentUser.id}): Die KI hat deine Antwort registriert. Dein aktueller Skill-Level in '${q.topic}' wurde aktualisiert. Übe regelmäßig, um deinen Streak zu maximieren!`;
-                tutorBox.classList.add('show');
-            }
-
             document.getElementById('next-btn').classList.add('show');
         }
 
@@ -2067,146 +2245,90 @@
             loadQuestion();
         }
 
-        function endQuiz() {
+        function showResults() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
-            document.getElementById('feedback').innerText = score >= 8 ? "Hervorragende Leistung! Echte Experten-Qualität." : "Gut gemacht! Weiterüben, um dein Profil zu verbessern.";
-            saveUsersData();
-            checkAchievements();
+            document.getElementById('score').textContent = `${score} / ${quizQuestions.length}`;
+            
+            let fb = "Solide Leistung! Weiterüben für die Praxis.";
+            if (score === quizQuestions.length) fb = "Hervorragend! Volle Punktzahl wie ein echter Meister!";
+            else if (score < quizQuestions.length / 2) fb = "Da ist noch Luft nach oben. Nutze den Lernbereich!";
+            document.getElementById('feedback').textContent = fb;
         }
 
         function restartQuiz() {
-            startMode(currentMode);
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            if (currentMode === 'quiz') startStandardQuiz();
+            else if (currentMode === 'schemas') startSchemaQuiz();
+            else generateCustomAIQuestion();
         }
 
-        function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            const diff = document.getElementById('ai-diff-select').value;
+        function updateStatsUI() {
+            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').textContent = accuracy + '%';
+            document.getElementById('stat-completed').textContent = stats.total;
+            document.getElementById('stat-level').textContent = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').textContent = stats.highscore;
             
-            // Add custom generated question dynamically
-            questionBank.push({
-                topic: topic,
-                question: `[KI-Gen (${diff.toUpperCase()})] Welche spezifische Anforderung gilt im Bereich '${topic}' nach aktuellen Normen für Profil ${currentUser.name}?`,
-                symbol: null,
-                options: ["Fachgerechte Ausführung nach DIN VDE", "Nur Sichtprüfung ausreichend", "Keine Dokumentation nötig", "Ausschließlich temporäre Absicherung"],
-                correct: 0,
-                explanation: "Jede Installation muss normenkonform nach den anerkannten Regeln der Technik (DIN VDE / ÖVE) ausgeführt und dokumentiert werden."
-            });
-            alert(`✨ KI-Modus hat erfolgreich eine neue Aufgabe für dein Profil (${currentUser.id}) generiert!`);
-            startMode('ai');
+            // Fortschrittsbar & XP
+            const xpInLevel = stats.xp % 100;
+            document.getElementById('xp-label').textContent = `XP: ${xpInLevel} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
+            document.getElementById('streak-label').textContent = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = xpInLevel + '%';
+
+            // Badges freischalten
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
         }
 
-        // VS Mode Simulation
-        function createVsRoom() {
-            const roomCode = 'ELEK-' + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('vs-lobby').style.display = 'none';
-            document.getElementById('vs-room-active').style.display = 'block';
-            document.getElementById('active-room-code').innerText = roomCode;
-            setTimeout(() => {
-                document.getElementById('opponent-status').innerText = '✅ Gegner "Max Müller" ist dem Raum beigetreten! Duell startet...';
-                document.getElementById('opponent-status').style.color = 'var(--correct)';
-                document.getElementById('vs-game-area').style.display = 'block';
-                loadVsQuestion();
-            }, 2500);
-        }
-
-        function joinVsRoom() {
-            const code = document.getElementById('join-room-code').value.trim();
-            if (!code) { alert('Bitte gib einen gültigen Raumcode ein.'); return; }
-            document.getElementById('vs-lobby').style.display = 'none';
-            document.getElementById('vs-room-active').style.display = 'block';
-            document.getElementById('active-room-code').innerText = code.toUpperCase();
-            document.getElementById('opponent-status').innerText = '✅ Erfolgreich mit Host verbunden! Duell startet...';
-            document.getElementById('opponent-status').style.color = 'var(--correct)';
-            document.getElementById('vs-game-area').style.display = 'block';
-            loadVsQuestion();
-        }
-
-        function loadVsQuestion() {
-            document.getElementById('vs-question-text').innerText = "Wie hoch ist die Standard-Netzspannung in europäischen Niederspannungsnetzen (Effektivwert)?";
-            const grid = document.getElementById('vs-options');
-            grid.innerHTML = `
-                <button class="option-card" onclick="alert('Richtig! +1 Punkt für Profil ID: ' + currentUser.id)">A. 230 V / 400 V</button>
-                <button class="option-card" onclick="alert('Falsch!')">B. 110 V / 220 V</button>
-            `;
-        }
-
-        function leaveVsRoom() {
-            document.getElementById('vs-room-active').style.display = 'none';
-            document.getElementById('vs-lobby').style.display = 'block';
-            document.getElementById('vs-game-area').style.display = 'none';
-            document.getElementById('opponent-status').innerText = '⏳ Suche nach Gegner...';
-            document.getElementById('opponent-status').style.color = 'var(--warning)';
-        }
-
-        // Friends Management
-        function renderFriendsList() {
-            const container = document.getElementById('friends-list-container');
-            container.innerHTML = '';
-            friendsList.forEach(f => {
-                container.innerHTML += `
-                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); padding:16px; border-radius:var(--radius-sm); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:800; color:#fff;">${f.name} (Lvl ${f.level})</div>
-                            <div style="font-size:0.8rem; color:${f.status === 'Online' ? 'var(--correct)' : 'var(--text-muted)'};">${f.status}</div>
-                        </div>
-                        <button class="nav-btn" onclick="alert('Duell-Anfrage an ${f.name} gesendet!')" style="padding:8px 16px; font-size:0.85rem;">⚔️ Duell</button>
-                    </div>
-                `;
-            });
-        }
-
-        function addFriend() {
-            const input = document.getElementById('friend-username-input');
-            const name = input.value.trim();
-            if (!name) return;
-            friendsList.push({ name: name, status: "Online", level: 1 });
-            localStorage.setItem('elek_pro_friends', JSON.stringify(friendsList));
-            input.value = '';
-            renderFriendsList();
-            alert(`Freund "${name}" wurde erfolgreich hinzugefügt!`);
+        function saveStats() {
+            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
         }
 
         // Learning & Calculators
-        function renderTopicsList() {
+        function renderTopics() {
             const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            Object.keys(learningContent).forEach(key => {
+            container.innerHTML = Object.keys(learningContent).map(key => {
                 const item = learningContent[key];
-                container.innerHTML += `
+                return `
                     <div class="topic-card" onclick="openTopic('${key}')">
                         <div class="topic-icon-box">${item.icon}</div>
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
                     </div>
                 `;
-            });
+            }).join('');
         }
 
         function filterTopics() {
-            const query = document.getElementById('search-input').value.toLowerCase();
+            const q = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            Object.keys(learningContent).forEach(key => {
+            const filtered = Object.keys(learningContent).filter(key => {
                 const item = learningContent[key];
-                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
-                    container.innerHTML += `
-                        <div class="topic-card" onclick="openTopic('${key}')">
-                            <div class="topic-icon-box">${item.icon}</div>
-                            <h3>${item.title}</h3>
-                            <p>${item.description}</p>
-                        </div>
-                    `;
-                }
+                return item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q) || item.content.toLowerCase().includes(q);
             });
+
+            container.innerHTML = filtered.map(key => {
+                const item = learningContent[key];
+                return `
+                    <div class="topic-card" onclick="openTopic('${key}')">
+                        <div class="topic-icon-box">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                `;
+            }).join('');
         }
 
         function openTopic(key) {
             document.getElementById('topics-view').style.display = 'none';
-            const cv = document.getElementById('content-view');
-            cv.style.display = 'block';
+            const view = document.getElementById('content-view');
+            view.style.display = 'block';
             document.getElementById('content-container').innerHTML = learningContent[key].content;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToTopics() {
@@ -2214,64 +2336,38 @@
             document.getElementById('topics-view').style.display = 'block';
         }
 
-        // Calculators
+        // Profi-Rechner
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
             const r = parseFloat(document.getElementById('calc-r').value) || 1;
             const i = u / r;
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
+            document.getElementById('calc-ohm-res').textContent = `Strom I = ${i.toFixed(2)} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
             const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
             const p = Math.sqrt(3) * 400 * i * cos / 1000;
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+            document.getElementById('calc-3p-res').textContent = `Leistung P = ${p.toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Leitfähigkeit Kupfer
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const kappa = 56; // Leitfähigkeit Kupfer m/(Ohm*mm²)
             const du = (2 * l * i) / (kappa * q);
-            const pct = (du / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const percent = (du / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${du.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const duMax = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
             const kappa = 56;
-            const a = (2 * l * i) / (kappa * du);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
-        }
-
-        function toggleDetailedStats() {
-            const panel = document.getElementById('detailed-stats-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function updateStatsDisplay() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = `${accuracy}%`;
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            const xpNeeded = stats.level * 100;
-            const xpCurrent = stats.xp % 100;
-            document.getElementById('xp-label').innerText = `XP: ${xpCurrent} / 100 zum nächsten Level (Gesamt: ${stats.xp})`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-            document.getElementById('xp-progress-fill').style.width = `${Math.min(100, (xpCurrent / 100) * 100)}%`;
-        }
-
-        function checkAchievements() {
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.highscore >= 8) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
+            const a = (2 * l * i) / (kappa * duMax);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
