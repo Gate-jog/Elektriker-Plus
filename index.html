@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Plus - Schulung, Schaltsymbole, Schaltpläne, VS-Modus & KI</title>
+    <title>Elektriker Plus - Schulung, Profil, VS-Modus & KI</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
@@ -20,9 +20,9 @@
     <style>
         :root {
             --bg-dark: #04060b;
-            --card-bg: rgba(13, 20, 35, 0.85);
-            --card-border: rgba(6, 182, 212, 0.18);
-            --card-border-hover: rgba(6, 182, 212, 0.45);
+            --card-bg: rgba(13, 20, 35, 0.75);
+            --card-border: rgba(6, 182, 212, 0.15);
+            --card-border-hover: rgba(6, 182, 212, 0.4);
             --card-hover: rgba(255, 255, 255, 0.08);
             --primary: #06b6d4;
             --primary-glow: rgba(6, 182, 212, 0.35);
@@ -74,39 +74,68 @@
         /* Header & Badges */
         .header {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 28px;
             position: relative;
         }
 
-        .user-profile-header-btn {
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 0.82rem;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            color: #c084fc;
+        .user-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 20, 35, 0.6);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .user-info-pill {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .user-details-text {
+            text-align: left;
+        }
+
+        .user-name-display {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            backdrop-filter: blur(12px);
-            transition: var(--transition-smooth);
         }
 
-        .user-profile-header-btn:hover {
-            background: rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px var(--secondary-glow);
+        .user-id-badge {
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            color: var(--primary);
+            background: rgba(6, 182, 212, 0.12);
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         .status-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
             font-size: 0.75rem;
             padding: 8px 14px;
             border-radius: 20px;
@@ -118,7 +147,6 @@
             gap: 8px;
             font-weight: 700;
             backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
         }
         
         .status-dot {
@@ -149,7 +177,7 @@
             font-weight: 800;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
             backdrop-filter: blur(12px);
         }
@@ -189,7 +217,7 @@
         }
 
         /* Auth Screen Styling */
-        .auth-container {
+        .auth-card {
             max-width: 480px;
             margin: 40px auto;
             text-align: center;
@@ -197,31 +225,29 @@
 
         .auth-tabs {
             display: flex;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: var(--radius-sm);
-            padding: 4px;
-            margin-bottom: 24px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 6px;
+            margin-bottom: 28px;
             border: 1px solid var(--card-border);
         }
 
-        .auth-tab {
+        .auth-tab-btn {
             flex: 1;
             padding: 12px;
             border: none;
             background: transparent;
             color: var(--text-muted);
             font-weight: 700;
-            font-size: 0.9rem;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: var(--transition-smooth);
         }
 
-        .auth-tab.active {
-            background: var(--primary);
+        .auth-tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), #0284c7);
             color: #000;
             font-weight: 800;
-            box-shadow: 0 4px 15px var(--primary-glow);
         }
 
         .auth-form {
@@ -231,10 +257,16 @@
             text-align: left;
         }
 
-        .auth-input {
+        .auth-form label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .auth-form input {
             width: 100%;
             padding: 14px 18px;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: var(--radius-sm);
             color: #fff;
@@ -243,12 +275,12 @@
             transition: var(--transition-smooth);
         }
 
-        .auth-input:focus {
+        .auth-form input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .auth-btn {
+        .btn-primary {
             width: 100%;
             padding: 16px;
             border-radius: var(--radius-sm);
@@ -259,49 +291,32 @@
             font-weight: 800;
             cursor: pointer;
             transition: var(--transition-smooth);
-            margin-top: 8px;
-        }
-
-        .auth-btn:hover {
-            transform: translateY(-2px);
             box-shadow: 0 8px 25px var(--primary-glow);
+            margin-top: 10px;
         }
 
-        .guest-divider {
-            display: flex;
-            align-items: center;
-            margin: 24px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
-        .guest-divider::before, .guest-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--card-border);
-        }
-
-        .guest-divider span {
-            padding: 0 12px;
-        }
-
-        .guest-btn {
+        .btn-guest {
             width: 100%;
             padding: 14px;
             border-radius: var(--radius-sm);
-            border: 1px solid var(--secondary);
-            background: rgba(139, 92, 246, 0.1);
-            color: #c084fc;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition-smooth);
+            margin-top: 12px;
         }
 
-        .guest-btn:hover {
-            background: rgba(139, 92, 246, 0.25);
-            transform: translateY(-2px);
+        .btn-guest:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
         }
 
         /* Stats & Badges */
@@ -387,8 +402,8 @@
         
         .menu-options {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
             margin: 36px 0 20px;
         }
 
@@ -396,7 +411,7 @@
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
             border: 1px solid var(--card-border);
             border-radius: var(--radius-md);
-            padding: 24px 14px;
+            padding: 28px 18px;
             cursor: pointer;
             transition: var(--transition-smooth);
             display: flex;
@@ -428,11 +443,11 @@
         }
 
         .menu-icon {
-            font-size: 2.2rem;
-            margin-bottom: 14px;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
             background: rgba(6, 182, 212, 0.08);
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -449,17 +464,17 @@
         }
 
         .menu-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-align: center;
         }
 
         .menu-description {
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.5;
             text-align: center;
         }
 
@@ -511,7 +526,7 @@
         }
 
         .toggle-btn {
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 12px;
             border: none;
             background: transparent;
@@ -537,104 +552,6 @@
         /* Content Areas */
         .content-area { display: none; }
         .content-area.active { display: block; animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        /* VS Modus Custom Styling */
-        .vs-card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 24px;
-        }
-
-        .vs-player-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid var(--card-border);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            text-align: center;
-            position: relative;
-        }
-
-        .vs-player-box.user { border-color: var(--primary); }
-        .vs-player-box.opponent { border-color: var(--secondary); }
-
-        .vs-avatar {
-            font-size: 3.5rem;
-            margin-bottom: 12px;
-        }
-
-        .vs-score-live {
-            font-size: 2.5rem;
-            font-weight: 800;
-            font-family: var(--font-code);
-            color: var(--primary);
-            margin: 10px 0;
-        }
-
-        .invite-box {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
-            border: 1px dashed var(--secondary);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .invite-code-pill {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--secondary);
-            color: #c084fc;
-            font-family: var(--font-code);
-            font-weight: 800;
-            font-size: 1.3rem;
-            padding: 10px 24px;
-            border-radius: 30px;
-            margin: 14px 0;
-            letter-spacing: 2px;
-        }
-
-        /* Modal Profile Styling */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(4, 6, 11, 0.85);
-            backdrop-filter: blur(16px);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition-smooth);
-        }
-
-        .modal-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border-hover);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            width: 100%;
-            max-width: 520px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
 
         /* Quiz & AI Styles */
         .ai-config-panel {
@@ -852,6 +769,88 @@
             filter: brightness(1.08);
         }
         .btn-action.show { display: block; }
+
+        /* VS Modus UI */
+        .vs-card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 28px 0;
+        }
+
+        .vs-player-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .vs-score-big {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: var(--font-code);
+        }
+
+        .vs-invite-panel {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px dashed var(--secondary);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .invite-link-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        /* Profile Modal & Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show { display: flex; animation: fadeIn 0.3s ease-out; }
+
+        .modal-box {
+            background: var(--bg-dark);
+            border: 1px solid var(--card-border-hover);
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 100%;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
         /* Learning & Calculators */
         .search-bar {
@@ -1192,8 +1191,6 @@
             .mode-nav { flex-direction: column; align-items: stretch; }
             .mode-toggle { flex-direction: column; }
             .toggle-btn { padding: 12px; }
-            .user-profile-header-btn { position: relative; margin-bottom: 12px; justify-content: center; width: 100%; }
-            .status-badge { position: relative; margin-bottom: 16px; justify-content: center; top: auto; right: auto; }
         }
 
         @keyframes fadeIn {
@@ -1205,67 +1202,83 @@
 <body>
 
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <button class="user-profile-header-btn" id="header-user-btn" onclick="openProfileModal()">
-                👤 <span id="header-user-name">Gast-Nutzer</span>
-            </button>
-            <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
-            <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
-            <h1>Elektriker Plus</h1>
-            <p>Schulungsportal, Schaltsymbole, Schaltpläne, VS-Modus & KI</p>
-        </div>
+        <!-- Auth / Login / Registrieren Overlay Screen -->
+        <div id="auth-screen" class="glass-card auth-card">
+            <div class="brand-badge">⚡ Elektriker Plus</div>
+            <h2 style="font-size: 2rem; margin-bottom: 8px;">Willkommen</h2>
+            <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
+                Melde dich an, registriere ein neues Profil oder starte sofort als Gast.
+            </p>
 
-        <!-- AUTH SCREEN (Wird angezeigt vor dem Menü) -->
-        <div id="auth-screen" class="glass-card auth-container">
-            <h2 style="font-size: 2rem; margin-bottom: 8px;">Willkommen bei Elektriker Plus</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Melde dich an oder fahre als Gast fort, um deinen Lernfortschritt zu speichern.</p>
-            
             <div class="auth-tabs">
-                <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Anmelden</button>
-                <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Registrieren</button>
+                <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Anmelden</button>
+                <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Registrieren</button>
             </div>
 
-            <form id="login-form" class="auth-form" onsubmit="handleAuthLogin(event)">
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--text-muted);">Benutzername oder ID</label>
-                    <input type="text" id="login-username" class="auth-input" placeholder="z. B. Alex99" required>
+                    <label>Benutzername oder E-Mail</label>
+                    <input type="text" id="login-username" placeholder="z.B. MeisterEder" required>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--text-muted);">Passwort</label>
-                    <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required>
+                    <label>Passwort</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="auth-btn">Anmelden & Starten</button>
+                <button type="submit" class="btn-primary">Anmelden & Starten</button>
             </form>
 
-            <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleAuthRegister(event)">
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleRegister(event)">
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--text-muted);">Gewünschter Name</label>
-                    <input type="text" id="reg-username" class="auth-input" placeholder="z. B. ElektrikerProfi" required>
+                    <label>Wähle einen Benutzernamen</label>
+                    <input type="text" id="reg-username" placeholder="z.B. VoltPro99" required>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--text-muted);">Passwort erstellen</label>
-                    <input type="password" id="reg-password" class="auth-input" placeholder="••••••••" required>
+                    <label>E-Mail Adresse</label>
+                    <input type="email" id="reg-email" placeholder="beispiel@elektro.de" required>
                 </div>
                 <div>
-                    <label style="font-size: 0.85rem; color: var(--text-muted);">Avatar Symbol</label>
-                    <select id="reg-avatar" class="auth-input">
-                        <option value="⚡">⚡ Blitz-Meister</option>
-                        <option value="🧠">🧠 Theorie-Genie</option>
-                        <option value="🛠️">🛠️ Praktiker</option>
-                        <option value="🔬">🔬 Techniker</option>
-                    </select>
+                    <label>Passwort</label>
+                    <input type="password" id="reg-password" placeholder="Mindestens 6 Zeichen" required>
                 </div>
-                <button type="submit" class="auth-btn">Konto Erstellen</button>
+                <button type="submit" class="btn-primary">Profil erstellen</button>
             </form>
 
-            <div class="guest-divider"><span>oder ohne Registrierung</span></div>
-            <button class="guest-btn" onclick="continueAsGuest()">Als Gast fortfahren (Automatsche ID)</button>
+            <div style="margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 16px;">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Keine Registrierung gewünscht?</p>
+                <button class="btn-guest" onclick="continueAsGuest()">👤 Als Gast fortfahren</button>
+            </div>
         </div>
 
-        <!-- MAIN APP CONTENT (Versteckt bis Login/Gastgewählt) -->
-        <div id="main-app-wrapper" style="display: none;">
+        <!-- Hauptbereich der App (Wird erst nach Auth angezeigt) -->
+        <div id="main-app" style="display: none;">
             
+            <!-- User Top Bar -->
+            <div class="user-top-bar">
+                <div class="user-info-pill" onclick="openProfileModal()">
+                    <div class="user-avatar" id="app-user-avatar">⚡</div>
+                    <div class="user-details-text">
+                        <div class="user-name-display">
+                            <span id="app-user-name">Gast-Nutzer</span>
+                            <span class="user-id-badge" id="app-user-id">ID: GUEST-1029</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);" id="app-user-level">Lvl 1 • 0 XP</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
+                    <button class="nav-btn" onclick="logoutUser()" style="padding: 6px 14px; font-size: 0.8rem;">Abmelden</button>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <div class="header">
+                <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
+                <h1>Elektriker Plus</h1>
+                <p>Schulungsportal, Profil, Vs Modus, Schaltsymbole & KI Modus</p>
+            </div>
+
             <!-- Dashboard Bar -->
             <div class="stats-bar">
                 <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
@@ -1322,23 +1335,28 @@
                     </div>
                     <div class="menu-option" onclick="startMode('schemas')">
                         <div class="menu-icon">📐</div>
-                        <div class="menu-title">Schaltsymbole</div>
+                        <div class="menu-title">Schaltsymbole & Pläne</div>
                         <div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div>
+                    </div>
+                    <div class="menu-option" onclick="startMode('vs')">
+                        <div class="menu-icon">⚔️</div>
+                        <div class="menu-title">Vs Modus (Duell)</div>
+                        <div class="menu-description">Trete im Echtzeit-Duell gegen Freunde an!</div>
                     </div>
                     <div class="menu-option" onclick="startMode('ai')">
                         <div class="menu-icon">✨</div>
                         <div class="menu-title">Experten Modus</div>
-                        <div class="menu-description">Aufgaben mit intelligentem KI-Tutor.</div>
-                    </div>
-                    <div class="menu-option" onclick="startMode('vs')">
-                        <div class="menu-icon">⚔️</div>
-                        <div class="menu-title">VS Modus</div>
-                        <div class="menu-description">Freunde einladen & Echtzeit-Duell.</div>
+                        <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit KI-Tutor.</div>
                     </div>
                     <div class="menu-option" onclick="startMode('learn')">
                         <div class="menu-icon">📚</div>
                         <div class="menu-title">Lernbereich</div>
-                        <div class="menu-description">Nachschlagewerk, RCDs, Netze & Profi-Rechner.</div>
+                        <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
+                    </div>
+                    <div class="menu-option" onclick="openProfileModal()">
+                        <div class="menu-icon">👤</div>
+                        <div class="menu-title">Mein Profil & ID</div>
+                        <div class="menu-description">Verwalte deine ID, Freunde und Statistiken.</div>
                     </div>
                 </div>
             </div>
@@ -1349,9 +1367,9 @@
                     <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                     <div class="mode-toggle">
                         <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                        <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole</button>
-                        <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ KI-Experte</button>
-                        <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS Modus</button>
+                        <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
+                        <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ Vs Modus</button>
+                        <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button>
                         <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                     </div>
                 </div>
@@ -1400,7 +1418,7 @@
                             <div class="options-grid" id="options"></div>
                             <div class="explanation-box" id="explanation"></div>
                             
-                            <!-- Experten Tutor Erklärungsbox für Experten Modus -->
+                            <!-- Experten Tutor Erklärungsbox -->
                             <div class="ai-tutor-box" id="ai-tutor-box">
                                 <div class="ai-tutor-header">💡 Experten-Analyse</div>
                                 <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
@@ -1422,46 +1440,48 @@
             <!-- VS Modus Area -->
             <div id="vs-mode" class="content-area">
                 <div class="glass-card">
-                    <h2 style="font-size: 2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
-                        ⚔️ VS Modus - Freunde Herausfordern
-                    </h2>
-                    <p style="color: var(--text-muted); margin-bottom: 28px;">Lade deine Arbeitskollegen oder Mitschüler zu einem 1-gegen-1 Quiz-Duell ein!</p>
+                    <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;">⚔️ Vs Modus (Echtzeit Duell)</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 24px;">Fordere deine Freunde heraus und finde heraus, wer der wahre Elektro-Meister ist!</p>
 
-                    <div class="invite-box">
-                        <h3>✉️ Freund zum Duell einladen</h3>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">Teile deinen persönlichen Duell-Link mit einem Freund:</p>
-                        <div class="invite-code-pill" id="vs-invite-link">https://elektrikerplus.app?vs=ELEK-8921</div>
-                        <div>
-                            <button class="nav-btn" onclick="copyInviteLink()" style="background: var(--secondary); color: #fff; border: none; margin-top: 6px;">
-                                📋 Duell-Link Kopieren
-                            </button>
+                    <div class="vs-invite-panel">
+                        <h3 style="color: #fff; margin-bottom: 8px;">📩 Freunde Einladen</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Teile diesen Einladungslink oder erstelle ein Duellzimmer:</p>
+                        <input type="text" class="invite-link-input" id="invite-link-field" readonly value="https://elektriker-plus.app/invite?room=ELK-VS-8392">
+                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                            <button class="btn-primary" style="max-width: 220px; font-size: 0.9rem;" onclick="copyInviteLink()">📋 Link Kopieren</button>
+                            <button class="btn-guest" style="max-width: 220px; font-size: 0.9rem;" onclick="openInviteModal()">👥 Freund aus Liste wählen</button>
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin: 20px 0;">
-                        <button class="ai-btn-action" onclick="startVSDuel()" style="font-size: 1.1rem; padding: 16px 36px; height: auto;">
-                            ⚔️ Duell Starten (Live Simulator)
-                        </button>
+                    <div id="vs-lobby" style="text-align: center; padding: 20px 0;">
+                        <button class="btn-primary" style="max-width: 300px; margin: 0 auto;" onclick="startVSDuelMatch()">🎮 Zufalls-Match / Bot Starten</button>
                     </div>
 
-                    <div id="vs-arena" style="display: none;" class="vs-card-grid">
-                        <div class="vs-player-box user">
-                            <div class="vs-avatar" id="vs-user-avatar">⚡</div>
-                            <h3 id="vs-user-name">Du</h3>
-                            <div class="vs-score-live" id="vs-user-score">0</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Punkte</span>
+                    <div id="vs-game-arena" style="display: none;">
+                        <div class="vs-card-grid">
+                            <div class="vs-player-box">
+                                <div class="user-avatar" style="margin: 0 auto 10px;" id="vs-p1-avatar">⚡</div>
+                                <h4 id="vs-p1-name">Du</h4>
+                                <div class="vs-score-big" id="vs-p1-score">0</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: 800; color: var(--ai-color);">VS</div>
+                                <div class="timer-pill" style="margin: 10px auto; width: fit-content;">⏱️ <span id="vs-timer">15</span>s</div>
+                            </div>
+                            <div class="vs-player-box">
+                                <div class="user-avatar" style="margin: 0 auto 10px; background: linear-gradient(135deg, var(--ai-color), var(--secondary));" id="vs-p2-avatar">🤖</div>
+                                <h4 id="vs-p2-name">Gegner</h4>
+                                <div class="vs-score-big" id="vs-p2-score">0</div>
+                            </div>
                         </div>
-                        <div class="vs-player-box opponent">
-                            <div class="vs-avatar">🤖</div>
-                            <h3 id="vs-opp-name">Gegner (Meister-KI)</h3>
-                            <div class="vs-score-live" id="vs-opp-score">0</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Punkte</span>
-                        </div>
+
+                        <div class="question-box" id="vs-question-text">Frage lädt...</div>
+                        <div class="options-grid" id="vs-options-grid"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Learning Area (Unverändert & Vollständig Erhalten) -->
+            <!-- Learning Area -->
             <div id="learn-mode" class="content-area">
                 <div class="glass-card">
                     <div id="topics-view">
@@ -1555,43 +1575,58 @@
         </div>
     </div>
 
-    <!-- USER PROFIL MODAL -->
+    <!-- User Profile Modal Overlay -->
     <div class="modal-overlay" id="profile-modal">
-        <div class="modal-card">
-            <button class="close-modal" onclick="closeProfileModal()">✕</button>
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeProfileModal()">✕</button>
             <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 4rem; margin-bottom: 10px;" id="modal-user-avatar">⚡</div>
-                <h2 id="modal-user-name" style="font-size: 1.8rem;">Gast-Nutzer</h2>
-                <div style="display: inline-block; background: rgba(6, 182, 212, 0.15); border: 1px solid var(--primary); color: var(--primary); padding: 4px 14px; border-radius: 20px; font-family: var(--font-code); font-size: 0.85rem; margin-top: 6px;" id="modal-user-id">
-                    ID: ELEK-9812
-                </div>
+                <div class="user-avatar" style="width: 70px; height: 70px; font-size: 2rem; margin: 0 auto 12px;" id="modal-user-avatar">⚡</div>
+                <h3 id="modal-user-name" style="font-size: 1.5rem; color: #fff;">Nutzer Name</h3>
+                <span class="user-id-badge" id="modal-user-id" style="font-size: 0.9rem;">ID: ELK-9021</span>
             </div>
 
-            <div style="background: rgba(0,0,0,0.4); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 20px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="color: var(--text-muted);">Nutzer-Status:</span>
-                    <strong id="modal-user-type">Gast-Konto</strong>
+                    <span style="color: var(--text-muted);">Skill-Level:</span>
+                    <strong style="color: var(--primary);" id="modal-user-level">Level 1</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="color: var(--text-muted);">Gesamt-XP:</span>
-                    <strong id="modal-user-xp">0 XP</strong>
+                    <span style="color: var(--text-muted);">Erfahrung (XP):</span>
+                    <strong style="color: var(--secondary);" id="modal-user-xp">0 XP</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                    <span style="color: var(--text-muted);">Skill-Level:</span>
-                    <strong id="modal-user-level">Level 1</strong>
+                    <span style="color: var(--text-muted);">Highscore:</span>
+                    <strong style="color: var(--correct);" id="modal-user-highscore">0 Punkte</strong>
                 </div>
             </div>
 
-            <button class="auth-btn" onclick="logoutUser()" style="background: rgba(239, 68, 68, 0.2); border: 1px solid var(--incorrect); color: #fca5a5;">
-                Abmelden / Konto wechseln
-            </button>
+            <h4 style="color: var(--primary); margin-bottom: 12px;">👥 Freunde-Liste</h4>
+            <div id="friends-list-container" style="max-height: 150px; overflow-y: auto; margin-bottom: 20px;">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Keine Freunde hinzugefügt. Lade Freunde über den VS-Modus ein!</p>
+            </div>
+
+            <button class="btn-guest" style="width: 100%;" onclick="addDemoFriend()">+ Demo-Freund hinzufügen</button>
+        </div>
+    </div>
+
+    <!-- Invite Friends Modal -->
+    <div class="modal-overlay" id="invite-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeInviteModal()">✕</button>
+            <h3 style="color: var(--primary); margin-bottom: 16px;">👥 Freund zum Duell einladen</h3>
+            <div id="invite-friends-selector">
+                <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem;">Wähle einen Freund aus deiner Liste aus:</p>
+                <div id="invite-friends-list"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // State & LocalStorage Management
-        let currentUser = JSON.parse(localStorage.getItem('elek_plus_user')) || null;
-        let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
+        // Persistence & User Management State
+        let usersData = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
+        let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
+
+        let stats = { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
             topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
         };
@@ -1603,7 +1638,248 @@
         let timerInterval = null;
         let timeLeft = 30;
 
-        // SVG Schaltsymbole Library
+        // Helper: Generate Random Unique ID
+        function generateUserId(prefix = 'ELK') {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `${prefix}-${randomNum}`;
+        }
+
+        // Init App & Auth Check
+        window.addEventListener('DOMContentLoaded', () => {
+            if (currentUser) {
+                showMainApp();
+            } else {
+                document.getElementById('auth-screen').style.display = 'block';
+                document.getElementById('main-app').style.display = 'none';
+            }
+        });
+
+        function switchAuthTab(tab) {
+            document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login');
+            document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register');
+            document.getElementById('login-form').style.display = tab === 'login' ? 'flex' : 'none';
+            document.getElementById('register-form').style.display = tab === 'register' ? 'flex' : 'none';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const uname = document.getElementById('login-username').value.trim();
+            if (!uname) return;
+
+            let userKey = Object.keys(usersData).find(k => usersData[k].username.toLowerCase() === uname.toLowerCase());
+            if (userKey) {
+                currentUser = usersData[userKey];
+            } else {
+                currentUser = {
+                    id: generateUserId('ELK'),
+                    username: uname,
+                    avatar: '⚡',
+                    stats: stats,
+                    friends: ['ElektroProfi_Max', 'KabelMeister_Lisa']
+                };
+                usersData[currentUser.id] = currentUser;
+            }
+            saveUserData();
+            showMainApp();
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const uname = document.getElementById('reg-username').value.trim();
+            if (!uname) return;
+
+            currentUser = {
+                id: generateUserId('ELK'),
+                username: uname,
+                avatar: '⚡',
+                stats: stats,
+                friends: []
+            };
+            usersData[currentUser.id] = currentUser;
+            saveUserData();
+            showMainApp();
+        }
+
+        function continueAsGuest() {
+            currentUser = {
+                id: generateUserId('GUEST'),
+                username: 'Gast-' + Math.floor(100 + Math.random() * 900),
+                avatar: '👤',
+                stats: stats,
+                friends: []
+            };
+            saveUserData();
+            showMainApp();
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('elek_plus_current_user');
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('auth-screen').style.display = 'block';
+        }
+
+        function saveUserData() {
+            if (currentUser) {
+                currentUser.stats = stats;
+                usersData[currentUser.id] = currentUser;
+                localStorage.setItem('elek_plus_users', JSON.stringify(usersData));
+                localStorage.setItem('elek_plus_current_user', JSON.stringify(currentUser));
+            }
+        }
+
+        function showMainApp() {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+
+            if (currentUser.stats) {
+                stats = currentUser.stats;
+            }
+
+            document.getElementById('app-user-name').innerText = currentUser.username;
+            document.getElementById('app-user-id').innerText = `ID: ${currentUser.id}`;
+            document.getElementById('app-user-avatar').innerText = currentUser.avatar || '⚡';
+            document.getElementById('app-user-level').innerText = `Lvl ${stats.level} • ${stats.xp} XP`;
+
+            updateStatsDisplay();
+            renderTopics();
+            calculateOhm();
+            calculate3Phase();
+            calculateVoltageDrop();
+            calculateCrossSection();
+        }
+
+        /* Profile Modal */
+        function openProfileModal() {
+            document.getElementById('modal-user-name').innerText = currentUser.username;
+            document.getElementById('modal-user-id').innerText = `ID: ${currentUser.id}`;
+            document.getElementById('modal-user-avatar').innerText = currentUser.avatar || '⚡';
+            document.getElementById('modal-user-level').innerText = `Level ${stats.level}`;
+            document.getElementById('modal-user-xp').innerText = `${stats.xp} XP`;
+            document.getElementById('modal-user-highscore').innerText = `${stats.highscore} Punkte`;
+
+            const fContainer = document.getElementById('friends-list-container');
+            if (currentUser.friends && currentUser.friends.length > 0) {
+                fContainer.innerHTML = currentUser.friends.map(f => `
+                    <div style="display:flex; justify-between; align-items:center; padding: 8px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-bottom: 6px;">
+                        <span>👤 ${f}</span>
+                        <span style="font-size:0.75rem; color:var(--correct);">● Online</span>
+                    </div>
+                `).join('');
+            } else {
+                fContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">Keine Freunde vorhanden.</p>`;
+            }
+
+            document.getElementById('profile-modal').classList.add('show');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('show');
+        }
+
+        function addDemoFriend() {
+            if (!currentUser.friends) currentUser.friends = [];
+            const newFriend = 'KabelProfi_' + Math.floor(10 + Math.random() * 90);
+            currentUser.friends.push(newFriend);
+            saveUserData();
+            openProfileModal();
+        }
+
+        /* VS Modus Invite Modal & Link */
+        function copyInviteLink() {
+            const field = document.getElementById('invite-link-field');
+            field.select();
+            navigator.clipboard.writeText(field.value);
+            alert('Einladungslink in Zwischenablage kopiert!');
+        }
+
+        function openInviteModal() {
+            const list = document.getElementById('invite-friends-list');
+            if (currentUser.friends && currentUser.friends.length > 0) {
+                list.innerHTML = currentUser.friends.map(f => `
+                    <button class="btn-guest" style="width:100%; text-align:left; margin-bottom:8px;" onclick="sendVSInvite('${f}')">
+                        ⚔️ ${f} herausfordern
+                    </button>
+                `).join('');
+            } else {
+                list.innerHTML = `<p style="color:var(--text-muted);">Keine Freunde in deiner Liste.</p>`;
+            }
+            document.getElementById('invite-modal').classList.add('show');
+        }
+
+        function closeInviteModal() {
+            document.getElementById('invite-modal').classList.remove('show');
+        }
+
+        function sendVSInvite(friendName) {
+            closeInviteModal();
+            alert(`Einladung an ${friendName} gesendet! Warte auf Annahme...`);
+            setTimeout(() => {
+                startVSDuelMatch(friendName);
+            }, 1000);
+        }
+
+        /* Simulated VS Duel Logic */
+        let vsP1Score = 0;
+        let vsP2Score = 0;
+        let vsTimerInt = null;
+
+        function startVSDuelMatch(opponentName = 'ElektroBot') {
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-game-arena').style.display = 'block';
+            document.getElementById('vs-p2-name').innerText = opponentName;
+
+            vsP1Score = 0;
+            vsP2Score = 0;
+            document.getElementById('vs-p1-score').innerText = '0';
+            document.getElementById('vs-p2-score').innerText = '0';
+
+            loadVSDuelRound();
+        }
+
+        function loadVSDuelRound() {
+            clearInterval(vsTimerInt);
+            let timer = 15;
+            document.getElementById('vs-timer').innerText = timer;
+
+            const q = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+            document.getElementById('vs-question-text').innerText = q.q;
+
+            const grid = document.getElementById('vs-options-grid');
+            grid.innerHTML = q.a.map((opt, i) => `
+                <button class="option-card" onclick="submitVSAnswer(${i === q.correct})">${opt}</button>
+            `).join('');
+
+            vsTimerInt = setInterval(() => {
+                timer--;
+                document.getElementById('vs-timer').innerText = timer;
+                if (timer <= 0) {
+                    clearInterval(vsTimerInt);
+                    submitVSAnswer(false);
+                }
+            }, 1000);
+        }
+
+        function submitVSAnswer(isCorrect) {
+            clearInterval(vsTimerInt);
+            if (isCorrect) vsP1Score += 100;
+            if (Math.random() > 0.4) vsP2Score += 100; // Bot answer simulation
+
+            document.getElementById('vs-p1-score').innerText = vsP1Score;
+            document.getElementById('vs-p2-score').innerText = vsP2Score;
+
+            setTimeout(() => {
+                if (vsP1Score >= 300 || vsP2Score >= 300) {
+                    alert(vsP1Score > vsP2Score ? '🎉 Du hast das Duell gewonnen!' : 'Niederlage! Dein Gegner war schneller.');
+                    document.getElementById('vs-game-arena').style.display = 'none';
+                    document.getElementById('vs-lobby').style.display = 'block';
+                } else {
+                    loadVSDuelRound();
+                }
+            }, 1000);
+        }
+
+        // SVG Symbol Library (DIN EN 60617)
         const svgSymbols = {
             switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
             switch_changeover: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="15" x2="90" y2="15"/><line x1="65" y1="45" x2="90" y2="45"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="15" r="3" fill="#06b6d4"/><circle cx="65" cy="45" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="17"/></svg>`,
@@ -1622,7 +1898,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Vollständiger Lernbereich (Unverändert erhalten)
+        // Lerninhalte
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1681,9 +1957,9 @@
                     
                     <div class="article-section">
                         <h3>Detaillierter RCD-Schaltplan (Inkl. Wandler, Prüfeinrichtung & Auslöser)</h3>
-                        <p>Der folgende Plan zeigt den internen und externen Aufbau eines RCD: Zuleitung (L & N), Summenstromwandler mit Auslöserelais und Prüftaste.</p>
+                        <p>Der folgende Plan zeigt den internen und externen Aufbau eines 4-poligen RCD (bzw. 2-polig einphasig): Zuleitung (L & N) oben, Summenstromwandler mit Auslöserelais, Prüftaste mit Schutzwiderstand und Abgang zu den Verbrauchern.</p>
                         
-                        <svg viewBox="0 0 600 280" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
+                        <svg viewBox="0 0 600 320" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
                             <text x="300" y="25" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">SCHALTSCHEMA FEHLERSTROMSCHUTZSCHALTER (RCD / FI)</text>
                             
                             <text x="30" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
@@ -1700,17 +1976,35 @@
 
                             <rect x="290" y="38" width="50" height="68" rx="4" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="2"/>
                             <text x="315" y="65" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">Schloss</text>
+                            <text x="315" y="85" fill="#ef4444" font-size="9" text-anchor="middle">Auslöser</text>
+                            
+                            <line x1="360" y1="52" x2="390" y2="52" stroke="#f59e0b" stroke-width="2"/>
+                            <rect x="390" y="42" width="30" height="20" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="405" y="57" fill="#f59e0b" font-size="9" text-anchor="middle">Rv</text>
+                            <line x1="420" y1="52" x2="450" y2="52" stroke="#f59e0b" stroke-width="2"/>
+                            <circle cx="450" cy="52" r="3" fill="#fff"/>
+                            <line x1="450" y1="52" x2="475" y2="35" stroke="#fff" stroke-width="2"/>
+                            <text x="462" y="25" fill="#fff" font-size="9" text-anchor="middle">Prüftaste (Test)</text>
+                            <line x1="475" y1="35" x2="475" y2="150" stroke="#3b82f6" stroke-width="2"/>
+                            <line x1="475" y1="150" x2="340" y2="150" stroke="#3b82f6" stroke-width="2"/>
+                            <line x1="340" y1="150" x2="340" y2="110" stroke="#3b82f6" stroke-width="2"/>
 
                             <line x1="340" y1="52" x2="520" y2="52" stroke="#f59e0b" stroke-width="3"/>
                             <line x1="340" y1="92" x2="520" y2="92" stroke="#3b82f6" stroke-width="3"/>
                             <text x="530" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Abgang)</text>
                             <text x="530" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Abgang)</text>
+
+                            <rect x="50" y="190" width="500" height="110" rx="6" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                            <text x="70" y="215" fill="#10b981" font-size="11" font-weight="bold">Funktionsweise im Fehlerfall:</text>
+                            <text x="70" y="235" fill="#94a3b8" font-size="10">1. Normalbetrieb: Strom zum Verbraucher (L) ist exakt gleich dem Rückstrom (N). Magnetische Felder heben sich auf.</text>
+                            <text x="70" y="255" fill="#94a3b8" font-size="10">2. Körperschluss / Fehlerstrom: Ein Teil des Stroms fließt über den Körper zur Erde ab (Differenzstrom ΔI).</text>
+                            <text x="70" y="275" fill="#94a3b8" font-size="10">3. Auslösung: Im Wandler entsteht ein Magnetfeld, das das Relais anzieht und das Schaltschloss in Millisekunden öffnet.</text>
                         </svg>
                     </div>
 
                     <div class="article-section">
                         <h3>Aufbau & Typenübersicht</h3>
-                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null.</p>
+                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Fließt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD in Bruchteilen von Sekunden auslöst.</p>
                         <table class="custom-table">
                             <thead>
                                 <tr><th>RCD-Typ</th><th>Auslösung bei...</th><th>Einsatzbereich</th></tr>
@@ -1722,7 +2016,7 @@
                             </tbody>
                         </table>
                         <div class="info-badge">
-                            Bemessungsfehlerstrom IΔn im Wohnbereich beträgt maximal <strong>30 mA</strong>.
+                            Bemessungsfehlerstrom IΔn im Wohnbereich beträgt maximal <strong>30 mA</strong>. Die monatliche Betätigung der Prüftaste wird empfohlen.
                         </div>
                     </div>
                 `
@@ -1730,156 +2024,98 @@
             netzsysteme: {
                 title: "Netzsysteme & Netzpläne (TN, TT, IT)",
                 icon: "🏢",
-                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. hochauflösender Schaltpläne",
+                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. hochauflösender, farbkodierter Schaltpläne",
                 content: `
                     <h2>Netzformen nach IEC 60364 / DIN VDE 0100-300</h2>
-                    <p class="article-desc">Grafische Schaltpläne der Netzsysteme.</p>
+                    <p class="article-desc">Hochauflösende grafische Schaltpläne der Netzsysteme. Farbcodierung: L1/L2/L3 (Kupfer/Orange), N (Blau), PE / PEN (Grün-Gelb).</p>
                     
                     <div class="article-section">
                         <h3>1. TN-C-Netz (Terre Neutre - Combiné)</h3>
-                        <p>Neutralleiter und Schutzleiter sind im gesamten System als ein einziger <strong>PEN-Leiter</strong> kombiniert.</p>
+                        <p><strong>Eigenschaften:</strong> Neutralleiter und Schutzleiter sind im gesamten System als ein einziger <strong>PEN-Leiter</strong> kombiniert.</p>
+                        <svg viewBox="0 0 560 220" style="width:100%; max-width:560px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(245,158,11,0.4);">
+                            <text x="280" y="20" fill="#f59e0b" font-size="12" font-weight="bold" text-anchor="middle">TN-C NETZ (PEN DURCHGEHEND)</text>
+                            
+                            <rect x="20" y="35" width="80" height="160" rx="6" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="1.5"/>
+                            <text x="60" y="55" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">Trafo</text>
+                            
+                            <line x1="80" y1="70" x2="420" y2="70" stroke="#f59e0b" stroke-width="3"/><text x="90" y="64" fill="#f59e0b" font-size="10">L1</text>
+                            <line x1="80" y1="95" x2="420" y2="95" stroke="#d97706" stroke-width="3"/><text x="90" y="89" fill="#d97706" font-size="10">L2</text>
+                            <line x1="80" y1="120" x2="420" y2="120" stroke="#b45309" stroke-width="3"/><text x="90" y="114" fill="#b45309" font-size="10">L3</text>
+                            <line x1="80" y1="165" x2="420" y2="165" stroke="#10b981" stroke-width="4" stroke-dasharray="12,4"/><text x="90" y="157" fill="#10b981" font-size="10" font-weight="bold">PEN</text>
+
+                            <line x1="60" y1="165" x2="60" y2="190" stroke="#10b981" stroke-width="2"/>
+                            <line x1="45" y1="190" x2="75" y2="190" stroke="#10b981" stroke-width="2"/>
+                            <line x1="50" y1="195" x2="70" y2="195" stroke="#10b981" stroke-width="2"/>
+                            <line x1="55" y1="200" x2="65" y2="200" stroke="#10b981" stroke-width="2"/>
+
+                            <rect x="420" y="45" width="110" height="145" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <text x="475" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">(Klasse I)</text>
+
+                            <line x1="420" y1="165" x2="450" y2="165" stroke="#10b981" stroke-width="3"/>
+                            <line x1="450" y1="165" x2="450" y2="145" stroke="#10b981" stroke-width="2"/>
+                            <circle cx="450" cy="145" r="3" fill="#10b981"/>
+                        </svg>
+                        <p><em>Sicherheitshinweis:</em> Wegen der Gefahr von Unterbrechungen des PEN-Leiters in Neuanlagen nach DIN VDE 0100-444 stark reglementiert (Mindestquerschnitt Cu 10 mm² / Al 16 mm²).</p>
                     </div>
 
                     <div class="article-section">
                         <h3>2. TN-S-Netz (Terre Neutre - Séparé)</h3>
-                        <p>Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung im gesamten Netz konsequent getrennt.</p>
-                    </div>
+                        <p><strong>Eigenschaften:</strong> Neutralleiter (N) und Schutzleiter (PE) sind ab der Einspeisung im gesamten Netz konsequent getrennt.</p>
+                        <svg viewBox="0 0 560 230" style="width:100%; max-width:560px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(59,130,246,0.4);">
+                            <text x="280" y="20" fill="#3b82f6" font-size="12" font-weight="bold" text-anchor="middle">TN-S NETZ (STRIKT GETRENNTE LEITER N & PE)</text>
+                            
+                            <rect x="20" y="35" width="80" height="175" rx="6" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="1.5"/>
+                            <text x="60" y="55" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">Trafo</text>
+                            
+                            <line x1="80" y1="65" x2="420" y2="65" stroke="#f59e0b" stroke-width="3"/><text x="90" y="59" fill="#f59e0b" font-size="10">L1</text>
+                            <line x1="80" y1="90" x2="420" y2="90" stroke="#d97706" stroke-width="3"/><text x="90" y="84" fill="#d97706" font-size="10">L2</text>
+                            <line x1="80" y1="115" x2="420" y2="115" stroke="#b45309" stroke-width="3"/><text x="90" y="109" fill="#b45309" font-size="10">L3</text>
+                            <line x1="80" y1="145" x2="420" y2="145" stroke="#3b82f6" stroke-width="3"/><text x="90" y="139" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
+                            <line x1="80" y1="175" x2="420" y2="175" stroke="#10b981" stroke-width="3"/><text x="90" y="169" fill="#10b981" font-size="10" font-weight="bold">PE</text>
 
-                    <div class="article-section">
-                        <h3>3. TT-Netz & IT-Netz</h3>
-                        <p><strong>TT-Netz:</strong> Ein Punkt der Stromquelle ist direkt geerdet; die Körper der Anlage sind mit Erdern verbunden, die vom Betriebserder getrennt sind.</p>
-                        <p><strong>IT-Netz:</strong> Isolierte Stromquelle (oder über eine hohe Impedanz geerdet). Hohe Ausfallsicherheit (z.B. im OP-Raum im Krankenhaus).</p>
+                            <rect x="420" y="45" width="110" height="155" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="475" y="110" fill="#06b6d4" font-size="11" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                        </svg>
                     </div>
                 `
             }
         };
 
-        // Quizfragen
+        // Quiz Fragen Katalog
         const quizQuestions = [
             {
-                q: "Welches Schaltsymbol stellt einen 1-poligen Ausschalter nach DIN EN 60617 dar?",
-                symbol: svgSymbols.switch_off,
-                options: ["Ausschalter", "Wechselschalter", "Kreuzschalter", "Taster"],
-                correct: 0,
-                exp: "Der Ausschalter besitzt einen schrägen Schaltkontakt mit zwei festen Anschlusspunkten."
+                q: "Welches Schaltsymbol stellt einen Wechsel-Schalter dar?",
+                symbol: svgSymbols.switch_changeover,
+                a: ["Ausschalter", "Wechselschalter", "Kreuzschalter", "Serienschalter"],
+                correct: 1,
+                exp: "Der Wechselschalter hat einen Eingang und zwei alternative Ausgänge, um Lichter von 2 Stellen zu schalten.",
+                category: "symbols"
             },
             {
-                q: "Was unterscheidet ein TN-C-Netz von einem TN-S-Netz?",
-                options: [
-                    "Im TN-C Netz sind N und PE als PEN zusammengefasst",
-                    "Das TN-S Netz hat keinen Erder am Transformator",
-                    "Im TN-C Netz gibt es überhaupt keinen Neutralleiter",
-                    "Es gibt keinen Unterschied"
-                ],
-                correct: 0,
-                exp: "TN-C nutzt den kombinierten PEN-Leiter, während im TN-S Neutralleiter (N) und Schutzleiter (PE) getrennt geführt werden."
+                q: "Welcher maximale Bemessungsfehlerstrom (IΔn) gilt für RCDs zum Personenschutz in Steckdosenstromkreisen?",
+                a: ["10 mA", "30 mA", "100 mA", "300 mA"],
+                correct: 1,
+                exp: "Nach DIN VDE 0100-410 ist für Steckdosenstromkreise bis 32 A ein RCD mit IΔn ≤ 30 mA vorgeschrieben.",
+                category: "protection"
             },
             {
-                q: "Welcher maximale Bemessungsfehlerstrom IΔn ist für Steckdosenstromkreise im Wohnbereich vorgeschrieben?",
-                options: ["100 mA", "300 mA", "30 mA", "500 mA"],
-                correct: 2,
-                exp: "Nach DIN VDE 0100-410 ist für Steckdosen bis 32A ein RCD mit IΔn ≤ 30mA zum Personenschutz vorgeschrieben."
+                q: "Wie lautet die Formel zur Berechnung der elektrischen Leistung P im Gleichstromkreis?",
+                a: ["P = U / I", "P = U * I", "P = I² / R", "P = U² * R"],
+                correct: 1,
+                exp: "Die elektrische Leistung P errechnet sich aus Spannung U mal Stromstärke I (P = U * I).",
+                category: "ohm"
+            },
+            {
+                q: "Was unterscheidet ein TN-C Netz von einem TN-S Netz?",
+                a: ["Im TN-C sind N und PE kombiniert (PEN)", "Im TN-S gibt es keinen Erder", "Im TN-C gibt es keinen Neutralleiter", "Es gibt keinen Unterschied"],
+                correct: 0,
+                exp: "Im TN-C System ist der PEN-Leiter kombiniert. Im TN-S sind Neutralleiter (N) und Schutzleiter (PE) getrennt.",
+                category: "protection"
             }
         ];
 
-        // App Init & Auth Functions
-        window.addEventListener('load', () => {
-            if (currentUser) {
-                showMainApp();
-            } else {
-                document.getElementById('auth-screen').style.display = 'block';
-                document.getElementById('main-app-wrapper').style.display = 'none';
-            }
-            updateStatsUI();
-            renderTopics();
-            calculateOhm();
-            calculate3Phase();
-            calculateVoltageDrop();
-            calculateCrossSection();
-        });
-
-        function switchAuthTab(tab) {
-            document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-            document.getElementById('tab-register').classList.toggle('active', tab === 'register');
-            document.getElementById('login-form').style.display = tab === 'login' ? 'flex' : 'none';
-            document.getElementById('register-form').style.display = tab === 'register' ? 'flex' : 'none';
-        }
-
-        function handleAuthLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            currentUser = {
-                name: username,
-                id: 'ELEK-' + Math.floor(1000 + Math.random() * 9000),
-                avatar: '⚡',
-                isGuest: false
-            };
-            saveUserSession();
-            showMainApp();
-        }
-
-        function handleAuthRegister(e) {
-            e.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            const avatar = document.getElementById('reg-avatar').value;
-            currentUser = {
-                name: username,
-                id: 'ELEK-' + Math.floor(1000 + Math.random() * 9000),
-                avatar: avatar,
-                isGuest: false
-            };
-            saveUserSession();
-            showMainApp();
-        }
-
-        function continueAsGuest() {
-            currentUser = {
-                name: 'Gast ' + Math.floor(100 + Math.random() * 900),
-                id: 'GUEST-' + Math.floor(1000 + Math.random() * 9000),
-                avatar: '🛠️',
-                isGuest: true
-            };
-            saveUserSession();
-            showMainApp();
-        }
-
-        function saveUserSession() {
-            localStorage.setItem('elek_plus_user', JSON.stringify(currentUser));
-        }
-
-        function showMainApp() {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('main-app-wrapper').style.display = 'block';
-            document.getElementById('header-user-name').innerText = currentUser.name;
-            document.getElementById('vs-user-avatar').innerText = currentUser.avatar;
-            document.getElementById('vs-user-name').innerText = currentUser.name;
-            document.getElementById('vs-invite-link').innerText = window.location.origin + '?invite=' + currentUser.id;
-        }
-
-        function openProfileModal() {
-            if (!currentUser) return;
-            document.getElementById('modal-user-avatar').innerText = currentUser.avatar;
-            document.getElementById('modal-user-name').innerText = currentUser.name;
-            document.getElementById('modal-user-id').innerText = 'ID: ' + currentUser.id;
-            document.getElementById('modal-user-type').innerText = currentUser.isGuest ? 'Gast-Konto' : 'Registrierter Nutzer';
-            document.getElementById('modal-user-xp').innerText = stats.xp + ' XP';
-            document.getElementById('modal-user-level').innerText = 'Level ' + stats.level;
-            document.getElementById('profile-modal').classList.add('show');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').classList.remove('show');
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('elek_plus_user');
-            currentUser = null;
-            closeProfileModal();
-            document.getElementById('auth-screen').style.display = 'block';
-            document.getElementById('main-app-wrapper').style.display = 'none';
-        }
-
-        /* Mode & Quiz Navigation */
+        // Mode Navigation Logic
         function startMode(mode) {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
@@ -1887,66 +2123,32 @@
         }
 
         function backToWelcome() {
-            document.getElementById('welcome-screen').style.display = 'block';
-            document.getElementById('mode-nav-area').style.display = 'none';
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            clearInterval(timerInterval);
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
         }
 
         function switchMode(mode) {
             currentMode = mode;
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            
-            const btnEl = document.getElementById('toggle-' + mode);
-            if (btnEl) btnEl.classList.add('active');
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
 
-            if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-            } else if (mode === 'vs') {
-                document.getElementById('vs-mode').classList.add('active');
-            } else {
+            const toggleBtn = document.getElementById(`toggle-${mode}`);
+            if (toggleBtn) toggleBtn.classList.add('active');
+
+            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
-                startQuiz();
+                restartQuiz();
+            } else if (mode === 'vs') {
+                document.getElementById('vs-mode').classList.add('active');
+            } else if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
             }
         }
 
-        /* VS Mode Functions */
-        function copyInviteLink() {
-            const linkText = document.getElementById('vs-invite-link').innerText;
-            navigator.clipboard.writeText(linkText);
-            alert('Duell-Link in die Zwischenablage kopiert!');
-        }
-
-        function startVSDuel() {
-            document.getElementById('vs-arena').style.display = 'grid';
-            let uScore = 0;
-            let oScore = 0;
-            
-            const interval = setInterval(() => {
-                uScore += Math.floor(Math.random() * 2) * 10;
-                oScore += Math.floor(Math.random() * 2) * 10;
-                
-                document.getElementById('vs-user-score').innerText = uScore;
-                document.getElementById('vs-opp-score').innerText = oScore;
-                
-                if (uScore >= 50 || oScore >= 50) {
-                    clearInterval(interval);
-                    if (uScore > oScore) {
-                        alert('🎉 Du hast das Duell gewonnen!');
-                        stats.xp += 30;
-                    } else {
-                        alert('🤖 Die Meister-KI hat gewonnen. Weiter üben!');
-                    }
-                    saveStats();
-                    updateStatsUI();
-                }
-            }, 1000);
-        }
-
-        /* Quiz Logic */
-        function startQuiz() {
+        /* Quiz Engine */
+        function restartQuiz() {
             currentQuestion = 0;
             score = 0;
             document.getElementById('quiz-screen').style.display = 'block';
@@ -1956,14 +2158,12 @@
 
         function loadQuestion() {
             answered = false;
+            clearInterval(timerInterval);
             timeLeft = 30;
-            document.getElementById('next-btn').classList.remove('show');
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            
+            document.getElementById('quiz-timer').innerText = timeLeft;
+
             const q = quizQuestions[currentQuestion % quizQuestions.length];
             document.getElementById('question').innerText = q.q;
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / 10`;
 
             const symDisplay = document.getElementById('symbol-display');
             if (q.symbol) {
@@ -1973,71 +2173,66 @@
                 symDisplay.style.display = 'none';
             }
 
-            const optsGrid = document.getElementById('options');
-            optsGrid.innerHTML = '';
-            q.options.forEach((opt, idx) => {
+            const optionsGrid = document.getElementById('options');
+            optionsGrid.innerHTML = '';
+            q.a.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.innerText = opt;
-                btn.onclick = () => selectOption(idx, q.correct, q.exp);
-                optsGrid.appendChild(btn);
+                btn.onclick = () => checkAnswer(idx);
+                optionsGrid.appendChild(btn);
             });
 
-            startTimer();
-        }
+            document.getElementById('explanation').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / 10`;
 
-        function startTimer() {
-            clearInterval(timerInterval);
-            document.getElementById('quiz-timer').innerText = timeLeft;
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('quiz-timer').innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    if (!answered) selectOption(-1, quizQuestions[currentQuestion % quizQuestions.length].correct, "Zeit abgelaufen!");
+                    checkAnswer(-1);
                 }
             }, 1000);
         }
 
-        function selectOption(selectedIdx, correctIdx, exp) {
+        function checkAnswer(selectedIdx) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
+            const q = quizQuestions[currentQuestion % quizQuestions.length];
             const options = document.querySelectorAll('.option-card');
-            options.forEach(btn => btn.disabled = true);
 
-            if (selectedIdx === correctIdx) {
-                if (selectedIdx >= 0) options[selectedIdx].classList.add('correct');
+            if (selectedIdx === q.correct) {
                 score++;
                 stats.correct++;
                 stats.streak++;
                 stats.xp += 15;
+                if (selectedIdx >= 0) options[selectedIdx].classList.add('correct');
             } else {
-                if (selectedIdx >= 0) options[selectedIdx].classList.add('incorrect');
-                options[correctIdx].classList.add('correct');
                 stats.streak = 0;
+                if (selectedIdx >= 0) options[selectedIdx].classList.add('incorrect');
+                options[q.correct].classList.add('correct');
             }
 
             stats.total++;
             if (stats.xp >= stats.level * 100) {
                 stats.level++;
             }
-
-            saveStats();
-            updateStatsUI();
-
-            const expBox = document.getElementById('explanation');
-            expBox.innerText = exp;
-            expBox.classList.add('show');
-
-            if (currentMode === 'ai') {
-                const tutorBox = document.getElementById('ai-tutor-box');
-                document.getElementById('ai-tutor-text').innerText = "Analyse: " + exp + " Achte bei Prüfungen besonders auf die korrekte Trennung der Schutzleiterfunktion.";
-                tutorBox.classList.add('show');
+            if (score > stats.highscore) {
+                stats.highscore = score;
             }
 
-            document.getElementById('next-btn').classList.add('show');
+            saveUserData();
+            updateStatsDisplay();
+
+            const expBox = document.getElementById('explanation');
+            expBox.innerText = q.exp;
+            expBox.style.display = 'block';
+
+            document.getElementById('next-btn').style.display = 'block';
         }
 
         function nextQuestion() {
@@ -2053,76 +2248,57 @@
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             document.getElementById('score').innerText = `${score} / 10`;
-            if (score > stats.highscore) {
-                stats.highscore = score;
-                saveStats();
-                updateStatsUI();
-            }
+            document.getElementById('feedback').innerText = score >= 8 ? '🎉 Hervorragend! Du bist fit für die Praxis.' : '📚 Weiter üben im Lernbereich!';
         }
 
-        function restartQuiz() {
-            startQuiz();
-        }
-
-        function generateCustomAIQuestion() {
-            startQuiz();
-        }
-
-        /* Stats & UI Updates */
-        function saveStats() {
-            localStorage.setItem('elek_plus_stats', JSON.stringify(stats));
-        }
-
-        function updateStatsUI() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
+        function updateStatsDisplay() {
+            const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = `${acc}%`;
             document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
             document.getElementById('stat-high').innerText = stats.highscore;
 
             document.getElementById('xp-label').innerText = `XP: ${stats.xp} / ${stats.level * 100} zum nächsten Level`;
             document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
             const fillPct = Math.min(100, Math.round((stats.xp / (stats.level * 100)) * 100));
-            document.getElementById('xp-progress-fill').style.width = fillPct + '%';
+            document.getElementById('xp-progress-fill').style.width = `${fillPct}%`;
 
             if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
             if (stats.streak >= 10) document.getElementById('badge-2').classList.add('unlocked');
             if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
-            if (accuracy >= 80 && stats.total >= 10) document.getElementById('badge-4').classList.add('unlocked');
         }
 
         function toggleDetailedStats() {
-            const panel = document.getElementById('detailed-stats-panel');
-            panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+            const p = document.getElementById('detailed-stats-panel');
+            p.style.display = p.style.display === 'none' ? 'block' : 'none';
         }
 
-        /* Lernbereich Render & Rechner */
+        /* Lernbereich Render Engine */
         function renderTopics() {
             const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-            Object.keys(learningContent).forEach(key => {
-                const topic = learningContent[key];
-                const card = document.createElement('div');
-                card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
-                card.innerHTML = `
-                    <div class="topic-icon-box">${topic.icon}</div>
-                    <h3>${topic.title}</h3>
-                    <p>${topic.description}</p>
+            container.innerHTML = Object.keys(learningContent).map(key => {
+                const item = learningContent[key];
+                return `
+                    <div class="topic-card" onclick="openTopic('${key}')">
+                        <div class="topic-icon-box">${item.icon}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
                 `;
-                container.appendChild(card);
-            });
+            }).join('');
         }
 
-        function openArticle(key) {
+        function openTopic(key) {
+            const item = learningContent[key];
             document.getElementById('topics-view').style.display = 'none';
-            document.getElementById('content-view').style.display = 'block';
-            document.getElementById('content-container').innerHTML = learningContent[key].content;
+            const contentView = document.getElementById('content-view');
+            document.getElementById('content-container').innerHTML = item.content;
+            contentView.style.display = 'block';
         }
 
         function backToTopics() {
-            document.getElementById('topics-view').style.display = 'block';
             document.getElementById('content-view').style.display = 'none';
+            document.getElementById('topics-view').style.display = 'block';
         }
 
         function filterTopics() {
@@ -2133,38 +2309,36 @@
             });
         }
 
-        // Profi Rechner Formeln
+        /* Rechner Logik */
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = u / r;
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0.001;
+            const i = (u / r).toFixed(2);
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
             const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
-            const p = Math.sqrt(3) * 400 * i * cos / 1000;
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            // deltaU = (2 * l * i) / (56 * q)
             const du = (2 * l * i) / (56 * q);
-            const pct = (du / 230) * 100;
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct.toFixed(2)}%)`;
+            const pct = ((du / 230) * 100).toFixed(2);
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${pct}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
             const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            // A = (2 * l * i) / (56 * deltaU)
-            const a = (2 * l * l > 0 && du > 0) ? (2 * l * i) / (56 * du) : 0;
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
+            const q = (2 * l * i) / (56 * du);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
         }
     </script>
 </body>
