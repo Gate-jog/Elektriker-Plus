@@ -3,132 +3,2044 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Plus - Schulung, Schaltsymbole, Schaltpläne & KI Modus</title>
+    <title>Elektriker Plus - Schulung, Schaltsymbole, VS-Modus & KI Modus</title>
+    
+    <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#06b6d4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Elektriker Plus">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2983/2983780.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root{--bg-dark:#04060b;--card-bg:rgba(13,20,35,.75);--card-border:rgba(6,182,212,.15);--card-border-hover:rgba(6,182,212,.4);--card-hover:rgba(255,255,255,.08);--primary:#06b6d4;--primary-glow:rgba(6,182,212,.35);--secondary:#8b5cf6;--secondary-glow:rgba(139,92,246,.3);--ai-color:#ec4899;--ai-glow:rgba(236,72,153,.35);--warning:#f59e0b;--text-main:#f8fafc;--text-muted:#94a3b8;--correct:#10b981;--correct-glow:rgba(16,185,129,.3);--incorrect:#ef4444;--incorrect-glow:rgba(239,68,68,.3);--radius-lg:28px;--radius-md:20px;--radius-sm:14px;--font-code:'JetBrains Mono',monospace;--transition-smooth:all .35s cubic-bezier(.16,1,.3,1)}*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-tap-highlight-color:transparent}body{background-color:var(--bg-dark);background-image:radial-gradient(circle at 10% 15%,rgba(6,182,212,.15) 0px,transparent 45%),radial-gradient(circle at 90% 85%,rgba(139,92,246,.15) 0px,transparent 45%),radial-gradient(circle at 50% 50%,rgba(10,15,30,.9) 0px,transparent 100%),linear-gradient(to bottom,#04060b,#070a12);background-attachment:fixed;color:var(--text-main);min-height:100vh;padding:32px 20px;line-height:1.6}.container{max-width:1080px;margin:0 auto}.header{text-align:center;margin-bottom:36px;position:relative}.status-badge{position:absolute;top:0;right:0;font-size:.75rem;padding:8px 14px;border-radius:20px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.4);color:var(--correct);display:flex;align-items:center;gap:8px;font-weight:700;backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(16,185,129,.15)}.status-dot{width:8px;height:8px;border-radius:50%;background-color:var(--correct);box-shadow:0 0 10px var(--correct);animation:pulse 2s infinite}@keyframes pulse{0%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,.7)}70%{opacity:.8;transform:scale(1.05);box-shadow:0 0 0 8px rgba(16,185,129,0)}100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0)}}.status-badge.offline .status-dot{background-color:var(--warning);box-shadow:0 0 10px var(--warning)}.status-badge.offline{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:var(--warning);box-shadow:0 4px 20px rgba(245,158,11,.15)}.brand-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(139,92,246,.12));border:1px solid rgba(6,182,212,.3);color:var(--primary);padding:8px 20px;border-radius:50px;font-size:.8rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;box-shadow:0 0 25px rgba(6,182,212,.2);backdrop-filter:blur(12px)}.header h1{font-size:3.2rem;font-weight:800;background:linear-gradient(135deg,#fff 15%,var(--primary) 65%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;letter-spacing:-1.5px;text-shadow:0 20px 40px rgba(0,0,0,.5)}.header p{color:var(--text-muted);font-size:1.15rem;font-weight:500}.glass-card{background:var(--card-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:40px;box-shadow:0 25px 50px -12px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1);margin-bottom:28px;transition:var(--transition-smooth)}.glass-card:hover{border-color:var(--card-border-hover)}.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}.stat-card{background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:var(--radius-md);padding:22px 16px;text-align:center;transition:var(--transition-smooth);backdrop-filter:blur(12px);box-shadow:0 8px 20px rgba(0,0,0,.2)}.stat-card:hover{transform:translateY(-4px);border-color:var(--primary);background:rgba(6,182,212,.04);box-shadow:0 12px 30px var(--primary-glow)}.stat-val{font-size:1.8rem;font-weight:800;color:var(--primary);font-family:var(--font-code);text-shadow:0 0 15px rgba(6,182,212,.4)}.stat-lbl{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-top:6px;font-weight:700}.achievements-bar{display:flex;gap:12px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}.badge-item{background:rgba(255,255,255,.03);border:1px solid var(--card-border);padding:10px 18px;border-radius:30px;font-size:.85rem;color:var(--text-muted);display:flex;align-items:center;gap:8px;filter:grayscale(1);opacity:.4;transition:var(--transition-smooth);font-weight:700;backdrop-filter:blur(10px)}.badge-item.unlocked{filter:grayscale(0);opacity:1;border-color:var(--primary);color:var(--text-main);background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(139,92,246,.1));box-shadow:0 0 20px var(--primary-glow);transform:translateY(-2px)}.welcome-card{text-align:center;max-width:960px;margin:0 auto}.menu-options{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:36px 0 20px}.menu-option{background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--card-border);border-radius:var(--radius-md);padding:28px 18px;cursor:pointer;transition:var(--transition-smooth);display:flex;flex-direction:column;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.3);position:relative;overflow:hidden}.menu-option::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary));opacity:0;transition:var(--transition-smooth)}.menu-option:hover{transform:translateY(-8px);background:rgba(255,255,255,.06);border-color:var(--primary);box-shadow:0 25px 50px -10px var(--primary-glow)}.menu-option:hover::before{opacity:1}.menu-icon{font-size:2.5rem;margin-bottom:16px;background:rgba(6,182,212,.08);width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(6,182,212,.2);box-shadow:inset 0 2px 5px rgba(255,255,255,.1);transition:var(--transition-smooth)}.menu-option:hover .menu-icon{transform:scale(1.1) rotate(5deg);background:rgba(6,182,212,.15);border-color:var(--primary)}.menu-title{font-size:1.1rem;font-weight:800;color:var(--text-main);margin-bottom:8px;text-align:center}.menu-description{font-size:.82rem;color:var(--text-muted);line-height:1.5;text-align:center}.mode-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:16px;flex-wrap:wrap}.nav-btn{padding:12px 24px;border-radius:var(--radius-sm);font-size:.92rem;font-weight:700;cursor:pointer;transition:var(--transition-smooth);border:1px solid var(--card-border);background:rgba(255,255,255,.04);color:var(--text-muted);display:inline-flex;align-items:center;gap:10px;backdrop-filter:blur(12px);box-shadow:0 4px 15px rgba(0,0,0,.2)}.nav-btn:hover{color:var(--text-main);background:rgba(255,255,255,.09);border-color:var(--primary);transform:translateY(-2px);box-shadow:0 6px 20px var(--primary-glow)}.mode-toggle{display:flex;background:rgba(4,6,11,.7);padding:6px;border-radius:16px;border:1px solid var(--card-border);gap:6px;flex-wrap:wrap;backdrop-filter:blur(20px);box-shadow:inset 0 2px 8px rgba(0,0,0,.5)}.toggle-btn{padding:10px 18px;border-radius:12px;border:none;background:transparent;color:var(--text-muted);font-size:.85rem;font-weight:700;cursor:pointer;transition:var(--transition-smooth)}.toggle-btn:hover{color:var(--text-main);background:rgba(255,255,255,.05)}.toggle-btn.active{background:linear-gradient(135deg,var(--primary),#0284c7);color:#000;font-weight:800;box-shadow:0 4px 20px var(--primary-glow)}.content-area{display:none}.content-area.active{display:block;animation:fadeIn .45s cubic-bezier(.16,1,.3,1) forwards}.ai-config-panel{background:linear-gradient(145deg,rgba(236,72,153,.06),rgba(139,92,246,.04));border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-md);padding:28px;margin-bottom:32px;display:grid;grid-template-columns:1fr 1fr auto;gap:20px;align-items:end;backdrop-filter:blur(15px);box-shadow:0 15px 35px rgba(236,72,153,.1)}.config-group{display:flex;flex-direction:column;gap:8px}.config-group label{font-size:.8rem;font-weight:800;color:var(--ai-color);text-transform:uppercase;letter-spacing:.8px}.config-select,.input-field input,.input-field select,.search-bar{background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.12);color:#fff;outline:none;transition:var(--transition-smooth)}.config-select{padding:14px;border-radius:var(--radius-sm);font-size:.95rem;cursor:pointer}.config-select:focus{border-color:var(--ai-color);box-shadow:0 0 15px var(--ai-glow)}.ai-btn-action,.btn-action{background:linear-gradient(135deg,var(--ai-color),var(--secondary));border:none;color:#fff;padding:14px 28px;border-radius:var(--radius-sm);font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 25px var(--ai-glow);transition:var(--transition-smooth);height:50px}.ai-btn-action:hover,.btn-action:hover{transform:translateY(-3px);box-shadow:0 10px 30px var(--ai-glow);filter:brightness(1.1)}.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px;padding-bottom:20px;border-bottom:1px solid var(--card-border)}.quiz-title{font-size:1.5rem;font-weight:800;letter-spacing:-.5px}.timer-pill,.progress-pill{padding:8px 18px;border-radius:50px;font-size:.85rem;font-weight:800;font-family:var(--font-code);display:flex;align-items:center;gap:8px;backdrop-filter:blur(10px);box-shadow:0 4px 15px rgba(0,0,0,.2)}.timer-pill{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);color:var(--warning)}.progress-pill{background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.35);color:var(--primary)}.question-box{font-size:1.35rem;font-weight:700;line-height:1.6;margin-bottom:24px;color:#fff;letter-spacing:-.3px}.symbol-container{display:flex;justify-content:center;align-items:center;background:radial-gradient(circle at center,rgba(6,182,212,.08) 0%,rgba(0,0,0,.5) 100%);border:1px solid var(--card-border);border-radius:var(--radius-md);padding:32px;margin-bottom:28px;box-shadow:inset 0 2px 10px rgba(0,0,0,.6)}.symbol-container svg,.symbol-card svg{stroke:var(--primary);fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 12px rgba(6,182,212,.4))}.symbol-container svg{max-width:240px;max-height:180px}.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:32px}.option-card{background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--card-border);padding:22px;border-radius:var(--radius-md);color:var(--text-main);font-size:1.05rem;font-weight:600;text-align:left;cursor:pointer;transition:var(--transition-smooth);line-height:1.5;box-shadow:0 8px 20px rgba(0,0,0,.2)}.option-card:hover:not(:disabled){background:rgba(255,255,255,.08);border-color:var(--primary);transform:translateY(-3px);box-shadow:0 12px 30px var(--primary-glow)}.option-card.correct{background:var(--correct-glow);border-color:var(--correct);color:#6ee7b7;font-weight:800;box-shadow:0 0 25px rgba(16,185,129,.4)}.option-card.incorrect{background:var(--incorrect-glow);border-color:var(--incorrect);color:#fca5a5;opacity:.9;box-shadow:0 0 25px rgba(239,68,68,.4)}.explanation-box,.ai-tutor-box,.progress-details-panel,.article-section,.info-badge,.calc-box,.topic-card,.symbol-card{background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--card-border);border-radius:var(--radius-md);backdrop-filter:blur(12px)}.explanation-box{border-left:5px solid var(--primary);padding:22px;margin-bottom:32px;font-size:1rem;color:var(--text-muted);display:none;line-height:1.7;box-shadow:0 10px 25px rgba(0,0,0,.3)}.explanation-box.show,.ai-tutor-box.show{display:block;animation:fadeIn .4s ease-out}.btn-action{width:100%;padding:20px;border-radius:var(--radius-md);font-size:1.15rem;display:none;letter-spacing:.5px}.btn-action.show{display:block}.search-bar{width:100%;padding:18px 26px;border-radius:var(--radius-md);font-size:1.05rem;margin-bottom:36px;box-shadow:inset 0 2px 10px rgba(0,0,0,.5)}.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}.topic-card{padding:28px;cursor:pointer;transition:var(--transition-smooth);height:100%;box-shadow:0 10px 30px rgba(0,0,0,.25);position:relative;overflow:hidden}.topic-card:hover{border-color:var(--secondary);background:rgba(139,92,246,.06);transform:translateY(-6px);box-shadow:0 20px 40px rgba(139,92,246,.2)}.topic-icon-box{font-size:2.5rem;margin-bottom:18px;background:rgba(139,92,246,.1);width:65px;height:65px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:1px solid rgba(139,92,246,.2);box-shadow:inset 0 2px 5px rgba(255,255,255,.1)}.topic-card h3,.calc-box h3,.article-section h3{font-size:1.25rem;color:var(--primary);margin-bottom:22px;font-weight:800}.topic-card h3{color:var(--text-main);margin-bottom:10px}.topic-card p{font-size:.92rem;color:var(--text-muted);line-height:1.6}.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-top:28px}.calc-box{padding:28px;box-shadow:0 15px 35px rgba(0,0,0,.3);transition:var(--transition-smooth)}.calc-box:hover{border-color:var(--primary);box-shadow:0 20px 45px rgba(6,182,212,.15)}.calc-box h3{border-bottom:1px solid var(--card-border);padding-bottom:14px}.input-field{margin-bottom:18px}.input-field label{display:block;font-size:.85rem;color:var(--text-muted);margin-bottom:8px;font-weight:700;letter-spacing:.3px}.input-field input,.input-field select{width:100%;padding:14px 18px;border-radius:var(--radius-sm);color:#fff;font-family:var(--font-code);font-size:1.05rem;box-shadow:inset 0 2px 8px rgba(0,0,0,.4)}.input-field input:focus,.input-field select:focus,.search-bar:focus{border-color:var(--primary);background:rgba(0,0,0,.8);box-shadow:inset 0 2px 8px rgba(0,0,0,.4),0 0 15px var(--primary-glow)}.calc-result{margin-top:28px;padding:18px;background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.3);border-radius:var(--radius-md);font-family:var(--font-code);color:var(--primary);font-weight:800;text-align:center;font-size:1.15rem;box-shadow:0 8px 20px rgba(6,182,212,.15);text-shadow:0 0 10px rgba(6,182,212,.4)}.symbol-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px;margin-top:24px}.symbol-card{padding:22px 16px;text-align:center;transition:var(--transition-smooth);box-shadow:0 8px 20px rgba(0,0,0,.2)}.symbol-card:hover{transform:translateY(-4px);border-color:var(--primary);background:rgba(6,182,212,.04);box-shadow:0 12px 30px var(--primary-glow)}.symbol-card svg{width:110px;height:75px;margin-bottom:14px}.symbol-card h4{font-size:1.05rem;color:#fff;margin-bottom:6px;font-weight:700}.symbol-card p{font-size:.82rem;color:var(--text-muted);line-height:1.4}.article-view h2{font-size:2.2rem;color:var(--text-main);margin-bottom:10px;letter-spacing:-.8px}.article-view .article-desc{color:var(--primary);margin-bottom:36px;font-size:1.15rem;font-weight:600}.article-section{padding:28px;margin-bottom:28px;box-shadow:0 10px 30px rgba(0,0,0,.25)}.article-section h3{color:#fff;margin-bottom:18px;display:flex;align-items:center;gap:12px;letter-spacing:-.3px}.article-section p,.article-section li{color:var(--text-muted);line-height:1.8;font-size:1.02rem;margin-bottom:14px}.custom-table{width:100%;border-collapse:separate;border-spacing:0;margin:24px 0;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--card-border);box-shadow:0 10px 25px rgba(0,0,0,.3)}.custom-table th,.custom-table td{padding:16px 20px;text-align:left;border-bottom:1px solid var(--card-border);font-size:.98rem}.custom-table th{background:rgba(6,182,212,.1);color:var(--primary);font-weight:800;letter-spacing:.5px;text-transform:uppercase;font-size:.85rem}.custom-table tr:last-child td{border-bottom:none}.custom-table tr:hover td{background:rgba(255,255,255,.03)}.info-badge{border-left:5px solid var(--secondary);padding:20px;margin:24px 0;color:var(--text-main);font-size:1rem;line-height:1.7;box-shadow:0 10px 25px rgba(0,0,0,.2)}.ai-tutor-box{border:1px solid rgba(236,72,153,.35);padding:20px 24px;margin-top:20px;display:none;box-shadow:0 10px 30px rgba(236,72,153,.15)}.ai-tutor-header{display:flex;align-items:center;gap:10px;color:var(--ai-color);font-weight:800;margin-bottom:8px;font-size:.95rem;letter-spacing:.5px;text-transform:uppercase}.progress-details-panel{border:1px solid var(--card-border);padding:24px;margin-top:20px;margin-bottom:28px}.progress-bar-container{background:rgba(255,255,255,.05);border-radius:10px;height:12px;overflow:hidden;margin-top:8px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08)}.progress-bar-fill{background:linear-gradient(90deg,var(--primary),var(--secondary));height:100%;width:0%;transition:width .6s cubic-bezier(.16,1,.3,1);box-shadow:0 0 15px var(--primary-glow)}.auth-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:24px}.auth-card{padding:24px;border-radius:var(--radius-md);border:1px solid var(--card-border);background:rgba(255,255,255,.03);box-shadow:0 10px 30px rgba(0,0,0,.2)}.auth-card h3{color:#fff;margin-bottom:12px}.auth-card p{color:var(--text-muted);font-size:.92rem;margin-bottom:18px}.profile-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(6,182,212,.3);border-radius:999px;color:var(--primary);background:rgba(6,182,212,.08);font-size:.82rem;font-weight:800;margin-top:10px}.profile-line{display:flex;justify-content:space-between;gap:10px;color:var(--text-muted);font-size:.92rem;margin-top:8px}.small-btn{padding:12px 16px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--primary),#0284c7);color:#000;font-weight:800;cursor:pointer;width:100%;margin-top:12px}.small-btn.secondary{background:linear-gradient(135deg,var(--secondary),#6d28d9);color:#fff}.small-btn.ghost{background:rgba(255,255,255,.06);color:var(--text-main);border:1px solid var(--card-border)}.text-input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.6);color:#fff;margin-top:8px}.hidden{display:none !important}@media (max-width:900px){.menu-options{grid-template-columns:repeat(2,1fr)}.ai-config-panel,.auth-grid{grid-template-columns:1fr}.stats-bar{grid-template-columns:repeat(2,1fr)}.options-grid{grid-template-columns:1fr}.header h1{font-size:2.6rem}}@media (max-width:600px){body{padding:16px 12px}.glass-card{padding:28px 18px}.menu-options{grid-template-columns:1fr}.mode-nav{flex-direction:column;align-items:stretch}.mode-toggle{flex-direction:column}.toggle-btn{padding:12px}.status-badge{position:relative;margin-bottom:16px;justify-content:center;top:auto;right:auto}}@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+        :root {
+            --bg-dark: #04060b;
+            --card-bg: rgba(13, 20, 35, 0.85);
+            --card-border: rgba(6, 182, 212, 0.18);
+            --card-border-hover: rgba(6, 182, 212, 0.5);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --primary: #06b6d4;
+            --primary-glow: rgba(6, 182, 212, 0.35);
+            --secondary: #8b5cf6;
+            --secondary-glow: rgba(139, 92, 246, 0.3);
+            --ai-color: #ec4899;
+            --ai-glow: rgba(236, 72, 153, 0.35);
+            --vs-color: #f59e0b;
+            --vs-glow: rgba(245, 158, 11, 0.35);
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct: #10b981;
+            --correct-glow: rgba(16, 185, 129, 0.3);
+            --incorrect: #ef4444;
+            --incorrect-glow: rgba(239, 68, 68, 0.3);
+            --radius-lg: 28px;
+            --radius-md: 20px;
+            --radius-sm: 14px;
+            --font-code: 'JetBrains Mono', monospace;
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(6, 182, 212, 0.15) 0px, transparent 45%),
+                radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.15) 0px, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(10, 15, 30, 0.9) 0px, transparent 100%),
+                linear-gradient(to bottom, #04060b, #070a12);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 32px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* Authentication Screen Modal */
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 6, 11, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border-hover);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px var(--primary-glow);
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(0,0,0,0.5);
+            border-radius: 14px;
+            padding: 4px;
+            margin: 24px 0;
+            border: 1px solid var(--card-border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .auth-tab.active {
+            background: var(--primary);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .auth-form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+
+        .auth-btn {
+            background: linear-gradient(135deg, var(--primary), #0284c7);
+            color: #000;
+            font-weight: 800;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 25px var(--primary-glow);
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .guest-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px dashed var(--card-border-hover);
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 8px;
+        }
+
+        .guest-btn:hover { color: #fff; border-color: var(--primary); background: rgba(6, 182, 212, 0.08); }
+
+        /* Header & Badges */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .user-profile-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(13, 20, 35, 0.8);
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .user-profile-badge:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        .user-info-text { text-align: left; line-height: 1.2; }
+        .user-name { font-weight: 800; font-size: 0.85rem; color: #fff; }
+        .user-id-tag { font-size: 0.7rem; color: var(--primary); font-family: var(--font-code); }
+
+        .status-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.75rem;
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: var(--correct);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--correct);
+            box-shadow: 0 0 10px var(--correct);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { opacity: 0.8; transform: scale(1.05); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(139, 92, 246, 0.12));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.2);
+            backdrop-filter: blur(12px);
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 15%, var(--primary) 65%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -1.5px;
+            text-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        /* Cards & Layout */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            margin-bottom: 28px;
+            transition: var(--transition-smooth);
+        }
+        
+        .glass-card:hover { border-color: var(--card-border-hover); }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 22px 16px;
+            text-align: center;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .stat-card:hover { 
+            transform: translateY(-4px); 
+            border-color: var(--primary);
+            background: rgba(6, 182, 212, 0.04);
+            box-shadow: 0 12px 30px var(--primary-glow);
+        }
+
+        .stat-val {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: var(--font-code);
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 6px;
+            font-weight: 700;
+        }
+
+        .achievements-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .badge-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            filter: grayscale(1);
+            opacity: 0.4;
+            transition: var(--transition-smooth);
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+
+        .badge-item.unlocked {
+            filter: grayscale(0);
+            opacity: 1;
+            border-color: var(--primary);
+            color: var(--text-main);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Menu */
+        .welcome-card { text-align: center; max-width: 960px; margin: 0 auto; }
+        
+        .menu-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 36px 0 20px;
+        }
+
+        .menu-option {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 28px 18px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-option.vs-card::before {
+            background: linear-gradient(90deg, var(--vs-color), var(--ai-color));
+        }
+
+        .menu-option::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .menu-option:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px -10px var(--primary-glow);
+        }
+
+        .menu-option:hover::before { opacity: 1; }
+
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: rgba(6, 182, 212, 0.08);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .menu-option:hover .menu-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--primary);
+        }
+
+        .menu-title { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-align: center; }
+        .menu-description { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; text-align: center; }
+
+        /* Navigation */
+        .mode-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.09);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: rgba(4, 6, 11, 0.7);
+            padding: 6px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            gap: 6px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(20px);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .toggle-btn {
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .toggle-btn:hover { color: var(--text-main); background: rgba(255, 255, 255, 0.05); }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, var(--primary), #0284c7);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        /* Content Areas */
+        .content-area { display: none; }
+        .content-area.active { display: block; animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* Quiz & AI Styles */
+        .ai-config-panel {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.06), rgba(139, 92, 246, 0.04));
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            align-items: end;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.1);
+        }
+
+        .config-group { display: flex; flex-direction: column; gap: 8px; }
+
+        .config-group label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--ai-color);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .config-select {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            color: #fff;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .config-select:focus { border-color: var(--ai-color); box-shadow: 0 0 15px var(--ai-glow); }
+
+        .ai-btn-action {
+            background: linear-gradient(135deg, var(--ai-color), var(--secondary));
+            border: none;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px var(--ai-glow);
+            transition: var(--transition-smooth);
+            height: 50px;
+        }
+
+        .ai-btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--ai-glow);
+            filter: brightness(1.1);
+        }
+
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .quiz-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+
+        .timer-pill, .progress-pill {
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            font-family: var(--font-code);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .timer-pill { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); color: var(--warning); }
+        .progress-pill { background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.35); color: var(--primary); }
+
+        .question-box {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+
+        /* Schaltsymbol SVG Container */
+        .symbol-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.08) 0%, rgba(0, 0, 0, 0.5) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            margin-bottom: 28px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .symbol-container svg {
+            max-width: 240px;
+            max-height: 180px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.4));
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .option-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            padding: 22px;
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            line-height: 1.5;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .option-card:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px var(--primary-glow);
+        }
+
+        .option-card.correct {
+            background: var(--correct-glow);
+            border-color: var(--correct);
+            color: #6ee7b7;
+            font-weight: 800;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .option-card.incorrect {
+            background: var(--incorrect-glow);
+            border-color: var(--incorrect);
+            color: #fca5a5;
+            opacity: 0.9;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .explanation-box {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--primary);
+            padding: 22px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 32px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            display: none;
+            line-height: 1.7;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .explanation-box.show { display: block; animation: fadeIn 0.4s ease-out; }
+
+        .btn-action {
+            width: 100%;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: linear-gradient(135deg, var(--primary), #0284c7);
+            color: #000;
+            font-size: 1.15rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 12px 30px -5px var(--primary-glow);
+            display: none;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 35px -5px var(--primary-glow);
+            filter: brightness(1.08);
+        }
+        .btn-action.show { display: block; }
+
+        /* VS Mode Styles */
+        .vs-arena {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 28px;
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(236, 72, 153, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-md);
+            padding: 24px;
+        }
+
+        .vs-player-card { text-align: center; }
+        .vs-player-name { font-weight: 800; font-size: 1.1rem; color: #fff; margin-top: 6px; }
+        .vs-player-score { font-size: 2.2rem; font-weight: 800; font-family: var(--font-code); color: var(--vs-color); }
+        .vs-badge-tag { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+
+        .vs-divider {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--vs-color);
+            text-shadow: 0 0 20px var(--vs-glow);
+            font-style: italic;
+        }
+
+        /* Profile Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .profile-modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border-hover);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .friend-input-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        /* Learning & Calculators */
+        .search-bar {
+            width: 100%;
+            padding: 18px 26px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            outline: none;
+            transition: var(--transition-smooth);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .search-bar:focus { 
+            border-color: var(--primary); 
+            background: rgba(0,0,0,0.8);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5), 0 0 20px var(--primary-glow);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .topic-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            border-color: var(--secondary);
+            background: rgba(139, 92, 246, 0.06);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .topic-icon-box { 
+            font-size: 2.5rem; 
+            margin-bottom: 18px; 
+            background: rgba(139, 92, 246, 0.1);
+            width: 65px; height: 65px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.1);
+        }
+        
+        .topic-card h3 { font-size: 1.25rem; color: var(--text-main); margin-bottom: 10px; font-weight: 800; }
+        .topic-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-top: 28px;
+        }
+
+        .calc-box {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            backdrop-filter: blur(15px);
+            transition: var(--transition-smooth);
+        }
+        
+        .calc-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 45px rgba(6, 182, 212, 0.15);
+        }
+
+        .calc-box h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 22px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 14px;
+            font-weight: 800;
+        }
+
+        .input-field { margin-bottom: 18px; }
+        .input-field label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-family: var(--font-code);
+            font-size: 1.05rem;
+            outline: none;
+            transition: var(--transition-smooth);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .input-field input:focus, .input-field select:focus { 
+            border-color: var(--primary); 
+            background: rgba(0,0,0,0.8);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.4), 0 0 15px var(--primary-glow);
+        }
+
+        .calc-result {
+            margin-top: 28px;
+            padding: 18px;
+            background: rgba(6, 182, 212, 0.12);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: var(--radius-md);
+            font-family: var(--font-code);
+            color: var(--primary);
+            font-weight: 800;
+            text-align: center;
+            font-size: 1.15rem;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.15);
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Symbol Uebersicht Grid */
+        .symbol-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .symbol-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 22px 16px;
+            text-align: center;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .symbol-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            background: rgba(6, 182, 212, 0.04);
+            box-shadow: 0 12px 30px var(--primary-glow);
+        }
+
+        .symbol-card svg {
+            width: 110px;
+            height: 75px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            margin-bottom: 14px;
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.3));
+        }
+
+        .symbol-card h4 { font-size: 1.05rem; color: #fff; margin-bottom: 6px; font-weight: 700; }
+        .symbol-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+
+        /* Article / Content View Styling */
+        .article-view h2 { font-size: 2.2rem; color: var(--text-main); margin-bottom: 10px; letter-spacing: -0.8px; }
+        .article-view .article-desc { color: var(--primary); margin-bottom: 36px; font-size: 1.15rem; font-weight: 600; }
+
+        .article-section {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            backdrop-filter: blur(12px);
+        }
+
+        .article-section h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .article-section p, .article-section li { color: var(--text-muted); line-height: 1.8; font-size: 1.02rem; margin-bottom: 14px; }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 24px 0;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .custom-table th, .custom-table td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--card-border); font-size: 0.98rem; }
+        .custom-table th { background: rgba(6, 182, 212, 0.1); color: var(--primary); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; font-size: 0.85rem; }
+        .custom-table tr:last-child td { border-bottom: none; }
+        .custom-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+        .info-badge {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.04));
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.7;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Enhanced AI Tutor Box */
+        .ai-tutor-box {
+            background: linear-gradient(145deg, rgba(236, 72, 153, 0.08), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(236, 72, 153, 0.35);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-top: 20px;
+            display: none;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.15);
+        }
+        .ai-tutor-box.show { display: block; animation: fadeIn 0.4s ease-out; }
+        .ai-tutor-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ai-color);
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .progress-details-panel {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-top: 20px;
+            margin-bottom: 28px;
+        }
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .menu-options { grid-template-columns: repeat(2, 1fr); }
+            .ai-config-panel { grid-template-columns: 1fr; gap: 16px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .options-grid { grid-template-columns: 1fr; gap: 14px; }
+            .header h1 { font-size: 2.6rem; }
+            .user-profile-badge { position: relative; margin: 0 auto 16px; justify-content: center; }
+            .status-badge { position: relative; margin-bottom: 16px; justify-content: center; top: auto; right: auto; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px 12px; }
+            .glass-card { padding: 28px 18px; }
+            .menu-options { grid-template-columns: 1fr; }
+            .mode-nav { flex-direction: column; align-items: stretch; }
+            .mode-toggle { flex-direction: column; }
+            .toggle-btn { padding: 12px; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
-        <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
-        <h1>Elektriker Plus</h1>
-        <p>Schulungsportal, Schaltsymbole, Schaltpläne & KI Modus</p>
-    </div>
 
-    <div id="auth-screen" class="glass-card welcome-card">
-        <h2>Willkommen bei Elektriker Plus</h2>
-        <p style="color:var(--text-muted);margin-top:10px;font-size:1.05rem;">Wähle Login, Registrierung oder Gastmodus, bevor du ins Menü gehst.</p>
-        <div class="auth-grid">
-            <div class="auth-card">
-                <h3>Login</h3>
-                <p>Mit bestehendem Profil anmelden.</p>
-                <input id="login-user" class="text-input" placeholder="Benutzername oder E-Mail">
-                <input id="login-pass" class="text-input" placeholder="Passwort" type="password">
-                <button class="small-btn" onclick="loginUser()">Login</button>
+    <!-- Auth / Login Modal Screen -->
+    <div id="auth-screen" class="auth-overlay">
+        <div class="auth-card">
+            <div class="brand-badge" style="margin-bottom:10px;">⚡ Elektriker Plus</div>
+            <h2 style="font-size:1.8rem; font-weight:800;">Willkommen</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Melde dich an, um deinen Fortschritt und deine User ID zu speichern.</p>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Anmelden</button>
+                <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Registrieren</button>
             </div>
-            <div class="auth-card">
-                <h3>Registrieren</h3>
-                <p>Neuen Nutzer anlegen, ID erzeugen und Profil speichern.</p>
-                <input id="reg-name" class="text-input" placeholder="Name / Benutzername">
-                <input id="reg-mail" class="text-input" placeholder="E-Mail">
-                <input id="reg-pass" class="text-input" placeholder="Passwort" type="password">
-                <button class="small-btn secondary" onclick="registerUser()">Registrieren</button>
-            </div>
-            <div class="auth-card">
-                <h3>Gast</h3>
-                <p>Ohne Konto starten, Fortschritt wird lokal als Gast gespeichert.</p>
-                <button class="small-btn ghost" onclick="startGuest()">Als Gast fortfahren</button>
-                <div id="current-user-preview" class="profile-badge" style="display:none;">Kein Nutzer geladen</div>
-                <div class="profile-line"><span>ID</span><span id="preview-id">—</span></div>
-                <div class="profile-line"><span>Profil</span><span id="preview-profile">—</span></div>
-            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" class="auth-form" onsubmit="handleLogin(event)">
+                <div class="input-field" style="margin-bottom:10px;">
+                    <label>Benutzername</label>
+                    <input type="text" id="login-username" required placeholder="z.B. Alex">
+                </div>
+                <div class="input-field" style="margin-bottom:10px;">
+                    <label>Passwort</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn">Einloggen 🚀</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="form-register" class="auth-form" style="display:none;" onsubmit="handleRegister(event)">
+                <div class="input-field" style="margin-bottom:10px;">
+                    <label>Gewünschter Name</label>
+                    <input type="text" id="reg-username" required placeholder="z.B. MeisterVolt">
+                </div>
+                <div class="input-field" style="margin-bottom:10px;">
+                    <label>Passwort</label>
+                    <input type="password" id="reg-password" required placeholder="Mindestens 4 Zeichen">
+                </div>
+                <button type="submit" class="auth-btn">Profil erstellen ⚡</button>
+            </form>
+
+            <button class="guest-btn" onclick="continueAsGuest()">Als Gast fortfahren (Temporäre ID)</button>
         </div>
     </div>
 
-    <div id="main-app" class="hidden">
+    <!-- User Profile Modal -->
+    <div id="profile-modal" class="modal-overlay">
+        <div class="profile-modal-card">
+            <button class="close-modal" onclick="closeProfileModal()">✕</button>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div class="user-avatar" id="modal-avatar" style="width: 70px; height: 70px; font-size: 2rem; margin: 0 auto 12px;">E</div>
+                <h2 id="modal-username" style="font-weight: 800; font-size: 1.6rem;">Benutzer</h2>
+                <div id="modal-user-id" style="color: var(--primary); font-family: var(--font-code); font-weight: 700; margin-top: 4px;">ID: Loading...</div>
+            </div>
+
+            <div class="progress-details-panel" style="margin-bottom: 20px;">
+                <h4 style="color: var(--primary); margin-bottom: 8px;">Dein Profil-Status</h4>
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span>Skill Level: <strong id="modal-level">Lvl 1</strong></span>
+                    <span>Gesamt XP: <strong id="modal-xp">0 XP</strong></span>
+                </div>
+            </div>
+
+            <h4 style="color: var(--text-main); margin-bottom: 10px;">🤝 Freunde einladen / hinzufügen</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Teile deine User-ID oder gib die ID eines Freundes ein:</p>
+            <div class="friend-input-box">
+                <input type="text" id="friend-id-input" class="search-bar" style="margin-bottom:0; padding:12px;" placeholder="Friend ID (z.B. ELPLUS-9382)">
+                <button class="ai-btn-action" style="height:auto; padding:12px 18px;" onclick="addFriend()">Hinzufügen</button>
+            </div>
+
+            <div id="friends-list" style="margin-top: 16px; max-height: 120px; overflow-y: auto;">
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Keine Freunde hinzugefügt.</div>
+            </div>
+
+            <button class="nav-btn" style="width:100%; justify-content:center; margin-top:24px; color:var(--incorrect);" onclick="logoutUser()">Abmelden</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <!-- User Profile Pill -->
+            <div class="user-profile-badge" onclick="openProfileModal()">
+                <div class="user-avatar" id="header-avatar">?</div>
+                <div class="user-info-text">
+                    <div class="user-name" id="header-username">Gast</div>
+                    <div class="user-id-tag" id="header-userid">ID: --</div>
+                </div>
+            </div>
+
+            <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
+            <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
+            <h1>Elektriker Plus</h1>
+            <p>Schulungsportal, Schaltsymbole, VS-Modus & KI Modus</p>
+        </div>
+
+        <!-- Dashboard Bar -->
         <div class="stats-bar">
-            <div class="stat-card" onclick="toggleDetailedStats()" style="cursor:pointer;" title="Klicken für Detailansicht"><div class="stat-val" id="stat-score">0%</div><div class="stat-lbl">Genauigkeit</div></div>
-            <div class="stat-card"><div class="stat-val" id="stat-completed">0</div><div class="stat-lbl">Gelöste Fragen</div></div>
-            <div class="stat-card"><div class="stat-val" id="stat-level">Lvl 1</div><div class="stat-lbl">Skill Level</div></div>
-            <div class="stat-card"><div class="stat-val" id="stat-high">0</div><div class="stat-lbl">Highscore</div></div>
-        </div>
-        <div id="detailed-stats-panel" class="progress-details-panel" style="display:none;">
-            <h3 style="color:var(--primary);margin-bottom:14px;font-size:1.1rem;">📊 Erweiterte Lernfortschritte & XP</h3>
-            <div style="display:flex;justify-content:space-between;font-size:.9rem;color:var(--text-muted);margin-bottom:4px;"><span id="xp-label">XP: 0 / 100 zum nächsten Level</span><span id="streak-label">🔥 Streak: 0 richtig in Folge</span></div>
-            <div class="progress-bar-container"><div class="progress-bar-fill" id="xp-progress-fill"></div></div>
-            <div style="font-size:.85rem;color:var(--text-muted);margin-top:10px;">💡 <strong>Adaptiver Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!</div>
-        </div>
-        <div class="achievements-bar"><div class="badge-item" id="badge-1">⚡ Einsteiger</div><div class="badge-item" id="badge-2">🔥 10 Richtige</div><div class="badge-item" id="badge-3">🧠 Meister-Mind</div><div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div></div>
-        <div id="welcome-screen" class="glass-card welcome-card">
-            <div class="profile-badge" id="logged-in-pill">Gastmodus</div>
-            <h2>Wähle deinen Modus</h2>
-            <p style="color:var(--text-muted);margin-top:10px;font-size:1.05rem;">Bereite dich optimal auf Prüfungs- und Praxissituationen vor.</p>
-            <div class="menu-options">
-                <div class="menu-option" onclick="startMode('quiz')"><div class="menu-icon">📝</div><div class="menu-title">Standard Quiz</div><div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div></div>
-                <div class="menu-option" onclick="startMode('schemas')"><div class="menu-icon">📐</div><div class="menu-title">Schaltsymbole & Pläne</div><div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div></div>
-                <div class="menu-option" onclick="startMode('ai')"><div class="menu-icon">✨</div><div class="menu-title">Experten Modus</div><div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem Tutor.</div></div>
-                <div class="menu-option" onclick="startMode('learn')"><div class="menu-icon">📚</div><div class="menu-title">Lernbereich</div><div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div></div>
-                <div class="menu-option" onclick="startMode('vs')"><div class="menu-icon">⚔️</div><div class="menu-title">Vs Modus</div><div class="menu-description">Im Duellmodus gegen Freunde antreten und Einladungen versenden.</div></div>
-                <div class="menu-option" onclick="startMode('profile')"><div class="menu-icon">👤</div><div class="menu-title">Profil</div><div class="menu-description">Nutzer-ID, Fortschritt, Einstellungen und gespeicherte Daten ansehen.</div></div>
+            <div class="stat-card" onclick="toggleDetailedStats()" style="cursor: pointer;" title="Klicken für Detailansicht">
+                <div class="stat-val" id="stat-score">0%</div>
+                <div class="stat-lbl">Genauigkeit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-completed">0</div>
+                <div class="stat-lbl">Gelöste Fragen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-level">Lvl 1</div>
+                <div class="stat-lbl">Skill Level</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-high">0</div>
+                <div class="stat-lbl">Highscore</div>
             </div>
         </div>
-        <div id="mode-nav-area" style="display:none;">
-            <div class="mode-nav"><button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button><div class="mode-toggle"><button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button><button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button><button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button><button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button><button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ Vs Modus</button><button class="toggle-btn" id="toggle-profile" onclick="switchMode('profile')">👤 Profil</button></div></div>
+
+        <!-- Erweiterte Fortschritts- & Detail-Panel (Ausklappbar) -->
+        <div id="detailed-stats-panel" class="progress-details-panel" style="display: none;">
+            <h3 style="color: var(--primary); margin-bottom: 14px; font-size: 1.1rem;">📊 Erweiterte Lernfortschritte & XP</h3>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px;">
+                <span id="xp-label">XP: 0 / 100 zum nächsten Level</span>
+                <span id="streak-label">🔥 Streak: 0 richtig in Folge</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="xp-progress-fill"></div>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+                💡 <strong>Adaptiver Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!
+            </div>
         </div>
-        <div id="quiz-mode" class="content-area"><div class="glass-card"><div id="ai-config" class="ai-config-panel" style="display:none;"><div class="config-group"><label>Themenbereich (Fokussiert)</label><select id="ai-topic-select" class="config-select"><option value="symbols">📐 Schaltsymbole & Schaltpläne</option><option value="ohm">Ohmsches Gesetz & Leistung</option><option value="motor">Drehstrom & Asynchronmotor</option><option value="protection">Schutzmaßnahmen, RCD & Netze</option><option value="cables">Leitungsbemessung & Zonen</option><option value="ip">IP-Schutzarten & Betriebsmittel</option><option value="random">🎲 Alle Themen mischen (Adaptiv)</option></select></div><div class="config-group"><label>Schwierigkeit</label><select id="ai-diff-select" class="config-select"><option value="adaptive">⚡ Adaptiv an Skill-Level</option><option value="easy">Leicht (Grundlagen)</option><option value="medium">Mittel (Facharbeiter)</option><option value="hard">Schwer (Meister/Techniker)</option></select></div><button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue Aufgabe Generieren</button></div><div id="quiz-screen"><div class="quiz-top"><div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div><div style="display:flex;gap:10px;"><div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">00:00</span></div><div class="progress-pill" id="progress-box">📈 <span id="progress-text">0 / 0</span></div></div></div><div class="question-box" id="question-box">Starte einen Modus, um Fragen zu erhalten.</div><div class="symbol-container hidden" id="symbol-container"><svg id="symbol-svg" viewBox="0 0 240 180"></svg></div><div class="options-grid" id="options-grid"></div><div class="explanation-box" id="explanation-box"></div><div class="ai-tutor-box" id="ai-tutor-box"><div class="ai-tutor-header">✨ KI Tutor</div><div id="ai-tutor-text"></div></div><button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button></div></div></div>
-        <div id="learn-mode" class="content-area"><div class="glass-card article-view"><h2>Lernbereich</h2><div class="article-desc">Nachschlagewerk, Rechner und Schaltsymbole.</div><input class="search-bar" id="search-input" placeholder="Suche nach Thema, Symbol oder Norm ..." oninput="filterLearnTopics()"><div class="topics-grid" id="topics-grid"></div><div class="calc-grid"><div class="calc-box"><h3>Ohm-Rechner</h3><div class="input-field"><label>Spannung in V</label><input id="ohm-u" type="number" placeholder="230"></div><div class="input-field"><label>Widerstand in Ω</label><input id="ohm-r" type="number" placeholder="46"></div><button class="small-btn" onclick="calcOhm()">Berechnen</button><div class="calc-result" id="ohm-result">I = ? A</div></div><div class="calc-box"><h3>Leistungsrechner</h3><div class="input-field"><label>Spannung in V</label><input id="p-u" type="number" placeholder="230"></div><div class="input-field"><label>Strom in A</label><input id="p-i" type="number" placeholder="10"></div><button class="small-btn" onclick="calcPower()">Berechnen</button><div class="calc-result" id="p-result">P = ? W</div></div></div></div></div>
-        <div id="schemas-mode" class="content-area"><div class="glass-card"><h2>Schaltsymbole & Pläne</h2><div class="symbol-gallery" id="symbol-gallery"></div></div></div>
-        <div id="vs-mode" class="content-area"><div class="glass-card"><h2>Vs Modus</h2><p style="color:var(--text-muted);margin:8px 0 18px;">Lade Freunde ein, vergleiche Scores und spiele im Duellmodus.</p><div class="auth-grid"><div class="auth-card"><h3>Freunde einladen</h3><input class="text-input" id="friend-name" placeholder="Name des Freundes"><button class="small-btn" onclick="inviteFriend()">Einladung erstellen</button><div id="invite-result" class="profile-badge" style="display:none;">Einladung bereit</div></div><div class="auth-card"><h3>Vs Start</h3><p>Erstelle ein Duell mit gespeicherten Nutzern oder Gästen.</p><button class="small-btn secondary" onclick="startVSGame()">Vs Spiel starten</button></div><div class="auth-card"><h3>Duellübersicht</h3><div id="vs-summary" class="profile-line"><span>Freunde</span><span>0</span></div><div class="profile-line"><span>Dein Score</span><span id="vs-score">0</span></div><div class="profile-line"><span>Gegner</span><span id="vs-opponent">—</span></div></div></div></div></div>
-        <div id="profile-mode" class="content-area"><div class="glass-card"><h2>Profil</h2><div class="auth-grid"><div class="auth-card"><h3>Aktueller Nutzer</h3><div class="profile-line"><span>Name</span><span id="profile-name">—</span></div><div class="profile-line"><span>ID</span><span id="profile-id">—</span></div><div class="profile-line"><span>Modus</span><span id="profile-mode-label">—</span></div><div class="profile-line"><span>Typ</span><span id="profile-type">—</span></div></div><div class="auth-card"><h3>Gespeicherte Daten</h3><div class="profile-line"><span>Fragen</span><span id="profile-questions">0</span></div><div class="profile-line"><span>Highscore</span><span id="profile-highscore">0</span></div><div class="profile-line"><span>Level</span><span id="profile-level">1</span></div><div class="profile-line"><span>XP</span><span id="profile-xp">0</span></div></div><div class="auth-card"><h3>Einstellungen</h3><button class="small-btn ghost" onclick="exportUserData()">Daten exportieren</button><button class="small-btn secondary" onclick="resetSession()">Abmelden</button></div></div></div></div>
+
+        <!-- Erfolgs-Badges -->
+        <div class="achievements-bar">
+            <div class="badge-item" id="badge-1">⚡ Einsteiger</div>
+            <div class="badge-item" id="badge-2">🔥 10 Richtige</div>
+            <div class="badge-item" id="badge-3">🧠 Meister-Mind</div>
+            <div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div>
+        </div>
+
+        <!-- Welcome View -->
+        <div id="welcome-screen" class="glass-card welcome-card">
+            <h2>Wähle deinen Modus</h2>
+            <p style="color: var(--text-muted); margin-top: 10px; font-size: 1.05rem;">Bereite dich optimal auf Prüfungs- und Praxissituationen vor.</p>
+
+            <div class="menu-options">
+                <div class="menu-option" onclick="startMode('quiz')">
+                    <div class="menu-icon">📝</div>
+                    <div class="menu-title">Standard Quiz</div>
+                    <div class="menu-description">Praxisnahe Fachfragen nach ÖVE/DIN Standards.</div>
+                </div>
+                <div class="menu-option" onclick="startMode('schemas')">
+                    <div class="menu-icon">📐</div>
+                    <div class="menu-title">Schaltsymbole & Pläne</div>
+                    <div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div>
+                </div>
+                <div class="menu-option" onclick="startMode('ai')">
+                    <div class="menu-icon">✨</div>
+                    <div class="menu-title">Experten Modus</div>
+                    <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem Tutor.</div>
+                </div>
+                <div class="menu-option vs-card" onclick="startMode('vs')">
+                    <div class="menu-icon" style="background:rgba(245, 158, 11, 0.15); border-color:var(--vs-color);">⚔️</div>
+                    <div class="menu-title" style="color:var(--vs-color);">VS Modus (1v1)</div>
+                    <div class="menu-description">Fordere KI oder Freunde mit deiner User-ID heraus!</div>
+                </div>
+                <div class="menu-option" onclick="startMode('learn')">
+                    <div class="menu-icon">📚</div>
+                    <div class="menu-title">Lernbereich</div>
+                    <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
+                </div>
+                <div class="menu-option" onclick="openProfileModal()">
+                    <div class="menu-icon">👤</div>
+                    <div class="menu-title">Mein Profil</div>
+                    <div class="menu-description">User-ID verwalten, Level & Freunde einsehen.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div id="mode-nav-area" style="display: none;">
+            <div class="mode-nav">
+                <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
+                <div class="mode-toggle">
+                    <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
+                    <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
+                    <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button>
+                    <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS Modus</button>
+                    <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Area -->
+        <div id="quiz-mode" class="content-area">
+            <div class="glass-card">
+                <div id="ai-config" class="ai-config-panel" style="display: none;">
+                    <div class="config-group">
+                        <label>Themenbereich (Fokussiert)</label>
+                        <select id="ai-topic-select" class="config-select">
+                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
+                            <option value="ohm">Ohmsches Gesetz & Leistung</option>
+                            <option value="motor">Drehstrom & Asynchronmotor</option>
+                            <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
+                            <option value="cables">Leitungsbemessung & Zonen</option>
+                            <option value="ip">IP-Schutzarten & Betriebsmittel</option>
+                            <option value="random">🎲 Alle Themen mischen (Adaptiv)</option>
+                        </select>
+                    </div>
+                    <div class="config-group">
+                        <label>Schwierigkeit</label>
+                        <select id="ai-diff-select" class="config-select">
+                            <option value="adaptive">⚡ Adaptiv an Skill-Level</option>
+                            <option value="easy">Leicht (Grundlagen)</option>
+                            <option value="medium">Mittel (Facharbeiter)</option>
+                            <option value="hard">Schwer (Meister/Techniker)</option>
+                        </select>
+                    </div>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue Aufgabe Generieren</button>
+                </div>
+
+                <div id="quiz-screen">
+                    <div class="quiz-top">
+                        <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">30</span>s</div>
+                            <div class="progress-pill" id="progress">Frage 1 / 10</div>
+                        </div>
+                    </div>
+
+                    <div id="question-content">
+                        <div class="question-box" id="question">Frage wird geladen...</div>
+                        <div class="symbol-container" id="symbol-display" style="display: none;"></div>
+                        <div class="options-grid" id="options"></div>
+                        <div class="explanation-box" id="explanation"></div>
+                        
+                        <!-- Experten Tutor Erklärungsbox für Experten Modus -->
+                        <div class="ai-tutor-box" id="ai-tutor-box">
+                            <div class="ai-tutor-header">💡 KI-Experten-Analyse</div>
+                            <div id="ai-tutor-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></div>
+                        </div>
+
+                        <button class="btn-action" id="next-btn" onclick="nextQuestion()">Nächste Frage</button>
+                    </div>
+                </div>
+
+                <div class="result-box" id="result-screen" style="text-align: center; padding: 40px 0; display: none;">
+                    <h2>Quiz Abgeschlossen!</h2>
+                    <div style="font-size: 5rem; font-weight: 800; color: var(--primary); margin: 20px 0; font-family: var(--font-code); text-shadow: 0 0 30px var(--primary-glow);" id="score">0 / 10</div>
+                    <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 1.1rem;" id="feedback">Ergebnis ausgewertet.</p>
+                    <button class="btn-action show" onclick="restartQuiz()" style="max-width: 320px; margin: 0 auto;">Neuer Versuch</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VS Mode Area (1v1 Challenge) -->
+        <div id="vs-mode" class="content-area">
+            <div class="glass-card">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <h2 style="color:var(--vs-color); font-size:2rem;">⚔️ VS Duell Modus</h2>
+                    <p style="color:var(--text-muted);">Tritt in Echtzeit gegen Bot-Gegner oder deine Freunde an!</p>
+                </div>
+
+                <!-- Invite Actions -->
+                <div style="display:flex; justify-content:center; gap:16px; margin-bottom: 28px; flex-wrap:wrap;">
+                    <button class="ai-btn-action" style="background:linear-gradient(135deg, var(--vs-color), #d97706);" onclick="startVSMatch('bot')">🤖 Gegen KI Bot antreten</button>
+                    <button class="ai-btn-action" style="background:linear-gradient(135deg, var(--primary), var(--secondary));" onclick="inviteFriendVS()">📩 Freund einladen (User-ID)</button>
+                </div>
+
+                <div id="vs-arena-box" class="vs-arena" style="display:none;">
+                    <div class="vs-player-card">
+                        <div class="vs-badge-tag">Du</div>
+                        <div class="vs-player-name" id="vs-p1-name">Spieler 1</div>
+                        <div class="vs-player-score" id="vs-p1-score">0</div>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="vs-player-card">
+                        <div class="vs-badge-tag">Gegner</div>
+                        <div class="vs-player-name" id="vs-p2-name">Elektro-Bot</div>
+                        <div class="vs-player-score" id="vs-p2-score">0</div>
+                    </div>
+                </div>
+
+                <!-- VS Question Container -->
+                <div id="vs-question-area" style="display:none;">
+                    <div class="question-box" id="vs-question-text">Gegner wird gesucht...</div>
+                    <div class="options-grid" id="vs-options"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Area -->
+        <div id="learn-mode" class="content-area">
+            <div class="glass-card">
+                <div id="topics-view">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. RCD, Taster, Netze, Schalter, PV)..." oninput="filterTopics()">
+                    
+                    <div class="topics-grid" id="topics-container"></div>
+
+                    <h2 style="margin: 56px 0 24px 0; color: var(--primary); font-size: 2rem; letter-spacing: -0.5px;">🧮 Profi-Rechner</h2>
+                    <div class="calc-grid">
+                        
+                        <!-- Ohmsches Gesetz -->
+                        <div class="calc-box">
+                            <h3>Ohmsches Gesetz (U, I, R)</h3>
+                            <div class="input-field">
+                                <label>Spannung U (Volt)</label>
+                                <input type="number" id="calc-u" value="230" oninput="calculateOhm()">
+                            </div>
+                            <div class="input-field">
+                                <label>Widerstand R (Ohm)</label>
+                                <input type="number" id="calc-r" value="10" oninput="calculateOhm()">
+                            </div>
+                            <div class="calc-result" id="calc-ohm-res">Strom I = 23.00 A</div>
+                        </div>
+
+                        <!-- Drehstrom Leistung -->
+                        <div class="calc-box">
+                            <h3>Drehstrom-Leistung (P)</h3>
+                            <div class="input-field">
+                                <label>Strom I (Ampere)</label>
+                                <input type="number" id="calc-i3" value="16" oninput="calculate3Phase()">
+                            </div>
+                            <div class="input-field">
+                                <label>Cos φ (Leistungsfaktor)</label>
+                                <input type="number" id="calc-cos" value="0.85" step="0.05" oninput="calculate3Phase()">
+                            </div>
+                            <div class="calc-result" id="calc-3p-res">Leistung P = 9.42 kW</div>
+                        </div>
+
+                        <!-- Spannungsfall -->
+                        <div class="calc-box">
+                            <h3>Spannungsfall (ΔU) - 1-phasig</h3>
+                            <div class="input-field">
+                                <label>Länge l (m, einfach)</label>
+                                <input type="number" id="calc-len" value="25" oninput="calculateVoltageDrop()">
+                            </div>
+                            <div class="input-field">
+                                <label>Strom I (Ampere)</label>
+                                <input type="number" id="calc-i-drop" value="16" oninput="calculateVoltageDrop()">
+                            </div>
+                            <div class="input-field">
+                                <label>Querschnitt A (mm² Cu)</label>
+                                <select id="calc-q" onchange="calculateVoltageDrop()">
+                                    <option value="1.5">1.5 mm²</option>
+                                    <option value="2.5" selected>2.5 mm²</option>
+                                    <option value="4">4.0 mm²</option>
+                                    <option value="6">6.0 mm²</option>
+                                    <option value="10">10.0 mm²</option>
+                                </select>
+                            </div>
+                            <div class="calc-result" id="calc-drop-res">ΔU = 5.23 V (2.27%)</div>
+                        </div>
+
+                        <!-- Leitungsquerschnitt Berechnung -->
+                        <div class="calc-box">
+                            <h3>Mindestquerschnitt (A) berechnen</h3>
+                            <div class="input-field">
+                                <label>Länge l (m)</label>
+                                <input type="number" id="calc-q-len" value="30" oninput="calculateCrossSection()">
+                            </div>
+                            <div class="input-field">
+                                <label>Max. Strom I (A)</label>
+                                <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
+                            </div>
+                            <div class="input-field">
+                                <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
+                                <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
+                            </div>
+                            <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="content-view" style="display: none;" class="article-view">
+                    <button class="nav-btn" onclick="backToTopics()" style="margin-bottom: 28px;">← Zurück zur Übersicht</button>
+                    <div id="content-container"></div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<script>
-const LS_USERS='ep_users_v1';const LS_SESSION='ep_session_v1';const LS_APP='ep_app_v1';let currentUser=null,currentMode='quiz',allData=[];
-function uid(){return 'EP-'+Math.random().toString(36).slice(2,8).toUpperCase()+'-'+Date.now().toString().slice(-5)}
-function loadUsers(){return JSON.parse(localStorage.getItem(LS_USERS)||'[]')}
-function saveUsers(u){localStorage.setItem(LS_USERS,JSON.stringify(u))}
-function saveSession(){if(currentUser)localStorage.setItem(LS_SESSION,JSON.stringify(currentUser))}
-function loadSession(){try{return JSON.parse(localStorage.getItem(LS_SESSION)||'null')}catch(e){return null}}
-function setPreview(){const p=document.getElementById('current-user-preview');if(!currentUser){p.style.display='none';return}p.style.display='inline-flex';p.textContent=(currentUser.name||'Gast')+' · '+currentUser.id;document.getElementById('preview-id').textContent=currentUser.id||'—';document.getElementById('preview-profile').textContent=currentUser.type||'—';document.getElementById('logged-in-pill').textContent=(currentUser.type==='guest'?'Gastmodus':'Angemeldet')+' · '+currentUser.name;document.getElementById('profile-name').textContent=currentUser.name||'—';document.getElementById('profile-id').textContent=currentUser.id||'—';document.getElementById('profile-mode-label').textContent=currentMode;document.getElementById('profile-type').textContent=currentUser.type||'—';document.getElementById('profile-questions').textContent=currentUser.stats?.completed||0;document.getElementById('profile-highscore').textContent=currentUser.stats?.highscore||0;document.getElementById('profile-level').textContent=currentUser.stats?.level||1;document.getElementById('profile-xp').textContent=currentUser.stats?.xp||0}
-function initUser(obj){currentUser=obj;currentUser.stats=currentUser.stats||{completed:0,highscore:0,level:1,score:0,xp:0,streak:0};currentUser.friends=currentUser.friends||[];currentUser.settings=currentUser.settings||{ai:'adaptive'};saveSession();setPreview();syncUI();showApp()}
-function registerUser(){const name=document.getElementById('reg-name').value.trim();const mail=document.getElementById('reg-mail').value.trim();const pass=document.getElementById('reg-pass').value.trim();if(!name||!mail||!pass)return alert('Bitte alle Felder ausfüllen.');const users=loadUsers();if(users.some(u=>u.mail===mail))return alert('E-Mail bereits registriert.');const u={id:uid(),name,mail,pass,type:'user',stats:{completed:0,highscore:0,level:1,score:0,xp:0,streak:0},friends:[],settings:{ai:'adaptive'},createdAt:new Date().toISOString()};users.push(u);saveUsers(users);initUser(u)}
-function loginUser(){const l=document.getElementById('login-user').value.trim();const p=document.getElementById('login-pass').value.trim();const u=loadUsers().find(x=>x.mail===l||x.name===l);if(!u||u.pass!==p)return alert('Login fehlgeschlagen.');initUser(u)}
-function startGuest(){initUser({id:uid(),name:'Gast',mail:'',pass:'',type:'guest',stats:{completed:0,highscore:0,level:1,score:0,xp:0,streak:0},friends:[],settings:{ai:'adaptive'}})}
-function showApp(){document.getElementById('auth-screen').classList.add('hidden');document.getElementById('main-app').classList.remove('hidden');backToWelcome();setPreview();renderAll()}
-function syncUI(){document.getElementById('stat-score').textContent=(currentUser.stats.score||0)+'%';document.getElementById('stat-completed').textContent=currentUser.stats.completed||0;document.getElementById('stat-level').textContent='Lvl '+(currentUser.stats.level||1);document.getElementById('stat-high').textContent=currentUser.stats.highscore||0;document.getElementById('xp-label').textContent='XP: '+(currentUser.stats.xp||0)+' / 100 zum nächsten Level';document.getElementById('streak-label').textContent='🔥 Streak: '+(currentUser.stats.streak||0)+' richtig in Folge';document.getElementById('xp-progress-fill').style.width=((currentUser.stats.xp||0)%100)+'%';document.getElementById('profile-mode-label').textContent=currentMode}
-function toggleDetailedStats(){const p=document.getElementById('detailed-stats-panel');p.style.display=p.style.display==='none'?'block':'none'}
-function backToWelcome(){document.querySelectorAll('.content-area').forEach(a=>a.classList.remove('active'));document.getElementById('mode-nav-area').style.display='none';document.getElementById('welcome-screen').style.display='block';document.getElementById('ai-config').style.display='none'}
-function startMode(m){currentMode=m;document.getElementById('welcome-screen').style.display='none';document.getElementById('mode-nav-area').style.display='block';document.querySelectorAll('.content-area').forEach(a=>a.classList.remove('active'));document.getElementById(m+'-mode')?.classList.add('active');document.getElementById('quiz-mode').classList.add('active');document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));document.getElementById('toggle-'+m)?.classList.add('active');document.getElementById('ai-config').style.display=m==='ai'?'grid':'none';if(m==='profile')setPreview();if(m==='vs')renderVS();if(m==='learn')renderLearn();if(m==='schemas')renderSymbols();syncUI();renderQuestion()}
-function switchMode(m){startMode(m)}
-function renderQuestion(){const q=document.getElementById('question-box');const o=document.getElementById('options-grid');const e=document.getElementById('explanation-box');const a=document.getElementById('ai-tutor-box');q.textContent='Demo Frage: Welche Schutzmaßnahme ist bei Stromkreisen besonders wichtig?';o.innerHTML=['RCD / FI-Schutzschalter','Nur Sicherung','Nur Kabelkanal','Keine Maßnahme nötig'].map(t=>'<button class="option-card" onclick="chooseAnswer(this, '+(t==='RCD / FI-Schutzschalter')+')">'+t+'</button>').join('');e.classList.remove('show');a.classList.remove('show');document.getElementById('next-btn').classList.add('show')}
-function chooseAnswer(el,correct){document.querySelectorAll('.option-card').forEach(x=>x.disabled=true);el.classList.add(correct?'correct':'incorrect');document.getElementById('explanation-box').textContent=correct?'Richtig. Der RCD ist eine zentrale Schutzmaßnahme.':'Nicht ganz. Der RCD erhöht die Sicherheit deutlich.';document.getElementById('explanation-box').classList.add('show');document.getElementById('ai-tutor-box').innerHTML='<div class="ai-tutor-header">✨ KI Tutor</div><div>Merke: Schutzmaßnahmen immer passend zur Anwendung und Norm auswählen.</div>';document.getElementById('ai-tutor-box').classList.add('show');currentUser.stats.completed=(currentUser.stats.completed||0)+1;currentUser.stats.score=correct?100:Math.max(0,(currentUser.stats.score||0)-5);currentUser.stats.xp=(currentUser.stats.xp||0)+(correct?20:5);currentUser.stats.level=Math.floor((currentUser.stats.xp||0)/100)+1;currentUser.stats.highscore=Math.max(currentUser.stats.highscore||0,currentUser.stats.completed||0);currentUser.stats.streak=correct?(currentUser.stats.streak||0)+1:0;persistCurrent();syncUI()}
-function nextQuestion(){renderQuestion()}
-function generateCustomAIQuestion(){renderQuestion()}
-function persistCurrent(){if(!currentUser)return;const users=loadUsers();const idx=users.findIndex(u=>u.id===currentUser.id);if(idx>-1&&currentUser.type!=='guest'){users[idx]=currentUser;saveUsers(users)}localStorage.setItem(LS_APP,JSON.stringify({lastMode:currentMode,ts:new Date().toISOString()}));saveSession()}
-function filterLearnTopics(){const q=(document.getElementById('search-input').value||'').toLowerCase();renderLearn(q)}
-function renderLearn(filter=''){const grid=document.getElementById('topics-grid')||document.createElement('div');grid.id='topics-grid';grid.className='topics-grid';const topics=[{t:'RCD / FI-Schutzschalter',d:'Fehlerstromschutz und Auslösung.'},{t:'Drehstrom',d:'Grundlagen, Phasen und Motorschaltung.'},{t:'Leitungsdimensionierung',d:'Querschnitt, Verlegeart und Belastbarkeit.'},{t:'IP-Schutzarten',d:'Schutz gegen Fremdkörper und Wasser.'},{t:'Schaltsymbole',d:'Zeichen und Darstellung in Plänen.'},{t:'Lichtschaltung',d:'Ausschalter, Wechselschaltung, Kreuzschaltung.'}].filter(x=>!filter||x.t.toLowerCase().includes(filter)||x.d.toLowerCase().includes(filter));grid.innerHTML=topics.map(x=>`<div class="topic-card"><div class="topic-icon-box">⚡</div><h3>${x.t}</h3><p>${x.d}</p></div>`).join('');const parent=document.querySelector('#learn-mode .glass-card');if(!document.getElementById('topics-grid'))parent.insertBefore(grid,parent.querySelector('.calc-grid'))}
-function calcOhm(){const u=parseFloat(document.getElementById('ohm-u').value)||0;const r=parseFloat(document.getElementById('ohm-r').value)||0;document.getElementById('ohm-result').textContent=r?('I = '+(u/r).toFixed(2)+' A'):'Bitte Werte eingeben.'}
-function calcPower(){const u=parseFloat(document.getElementById('p-u').value)||0;const i=parseFloat(document.getElementById('p-i').value)||0;document.getElementById('p-result').textContent='P = '+(u*i).toFixed(2)+' W'}
-function renderSymbols(){const g=document.getElementById('symbol-gallery');if(!g)return;g.innerHTML=['Schalter','Lampe','Sicherung','RCD','Motor','Taster'].map(n=>`<div class="symbol-card"><svg viewBox="0 0 120 80"><path d="M15 40h30M45 40l15-20 15 20M75 40h30"/></svg><h4>${n}</h4><p>Standard-Symbol in der Lernübersicht.</p></div>`).join('')}
-function inviteFriend(){const n=document.getElementById('friend-name').value.trim();if(!n)return alert('Freundename eingeben.');currentUser.friends=currentUser.friends||[];currentUser.friends.push({name:n,invite:'INV-'+uid()});persistCurrent();const r=document.getElementById('invite-result');r.style.display='inline-flex';r.textContent='Einladung für '+n+' erstellt';renderVS()}
-function startVSGame(){const s=document.getElementById('vs-score');if(s)s.textContent=String(currentUser.stats.highscore||0)}
-function renderVS(){const s=document.getElementById('vs-summary');if(s)s.innerHTML='<span>Freunde</span><span>'+(currentUser.friends?.length||0)+'</span>';const o=document.getElementById('vs-opponent');if(o)o.textContent=currentUser.friends?.[0]?.name||'—';const sc=document.getElementById('vs-score');if(sc)sc.textContent=String(currentUser.stats.highscore||0)}
-function exportUserData(){const blob=new Blob([JSON.stringify(currentUser,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elektriker-plus-user.json';a.click()}
-function resetSession(){localStorage.removeItem(LS_SESSION);currentUser=null;location.reload()}
-function renderAll(){renderLearn();renderSymbols();renderVS();syncUI()}
-document.addEventListener('DOMContentLoaded',()=>{const s=loadSession();if(s){initUser(s)}else{setPreview()}})
-window.addEventListener('beforeunload',persistCurrent);
-</script>
+
+    <script>
+        // User & Database Persistence Engine
+        let usersDB = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
+        let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
+
+        let stats = { 
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
+        };
+
+        let currentMode = 'quiz';
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let timerInterval = null;
+        let timeLeft = 30;
+
+        // VS Mode State
+        let vsActive = false;
+        let vsScoreP1 = 0;
+        let vsScoreP2 = 0;
+        let vsRound = 0;
+
+        // SVG Symbol Library
+        const svgSymbols = {
+            switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
+            switch_changeover: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="15" x2="90" y2="15"/><line x1="65" y1="45" x2="90" y2="45"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="15" r="3" fill="#06b6d4"/><circle cx="65" cy="45" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="17"/></svg>`,
+            switch_cross: `<svg viewBox="0 0 100 60"><line x1="10" y1="18" x2="35" y2="18"/><line x1="10" y1="42" x2="35" y2="42"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="18" r="3" fill="#06b6d4"/><circle cx="35" cy="42" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="18" x2="62" y2="40"/><line x1="35" y1="42" x2="62" y2="20"/></svg>`,
+            switch_series: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="12"/><line x1="35" y1="30" x2="62" y2="36"/></svg>`,
+            switch_2pole: `<svg viewBox="0 0 100 60"><line x1="10" y1="18" x2="35" y2="18"/><line x1="10" y1="42" x2="35" y2="42"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="18" r="3" fill="#06b6d4"/><circle cx="35" cy="42" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="18" x2="62" y2="8"/><line x1="35" y1="42" x2="62" y2="32"/><line x1="48" y1="13" x2="48" y2="37" stroke-dasharray="2,2"/></svg>`,
+            push_button: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30" stroke-dasharray="2,2"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            push_button_nc: `<svg viewBox="0 0 100 60"><line x1="10" y1="20" x2="35" y2="20"/><line x1="65" y1="40" x2="90" y2="40"/><circle cx="35" cy="20" r="3" fill="#06b6d4"/><circle cx="65" cy="40" r="3" fill="#06b6d4"/><line x1="35" y1="20" x2="65" y2="40"/><line x1="50" y1="10" x2="50" y2="30" stroke-dasharray="2,2"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            lamp: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><circle cx="50" cy="30" r="20"/><line x1="36" y1="16" x2="64" y2="44"/><line x1="36" y1="44" x2="64" y2="16"/></svg>`,
+            resistor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
+            capacitor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="45" y2="30"/><line x1="55" y1="30" x2="90" y2="30"/><line x1="45" y1="12" x2="45" y2="48"/><line x1="55" y1="12" x2="55" y2="48"/></svg>`,
+            diode: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><polygon points="35,15 35,45 65,30"/><line x1="65" y1="15" x2="65" y2="45"/></svg>`,
+            transformer: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="40" cy="30" r="15"/><circle cx="60" cy="30" r="15"/></svg>`,
+            rcd: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><path d="M 35 30 Q 42 20 50 30 T 65 30"/><line x1="50" y1="15" x2="50" y2="20"/><text x="50" y="44" font-size="10" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">IΔn</text></svg>`,
+            fuse: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
+            ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
+        };
+
+        // Learning Content Data Structure
+        const learningContent = {
+            symbols_overview: {
+                title: "Schaltsymbole Kartei",
+                icon: "📐",
+                description: "Normsymbole nach DIN EN 60617 / IEC 60617 im Überblick",
+                content: `
+                    <h2>Übersicht der wichtigsten Schaltsymbole</h2>
+                    <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
+                    <div class="symbol-gallery">
+                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Ausschalter (1-polig)</h4><p>Mechanischer Ein-/Ausschalter</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_2pole}<h4>2-poliger Schalter</h4><p>Trennt L und N gleichzeitig</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_changeover}<h4>Wechselschalter</h4><p>Schaltet zwischen 2 Wegen</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_cross}<h4>Kreuzschalter</h4><p>Verkreuzt 2 Korrespondierende</p></div>
+                        <div class="symbol-card">${svgSymbols.switch_series}<h4>Serienschalter</h4><p>Zwei unabhängige Wippen</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt bei Betätigung</p></div>
+                        <div class="symbol-card">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Öffnet bei Betätigung</p></div>
+                        <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
+                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmscher Widerstand</p></div>
+                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitives Bauelement</p></div>
+                        <div class="symbol-card">${svgSymbols.diode}<h4>Diode</h4><p>Halbleiter-Bauelement</p></div>
+                        <div class="symbol-card">${svgSymbols.transformer}<h4>Transformator</h4><p>Spannungswandler</p></div>
+                        <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
+                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
+                        <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
+                    </div>
+                `
+            },
+            schalter_taster: {
+                title: "Schalter & Taster in Schaltplänen",
+                icon: "🔘",
+                description: "Aus-, Wechsel-, Kreuz-, Serien- & Tasterstromstoßschaltung",
+                content: `
+                    <h2>Schalter und Taster in der Praxis</h2>
+                    <p class="article-desc">Unterschiede zwischen dauerhaften Schaltvorgängen und Momentkontakten.</p>
+                    <div class="article-section">
+                        <h3>Schaltertypen im Detail</h3>
+                        <p><strong>Ausschalter (1-polig):</strong> Unterbricht oder schließt einen einzelnen Außenleiter (L1).</p>
+                        <p><strong>2-poliger Schalter:</strong> Unterbricht allpolig (L1 und N) für erhöhte Sicherheit (z. B. im Bad oder im Außenbereich).</p>
+                        <p><strong>Wechselschalter:</strong> Leitet den Strom wahlweise auf einen von zwei Ausgängen um. Ermöglicht das Schalten einer Leuchte von zwei verschiedenen Stellen aus.</p>
+                        <p><strong>Kreuzschalter:</strong> Wird zwischen zwei Wechselschaltern platziert. Ermöglicht die Erweiterung auf beliebig viele Schaltstellen (3 oder mehr Ortsschaltungen).</p>
+                        <p><strong>Serienschalter:</strong> Beinhaltet zwei separat zu betätigende Schalterwippen in einem einzigen Gehäuse (z. B. zum getrennten Schalten zweier Lampengruppen).</p>
+                    </div>
+                    <div class="article-section">
+                        <h3>Taster & Stromstoßschaltung</h3>
+                        <p>Ein <strong>Taster (Schließer)</strong> gibt den Kontakt nur während des manuellen Drückens frei (Federkraft holt ihn zurück). Ein <strong>Öffner-Taster</strong> unterbricht bei Druck den Kontakt (z. B. Aus-Taster bei Relaisschaltungen). Für Flurbeleuchtungen mit vielen Betätigungsstellen nutzt man eine <b>Stromstoßschaltung (Relais/Eltako)</b>, die bei jedem elektrischen Impuls den Schaltzustand (EIN/AUS) dauerhaft wechselt.</p>
+                    </div>
+                `
+            },
+            rcd_details: {
+                title: "RCD (FI-Schalter) Schaltplan, Funktion & Typen",
+                icon: "⚙️",
+                description: "Detaillierter Stromlaufplan eines RCD, Aufbau, Funktion & Typen A, B, F",
+                content: `
+                    <h2>Fehlerstromschutzschalter (RCD) - Schaltplan & Funktionsweise</h2>
+                    <p class="article-desc">Der Summenstromwandler als Herzstück des Personenschutzes inklusive detailliertem Verdrahtungs- und Funktionsschaltplan.</p>
+                    <div class="article-section">
+                        <h3>Aufbau & Typenübersicht</h3>
+                        <p>Der RCD misst die Summe aller hin- und abfließenden Ströme über einen Summenstromwandler. Im fehlerfreien Zustand ist die Summe null. Fließt Strom über den Körper zur Erde ab (Fehlerstrom), entsteht eine Differenz, die den RCD in Bruchteilen von Sekunden auslöst.</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>RCD-Typ</th><th>Auslösung bei...</th><th>Einsatzbereich</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Typ A</strong></td><td>Wechsel- und pulsierende Gleichfehlerströme</td><td>Standard im Wohnbau (Steckdosen, Licht)</td></tr>
+                                <tr><td><strong>Typ F</strong></td><td>Wie Typ A + Mischfrequenzen (bis 1kHz)</td><td>Waschmaschinen, moderne Inverter-Pumpen</td></tr>
+                                <tr><td><strong>Typ B / B+</strong></td><td>Allstromsensitiv (glatte Gleichfehlerströme)</td><td>Wallboxen (E-Mobilität), Photovoltaik-Wechselrichter</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            netzsysteme: {
+                title: "Netzsysteme & Netzpläne (TN, TT, IT)",
+                icon: "🏢",
+                description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. hochauflösender, farbkodierter Schaltpläne",
+                content: `
+                    <h2>Netzformen nach IEC 60364 / DIN VDE 0100-300</h2>
+                    <p class="article-desc">TN-S, TN-C-S, TT und IT Netze im Überblick.</p>
+                    <div class="article-section">
+                        <h3>TN-S-System</h3>
+                        <p>Neutralleiter (N) und Schutzleiter (PE) sind im gesamten System getrennt geführt. Garantiert höchste EMV-Verträglichkeit.</p>
+                    </div>
+                `
+            }
+        };
+
+        // Quiz Question Pool
+        const quizQuestions = [
+            {
+                q: "Welches Schaltsymbol stellt einen Kreuzschalter nach DIN EN 60617 dar?",
+                symbol: "switch_cross",
+                options: ["Wechselschalter", "Kreuzschalter", "Serienschalter", "Ausschalter"],
+                answer: 1,
+                exp: "Das Symbol zeigt 4 Anschlüsse und zwei sich überkreuzende Schaltlinien.",
+                topic: "symbols"
+            },
+            {
+                q: "Welche Spannung U stellt sich ein bei I = 5A und R = 46 Ohm?",
+                options: ["110 V", "230 V", "400 V", "24 V"],
+                answer: 1,
+                exp: "Nach dem Ohmsche Gesetz gilt: U = I * R = 5 A * 46 Ohm = 230 V.",
+                topic: "ohm"
+            },
+            {
+                q: "Welcher RCD-Typ ist für Ladestationen (Wallboxen) für E-Autos gefordert?",
+                symbol: "rcd",
+                options: ["Typ AC", "Typ A", "Typ B (oder Typ A mit DC-Erkennung)", "Typ F"],
+                answer: 2,
+                exp: "Aufgrund möglicher glatter Gleichfehlerströme beim Laden ist Typ B oder eine 6mA DC-Überwachung Pflicht.",
+                topic: "protection"
+            }
+        ];
+
+        // Auth Logic & User ID Generator
+        function generateUserId() {
+            return 'ELPLUS-' + Math.floor(100000 + Math.random() * 900000);
+        }
+
+        function initApp() {
+            if (!currentUser) {
+                document.getElementById('auth-screen').style.display = 'flex';
+            } else {
+                document.getElementById('auth-screen').style.display = 'none';
+                loadUserData();
+            }
+            renderTopics();
+            updateDashboardUI();
+        }
+
+        function switchAuthTab(tab) {
+            if (tab === 'login') {
+                document.getElementById('tab-login').classList.add('active');
+                document.getElementById('tab-register').classList.remove('active');
+                document.getElementById('form-login').style.display = 'flex';
+                document.getElementById('form-register').style.display = 'none';
+            } else {
+                document.getElementById('tab-register').classList.add('active');
+                document.getElementById('tab-login').classList.remove('active');
+                document.getElementById('form-register').style.display = 'flex';
+                document.getElementById('form-login').style.display = 'none';
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const pass = document.getElementById('reg-password').value;
+            if (!username) return;
+
+            const userId = generateUserId();
+            currentUser = {
+                id: userId,
+                username: username,
+                password: pass,
+                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 },
+                friends: []
+            };
+            usersDB[userId] = currentUser;
+            saveState();
+            document.getElementById('auth-screen').style.display = 'none';
+            loadUserData();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const foundUser = Object.values(usersDB).find(u => u.username.toLowerCase() === username.toLowerCase());
+            
+            if (foundUser) {
+                currentUser = foundUser;
+                saveState();
+                document.getElementById('auth-screen').style.display = 'none';
+                loadUserData();
+            } else {
+                alert("Benutzer nicht gefunden! Bitte registrieren.");
+            }
+        }
+
+        function continueAsGuest() {
+            const guestId = generateUserId();
+            currentUser = {
+                id: guestId,
+                username: "Gast-" + guestId.slice(-4),
+                stats: { total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0 },
+                friends: []
+            };
+            document.getElementById('auth-screen').style.display = 'none';
+            loadUserData();
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+            stats = currentUser.stats || stats;
+            document.getElementById('header-username').textContent = currentUser.username;
+            document.getElementById('header-userid').textContent = "ID: " + currentUser.id;
+            document.getElementById('header-avatar').textContent = currentUser.username.charAt(0).toUpperCase();
+            updateDashboardUI();
+        }
+
+        function saveState() {
+            if (currentUser && currentUser.id) {
+                currentUser.stats = stats;
+                usersDB[currentUser.id] = currentUser;
+                localStorage.setItem('elek_plus_users', JSON.stringify(usersDB));
+                localStorage.setItem('elek_plus_current_user', JSON.stringify(currentUser));
+            }
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('elek_plus_current_user');
+            closeProfileModal();
+            document.getElementById('auth-screen').style.display = 'flex';
+        }
+
+        // Profile Modal Logic
+        function openProfileModal() {
+            if (!currentUser) return;
+            document.getElementById('modal-username').textContent = currentUser.username;
+            document.getElementById('modal-user-id').textContent = "ID: " + currentUser.id;
+            document.getElementById('modal-avatar').textContent = currentUser.username.charAt(0).toUpperCase();
+            document.getElementById('modal-level').textContent = "Lvl " + stats.level;
+            document.getElementById('modal-xp').textContent = stats.xp + " XP";
+            
+            const friendsBox = document.getElementById('friends-list');
+            if (currentUser.friends && currentUser.friends.length > 0) {
+                friendsBox.innerHTML = currentUser.friends.map(f => `<div style="padding:6px; background:rgba(255,255,255,0.05); margin-bottom:4px; border-radius:8px; font-size:0.85rem;">👤 ${f}</div>`).join('');
+            } else {
+                friendsBox.innerHTML = `<div style="font-size: 0.85rem; color: var(--text-muted);">Keine Freunde hinzugefügt.</div>`;
+            }
+
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        function addFriend() {
+            const friendId = document.getElementById('friend-id-input').value.trim();
+            if (!friendId) return;
+            if (!currentUser.friends) currentUser.friends = [];
+            currentUser.friends.push(friendId);
+            saveState();
+            openProfileModal();
+            alert("Freund mit ID " + friendId + " wurde hinzugefügt!");
+        }
+
+        // VS Mode Logic (1v1)
+        function startVSMatch(type) {
+            vsActive = true;
+            vsScoreP1 = 0;
+            vsScoreP2 = 0;
+            vsRound = 0;
+            
+            document.getElementById('vs-arena-box').style.display = 'grid';
+            document.getElementById('vs-question-area').style.display = 'block';
+            document.getElementById('vs-p1-name').textContent = currentUser ? currentUser.username : "Du";
+            document.getElementById('vs-p2-name').textContent = type === 'bot' ? "Elektro-Bot" : "Freund";
+            
+            loadVSRound();
+        }
+
+        function inviteFriendVS() {
+            const friendId = prompt("Gib die User-ID deines Freundes ein (z.B. ELPLUS-123456):");
+            if (friendId) {
+                alert("Einladung an " + friendId + " gesendet! Match startet...");
+                startVSMatch('friend');
+            }
+        }
+
+        function loadVSRound() {
+            if (vsRound >= 5) {
+                alert(`Match Beendet! Endstand: ${vsScoreP1} - ${vsScoreP2}`);
+                document.getElementById('vs-question-area').style.display = 'none';
+                return;
+            }
+            vsRound++;
+            const q = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+            document.getElementById('vs-question-text').textContent = `[Runde ${vsRound}/5] ` + q.q;
+            
+            const optionsBox = document.getElementById('vs-options');
+            optionsBox.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card';
+                btn.textContent = opt;
+                btn.onclick = () => answerVSRound(idx === q.answer);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function answerVSRound(isCorrect) {
+            if (isCorrect) vsScoreP1 += 100;
+            // Simulated Bot response
+            if (Math.random() > 0.4) vsScoreP2 += 100;
+
+            document.getElementById('vs-p1-score').textContent = vsScoreP1;
+            document.getElementById('vs-p2-score').textContent = vsScoreP2;
+            loadVSRound();
+        }
+
+        // Standard Quiz Engine & Interface Control
+        function startMode(mode) {
+            currentMode = mode;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+
+            if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+                document.getElementById('toggle-learn').classList.add('active');
+            } else if (mode === 'vs') {
+                document.getElementById('vs-mode').classList.add('active');
+                document.getElementById('toggle-vs').classList.add('active');
+            } else {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('toggle-' + mode).classList.add('active');
+                document.getElementById('ai-config').style.display = mode === 'ai' ? 'grid' : 'none';
+                restartQuiz();
+            }
+        }
+
+        function switchMode(mode) { startMode(mode); }
+
+        function backToWelcome() {
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').textContent = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (!answered) nextQuestion();
+                }
+            }, 1000);
+
+            const q = quizQuestions[currentQuestion % quizQuestions.length];
+            document.getElementById('question').textContent = q.q;
+            document.getElementById('progress').textContent = `Frage ${currentQuestion + 1} / 10`;
+
+            const symbolBox = document.getElementById('symbol-display');
+            if (q.symbol && svgSymbols[q.symbol]) {
+                symbolBox.innerHTML = svgSymbols[q.symbol];
+                symbolBox.style.display = 'flex';
+            } else {
+                symbolBox.style.display = 'none';
+            }
+
+            const optionsBox = document.getElementById('options');
+            optionsBox.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card';
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(idx, q.answer, q.exp);
+                optionsBox.appendChild(btn);
+            });
+
+            document.getElementById('explanation').style.display = 'none';
+            document.getElementById('ai-tutor-box').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(idx, correctIdx, exp) {
+            if (answered) return;
+            answered = true;
+            clearInterval(timerInterval);
+
+            const options = document.getElementById('options').children;
+            if (idx === correctIdx) {
+                options[idx].classList.add('correct');
+                score++;
+                stats.correct++;
+                stats.streak++;
+                stats.xp += 15;
+            } else {
+                options[idx].classList.add('incorrect');
+                options[correctIdx].classList.add('correct');
+                stats.streak = 0;
+            }
+
+            stats.total++;
+            if (stats.xp >= 100) {
+                stats.level++;
+                stats.xp -= 100;
+            }
+
+            saveState();
+            updateDashboardUI();
+
+            const expBox = document.getElementById('explanation');
+            expBox.textContent = exp;
+            expBox.style.display = 'block';
+
+            if (currentMode === 'ai') {
+                const tutorBox = document.getElementById('ai-tutor-box');
+                document.getElementById('ai-tutor-text').textContent = `KI-Analyse: ${exp} Beachte stets VDE Schutzvorschriften.`;
+                tutorBox.style.display = 'block';
+            }
+
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= 10) {
+                showResults();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('score').textContent = `${score} / 10`;
+            if (score > stats.highscore) stats.highscore = score;
+            saveState();
+            updateDashboardUI();
+        }
+
+        function updateDashboardUI() {
+            const perc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('stat-score').textContent = `${perc}%`;
+            document.getElementById('stat-completed').textContent = stats.total;
+            document.getElementById('stat-level').textContent = `Lvl ${stats.level}`;
+            document.getElementById('stat-high').textContent = stats.highscore;
+
+            document.getElementById('xp-label').textContent = `XP: ${stats.xp} / 100 zum nächsten Level`;
+            document.getElementById('streak-label').textContent = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = `${stats.xp}%`;
+
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.streak >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
+        }
+
+        function toggleDetailedStats() {
+            const panel = document.getElementById('detailed-stats-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Learning & Topics Rendering
+        function renderTopics() {
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            Object.keys(learningContent).forEach(key => {
+                const topic = learningContent[key];
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => openTopic(key);
+                card.innerHTML = `
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openTopic(key) {
+            document.getElementById('topics-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
+        }
+
+        function backToTopics() {
+            document.getElementById('content-view').style.display = 'none';
+            document.getElementById('topics-view').style.display = 'block';
+        }
+
+        // Calculator Functions
+        function calculateOhm() {
+            const u = parseFloat(document.getElementById('calc-u').value) || 0;
+            const r = parseFloat(document.getElementById('calc-r').value) || 1;
+            document.getElementById('calc-ohm-res').textContent = `Strom I = ${(u / r).toFixed(2)} A`;
+        }
+
+        function calculate3Phase() {
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
+            const p = Math.sqrt(3) * 400 * i * cos;
+            document.getElementById('calc-3p-res').textContent = `Leistung P = ${(p / 1000).toFixed(2)} kW`;
+        }
+
+        function calculateVoltageDrop() {
+            const l = parseFloat(document.getElementById('calc-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const drop = (2 * l * i) / (56 * q);
+            const perc = (drop / 230) * 100;
+            document.getElementById('calc-drop-res').textContent = `ΔU = ${drop.toFixed(2)} V (${perc.toFixed(2)}%)`;
+        }
+
+        function calculateCrossSection() {
+            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            const u = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const q = (2 * l * i) / (56 * u);
+            document.getElementById('calc-q-res').textContent = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+        }
+
+        function generateCustomAIQuestion() {
+            alert("Neue adaptive KI-Aufgabe generiert!");
+            loadQuestion();
+        }
+
+        // Initialize App on load
+        window.onload = initApp;
+    </script>
 </body>
 </html>
