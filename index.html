@@ -91,6 +91,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
         }
 
         .user-avatar {
@@ -104,7 +105,6 @@
             font-size: 1.3rem;
             border: 2px solid var(--primary);
             box-shadow: 0 0 12px var(--primary-glow);
-            cursor: pointer;
         }
 
         .user-details-text {
@@ -660,12 +660,6 @@
         .content-area.active { display: block; animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         /* VS Mode Screen */
-        .vs-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
         .vs-lobby-card {
             background: linear-gradient(145deg, rgba(244, 63, 94, 0.08), rgba(139, 92, 246, 0.05));
             border: 1px solid rgba(244, 63, 94, 0.3);
@@ -1132,54 +1126,22 @@
             text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
         }
 
-        /* Symbol Uebersicht Grid */
-        .symbol-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 20px;
-            margin-top: 24px;
-        }
-
-        .symbol-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+        /* Netzgrafiken SVG Styling */
+        .netze-diagram-box {
+            background: rgba(5, 10, 20, 0.85);
             border: 1px solid var(--card-border);
             border-radius: var(--radius-md);
-            padding: 22px 16px;
-            text-align: center;
-            transition: var(--transition-smooth);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 24px;
+            margin: 24px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            overflow-x: auto;
         }
 
-        .symbol-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            background: rgba(6, 182, 212, 0.04);
-            box-shadow: 0 12px 30px var(--primary-glow);
-        }
-
-        .symbol-card svg {
-            width: 110px;
-            height: 75px;
-            stroke: var(--primary);
-            fill: none;
-            stroke-width: 3.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            margin-bottom: 14px;
-            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.3));
-        }
-
-        .symbol-card h4 {
-            font-size: 1.05rem;
-            color: #fff;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .symbol-card p {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.4;
+        .netze-svg {
+            width: 100%;
+            min-width: 650px;
+            height: auto;
+            display: block;
         }
 
         /* Article Styling */
@@ -1507,7 +1469,7 @@
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
                     <div class="menu-title">Lernbereich & Netze AT</div>
-                    <div class="menu-description">Netzsysteme ÖVE, Spannungsebenen AT, RCDs & Rechner.</div>
+                    <div class="menu-description">Netzsysteme ÖVE (TN, TT, IT), Grafiken, Spannungsebenen & Rechner.</div>
                 </div>
             </div>
         </div>
@@ -1557,7 +1519,7 @@
                         <p style="margin: 10px 0;">Dein Raum-Code: <strong id="vs-room-code-display" style="font-family: var(--font-code); font-size: 1.5rem; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 8px;">ROOM-7782</strong></p>
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px;">
                             <button class="nav-btn" onclick="copyVsCode()">📋 Code Kopieren</button>
-                            <button class="nav-btn" onclick="openInviteFriendModal()" style="border-color: var(--vs-color); color: var(--vs-color);">✉️ Freund direkt Einladen</button>
+                            <button class="nav-btn" onclick="openProfileModal()" style="border-color: var(--vs-color); color: var(--vs-color);">✉️ Freund direkt Einladen</button>
                             <button class="ai-btn-action" style="background: linear-gradient(135deg, var(--vs-color), var(--secondary)); height: auto; padding: 12px 24px;" onclick="startVsGameNow()">🚀 Match Starten</button>
                         </div>
                     </div>
@@ -1612,8 +1574,8 @@
                     <div class="config-group">
                         <label>Themenbereich (Fokussiert)</label>
                         <select id="ai-topic-select" class="config-select">
-                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
                             <option value="netze">⚡ Netzsysteme ÖVE (TN, TT, IT)</option>
+                            <option value="symbols">📐 Schaltsymbole & Schaltpläne</option>
                             <option value="ohm">Ohmsches Gesetz & Leistung</option>
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
@@ -1671,7 +1633,7 @@
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
-                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Netzsysteme, Österreich, TN-C-S, TT, RCD, Taster, APG)..." oninput="filterTopics()">
+                    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Themen suchen (z.B. Netzsysteme, IT-Netz, TN-C-S, TT, RCD, APG, Netzebenen)..." oninput="filterTopics()">
                     
                     <div class="topics-grid" id="topics-container"></div>
 
@@ -1742,7 +1704,7 @@
                                 <input type="number" id="calc-q-i" value="16" oninput="calculateCrossSection()">
                             </div>
                             <div class="input-field">
-                                <label>Zul. Spannungsfall ΔU (V) [z.B. 3% v. 230V = 6.9V]</label>
+                                <label>Zul. Spannungsfall ΔU (V) [3% v. 230V = 6.9V]</label>
                                 <input type="number" id="calc-q-u" value="6.9" oninput="calculateCrossSection()">
                             </div>
                             <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
@@ -1912,12 +1874,14 @@
 
         function saveUsersDb() {
             localStorage.setItem('elek_plus_users_db', JSON.stringify(usersDb));
-            if (activeUser && !activeUser.isGuest) {
+        }
+
+        function saveActiveUser() {
+            if (!activeUser) return;
+            localStorage.setItem('elek_plus_active_session', JSON.stringify(activeUser));
+            if (!activeUser.isGuest && activeUser.username) {
                 usersDb[activeUser.username.toLowerCase()] = activeUser;
-                localStorage.setItem('elek_plus_users_db', JSON.stringify(usersDb));
-            }
-            if (activeUser) {
-                localStorage.setItem('elek_plus_active_session', JSON.stringify(activeUser));
+                saveUsersDb();
             }
         }
 
@@ -1926,16 +1890,7 @@
             document.getElementById('top-avatar-display').innerText = activeUser.avatar || '⚡';
             document.getElementById('top-username-display').innerText = activeUser.username;
             document.getElementById('top-user-id-display').innerText = activeUser.id;
-            document.getElementById('top-user-lvl-display').innerText = `Level ${activeUser.stats.level} • ${activeUser.stats.xp} XP`;
-        }
-
-        const savedSession = localStorage.getItem('elek_plus_active_session');
-        if (savedSession) {
-            try {
-                loginUserSession(JSON.parse(savedSession));
-            } catch(e) {
-                console.error("Session restore failed", e);
-            }
+            document.getElementById('top-user-lvl-display').innerText = `Lvl ${activeUser.stats.level} • ${activeUser.stats.xp || 0} XP`;
         }
 
         function openProfileModal() {
@@ -1944,7 +1899,7 @@
             document.getElementById('modal-username').innerText = activeUser.username;
             document.getElementById('modal-user-id').innerText = activeUser.id;
             document.getElementById('modal-level').innerText = activeUser.stats.level;
-            document.getElementById('modal-xp').innerText = activeUser.stats.xp;
+            document.getElementById('modal-xp').innerText = activeUser.stats.xp || 0;
             document.getElementById('modal-high').innerText = activeUser.stats.highscore;
             document.getElementById('modal-total').innerText = activeUser.stats.total;
             document.getElementById('modal-vs-wins').innerText = activeUser.stats.vsWins || 0;
@@ -1958,482 +1913,391 @@
             document.getElementById('profile-modal').style.display = 'none';
         }
 
-        function addFriendById() {
-            const input = document.getElementById('add-friend-id-input');
-            const friendId = input.value.trim().toUpperCase();
-            if (!friendId) return;
-
-            if (friendId === activeUser.id) {
-                alert('Du kannst dich nicht selbst hinzufügen!');
-                return;
-            }
-
-            if (!activeUser.friends) activeUser.friends = [];
-            if (activeUser.friends.includes(friendId)) {
-                alert('Freund bereits in der Liste!');
-                return;
-            }
-
-            activeUser.friends.push(friendId);
-            saveUsersDb();
-            input.value = '';
-            renderFriendsList();
-            alert(`Freund mit ID ${friendId} hinzugefügt!`);
-        }
-
         function renderFriendsList() {
             const container = document.getElementById('friends-list-container');
-            if (!activeUser || !activeUser.friends || activeUser.friends.length === 0) {
-                container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Noch keine Freunde hinzugefügt.</span>';
+            if (!activeUser.friends || activeUser.friends.length === 0) {
+                container.innerHTML = `<span style="font-size: 0.85rem; color: var(--text-muted);">Noch keine Freunde hinzugefügt.</span>`;
                 return;
             }
 
-            container.innerHTML = activeUser.friends.map(fId => `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px;">
-                    <span style="font-family:var(--font-code); font-size:0.85rem; color:var(--primary);">${fId}</span>
-                    <button class="nav-btn" style="padding:4px 10px; font-size:0.75rem; border-color:var(--vs-color); color:var(--vs-color);" onclick="challengeFriend('${fId}')">⚔️ Herausfordern</button>
+            container.innerHTML = activeUser.friends.map(f => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 10px; font-size: 0.88rem;">
+                    <span>${f.avatar || '👤'} <strong>${f.name}</strong> <small style="color: var(--primary);">(${f.id})</small></span>
+                    <button class="btn-top-action" style="padding: 4px 10px; font-size: 0.75rem;" onclick="challengeFriend('${f.id}')">⚔️ Duell</button>
                 </div>
             `).join('');
         }
 
-        function challengeFriend(fId) {
+        function addFriendById() {
+            const friendId = document.getElementById('add-friend-id-input').value.trim().toUpperCase();
+            if (!friendId) return;
+
+            // Suche in DB
+            let foundUser = Object.values(usersDb).find(u => u.id === friendId);
+            const friendName = foundUser ? foundUser.username : 'Freund (' + friendId + ')';
+            const friendAvatar = foundUser ? foundUser.avatar : '👤';
+
+            if (!activeUser.friends) activeUser.friends = [];
+            if (activeUser.friends.some(f => f.id === friendId)) {
+                alert('Dieser Freund ist bereits in deiner Liste!');
+                return;
+            }
+
+            activeUser.friends.push({ id: friendId, name: friendName, avatar: friendAvatar });
+            saveActiveUser();
+            renderFriendsList();
+            document.getElementById('add-friend-id-input').value = '';
+            alert(`${friendName} wurde zu deinen Freunden hinzugefügt!`);
+        }
+
+        function challengeFriend(friendId) {
             closeProfileModal();
-            startMode('vs');
+            switchMode('vs');
             createVsRoom();
-            alert(`Herausforderung an ${fId} gesendet! Dein Raum-Code steht bereit.`);
+            alert(`Lobby für Duell mit ${friendId} erstellt! Code versendet.`);
         }
 
         /* ==========================================================================
-           2. SVG SCHALTSYMBOLE BIBLIOTHEK
+           2. NETZSYSTEME GRAFIKEN & LERNINHALTE (ÖVE/ÖNORM E 8101 & AT NETZE)
            ========================================================================== */
 
-        const svgSymbols = {
-            switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
-            switch_changeover: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="15" x2="90" y2="15"/><line x1="65" y1="45" x2="90" y2="45"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="15" r="3" fill="#06b6d4"/><circle cx="65" cy="45" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="17"/></svg>`,
-            switch_cross: `<svg viewBox="0 0 100 60"><line x1="10" y1="18" x2="35" y2="18"/><line x1="10" y1="42" x2="35" y2="42"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="18" r="3" fill="#06b6d4"/><circle cx="35" cy="42" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="18" x2="62" y2="40"/><line x1="35" y1="42" x2="62" y2="20"/></svg>`,
-            switch_series: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="12"/><line x1="35" y1="30" x2="62" y2="36"/></svg>`,
-            switch_2pole: `<svg viewBox="0 0 100 60"><line x1="10" y1="18" x2="35" y2="18"/><line x1="10" y1="42" x2="35" y2="42"/><line x1="65" y1="18" x2="90" y2="18"/><line x1="65" y1="42" x2="90" y2="42"/><circle cx="35" cy="18" r="3" fill="#06b6d4"/><circle cx="35" cy="42" r="3" fill="#06b6d4"/><circle cx="65" cy="18" r="3" fill="#06b6d4"/><circle cx="65" cy="42" r="3" fill="#06b6d4"/><line x1="35" y1="18" x2="62" y2="8"/><line x1="35" y1="42" x2="62" y2="32"/><line x1="48" y1="13" x2="48" y2="37" stroke-dasharray="2,2"/></svg>`,
-            push_button: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30" stroke-dasharray="2,2"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
-            push_button_nc: `<svg viewBox="0 0 100 60"><line x1="10" y1="20" x2="35" y2="20"/><line x1="65" y1="40" x2="90" y2="40"/><circle cx="35" cy="20" r="3" fill="#06b6d4"/><circle cx="65" cy="40" r="3" fill="#06b6d4"/><line x1="35" y1="20" x2="65" y2="40"/><line x1="50" y1="10" x2="50" y2="30" stroke-dasharray="2,2"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
-            lamp: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><circle cx="50" cy="30" r="20"/><line x1="36" y1="16" x2="64" y2="44"/><line x1="36" y1="44" x2="64" y2="16"/></svg>`,
-            resistor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="30" y2="30"/><line x1="70" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
-            capacitor: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="45" y2="30"/><line x1="55" y1="30" x2="90" y2="30"/><line x1="45" y1="12" x2="45" y2="48"/><line x1="55" y1="12" x2="55" y2="48"/></svg>`,
-            diode: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><polygon points="35,15 35,45 65,30"/><line x1="65" y1="15" x2="65" y2="45"/></svg>`,
-            transformer: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="40" cy="30" r="15"/><circle cx="60" cy="30" r="15"/></svg>`,
-            rcd: `<svg viewBox="0 0 100 60"><rect x="25" y="10" width="50" height="40" rx="4"/><path d="M 35 30 Q 42 20 50 30 T 65 30"/><line x1="50" y1="15" x2="50" y2="20"/><text x="50" y="44" font-size="10" text-anchor="middle" fill="#06b6d4" stroke="none" font-weight="bold">IΔn</text></svg>`,
-            fuse: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="90" y2="30"/><rect x="30" y="18" width="40" height="24"/></svg>`,
-            ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
-        };
-
-        /* ==========================================================================
-           3. LERNBEREICH INHALTE (INKL. ALLE NETZSYSTEME ÖSTERREICH MIT GRAFIKEN)
-           ========================================================================== */
-
-        const learningContent = {
-            netzsysteme_at: {
-                title: "Stromnetze in Österreich (TN, TT, IT)",
-                icon: "⚡",
-                description: "Alle Netzformen in Österreich nach ÖVE/ÖNORM E 8101 mit Schaltschemata & Schutzmaßnahmen",
+        const topicsData = [
+            {
+                id: 'netze-at',
+                title: '⚡ Netzsysteme ÖVE (TN, TT, IT) & AT-Netze',
+                category: 'Schutzmaßnahmen & Netze',
+                icon: '⚡',
+                summary: 'TN-C-S, TN-S, TT & IT-Netz nach ÖVE/ÖNORM E 8101 sowie alle 7 Spannungsebenen in Österreich.',
                 content: `
-                    <h2>Netzsysteme in Österreich (ÖVE/ÖNORM E 8101)</h2>
-                    <p class="article-desc">Erklärung aller Versorgungs- und Erdernetzformen in Österreich mit anschaulichen Grafiken, Besonderheiten der EVUs (z.B. Wiener Netze, Netz NÖ) und den jeweiligen Schutzmaßnahmen.</p>
+                    <h2>⚡ ÖVE / ÖNORM E 8101 Netzsysteme & AT Netzebenen</h2>
+                    <p class="article-desc">Exakte Schemata, Erdungsverhältnisse & Schutzmaßnahmen nach österreichischem Regelwerk.</p>
 
-                    <div class="info-badge">
-                        💡 <strong>Bedeutung der Buchstaben-Codes nach ÖVE:</strong><br>
-                        • <strong>1. Buchstabe (Erdung der Stromquelle):</strong> <b>T</b> = Terre (Sternpunkt direkt geerdet), <b>I</b> = Isolé (Sternpunkt isoliert oder hochohmig geerdet).<br>
-                        • <strong>2. Buchstabe (Erdung der Körper/Verbraucher):</strong> <b>T</b> = Terre (Körper direkt geerdet über eigenen Anlagenerder), <b>N</b> = Neutre (Körper direkt mit dem Betriebserder der Quelle verbunden).<br>
-                        • <strong>Weitere Buchstaben (Anordnung Neutral- & Schutzleiter):</strong> <b>S</b> = Separated (N und PE getrennt), <b>C</b> = Combined (PEN kombiniert).
-                    </div>
-
+                    <!-- IT-NETZ SECTION MIT DETAILLIERTER VEKTORGRAFIK -->
                     <div class="article-section">
-                        <h3>1. Das TN-C-S-System (Der österreichische Standard)</h3>
-                        <p>Das TN-C-S-System ist in Österreich das am häufigsten eingesetzte Netzsystem für Wohn- und Gewerbegebäude (z.B. im Netzbereich der Wiener Netze, Netz Oberösterreich, Netz NÖ).</p>
-                        <p>Vom Trafohäuschen bis zum Hauptanschlusskasten (HAK) wird der PEN-Leiter als kombinierter Leiter geführt (TN-C). Ab dem Aufteilungspunkt (meist im HAK oder Zählerverteiler) wird der PEN strikt in einen separaten Schutzleiter (PE) und Neutralleiter (N) aufgeteilt (TN-S).</p>
+                        <h3>1. IT-System (Isoliertes Netz / Isolationsüberwacht)</h3>
+                        <p>Im <strong>IT-System</strong> ist der Sternpunkt des Speisetransformators <strong>isoliert</strong> oder über eine hohe Impedanz ($R_i > 1000\\,\\Omega$) geerdet. Die Körper der elektrischen Betriebsmittel sind direkt geerdet ($R_A$).</p>
+                        
+                        <div class="info-badge">
+                            💡 <strong>Hauptvorteil:</strong> Höchste Versorgungssicherheit (z.B. OP-Räume in Krankenhäusern, Chemieanlagen). Ein <strong>erster Körper- / Erdschluss</strong> führt zu <strong>KEINER Abschaltung</strong>! Ein Isolationsüberwachungsgerät (ISOMON / IMD) meldet den Fehler optisch und akustisch.
+                        </div>
 
-                        <!-- SVG TN-C-S Grafiken -->
-                        <svg viewBox="0 0 650 300" style="width:100%; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid var(--primary);">
-                            <text x="325" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">TN-C-S-NETZSYSTEM ÖSTERREICH (SCHALTPLAN)</text>
-                            
-                            <!-- Trafo -->
-                            <rect x="20" y="50" width="100" height="180" rx="8" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
-                            <text x="70" y="75" fill="#06b6d4" font-size="10" font-weight="bold" text-anchor="middle">Ortsbrust / Trafo</text>
-                            <circle cx="70" cy="110" r="18" fill="none" stroke="#fff" stroke-width="2"/>
-                            <circle cx="70" cy="135" r="18" fill="none" stroke="#fff" stroke-width="2"/>
-                            
-                            <!-- Leitungen Quelle -->
-                            <line x1="120" y1="80" x2="300" y2="80" stroke="#f59e0b" stroke-width="3"/><text x="135" y="73" fill="#f59e0b" font-size="10">L1 / L2 / L3</text>
-                            <line x1="120" y1="180" x2="300" y2="180" stroke="#10b981" stroke-width="3" stroke-dasharray="8,3"/><text x="135" y="173" fill="#10b981" font-size="10">PEN (Grün-Gelb/Blau)</text>
-                            
-                            <!-- Trafo-Erder RB -->
-                            <line x1="70" y1="153" x2="70" y2="210" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="210" x2="90" y2="210" stroke="#10b981" stroke-width="3"/>
-                            <line x1="58" y1="216" x2="82" y2="216" stroke="#10b981" stroke-width="2"/>
-                            <line x1="64" y1="222" x2="76" y2="222" stroke="#10b981" stroke-width="1"/>
-                            <text x="70" y="240" fill="#94a3b8" font-size="9" text-anchor="middle">Betriebserder RB</text>
+                        <!-- IT NETZ SVG GRAFIK -->
+                        <div class="netze-diagram-box">
+                            <svg class="netze-svg" viewBox="0 0 750 340">
+                                <!-- Hintergrund Raster & Rahmen -->
+                                <rect x="5" y="5" width="740" height="330" rx="12" fill="#090d16" stroke="rgba(6, 182, 212, 0.3)" stroke-width="2"/>
+                                
+                                <text x="20" y="32" fill="#ec4899" font-weight="800" font-size="16">IT-Netzsystem Schema (nach ÖVE/ÖNORM E 8101)</text>
 
-                            <!-- HAK / Aufteilungspunkt -->
-                            <rect x="300" y="50" width="70" height="180" rx="6" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="2"/>
-                            <text x="335" y="70" fill="#8b5cf6" font-size="10" font-weight="bold" text-anchor="middle">HAK / PAS</text>
-                            <circle cx="335" cy="180" r="5" fill="#10b981"/>
-                            <text x="335" y="198" fill="#10b981" font-size="8" text-anchor="middle">PEN-Schiene</text>
+                                <!-- Speisung Trafo Sekundärseite (Sternschaltung) -->
+                                <g transform="translate(60, 60)">
+                                    <text x="0" y="-15" fill="#06b6d4" font-weight="800" font-size="13">Trafo (Speisung)</text>
+                                    <circle cx="40" cy="40" r="30" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                                    <path d="M40 20 L40 40 L25 55 M40 40 L55 55" stroke="#06b6d4" stroke-width="2.5"/>
+                                    <text x="32" y="30" fill="#fff" font-weight="700" font-size="12">Y</text>
+                                </g>
 
-                            <!-- Verbraucher / Haus -->
-                            <rect x="450" y="50" width="160" height="180" rx="8" fill="rgba(255,255,255,0.03)" stroke="#fff" stroke-width="1.5"/>
-                            <text x="530" y="75" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Hausanlage (TN-S)</text>
+                                <!-- Speiseleiter L1, L2, L3 -->
+                                <line x1="130" y1="70" x2="680" y2="70" stroke="#f59e0b" stroke-width="3"/>
+                                <text x="690" y="75" fill="#f59e0b" font-weight="800" font-size="13">L1</text>
 
-                            <!-- Leitungen nach Aufteilung -->
-                            <line x1="370" y1="80" x2="480" y2="80" stroke="#f59e0b" stroke-width="3"/><text x="410" y="73" fill="#f59e0b" font-size="10">L1</text>
-                            <line x1="335" y1="180" x2="480" y2="120" stroke="#3b82f6" stroke-width="3"/><text x="410" y="135" fill="#3b82f6" font-size="10">N (Blau)</text>
-                            <line x1="335" y1="180" x2="480" y2="180" stroke="#10b981" stroke-width="3"/><text x="410" y="173" fill="#10b981" font-size="10">PE (Grün-Gelb)</text>
+                                <line x1="130" y1="100" x2="680" y2="100" stroke="#94a3b8" stroke-width="3"/>
+                                <text x="690" y="105" fill="#94a3b8" font-weight="800" font-size="13">L2</text>
 
-                            <!-- Verbraucher Körper -->
-                            <rect x="480" y="100" width="100" height="90" rx="4" fill="rgba(255,255,255,0.08)" stroke="#94a3b8"/>
-                            <text x="530" y="145" fill="#fff" font-size="10" text-anchor="middle">Gerätekörper M</text>
-                            <line x1="530" y1="180" x2="530" y2="190" stroke="#10b981" stroke-width="2"/>
+                                <line x1="130" y1="130" x2="680" y2="130" stroke="#a855f7" stroke-width="3"/>
+                                <text x="690" y="135" fill="#a855f7" font-weight="800" font-size="13">L3</text>
 
-                            <!-- Anlagenerder RA -->
-                            <line x1="335" y1="185" x2="335" y2="240" stroke="#10b981" stroke-width="2"/>
-                            <line x1="315" y1="240" x2="355" y2="240" stroke="#10b981" stroke-width="3"/>
-                            <text x="335" y="260" fill="#94a3b8" font-size="9" text-anchor="middle">Anlagenerder RA (Fundamenterder)</text>
-                        </svg>
+                                <!-- Sternpunkt N (Ungeerdet / Isoliert) -->
+                                <circle cx="100" cy="100" r="4" fill="#06b6d4"/>
+                                <path d="M100 100 L100 200" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4"/>
+                                
+                                <!-- Isolationsüberwachungsgerät (ISOMON / IMD) -->
+                                <g transform="translate(60, 200)">
+                                    <rect x="0" y="0" width="80" height="50" rx="6" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                                    <text x="40" y="22" fill="#ec4899" font-weight="800" font-size="12" text-anchor="middle">IMD</text>
+                                    <text x="40" y="38" fill="#94a3b8" font-weight="700" font-size="9" text-anchor="middle">ISO-Wächter</text>
+                                </g>
+                                <!-- IMD Erdungsverbindung (Sehr hoher Innenwiderstand) -->
+                                <line x1="100" y1="250" x2="100" y2="280" stroke="#10b981" stroke-width="2"/>
+                                <!-- Erder Symbol Trafo/IMD -->
+                                <path d="M85 280 L115 280 M90 286 L110 286 M95 292 L105 292" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="120" y="290" fill="#10b981" font-size="11" font-weight="700">R_i (> 1000 Ω)</text>
 
-                        <p><strong>Wichtige Vorschrift ÖVE/ÖNORM E 8101:</strong> Nach der PEN-Aufteilung darf der Neutralleiter (N) und der Schutzleiter (PE) an keiner Stelle der Anlage mehr zusammengeführt werden! Der PEN-Mindestquerschnitt beträgt mindestens 10 mm² Kupfer oder 16 mm² Aluminium.</p>
-                    </div>
+                                <!-- Verbraucher / Elektrisches Betriebsmittel -->
+                                <g transform="translate(420, 150)">
+                                    <!-- Gehäuse Körper -->
+                                    <rect x="0" y="0" width="180" height="100" rx="8" fill="rgba(255,255,255,0.03)" stroke="#06b6d4" stroke-width="2.5"/>
+                                    <text x="90" y="-10" fill="#fff" font-weight="800" font-size="13" text-anchor="middle">Verbraucher (Körper)</text>
+                                    
+                                    <!-- Innere Last -->
+                                    <rect x="40" y="20" width="100" height="40" rx="4" fill="#06b6d4" opacity="0.2" stroke="#06b6d4" stroke-dasharray="3"/>
+                                    <text x="90" y="45" fill="#06b6d4" font-weight="700" font-size="11" text-anchor="middle">Motor / Last</text>
+                                </g>
 
-                    <div class="article-section">
-                        <h3>2. Das TT-System (In ausgewählten Regionen Österreichs)</h3>
-                        <p>Das TT-System findet man in Österreich in speziellen Netzgebieten (z. B. Teilen der Steiermark, Vorarlberg oder in ländlichen Regionen, wo EVUs keinen PEN garantierten).</p>
-                        <p>Im TT-System ist der Sternpunkt des Transformators direkt geerdet. Der Neutralleiter (N) wird separat zum Kunden geführt. Die Körper der elektrischen Betriebsmittel sind jedoch **nicht** mit dem Betriebserder des Trafos verbunden, sondern ausschließlich mit einem eigenen Anlagenerder (RA).</p>
+                                <!-- Zuleitungen zum Verbraucher -->
+                                <line x1="460" y1="70" x2="460" y2="170" stroke="#f59e0b" stroke-width="2.5"/>
+                                <circle cx="460" cy="70" r="4" fill="#f59e0b"/>
 
-                        <!-- SVG TT-System Grafik -->
-                        <svg viewBox="0 0 650 280" style="width:100%; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid #3b82f6;">
-                            <text x="325" y="25" fill="#3b82f6" font-size="13" font-weight="bold" text-anchor="middle">TT-NETZSYSTEM ÖSTERREICH (SCHALTPLAN)</text>
-                            
-                            <!-- Trafo -->
-                            <rect x="20" y="50" width="100" height="160" rx="8" fill="rgba(59,130,246,0.1)" stroke="#3b82f6" stroke-width="2"/>
-                            <text x="70" y="75" fill="#3b82f6" font-size="10" font-weight="bold" text-anchor="middle">Trafo (TT)</text>
+                                <line x1="510" y1="100" x2="510" y2="170" stroke="#94a3b8" stroke-width="2.5"/>
+                                <circle cx="510" cy="100" r="4" fill="#94a3b8"/>
 
-                            <!-- Leitungen -->
-                            <line x1="120" y1="80" x2="450" y2="80" stroke="#f59e0b" stroke-width="3"/><text x="250" y="73" fill="#f59e0b" font-size="10">Außenleiter L1</text>
-                            <line x1="120" y1="140" x2="450" y2="140" stroke="#3b82f6" stroke-width="3"/><text x="250" y="133" fill="#3b82f6" font-size="10">Neutralleiter N</text>
+                                <line x1="560" y1="130" x2="560" y2="170" stroke="#a855f7" stroke-width="2.5"/>
+                                <circle cx="560" cy="130" r="4" fill="#a855f7"/>
 
-                            <!-- Trafo Erder RB -->
-                            <line x1="70" y1="140" x2="70" y2="200" stroke="#10b981" stroke-width="2"/>
-                            <line x1="50" y1="200" x2="90" y2="200" stroke="#10b981" stroke-width="3"/>
-                            <text x="70" y="225" fill="#94a3b8" font-size="9" text-anchor="middle">Betriebserder RB</text>
+                                <!-- Anlagenerder für Verbraucher PE (Terre) -->
+                                <path d="M600 210 L600 280 L600 280" stroke="#10b981" stroke-width="2.5"/>
+                                <circle cx="600" cy="210" r="4" fill="#10b981"/>
+                                <text x="610" y="225" fill="#10b981" font-weight="800" font-size="12">PE</text>
 
-                            <!-- RCD Schutzorgan Zwang -->
-                            <rect x="330" y="65" width="60" height="90" rx="4" fill="rgba(239,68,68,0.2)" stroke="#ef4444" stroke-width="2"/>
-                            <text x="360" y="112" fill="#ef4444" font-size="11" font-weight="bold" text-anchor="middle">RCD</text>
+                                <!-- Erder Verbraucher -->
+                                <path d="M585 280 L615 280 M590 286 L610 286 M595 292 L605 292" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="625" y="290" fill="#10b981" font-size="11" font-weight="700">Anlagenerder R_A</text>
 
-                            <!-- Verbraucher -->
-                            <rect x="450" y="50" width="160" height="160" rx="8" fill="rgba(255,255,255,0.03)" stroke="#fff"/>
-                            <rect x="480" y="90" width="100" height="70" rx="4" fill="rgba(255,255,255,0.08)" stroke="#94a3b8"/>
-                            <text x="530" y="130" fill="#fff" font-size="10" text-anchor="middle">Verbraucher M</text>
-
-                            <!-- Anlagenerder RA komplett getrennt -->
-                            <line x1="530" y1="160" x2="530" y2="210" stroke="#10b981" stroke-width="3"/>
-                            <line x1="500" y1="210" x2="560" y2="210" stroke="#10b981" stroke-width="3"/>
-                            <text x="530" y="235" fill="#10b981" font-size="9" font-weight="bold" text-anchor="middle">Eigener Anlagenerder RA (Zwingend!)</text>
-                        </svg>
-
-                        <div class="info-badge" style="border-left-color: #ef4444;">
-                            ⚠️ <strong>RCD-Pflicht im TT-Netz:</strong> Da der Schleifenwiderstand im TT-Netz wegen des Erdweges zwischen RA und RB sehr hoch sein kann, lösen Leitungsschutzschalter im Fehlerfall oft nicht aus. Ein Fehlerstromschutzschalter (RCD) ist im TT-System für **alle Stromkreise** zwingend vorgeschrieben!
+                                <!-- Erstfehler Animation / Kennzeichnung -->
+                                <path d="M460 170 L430 210" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="4"/>
+                                <circle cx="430" cy="210" r="5" fill="#ef4444"/>
+                                <text x="280" y="235" fill="#ef4444" font-weight="800" font-size="12">⚡ 1. Körperschluss (L1 ➔ Gehäuse)</text>
+                                <text x="280" y="252" fill="#10b981" font-weight="700" font-size="11">Keine Abschaltung! IMD schlägt Alarm.</text>
+                            </svg>
                         </div>
                     </div>
 
+                    <!-- TN-C-S NETZ SECTION -->
                     <div class="article-section">
-                        <h3>3. Das IT-System (Isoliertes Netz für Krankenhäuser & Industrie)</h3>
-                        <p>Das IT-System besitzt keine direkte Verbindung zwischen aktiven Leitern (L1, L2, L3, N) und Erde. Der Sternpunkt der Speisequelle ist isoliert oder sehr hochohmig geerdet.</p>
-                        <p><strong>Einsatzorte in Österreich:</strong> Intensivstationen und Operationssäle in Krankenhäusern (nach ÖVE/ÖNORM E 8007 / E 8101-7-710), Bergbau, Feuerwehr-Generatoren und kritische Industrieanlagen.</p>
+                        <h3>2. TN-C-S System (Standard in Österreich & DE)</h3>
+                        <p>Beim <strong>TN-C-S System</strong> sind der Sternpunkt des Transformators betriebsgeerdet ($R_B$) und im ersten Netzabschnitt Neutral- und Schutzleiter in einem einzigen <strong>PEN-Leiter</strong> kombiniert. Im Hauptverteiler / Zählerkasten erfolgt die Aufteilung in separate <strong>N- und PE-Leiter</strong>.</p>
 
-                        <!-- SVG IT-System Grafik -->
-                        <svg viewBox="0 0 650 260" style="width:100%; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid #ec4899;">
-                            <text x="325" y="25" fill="#ec4899" font-size="13" font-weight="bold" text-anchor="middle">IT-NETZSYSTEM (ISOLIERTES NETZ MIT ISOMETER)</text>
+                        <div class="netze-diagram-box">
+                            <svg class="netze-svg" viewBox="0 0 750 310">
+                                <rect x="5" y="5" width="740" height="300" rx="12" fill="#090d16" stroke="rgba(6, 182, 212, 0.3)" stroke-width="2"/>
+                                <text x="20" y="32" fill="#06b6d4" font-weight="800" font-size="16">TN-C-S Netzsystem Schema (PEN-Aufteilung im Gebäudeeintritt)</text>
 
-                            <!-- Isolierte Quelle -->
-                            <rect x="20" y="50" width="110" height="150" rx="8" fill="rgba(236,72,153,0.1)" stroke="#ec4899" stroke-width="2"/>
-                            <text x="75" y="75" fill="#ec4899" font-size="10" font-weight="bold" text-anchor="middle">Quelle Isolierter</text>
-                            <text x="75" y="90" fill="#ec4899" font-size="10" text-anchor="middle">Sternpunkt (I)</text>
+                                <!-- Trafo Geerdet -->
+                                <g transform="translate(60, 60)">
+                                    <circle cx="40" cy="40" r="30" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                                    <path d="M40 20 L40 40 L25 55 M40 40 L55 55" stroke="#06b6d4" stroke-width="2.5"/>
+                                </g>
+                                <!-- Betriebserder RB -->
+                                <line x1="100" y1="120" x2="100" y2="250" stroke="#10b981" stroke-width="2.5"/>
+                                <path d="M85 250 L115 250 M90 256 L110 256 M95 262 L105 262" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="120" y="255" fill="#10b981" font-size="11" font-weight="700">Betriebserder R_B</text>
 
-                            <!-- Isometer -->
-                            <rect x="180" y="160" width="100" height="50" rx="6" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="230" y="185" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">Isolations-</text>
-                            <text x="230" y="198" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">wächter (AAL)</text>
+                                <!-- Phasen L1, L2, L3 -->
+                                <line x1="130" y1="60" x2="680" y2="60" stroke="#f59e0b" stroke-width="3"/>
+                                <line x1="130" y1="90" x2="680" y2="90" stroke="#94a3b8" stroke-width="3"/>
+                                <line x1="130" y1="120" x2="680" y2="120" stroke="#a855f7" stroke-width="3"/>
+                                <text x="690" y="65" fill="#f59e0b" font-weight="800" font-size="12">L1</text>
+                                <text x="690" y="95" fill="#94a3b8" font-weight="800" font-size="12">L2</text>
+                                <text x="690" y="125" fill="#a855f7" font-weight="800" font-size="12">L3</text>
 
-                            <!-- Leitungen -->
-                            <line x1="130" y1="80" x2="480" y2="80" stroke="#f59e0b" stroke-width="3"/><text x="310" y="73" fill="#f59e0b" font-size="10">L1</text>
-                            <line x1="130" y1="120" x2="480" y2="120" stroke="#f59e0b" stroke-width="3"/><text x="310" y="113" fill="#f59e0b" font-size="10">L2</text>
+                                <!-- PEN-Leiter (TN-C Teil) -->
+                                <line x1="100" y1="150" x2="400" y2="150" stroke="#10b981" stroke-width="4"/>
+                                <line x1="100" y1="152" x2="400" y2="152" stroke="#06b6d4" stroke-width="2" stroke-dasharray="6"/>
+                                <text x="230" y="142" fill="#10b981" font-weight="800" font-size="13">PEN-Leiter (TN-C Abschn.)</text>
 
-                            <!-- Verbindung Isometer zu L und Erde -->
-                            <line x1="230" y1="80" x2="230" y2="160" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3"/>
-                            <line x1="230" y1="210" x2="230" y2="230" stroke="#10b981" stroke-width="2"/>
+                                <!-- Trennpunkt / PAS / Hauptverteiler -->
+                                <rect x="380" y="140" width="40" height="120" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-dasharray="3" rx="4"/>
+                                <text x="325" y="275" fill="#06b6d4" font-weight="800" font-size="11">PEN-Trennung / PAS</text>
 
-                            <!-- Verbraucher -->
-                            <rect x="480" y="50" width="140" height="150" rx="8" fill="rgba(255,255,255,0.03)" stroke="#fff"/>
-                            <rect x="500" y="85" width="100" height="65" rx="4" fill="rgba(255,255,255,0.08)" stroke="#94a3b8"/>
-                            <text x="550" y="122" fill="#fff" font-size="10" text-anchor="middle">OP-Gerät M</text>
+                                <!-- Aufteilung N und PE (TN-S Teil) -->
+                                <!-- N Leiter (Blau) -->
+                                <line x1="410" y1="150" x2="410" y2="180" stroke="#06b6d4" stroke-width="3"/>
+                                <line x1="410" y1="180" x2="680" y2="180" stroke="#06b6d4" stroke-width="3"/>
+                                <text x="690" y="185" fill="#06b6d4" font-weight="800" font-size="12">N</text>
 
-                            <line x1="550" y1="150" x2="550" y2="230" stroke="#10b981" stroke-width="2"/>
-                            <line x1="210" y1="230" x2="570" y2="230" stroke="#10b981" stroke-width="3"/>
-                        </svg>
+                                <!-- PE Leiter (Grün/Gelb) -->
+                                <line x1="410" y1="150" x2="410" y2="210" stroke="#10b981" stroke-width="3"/>
+                                <line x1="410" y1="210" x2="680" y2="210" stroke="#10b981" stroke-width="3"/>
+                                <text x="690" y="215" fill="#10b981" font-weight="800" font-size="12">PE</text>
 
-                        <p><strong>Vorteil des IT-Systemes:</strong> Bei einem 1. Isolationsfehler (z. B. Erdschluss einer Phase) kommt es zu **keiner Abschaltung**! Der Betrieb läuft unterbruchsfrei weiter. Der Isolationswächter meldet den Fehler akustisch und optisch, damit dieser behoben werden kann.</p>
+                                <!-- Anlagenerder HES -->
+                                <line x1="400" y1="210" x2="400" y2="250" stroke="#10b981" stroke-width="2.5"/>
+                                <path d="M385 250 L415 250 M390 256 L410 256 M395 262 L405 262" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="425" y="255" fill="#10b981" font-size="11" font-weight="700">Anlagenerder R_A</text>
+                            </svg>
+                        </div>
                     </div>
 
+                    <!-- TT NETZ SECTION -->
                     <div class="article-section">
-                        <h3>Vergleich aller Netzformen in Österreich</h3>
+                        <h3>3. TT-System (Verbindlicher RCD-Einsatz)</h3>
+                        <p>Im <strong>TT-System</strong> ist der Transformatoren-Sternpunkt geerdet, jedoch gibt es <strong>keine durchgehende Schutzleiterverbindung</strong> vom Trafo zum Verbraucher. Der Schutzleiter der Kundenanlage wird lokal über einen eigenen <strong>Anlagenerder ($R_A$)</strong> geerdet. Wegen der höheren Schleifenimpedanz ist ein <strong>RCD (Fehlerstromschutzschalter)</strong> zwingend vorgeschrieben!</p>
+
+                        <div class="netze-diagram-box">
+                            <svg class="netze-svg" viewBox="0 0 750 290">
+                                <rect x="5" y="5" width="740" height="280" rx="12" fill="#090d16" stroke="rgba(6, 182, 212, 0.3)" stroke-width="2"/>
+                                <text x="20" y="32" fill="#f59e0b" font-weight="800" font-size="16">TT Netzsystem Schema (Lokaler Anlagenerder & RCD Pflicht)</text>
+
+                                <!-- Trafo Geerdet -->
+                                <g transform="translate(60, 60)">
+                                    <circle cx="40" cy="40" r="30" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                                    <path d="M40 20 L40 40 L25 55 M40 40 L55 55" stroke="#06b6d4" stroke-width="2.5"/>
+                                </g>
+                                <line x1="100" y1="120" x2="100" y2="230" stroke="#10b981" stroke-width="2.5"/>
+                                <path d="M85 230 L115 230 M90 236 L110 236 M95 242 L105 242" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="120" y="235" fill="#10b981" font-size="11" font-weight="700">Betriebserder R_B</text>
+
+                                <!-- Leitungen L1 & N -->
+                                <line x1="130" y1="60" x2="680" y2="60" stroke="#f59e0b" stroke-width="3"/>
+                                <line x1="130" y1="120" x2="680" y2="120" stroke="#06b6d4" stroke-width="3"/>
+                                <text x="690" y="65" fill="#f59e0b" font-weight="800" font-size="12">L1</text>
+                                <text x="690" y="125" fill="#06b6d4" font-weight="800" font-size="12">N</text>
+
+                                <!-- RCD Symbol im Haus -->
+                                <g transform="translate(380, 45)">
+                                    <rect x="0" y="0" width="60" height="90" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="6"/>
+                                    <text x="30" y="40" fill="#f59e0b" font-weight="800" font-size="12" text-anchor="middle">RCD</text>
+                                    <text x="30" y="58" fill="#fff" font-weight="700" font-size="10" text-anchor="middle">30mA</text>
+                                </g>
+
+                                <!-- Verbraucher mit separatem Anlagenerder -->
+                                <rect x="520" y="140" width="120" height="70" rx="6" fill="rgba(255,255,255,0.03)" stroke="#06b6d4" stroke-width="2"/>
+                                <text x="580" y="180" fill="#fff" font-weight="700" font-size="12" text-anchor="middle">Gehäuse</text>
+
+                                <!-- Separater Schutzleiter PE zum Anlagenerder RA -->
+                                <line x1="610" y1="210" x2="610" y2="240" stroke="#10b981" stroke-width="3"/>
+                                <path d="M595 240 L625 240 M600 246 L620 246 M605 252 L615 252" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="635" y="245" fill="#10b981" font-size="11" font-weight="700">Anlagenerder R_A</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- SPANNUNGSEBENEN ÖSTERREICH (EBENE 1 - 7) -->
+                    <div class="article-section">
+                        <h3>4. Die 7 Spannungsebenen in Österreich</h3>
+                        <p>Das österreichische Stromnetz (überwacht von der <strong>APG - Austria Power Grid</strong> auf Ebene 1) gliedert sich exakt in 7 Ebenen:</p>
+
                         <table class="custom-table">
                             <thead>
                                 <tr>
-                                    <th>Netzform</th>
-                                    <th>Sternpunkt Erdung</th>
-                                    <th>Verbraucher Erdung</th>
-                                    <th>Haupt-Schutzorgan</th>
-                                    <th>Typische Anwendung in AT</th>
+                                    <th>Ebene</th>
+                                    <th>Netzebene Bezeichnung</th>
+                                    <th>Spannungsbereich</th>
+                                    <th>Funktion / Anwendung</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><strong>TN-C-S</strong></td>
-                                    <td>Direkt geerdet (T)</td>
-                                    <td>Über PEN / PE verknüpft (N)</td>
-                                    <td>RCD + LS-Schalter</td>
-                                    <td>Wohn- & Gewerbebau Standard</td>
+                                    <td><strong>Ebene 1</strong></td>
+                                    <td>Höchstspannungsnetz</td>
+                                    <td>380 kV / 220 kV</td>
+                                    <td>Übertragungsnetz (APG), überregionaler Austausch & Großkraftwerke</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>TT-Netz</strong></td>
-                                    <td>Direkt geerdet (T)</td>
-                                    <td>Eigener Anlagenerder (T)</td>
-                                    <td>Zwingend RCD (FI)</td>
-                                    <td>Regionale Netze / Landwirtschaft</td>
+                                    <td><strong>Ebene 2</strong></td>
+                                    <td>Umspannung 1 / 3</td>
+                                    <td>380 / 110 kV</td>
+                                    <td>Kopplung Höchstspannung an regionale Verteilnetze</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>IT-Netz</strong></td>
-                                    <td>Isoliert / Hochohmig (I)</td>
-                                    <td>Eigener/Gemeinsamer Erder (T)</td>
-                                    <td>Isolationsüberwachung</td>
-                                    <td>Krankenhaus OP-Räume, Industrie</td>
+                                    <td><strong>Ebene 3</strong></td>
+                                    <td>Hochspannungsnetz</td>
+                                    <td>110 kV</td>
+                                    <td>Regionale Verteilung (Wiener Netze, Netz NÖ, EVN, Netz OÖ etc.)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ebene 4</strong></td>
+                                    <td>Umspannung 3 / 5</td>
+                                    <td>110 / 20 (10) kV</td>
+                                    <td>Umspannwerke Stadt / Land</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ebene 5</strong></td>
+                                    <td>Mittelspannungsnetz</td>
+                                    <td>20 kV / 10 kV</td>
+                                    <td>Regionale Ortsnetzspeisung & Großindustrie</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ebene 6</strong></td>
+                                    <td>Umspannung 5 / 7</td>
+                                    <td>20 / 0,4 kV</td>
+                                    <td>Trafostation (Ortsnetz-Transformator)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ebene 7</strong></td>
+                                    <td>Niederspannungsnetz</td>
+                                    <td>400 V / 230 V</td>
+                                    <td>Endverbraucher (Haushalt, Gewerbe, Landwirtschaft)</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 `
             },
-
-            spannungsebenen_at: {
-                title: "Spannungsebenen & Netznetzwerke Österreich",
-                icon: "🌐",
-                description: "Übertragungs- & Verteilernetze (APG, 380kV bis 230V Niederspannung)",
+            {
+                id: 'symbols-overview',
+                title: '📐 Schaltsymbole & Schaltpläne',
+                category: 'Schaltsymbole',
+                icon: '📐',
+                summary: 'Übersicht aller wichtigen Schaltsymbole nach ÖVE/ÖNORM EN 60617.',
                 content: `
-                    <h2>Das Stromnetz in Österreich (Spannungsebenen & Struktur)</h2>
-                    <p class="article-desc">Von der Stromerzeugung im Wasserkraftwerk bis zur 230V Steckdose im Haushalt – Der Weg des Stroms durch Österreichs Netzstrukturen.</p>
-
+                    <h2>📐 Schaltsymbole nach EN 60617</h2>
+                    <p class="article-desc">Standardisierte Symbole für Installations- und Schaltpläne.</p>
+                    
                     <div class="article-section">
-                        <h3>Übersicht der 4 Spannungsebenen in Österreich</h3>
-                        <p>Das österreichische Stromnetz gliedert sich normgemäß in 7 Netzebenen bzw. 4 Hauptspannungsebenen:</p>
-
-                        <!-- SVG Spannungsebenen Topologie -->
-                        <svg viewBox="0 0 680 320" style="width:100%; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid var(--primary);">
-                            <text x="340" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">STROMNETZ-TOPOLOGIE ÖSTERREICH</text>
-
-                            <!-- Ebene 1: Höchstspannung -->
-                            <rect x="20" y="50" width="130" height="90" rx="8" fill="rgba(244,63,94,0.15)" stroke="#f43f5e" stroke-width="2"/>
-                            <text x="85" y="75" fill="#f43f5e" font-size="11" font-weight="bold" text-anchor="middle">Höchstspannung</text>
-                            <text x="85" y="95" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">380 kV / 220 kV</text>
-                            <text x="85" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">APG Übertragungsnetz</text>
-
-                            <!-- Pfeil 1 -->
-                            <line x1="150" y1="95" x2="185" y2="95" stroke="#06b6d4" stroke-width="3" marker-end="url(#arrow)"/>
-
-                            <!-- Ebene 3: Hochspannung -->
-                            <rect x="185" y="50" width="130" height="90" rx="8" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="250" y="75" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">Hochspannung</text>
-                            <text x="250" y="95" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">110 kV</text>
-                            <text x="250" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">Regionale Primärverteilung</text>
-
-                            <!-- Pfeil 2 -->
-                            <line x1="315" y1="95" x2="350" y2="95" stroke="#06b6d4" stroke-width="3"/>
-
-                            <!-- Ebene 5: Mittelspannung -->
-                            <rect x="350" y="50" width="130" height="90" rx="8" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="2"/>
-                            <text x="415" y="75" fill="#8b5cf6" font-size="11" font-weight="bold" text-anchor="middle">Mittelspannung</text>
-                            <text x="415" y="95" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">10 kV - 30 kV</text>
-                            <text x="415" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">Stadt & Land Sekundärnetz</text>
-
-                            <!-- Pfeil 3 -->
-                            <line x1="480" y1="95" x2="515" y2="95" stroke="#06b6d4" stroke-width="3"/>
-
-                            <!-- Ebene 7: Niederspannung -->
-                            <rect x="515" y="50" width="145" height="90" rx="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="2"/>
-                            <text x="587" y="75" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">Niederspannung</text>
-                            <text x="587" y="95" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">400 V / 230 V</text>
-                            <text x="587" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">Endverbraucher / Haushalt</text>
-
-                            <!-- Erklärfelder unten -->
-                            <rect x="20" y="170" width="640" height="120" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
-                            <text x="40" y="195" fill="#06b6d4" font-size="11" font-weight="bold">Netz-Betreiber Strukturen in Österreich:</text>
-                            <text x="40" y="220" fill="#94a3b8" font-size="10">• <strong>Übertragungsnetz (380/220 kV):</strong> APG (Austrian Power Grid) für überregionalen & internationalen Stromtransport.</text>
-                            <text x="40" y="245" fill="#94a3b8" font-size="10">• <strong>Verteilernetze (110 kV bis 230 V):</strong> Regionale Netzbetreiber wie Wiener Netze, Netz NÖ, Netz OÖ, TINETZ,</text>
-                            <text x="40" y="265" fill="#94a3b8" font-size="10">  Kärnten Netz, Energie Steiermark, Vorarlberg Netz, Salzburg Netz, Netz Burgenland.</text>
-                        </svg>
-                    </div>
-
-                    <div class="article-section">
-                        <h3>Nennspannungen im österreichischen Niederspannungsnetz</h3>
-                        <p>Nach ÖVE/ÖNORM EN 50160 betragen die standardisierten Nennspannungen in Österreich:</p>
-                        <p>• <strong>Einphasen-Wechselstrom:</strong> <b>230 V AC</b> (gemessen zwischen Außenleiter L und Neutralleiter N).</p>
-                        <p>• <strong>Dreiphasen-Wechselstrom (Drehstrom):</strong> <b>400 V AC</b> (gemessen zwischen zwei Außenleitern, z. B. L1 und L2).</p>
-                        <p>• <strong>Spannungstoleranz:</strong> Unom ± 10 % (d.h. 207 V bis 253 V bei 230 V Nennspannung).</p>
-                    </div>
-                `
-            },
-
-            symbols_overview: {
-                title: "Schaltsymbole Kartei",
-                icon: "📐",
-                description: "Normsymbole nach DIN EN 60617 / IEC 60617 im Überblick",
-                content: `
-                    <h2>Übersicht der wichtigsten Schaltsymbole</h2>
-                    <p class="article-desc">Standardisierte Schaltzeichen nach DIN EN 60617 für Schaltpläne.</p>
-                    <div class="symbol-gallery">
-                        <div class="symbol-card">${svgSymbols.switch_off}<h4>Ausschalter (1-polig)</h4><p>Mechanischer Ein-/Ausschalter</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_2pole}<h4>2-poliger Schalter</h4><p>Trennt L und N gleichzeitig</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_changeover}<h4>Wechselschalter</h4><p>Schaltet zwischen 2 Wegen</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_cross}<h4>Kreuzschalter</h4><p>Verkreuzt 2 Korrespondierende</p></div>
-                        <div class="symbol-card">${svgSymbols.switch_series}<h4>Serienschalter</h4><p>Zwei unabhängige Wippen</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button}<h4>Taster (Schließer)</h4><p>Schließt bei Betätigung</p></div>
-                        <div class="symbol-card">${svgSymbols.push_button_nc}<h4>Taster (Öffner)</h4><p>Öffnet bei Betätigung</p></div>
-                        <div class="symbol-card">${svgSymbols.lamp}<h4>Leuchte / Lampe</h4><p>Optischer Signalgeber</p></div>
-                        <div class="symbol-card">${svgSymbols.resistor}<h4>Widerstand</h4><p>Ohmscher Widerstand</p></div>
-                        <div class="symbol-card">${svgSymbols.capacitor}<h4>Kondensator</h4><p>Kapazitives Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.diode}<h4>Diode</h4><p>Halbleiter-Bauelement</p></div>
-                        <div class="symbol-card">${svgSymbols.transformer}<h4>Transformator</h4><p>Spannungswandler</p></div>
-                        <div class="symbol-card">${svgSymbols.rcd}<h4>RCD (FI-Schalter)</h4><p>Fehlerstromschutz</p></div>
-                        <div class="symbol-card">${svgSymbols.fuse}<h4>Sicherung</h4><p>Überstromschutzeinrichtung</p></div>
-                        <div class="symbol-card">${svgSymbols.ground}<h4>Erde / Masse</h4><p>Erdungspotenzial</p></div>
-                    </div>
-                `
-            },
-
-            schalter_taster: {
-                title: "Schalter & Taster in Schaltplänen",
-                icon: "🔘",
-                description: "Aus-, Wechsel-, Kreuz-, Serien- & Tasterstromstoßschaltung",
-                content: `
-                    <h2>Schalter und Taster in der Praxis</h2>
-                    <p class="article-desc">Unterschiede zwischen dauerhaften Schaltvorgängen und Momentkontakten.</p>
-                    <div class="article-section">
-                        <h3>Schaltertypen im Detail</h3>
-                        <p><strong>Ausschalter (1-polig):</strong> Unterbricht oder schließt einen einzelnen Außenleiter (L1).</p>
-                        <p><strong>2-poliger Schalter:</strong> Unterbricht allpolig (L1 und N) für erhöhte Sicherheit (z. B. im Bad oder im Außenbereich).</p>
-                        <p><strong>Wechselschalter:</strong> Leitet den Strom wahlweise auf einen von zwei Ausgängen um. Ermöglicht das Schalten einer Leuchte von zwei verschiedenen Stellen aus.</p>
-                        <p><strong>Kreuzschalter:</strong> Wird zwischen zwei Wechselschaltern platziert. Ermöglicht die Erweiterung auf beliebig viele Schaltstellen (3 oder mehr Ortsschaltungen).</p>
-                        <p><strong>Serienschalter:</strong> Beinhaltet zwei separat zu betätigende Schalterwippen in einem einzigen Gehäuse (z. B. zum getrennten Schalten zweier Lampengruppen).</p>
-                    </div>
-                    <div class="article-section">
-                        <h3>Taster & Stromstoßschaltung</h3>
-                        <p>Ein <strong>Taster (Schließer)</strong> gibt den Kontakt nur während des manuellen Drückens frei (Federkraft holt ihn zurück). Ein <strong>Öffner-Taster</strong> unterbricht bei Druck den Kontakt (z. B. Aus-Taster bei Relaisschaltungen). Für Flurbeleuchtungen mit vielen Betätigungsstellen nutzt man eine <b>Stromstoßschaltung (Relais/Eltako)</b>, die bei jedem elektrischen Impuls den Schaltzustand (EIN/AUS) dauerhaft wechselt.</p>
-                    </div>
-                `
-            },
-
-            rcd_details: {
-                title: "RCD (FI-Schalter) Schaltplan & Typen",
-                icon: "⚙️",
-                description: "Detaillierter Stromlaufplan eines RCD, Aufbau, Funktion & Typen A, B, F",
-                content: `
-                    <h2>Fehlerstromschutzschalter (RCD) - Schaltplan & Funktionsweise</h2>
-                    <p class="article-desc">Der Summenstromwandler als Herzstück des Personenschutzes inklusive Funktionsschaltplan.</p>
-
-                    <div class="article-section">
-                        <h3>Detaillierter RCD-Schaltplan</h3>
-                        <svg viewBox="0 0 600 320" style="width:100%; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
-                            <text x="300" y="25" fill="#06b6d4" font-size="12" font-weight="bold" text-anchor="middle">SCHALTSCHEMA FEHLERSTROMSCHUTZSCHALTER (RCD / FI)</text>
-                            
-                            <text x="30" y="55" fill="#f59e0b" font-size="11" font-weight="bold">L (Außenleiter)</text>
-                            <text x="30" y="95" fill="#3b82f6" font-size="11" font-weight="bold">N (Neutralleiter)</text>
-                            <line x1="120" y1="52" x2="160" y2="52" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="120" y1="92" x2="160" y2="92" stroke="#3b82f6" stroke-width="3"/>
-
-                            <circle cx="230" cy="72" r="45" fill="rgba(6,182,212,0.08)" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,2"/>
-                            <text x="230" y="76" fill="#06b6d4" font-size="10" font-weight="bold" text-anchor="middle">Summenstromwandler</text>
-                            
-                            <line x1="160" y1="52" x2="300" y2="52" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="160" y1="92" x2="300" y2="92" stroke="#3b82f6" stroke-width="3"/>
-
-                            <!-- Auslöserelais -->
-                            <rect x="300" y="35" width="40" height="70" fill="rgba(239,68,68,0.2)" stroke="#ef4444" stroke-width="2"/>
-                            <text x="320" y="75" fill="#ef4444" font-size="9" text-anchor="middle">Auslöser</text>
-
-                            <!-- Abgang Verbraucher -->
-                            <line x1="340" y1="52" x2="520" y2="52" stroke="#f59e0b" stroke-width="3"/>
-                            <line x1="340" y1="92" x2="520" y2="92" stroke="#3b82f6" stroke-width="3"/>
-
-                            <!-- Prüfeinrichtung -->
-                            <line x1="180" y1="52" x2="180" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
-                            <rect x="250" y="145" width="30" height="30" fill="none" stroke="#fff" stroke-width="2"/>
-                            <text x="265" y="164" fill="#fff" font-size="10" text-anchor="middle">R</text>
-                            <line x1="180" y1="160" x2="250" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
-                            <line x1="280" y1="160" x2="420" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
-                            <line x1="420" y1="160" x2="420" y2="92" stroke="#3b82f6" stroke-width="1.5"/>
-                            <text x="350" y="180" fill="#94a3b8" font-size="9">Prüftaste & Testwiderstand</text>
-                        </svg>
-
-                        <p>Der Summenstromwandler vergleicht fortlaufend den zufließenden Strom (L) mit dem zurückfließenden Strom (N). Ist die Summe ungleich 0 (z.B. durch Fehlerstrom gegen Erde), erzeugt die Differenz ein Magnetfeld im Wandler, das das Auslöserelais betätigt.</p>
+                        <h3>Wichtige Symbole im Überblick</h3>
+                        <p>Lerne die normgerechten Darstellungen von Schaltern, Schutzorganen und Verbrauchern.</p>
+                        
+                        <div class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol Name</th>
+                                    <th>Kürzel</th>
+                                    <th>Funktion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Leitungsschutzschalter</td><td>LS / MCB</td><td>Überlast- & Kurzschlussschutz</td></tr>
+                                <tr><td>Fehlerstromschutzschalter</td><td>RCD / FI</td><td>Personenschutz vor Körperströmen</td></tr>
+                                <tr><td>Ausschalter 1-polig</td><td>Q1</td><td>Ein-/Ausschalten einer Phase</td></tr>
+                                <tr><td>Wechselschalter</td><td>Q6</td><td>Schalten einer Lichtquelle von 2 Stellen</td></tr>
+                                <tr><td>Kreuzschalter</td><td>Q7</td><td>Schalten einer Lichtquelle von ≥3 Stellen</td></tr>
+                                <tr><td>Schütz (Leistungsschütz)</td><td>K1</td><td>Elektromagnetisches Schalten von Lasten</td></tr>
+                            </tbody>
+                        </div>
                     </div>
                 `
             }
-        };
-
-        /* ==========================================================================
-           4. LERNBEREICH LOGIK & NAVIGATION
-           ========================================================================== */
+        ];
 
         function initTopics() {
-            renderTopics();
-        }
-
-        function renderTopics() {
             const container = document.getElementById('topics-container');
             if (!container) return;
 
-            container.innerHTML = Object.keys(learningContent).map(key => {
-                const topic = learningContent[key];
-                return `
-                    <div class="topic-card" onclick="showTopicContent('${key}')">
-                        <div class="topic-icon-box">${topic.icon}</div>
-                        <h3>${topic.title}</h3>
-                        <p>${topic.description}</p>
-                    </div>
-                `;
-            }).join('');
+            container.innerHTML = topicsData.map(topic => `
+                <div class="topic-card" onclick="openTopic('${topic.id}')">
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.summary}</p>
+                </div>
+            `).join('');
         }
 
         function filterTopics() {
-            const q = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.querySelectorAll('.topic-card');
-            
-            Object.keys(learningContent).forEach((key, idx) => {
-                const topic = learningContent[key];
-                const match = topic.title.toLowerCase().includes(q) || 
-                              topic.description.toLowerCase().includes(q) || 
-                              topic.content.toLowerCase().includes(q);
-                if (cards[idx]) {
-                    cards[idx].style.display = match ? 'block' : 'none';
-                }
-            });
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = topicsData.filter(t => 
+                t.title.toLowerCase().includes(query) || 
+                t.summary.toLowerCase().includes(query) ||
+                t.category.toLowerCase().includes(query)
+            );
+
+            const container = document.getElementById('topics-container');
+            container.innerHTML = filtered.map(topic => `
+                <div class="topic-card" onclick="openTopic('${topic.id}')">
+                    <div class="topic-icon-box">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.summary}</p>
+                </div>
+            `).join('');
         }
 
-        function showTopicContent(key) {
-            const topic = learningContent[key];
+        function openTopic(id) {
+            const topic = topicsData.find(t => t.id === id);
             if (!topic) return;
 
             document.getElementById('topics-view').style.display = 'none';
-            const contentView = document.getElementById('content-view');
-            contentView.style.display = 'block';
             document.getElementById('content-container').innerHTML = topic.content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('content-view').style.display = 'block';
         }
 
         function backToTopics() {
@@ -2442,274 +2306,340 @@
         }
 
         /* ==========================================================================
-           5. RECHNER LOGIK
+           3. PROFI-RECHNER FUNKTIONEN (OHM, DREHSTROM, SPANNUNGSFALL)
            ========================================================================== */
 
         function calculateOhm() {
             const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 0;
-            const i = r > 0 ? (u / r).toFixed(2) : 0;
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0.001;
+            const i = u / r;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A (Leistung P = ${(u * i).toFixed(1)} W)`;
         }
 
         function calculate3Phase() {
             const i = parseFloat(document.getElementById('calc-i3').value) || 0;
             const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
-            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
+            const p = Math.sqrt(3) * 400 * i * cos;
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${(p / 1000).toFixed(2)} kW`;
         }
 
         function calculateVoltageDrop() {
             const l = parseFloat(document.getElementById('calc-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
             const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const kappa = 56; // Kupfer
-            const du = (2 * l * i) / (kappa * q);
-            const perc = (du / 230 * 100).toFixed(2);
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${perc}%)`;
+            // Kappa für Kupfer = 56
+            const deltaU = (2 * l * i) / (56 * q);
+            const percent = (deltaU / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${deltaU.toFixed(2)} V (${percent.toFixed(2)}%)`;
         }
 
         function calculateCrossSection() {
             const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
             const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const kappa = 56;
-            const q = (2 * l * i) / (kappa * du);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${q.toFixed(2)} mm²`;
+            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            // A = (2 * l * I) / (gamma * deltaU)
+            const minA = (2 * l * i) / (56 * maxU);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${minA.toFixed(2)} mm²`;
         }
 
         /* ==========================================================================
-           6. MAIN APP MODE NAVIGATION & QUIZ MECHANICS
+           4. QUIZ, ADAPTIVE FRAGEN, MULTIPLAYER & VS-MODE
            ========================================================================== */
 
-        const standardQuestions = [
+        let currentMode = 'quiz';
+        let currentQuestionIndex = 0;
+        let scoreCount = 0;
+        let quizTimerInterval = null;
+        let timeLeft = 30;
+
+        const sampleQuestions = [
             {
-                q: "Welches Netzsystem teilt in Österreich den PEN-Leiter erst ab dem Hauptanschlusskasten (HAK) in PE und N auf?",
-                options: ["TT-System", "TN-C-S-System", "IT-System", "TN-C-System durchgehend"],
-                answer: 1,
-                explanation: "Im TN-C-S-System wird bis zum HAK ein kombinierter PEN geführt und ab dort strikt in PE und N aufgetrennt."
+                q: "Welches Netzsystem hat nach ÖVE/ÖNORM E 8101 einen isolierten oder hochohmig geerdeten Sternpunkt?",
+                options: ["TN-C-S System", "TT System", "IT System", "TN-S System"],
+                correct: 2,
+                exp: "Im IT-System ist der Speisesternpunkt isoliert oder über R_i > 1000 Ohm geerdet. Ein 1. Körperschluss führt zu keiner Abschaltung!"
             },
             {
-                q: "Welche Abschaltzeit gilt für Endstromkreise bis 32 A im TN-System bei U0 = 230 V nach ÖVE/ÖNORM E 8101?",
-                options: ["0.1 Sekunden", "0.4 Sekunden", "1.0 Sekunden", "5.0 Sekunden"],
-                answer: 1,
-                explanation: "Im TN-System beträgt die maximale zulässige Abschaltzeit für Endstromkreise bis 32 A bei AC 230 V genau 0,4 Sekunden."
+                q: "Wer überwacht das Höchstspannungsnetz (Ebene 1: 380 kV / 220 kV) in Österreich?",
+                options: ["Wiener Netze", "EVN Netz", "APG (Austria Power Grid)", "Energie Steiermark"],
+                correct: 2,
+                exp: "Die APG (Austria Power Grid) ist der unabhängige Regelzonenführer für das österreichische Höchstspannungsnetz."
             },
             {
-                q: "Warum ist im TT-Netz ein Fehlerstromschutzschalter (RCD) für alle Stromkreise zwingend erforderlich?",
-                options: [
-                    "Weil der Erdungswiderstand des Anlagenerders oft zu hoch ist für Leitungsschutzschalter",
-                    "Weil N und PE miteinander vertauscht sind",
-                    "Weil TT-Netze nur mit Gleichstrom betrieben werden",
-                    "Weil keine Sicherungen eingebaut werden dürfen"
-                ],
-                answer: 0,
-                explanation: "Wegen des hohen Schleifenwiderstands über die Erde reicht der Kurzschlussstrom im TT-Netz meist nicht aus, um einen Leitungsschutzschalter rechtzeitig auszulösen."
+                q: "Wo erfolgt im TN-C-S System die Trennung des PEN-Leiters in N und PE?",
+                options: ["Erst an der Steckdose", "Im Hausanschlusskasten / Hauptverteiler", "Am Ortsnetz-Transformator", "Gar nicht"],
+                correct: 1,
+                exp: "Der PEN-Leiter wird beim Gebäudeeintritt an der Haupterdungsschiene (HES/PAS) in N (Blau) und PE (Grün-Gelb) aufgeteilt."
             },
             {
-                q: "Welches Schaltsymbol stellt einen Wechselschalter nach DIN EN 60617 dar?",
-                symbol: svgSymbols.switch_changeover,
-                options: ["Ausschalter", "Wechselschalter", "Kreuzschalter", "Serienschalter"],
-                answer: 1,
-                explanation: "Ein Wechselschalter leitet einen eingehenden Leiter auf einen von zwei Ausgängen um."
-            },
-            {
-                q: "Wie berechnet sich die Wirkleistung P in einem symmetrischen Dreiphasenwechselstromsystem (Drehstrom 400V)?",
-                options: ["P = U * I", "P = √3 * U * I * cos φ", "P = 3 * U * I", "P = U² / R * √2"],
-                answer: 1,
-                explanation: "Die verkettete Wirkleistung bei Drehstrom berechnet sich mit dem Verkettungsfaktor √3: P = √3 * U * I * cos φ."
+                q: "Warum ist im TT-System zwingend ein RCD (Fehlerstromschutzschalter) vorgeschrieben?",
+                options: ["Weil die Phasen höher belastet sind", "Wegen der hohen Schleifenimpedanz über das Erdreich", "Wegen der Blindleistung", "Aus Kostengründen"],
+                correct: 1,
+                exp: "Da die Schleifenimpedanz über den Erder R_A hoch ist, reicht der Kurzschlussstrom meist nicht aus, um Leitungsschutzschalter schnell genug auszulösen."
             }
         ];
 
-        let quizQuestions = [];
-
         function startMode(mode) {
+            currentMode = mode;
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('mode-nav-area').style.display = 'block';
             switchMode(mode);
         }
 
         function backToWelcome() {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(el => el.style.display = 'none');
             document.getElementById('welcome-screen').style.display = 'block';
+            clearInterval(quizTimerInterval);
         }
 
         function switchMode(mode) {
             currentMode = mode;
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(area => area.style.display = 'none');
 
-            const targetBtn = document.getElementById(`toggle-${mode}`);
-            if (targetBtn) targetBtn.classList.add('active');
+            const btn = document.getElementById(`toggle-${mode}`);
+            if (btn) btn.classList.add('active');
 
             if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
+                document.getElementById('quiz-mode').style.display = 'block';
                 document.getElementById('quiz-mode').classList.add('active');
                 document.getElementById('ai-config').style.display = (mode === 'ai') ? 'grid' : 'none';
-                initQuizMode(mode);
+                restartQuiz();
             } else if (mode === 'vs') {
+                document.getElementById('vs-mode').style.display = 'block';
                 document.getElementById('vs-mode').classList.add('active');
             } else if (mode === 'learn') {
+                document.getElementById('learn-mode').style.display = 'block';
                 document.getElementById('learn-mode').classList.add('active');
-                initTopics();
             }
         }
 
-        function initQuizMode(mode) {
-            currentQuestion = 0;
-            score = 0;
-            quizQuestions = [...standardQuestions];
-            showQuestion();
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            scoreCount = 0;
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('result-screen').style.display = 'none';
+            loadQuestion();
         }
 
-        function showQuestion() {
-            answered = false;
-            const q = quizQuestions[currentQuestion];
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${quizQuestions.length}`;
-            document.getElementById('question').innerText = q.q;
+        function loadQuestion() {
+            clearInterval(quizTimerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
 
-            const symContainer = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symContainer.style.display = 'flex';
-                symContainer.innerHTML = q.symbol;
-            } else {
-                symContainer.style.display = 'none';
-            }
+            quizTimerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    nextQuestion();
+                }
+            }, 1000);
 
-            const optsGrid = document.getElementById('options');
-            optsGrid.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-card';
-                btn.innerText = opt;
-                btn.onclick = () => selectAnswer(idx);
-                optsGrid.appendChild(btn);
-            });
-
+            const qData = sampleQuestions[currentQuestionIndex % sampleQuestions.length];
+            document.getElementById('progress').innerText = `Frage ${currentQuestionIndex + 1} / 10`;
+            document.getElementById('question').innerText = qData.q;
             document.getElementById('explanation').style.display = 'none';
-            document.getElementById('ai-tutor-box').style.display = 'none';
+            document.getElementById('ai-tutor-box').classList.remove('show');
             document.getElementById('next-btn').style.display = 'none';
 
-            resetTimer();
+            const optsGrid = document.getElementById('options');
+            optsGrid.innerHTML = qData.options.map((opt, idx) => `
+                <button class="option-card" onclick="selectAnswer(${idx})">${opt}</button>
+            `).join('');
         }
 
         function selectAnswer(idx) {
-            if (answered) return;
-            answered = true;
-            clearInterval(timerInterval);
+            clearInterval(quizTimerInterval);
+            const qData = sampleQuestions[currentQuestionIndex % sampleQuestions.length];
+            const buttons = document.querySelectorAll('.option-card');
 
-            const q = quizQuestions[currentQuestion];
-            const opts = document.querySelectorAll('.option-card');
-
-            if (idx === q.answer) {
-                opts[idx].classList.add('correct');
-                score++;
-                if (activeUser) {
-                    activeUser.stats.correct++;
-                    activeUser.stats.xp += 15;
-                    activeUser.stats.streak++;
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === qData.correct) {
+                    btn.classList.add('correct');
+                } else if (i === idx) {
+                    btn.classList.add('incorrect');
                 }
-            } else {
-                if (idx >= 0) opts[idx].classList.add('incorrect');
-                opts[q.answer].classList.add('correct');
-                if (activeUser) activeUser.stats.streak = 0;
+            });
+
+            if (idx === qData.correct) {
+                scoreCount++;
+                if (activeUser) {
+                    activeUser.stats.xp = (activeUser.stats.xp || 0) + 15;
+                    activeUser.stats.correct++;
+                    if (activeUser.stats.xp >= 100) {
+                        activeUser.stats.level++;
+                        activeUser.stats.xp -= 100;
+                    }
+                }
             }
 
             if (activeUser) {
                 activeUser.stats.total++;
-                if (score > activeUser.stats.highscore) activeUser.stats.highscore = score;
-                checkLevelUp();
-                saveUsersDb();
+                if (scoreCount > activeUser.stats.highscore) activeUser.stats.highscore = scoreCount;
+                saveActiveUser();
                 updateUserInterface();
                 updateStatsDisplay();
             }
 
-            const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>Erklärung:</strong> ${q.explanation}`;
-            expBox.style.display = 'block';
-
+            document.getElementById('explanation').innerText = qData.exp;
+            document.getElementById('explanation').style.display = 'block';
             document.getElementById('next-btn').style.display = 'block';
         }
 
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    selectAnswer(-1);
-                }
-            }, 1000);
-        }
-
         function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < quizQuestions.length) {
-                showQuestion();
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= 10) {
+                showQuizResult();
             } else {
-                finishQuiz();
+                loadQuestion();
             }
         }
 
-        function finishQuiz() {
-            document.getElementById('question-content').style.display = 'none';
-            const resScreen = document.getElementById('result-screen');
-            resScreen.style.display = 'block';
-            document.getElementById('score').innerText = `${score} / ${quizQuestions.length}`;
-            
-            const perc = (score / quizQuestions.length) * 100;
-            document.getElementById('feedback').innerText = perc >= 80 ? "Hervorragend! Du bist fit für die Praxis & Prüfungen." : "Gut gekämpft! Wiederhole die Lernkapitel für noch bessere Resultate.";
-        }
-
-        function restartQuiz() {
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('question-content').style.display = 'block';
-            initQuizMode(currentMode);
-        }
-
-        function generateCustomAIQuestion() {
-            alert("Neue Experten-Frage generiert!");
-            showQuestion();
-        }
-
-        function checkLevelUp() {
-            if (!activeUser) return;
-            const requiredXp = activeUser.stats.level * 100;
-            if (activeUser.stats.xp >= requiredXp) {
-                activeUser.stats.level++;
-                alert(`🎉 GRATULATION! Du bist auf Level ${activeUser.stats.level} aufgestiegen!`);
-            }
+        function showQuizResult() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('score').innerText = `${scoreCount} / 10`;
+            document.getElementById('feedback').innerText = scoreCount >= 7 
+                ? "Ausgezeichnet! Starkes Wissen nach ÖVE/ÖNORM Standards!" 
+                : "Guter Versuch! Wiederhole die Netzsysteme im Lernbereich.";
         }
 
         function updateStatsDisplay() {
             if (!activeUser) return;
-            const stats = activeUser.stats;
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            const acc = activeUser.stats.total > 0 ? Math.round((activeUser.stats.correct / activeUser.stats.total) * 100) : 0;
+            document.getElementById('stat-score').innerText = `${acc}%`;
+            document.getElementById('stat-completed').innerText = activeUser.stats.total;
+            document.getElementById('stat-level').innerText = `Lvl ${activeUser.stats.level}`;
+            document.getElementById('stat-high').innerText = activeUser.stats.highscore;
+
+            const xpFill = document.getElementById('xp-progress-fill');
+            if (xpFill) xpFill.style.width = `${activeUser.stats.xp || 0}%`;
             
-            document.getElementById('stat-score').innerText = `${accuracy}%`;
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = `Lvl ${stats.level}`;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            const nextLevelXp = stats.level * 100;
-            const progressPerc = Math.min(100, Math.round((stats.xp / nextLevelXp) * 100));
-            document.getElementById('xp-progress-fill').style.width = `${progressPerc}%`;
-            document.getElementById('xp-label').innerText = `XP: ${stats.xp} / ${nextLevelXp} zum nächsten Level`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
-
-            // Badges freischalten
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.streak >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 5) document.getElementById('badge-3').classList.add('unlocked');
+            const xpLbl = document.getElementById('xp-label');
+            if (xpLbl) xpLbl.innerText = `XP: ${activeUser.stats.xp || 0} / 100 zum nächsten Level`;
         }
 
         function toggleDetailedStats() {
             const panel = document.getElementById('detailed-stats-panel');
             panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
         }
+
+        function generateCustomAIQuestion() {
+            restartQuiz();
+        }
+
+        /* ==========================================================================
+           5. MULTIPLAYER & VS-MODE LOGIK
+           ========================================================================== */
+
+        let vsRoomCode = '';
+        let vsRound = 1;
+        let vsP1Score = 0;
+        let vsP2Score = 0;
+
+        function createVsRoom() {
+            vsRoomCode = 'ROOM-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('vs-room-code-display').innerText = vsRoomCode;
+            document.getElementById('vs-room-created-info').style.display = 'block';
+        }
+
+        function promptJoinVsRoom() {
+            const code = prompt('Gib den Raum-Code deines Freundes ein:');
+            if (code) {
+                alert(`Raum ${code} beigetreten! Duell startet...`);
+                startVsGameNow();
+            }
+        }
+
+        function copyVsCode() {
+            navigator.clipboard.writeText(vsRoomCode);
+            alert(`Raum-Code ${vsRoomCode} in Zwischenablage kopiert!`);
+        }
+
+        function startVsBotMatch() {
+            startVsGameNow();
+        }
+
+        function startVsGameNow() {
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-arena').style.display = 'flex';
+            vsRound = 1;
+            vsP1Score = 0;
+            vsP2Score = 0;
+            loadVsRound();
+        }
+
+        function loadVsRound() {
+            document.getElementById('vs-round-num').innerText = vsRound;
+            document.getElementById('vs-p1-score').innerText = vsP1Score;
+            document.getElementById('vs-p2-score').innerText = vsP2Score;
+
+            const qData = sampleQuestions[(vsRound - 1) % sampleQuestions.length];
+            document.getElementById('vs-question-text').innerText = qData.q;
+
+            const grid = document.getElementById('vs-options-grid');
+            grid.innerHTML = qData.options.map((opt, idx) => `
+                <button class="option-card" onclick="submitVsAnswer(${idx})">${opt}</button>
+            `).join('');
+        }
+
+        function submitVsAnswer(idx) {
+            const qData = sampleQuestions[(vsRound - 1) % sampleQuestions.length];
+            if (idx === qData.correct) {
+                vsP1Score++;
+            }
+            // Bot Score Logik
+            if (Math.random() > 0.3) {
+                vsP2Score++;
+            }
+
+            vsRound++;
+            if (vsRound > 5) {
+                endVsMatch();
+            } else {
+                loadVsRound();
+            }
+        }
+
+        function endVsMatch() {
+            document.getElementById('vs-arena').style.display = 'none';
+            document.getElementById('vs-result-screen').style.display = 'block';
+
+            if (vsP1Score > vsP2Score) {
+                document.getElementById('vs-result-title').innerText = 'SIEG! 🏆';
+                document.getElementById('vs-result-desc').innerText = `Du hast ${vsP1Score} zu ${vsP2Score} gewonnen!`;
+                if (activeUser) {
+                    activeUser.stats.vsWins = (activeUser.stats.vsWins || 0) + 1;
+                    saveActiveUser();
+                }
+            } else {
+                document.getElementById('vs-result-title').innerText = 'NIEDERLAGE ⚡';
+                document.getElementById('vs-result-desc').innerText = `Endstand: ${vsP1Score} zu ${vsP2Score}.`;
+                if (activeUser) {
+                    activeUser.stats.vsLosses = (activeUser.stats.vsLosses || 0) + 1;
+                    saveActiveUser();
+                }
+            }
+        }
+
+        function resetVsLobby() {
+            document.getElementById('vs-result-screen').style.display = 'none';
+            document.getElementById('vs-room-created-info').style.display = 'none';
+            document.getElementById('vs-lobby').style.display = 'block';
+        }
+
+        /* Initialisierung beim Laden */
+        window.addEventListener('DOMContentLoaded', () => {
+            const session = localStorage.getItem('elek_plus_active_session');
+            if (session) {
+                loginUserSession(JSON.parse(session));
+            } else {
+                document.getElementById('auth-screen').style.display = 'flex';
+            }
+        });
     </script>
 </body>
 </html>
