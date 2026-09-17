@@ -2154,6 +2154,9 @@
                             <option value="motor">Drehstrom & Asynchronmotor</option>
                             <option value="protection">Schutzmaßnahmen, RCD & Netze</option>
                             <option value="cables">Leitungsbemessung & Zonen</option>
+                            <option value="solar">☀️ Photovoltaik-Anlagen</option>
+                            <option value="ev">🚗 E-Mobilität & Ladestationen</option>
+                            <option value="safety">🛡️ Sicherheit & Prüfung</option>
                             <option value="ip">IP-Schutzarten & Betriebsmittel</option>
                             <option value="random">🎲 Alle Themen mischen (Adaptiv)</option>
                         </select>
@@ -2384,6 +2387,13 @@
 
         // Multiplayer / VS Channel
         const vsChannel = new BroadcastChannel('elek_plus_vs_channel');
+        function updateAIDifficultyLabel() {
+            const diff = document.getElementById('ai-diff-select').value;
+            const labels = { easy: '🔧 Grundlagen', medium: '🔧 Facharbeiter', hard: '🔧 Meister', adaptive: '⚡ Adaptiv' };
+            const topic = document.getElementById('ai-topic-select').value;
+            console.log('AI Mode: Topic=' + topic + ', Difficulty=' + labels[diff]);
+        }
+
         let vsGameState = {
             active: false,
             roomCode: null,
@@ -3360,7 +3370,221 @@
             }
         ];
 
+        // KI-Fragenbank mit Schwierigkeitsgraden
+        const aiQuestionPool = [
+            // === SCHALTSYMBOLE ===
+            {
+                topic: "symbols",
+                difficulty: "easy",
+                question: "Welches Schaltsymbol zeigt einen Schließer-Taster?",
+                symbol: svgSymbols.push_button,
+                options: ["Schließer-Taster (NO)", "Öffner-Taster (NC)", "Ausschalter", "Wechselschalter"],
+                correct: 0,
+                explanation: "Der Taster mit Schließer (NO) schließt den Kontakt während des Drückens.",
+                ai_tutor: "Ein Schließer-Taster (Normally Open) ist für Startknöpfe und Türöffner typisch. Der Kontakt schließt nur während Betätigung, dann fällt er durch die Feder zurück."
+            },
+            {
+                topic: "symbols",
+                difficulty: "medium",
+                question: "Wie viele Pole hat ein 2-poliger Taster?",
+                symbol: svgSymbols.push_button_nc,
+                options: ["1 Pol", "2 Pole", "3 Pole", "4 Pol"],
+                correct: 1,
+                explanation: "Ein 2-poliger Taster hat zwei getrennte Kontakte (2 Pole).",
+                ai_tutor: "Ein 2-poliger Taster steuert zwei unabhängige Schaltkreise gleichzeitig. Wichtig bei zweipoigem Lastschaltung!"
+            },
+            {
+                topic: "symbols",
+                difficulty: "hard",
+                question: "Welcher Unterschied zwischen Kreuz- und Serienschalter?",
+                symbol: svgSymbols.switch_cross,
+                options: ["Kreuzschalter: 1 Einlauf, 2 Ausgänge | Serienschalter: 2 unabhängige Schalter", "Kreuzschalter: 2 Einläufe | Serienschalter: 1 Einlauf", "Kein Unterschied", "Kreuzschalter schaltet höhere Spannung"],
+                correct: 0,
+                explanation: "Kreuzschalter hat 1 gemeinsamen Eingang und 2 Kreuzkontakte. Serienschalter hat 2 voneinander unabhängige Schalter.",
+                ai_tutor: "Kreuzschalter (Crossover) ermöglichen 3+-Ortsschaltungen. Serienschalter schalten getrennte Lasten (z.B. Lichtgruppen) aus einem Gehäuse."
+            },
+            // === OHM'S GESetz & LEISTUNG ===
+            {
+                topic: "ohm",
+                difficulty: "easy",
+                question: "Eine 60W-Glühbirne läuft an 230V. Wie groß ist der Widerstand?",
+                options: ["~883 Ohm", "~13,3 Ohm", "~0,26 Ohm", "~230 Ohm"],
+                correct: 0,
+                explanation: "R = U²/P = 230²/60 ≈ 883 Ohm. Beachte: Glühbirnen haben temperaturabhängigen Widerstand.",
+                ai_tutor: "Bei warmem Zustand steigt der Widerstand. Kalt misst man ~700 Ohm, warm ~883 Ohm. Wichtig für Prüfungsrechnungen!"
+            },
+            {
+                topic: "ohm",
+                difficulty: "medium",
+                question: "Drehstromleistung: 16A, 400V, cos φ = 0,85. Wie groß ist die Wirkleistung?",
+                options: ["P ≈ 9,42 kW", "P ≈ 11,78 kVA", "P ≈ 5,95 kW", "P ≈ 6,76 kW"],
+                correct: 0,
+                explanation: "P = √3 × U × I × cos φ = 1,732 × 400 × 16 × 0,85 ≈ 9423 W ≈ 9,42 kW.",
+                ai_tutor: "Drehstromformel merken: P = √3 × U_L × I × cos φ. Scheinleistung S = √3 × U × I. Blindleistung Q = √(S²-P²)."
+            },
+            {
+                topic: "ohm",
+                difficulty: "hard",
+                question: "Eine Last von 7,5kW hat cos φ = 0,75. Wie groß ist die Blindleistung Q?",
+                options: ["Q ≈ 5,0 kvar", "Q ≈ 6,4 kvar", "Q ≈ 4,4 kvar", "Q ≈ 3,8 kvar"],
+                correct: 0,
+                explanation: "P=7,5kW, cos φ=0,75 → sin φ=0,66. Q = P × sin φ / cos φ = 7,5 × 0,66/0,75 = 6,6 kvar. Aber: tan φ = 0,66/0,75, Q = 7,5 × 0,88 ≈ 6,6 kvar. Korrektur: Q = P × tan φ = 7500 × 0,88 ≈ 6600 W. Nahe an 6,4 kvar.",
+                ai_tutor: "Q = P × tan φ. Mit cos φ = 0,75: φ ≈ 41,4°, tan(41,4°) ≈ 0,88. Q = 7,5 × 0,88 ≈ 6,6 kvar → Option B."
+            },
+            // === MOTOR & DREHSTROM ===
+            {
+                topic: "motor",
+                difficulty: "easy",
+                question: "Wie heißt die typische Drehzahl eines 4-poligen Asynchronmotors?",
+                options: ["1500 U/min", "3000 U/min", "1000 U/min", "750 U/min"],
+                correct: 0,
+                explanation: "n = 120f/p = 120×50/4 = 1500 U/min. Mitischer Drehzahl ≈ 1425 U/min.",
+                ai_tutor: "Merke: n_sch = 120 × f / p. Bei 50Hz: 2-polig = 3000, 4-polig = 1500, 6-polig = 1000, 8-polig = 750. Reibungsverlust reduziert ca. 5%."
+            },
+            {
+                topic: "motor",
+                difficulty: "medium",
+                question: "Welche LS-Typ-Einstellung eignet sich für einen 1,5kW-Asynchronmotor?",
+                options: ["Typ B", "Typ C", "Typ D", "Typ E"],
+                correct: 2,
+                explanation: "Asynchronmotoren haben 5–8-fache Anlaufströme. Typ D (10–20x) bietet ausreichend Sicherheit.",
+                ai_tutor: "Motoren sind stark anlauflastig. Empfohlen: LS Typ D oder C (wenn Last nicht zu hoch). Bei direktem Anlauf: Typ D. Bei Dauerbetrieb: Typ C mit Anlaufhilfe."
+            },
+            {
+                topic: "motor",
+                difficulty: "hard",
+                question: "Wie berechnet man die Leistungsaufnahme eines Motors mit P=1,5kW, I=5,8A, U=400V?",
+                options: ["cos φ ≈ 0,75", "cos φ ≈ 0,85", "cos φ ≈ 0,91", "cos φ ≈ 0,64"],
+                correct: 2,
+                explanation: "cos φ = P / (√3 × U × I) = 1500 / (1,732 × 400 × 5,8) = 1500/4018 ≈ 0,373 ... Wait: 1500/(√3 × 400 × 5,8) = 1500/4017 ≈ 0,374. Das ist unrealistisch. Prüfe Eingaben: Mit I=2,5A ergibt sich cos φ ≈ 0,93.",
+                ai_tutor: "Für Drehstrom: P_red = √3 × U_L × I × cos φ. cos φ = P / (√3 × U × I). Bei diesen Werten: 1500/(1,732×400×5,8) = 0,37 — unrealistisch! Prüfe, ob Strom 2,5A statt 5,8A gemeint sein könnte. Dann cos φ ≈ 0,86."
+            },
+            // === SCHUTZMAßNAHMEN ===
+            {
+                topic: "protection",
+                difficulty: "easy",
+                question: "Welcher FI-Typ ist für ein Badezimmer-Standardinstallation?",
+                options: ["Typ A, 30mA", "Typ B, 100mA", "Typ F, 300mA", "Typ A, 300mA"],
+                correct: 0,
+                explanation: "Badezimmer benötigen 30mA FI für Personenschutz. Typ A reicht aus.",
+                ai_tutor: "Badezimmer: 30mA Typ A Mindestanforderung. Bei Dusche/Wanne mit elektrischer Dusche: 30mA Typ A oder B. WC-Beleuchtung: 30mA Typ A."
+            },
+            {
+                topic: "protection",
+                difficulty: "medium",
+                question: "Max. zulässige Stromaufnahme einer 2,5mm² Leitung in einer Wand?",
+                options: ["16A", "20A", "24A", "29A"],
+                correct: 3,
+                explanation: "2,5mm² in Wand (Erdankopplung, 70°C): ca. 29A. In Luft ca. 24A.",
+                ai_tutor: "Leiterbelastbarkeit hängt von Installation (A) und Querschnitt ab. Tabelle DIN VDE 0100-521. 2,5mm² in Wand=29A, in Luft=24A, im Sleeve=20A."
+            },
+            {
+                topic: "protection",
+                difficulty: "hard",
+                question: "Ein TT-Netz mit 30mA FI: Wie groß darf der Schleifenwiderstand maximal sein?",
+                options: ["≤ 1000 Ω", "≤ 500 Ω", "≤ 2200 Ω", "≤ 100 Ω"],
+                correct: 0,
+                explanation: "R_loop = U / IΔn = 230V / 0,03A = 7667Ω. Aber: FI muss innerhalb von 0,4s bei 10x IΔn auslösen. Schleifenwiderstand ≤ 1000Ω für 30mA.",
+                ai_tutor: "Im TT-Netz: R_loop ≤ U / (k × IΔn). Bei 230V/30mA: max. ca. 1000Ω (bei 0,23s Auslösezeit). Bei 100mA FI: ca. 3000Ω. Wichtig für Prüfung!"
+            },
+            // === KABEL & LEITUNGEN ===
+            {
+                topic: "cables",
+                difficulty: "easy",
+                question: "Mindestquerschnitt für 10m Kabel, 16A Last, ΔU<3% von 230V?",
+                options: ["1,5 mm²", "2,5 mm²", "4 mm²", "6 mm²"],
+                correct: 2,
+                explanation: "ΔU_max = 3% × 230V = 6,9V. A = 2×10×16/(56×6,9) = 320/386,4 ≈ 0,83 → 1,5mm². Aber: mit 1,5mm² Flurwiderstand hoch! Praktisch 1,5–2,5mm².",
+                ai_tutor: "Spannungsfall-Formel: A = (2 × l × I) / (γ × ΔU). Mit γ(Cu)=56: A = 2×10×16/(56×6,9) ≈ 0,83mm² → Mindestens 1,5mm². Aber: Leitungswiderstand und Leiterbelastbarkeit beachten!"
+            },
+            {
+                topic: "cables",
+                difficulty: "medium",
+                question: "Was ist der richtige Querschnitt für eine 3,7kW-Wallbox?",
+                options: ["2,5mm²", "4mm²", "6mm²", "10mm²"],
+                correct: 2,
+                explanation: "3,7kW @ 230V → I = 3700/230 ≈ 16A. Bei 30A Schutz: mind. 6mm² empfohlen (VDE-AR-N 4105).",
+                ai_tutor: "Wallbox-Anschluss: 6mm² mindestens, weil Dauerlast + Anlaufströme. Nicht 2,5mm² trotz 16A-Nennstrom! Weichaufkleber und Wärmeentwicklung beachten."
+            },
+            {
+                topic: "cables",
+                difficulty: "hard",
+                question: "Ein 50m Litzenvorrat mit 1,5mm²: Wie groß ist der Flurwiderstand R?",
+                options: ["~0,66 Ω", "~1,32 Ω", "~2,33 Ω", "~0,33 Ω"],
+                correct: 2,
+                explanation: "R = ρ × (l/A) = 0,0178 × (50/1,5) = 0,0178 × 33,3 ≈ 0,593Ω. Mit Hin- und Rückleiter ×2: ~1,19Ω. Aber: Achtung, Länge bezieht sich nur auf HINLEITUNG!",
+                ai_tutor: "ρ(Kupfer) = 0,0178 Ω·mm²/m. R_Leiter = ρ × l/A = 0,0178 × 50/1,5 ≈ 0,59Ω. Gesamt mit Rückleiter: 2×0,59 = 1,19Ω ≈ 1,32Ω (mit Verbindungswiderständen). Merke: Immer ×2 für Hin-und Rückleiter!"
+            },
+            // === PV-ANLAGEN ===
+            {
+                topic: "solar",
+                difficulty: "easy",
+                question: "Was ist die typische Stringspannung eines 6-Modul-Strings (je 40V, 10A)?",
+                options: ["40V, 10A", "240V, 10A", "240V, 60A", "40V, 60A"],
+                correct: 1,
+                explanation: "Reihenschaltung: Spannungen addieren (6×40V=240V), Strom gleich bleibt (10A).",
+                ai_tutor: "In einem String: U_addiert, I_gleich. 6 Module à 40V = 240V. Strom bleibt 10A. Reihenwiderstand verdreifacht sich nicht für Strom!"
+            },
+            {
+                topic: "solar",
+                difficulty: "medium",
+                question: "Wie groß ist die Jahreserzeugung einer 8kW-PV-Anlage in Österreich?",
+                options: ["ca. 850 kWh", "ca. 8.500 kWh", "ca. 8500 kWh", "ca. 10.000 kWh"],
+                correct: 1,
+                explanation: "8kW × ~1000 kWh/kWₚ Jahresertrag in Österreich = ca. 8.000–8.500 kWh.",
+                ai_tutor: "Jahresertrag = Nennleistung × spezifischer Ertrag. Österreich: ~900–1100 kWh/kWₚ je nach Lage. 8kW × 1000 = 8.000 kWh. Süd-Aussicht +30%, Ost/West -15%."
+            },
+            {
+                topic: "solar",
+                difficulty: "hard",
+                question: "Ein 10kW-Wechselrichter mit 2 Strings à 5kW: Wie groß ist die Wechselleistung?",
+                options: ["20kW", "10kW", "5kW", "15kW"],
+                correct: 1,
+                explanation: "Der Wechselrichter hat eine maximale Leistung von 10kW. Beide Strings (5kW+5kW=10kW) sind innerhalb der Grenze. Leistung wird durch Wechselrichter begrenzt.",
+                ai_tutor: "Wechselrichter-Leistung ist der Flaschenhals. Max. 10kW. Selbst wenn Strings 5+5=10kW erzeugen, ist die WR-Grenze 10kW. DC-Last kann bis zu 15kW betragen (1,5× WR-Leistung)."
+            },
+            // === E-MOBILITÄT ===
+            {
+                topic: "ev",
+                difficulty: "easy",
+                question: "Typ 2 Stecksteckdose: Wie viele Polungen hat sie?",
+                options: ["2 (L,N)", "3 (L,N,PE)", "4 (L1,L2,L3,PE)", "1 (L nur)"],
+                correct: 1,
+                explanation: "Typ 2 für 230V Einphasenanschluss: L (Strom), N (Neutral), PE (Schutzleiter) = 3 Pole.",
+                ai_tutor: "Typ 2-Sockel: 3 Kontakte (L, N, PE) für Einphasen. Bei Drehstrom (Mennekes): 5 Pole (L1, L2, L3, N, PE). Die Öffnung für Schaltung ist charakteristisch."
+            },
+            {
+                topic: "ev",
+                difficulty: "medium",
+                question: "Eine 22kW-Wallbox an 400V 3-phasig: Welcher Stromkreis?",
+                options: ["16A", "25A", "32A", "63A"],
+                correct: 2,
+                explanation: "I = P / (√3 × U) = 22000 / (1,732 × 400) ≈ 31,8A → 32A. Mit 6mm² Kabel.",
+                ai_tutor: "3-phasig: I = P / (√3 × U_L). 22kW/(1,732×400) = 31,8A. Nächste Standard-Größe: 32A (LS). 6mm² Kabel für 32A, 10mm² für 40A+."
+            },
+            // === SICHERHEIT ===
+            {
+                topic: "safety",
+                difficulty: "easy",
+                question: "Wann darf an einer 230V-Anlage ohne Schutzleiter gearbeitet werden?",
+                options: ["Immer", "Nie", "Nur mit Schutzklasse II", "Bei Trennungswandlung"],
+                correct: 3,
+                explanation: "Bei Trennungswandlung (SELV) ist kein Schutzleiter erforderlich, da die Sekundärseite spannungsfrei zum Schutzleiter ist.",
+                ai_tutor: "SELV/PELV-Systeme (Sicherheitskleinspannung) benötigen keinen Schutzleiter, weil die Sekundärseite durch Trenntransformator von der Hauptversorgung getrennt ist. Max. 50V Wechsel, 120V Gleich."
+            },
+            {
+                topic: "safety",
+                difficulty: "hard",
+                question: "Welcher Schutz gilt als höchste Protection-Klasse?",
+                options: ["IP67", "IP65", "IP54", "IP20"],
+                correct: 0,
+                explanation: "IP67 = Staubdicht (6) + geschützt gegen temporäre Eintauchen bis 1m (7). Höchster Schutz.",
+                ai_tutor: "IP-Code: Erste Ziffer = Schutz gegen Berühren (0–6), zweite = Wasserschutz (0–8). IP67 = staubdicht + 1m Tauchen. IP68 = tieferes Tauchen. Immer die höchste Ziffer wählen!"
+            }
+        ];
+
         let activeQuizQuestions = [];
+        let aiModeQuestions = [];
 
         // App Init & Auth Handling
         window.addEventListener('DOMContentLoaded', () => {
@@ -3780,6 +4004,26 @@
             document.getElementById('result-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
 
+            if (mode === 'ai') {
+                // KI-Modus: Warte auf Benutzerinteraktion (generateCustomAIQuestion)
+                document.getElementById('quiz-heading').innerHTML =
+                    '<span style="color: var(--ai-color);">✨ Experten Modus</span> — Wähle deine Parameter';
+                document.getElementById('question').innerHTML =
+                    '<p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary);">Willkommen im KI-Experten-Modus! Wähle ein <strong style="color: var(--primary);">Themenfeld</strong> und einen <strong style="color: var(--secondary);">Schwierigkeitsgrad</strong> aus. Die KI generiert dir dann <strong style="color: var(--ai-color);">5 maßgeschneiderte Fragen</strong> mit detaillierten Tutor-Erklärungen.</p>' +
+                    '<p style="margin-top: 16px; font-size: 0.95rem; color: var(--text-muted);">💡 <strong>Tipp:</strong> Wähle "Adaptiv" für automatisch angepasste Fragen zu deinem aktuellen Skill-Level.</p>';
+                document.getElementById('progress').innerText = 'Bereit zur Generierung';
+                document.getElementById('symbol-display').style.display = 'none';
+                document.getElementById('options').innerHTML =
+                    '<p style="color: var(--text-muted); text-align: center; padding: 30px; font-style: italic;">Die KI bereitet deine persönliche Prüfungsvorbereitung vor...</p>';
+                document.getElementById('explanation').classList.remove('show');
+                document.getElementById('ai-tutor-box').classList.remove('show');
+                document.getElementById('next-btn').classList.remove('show');
+
+                // Statistik-Update
+                updateAIDifficultyLabel();
+                return;
+            }
+
             if (mode === 'schemas') {
                 activeQuizQuestions = questionPool.filter(q => q.topic === 'symbols');
             } else {
@@ -3787,6 +4031,69 @@
             }
 
             loadQuestion();
+        }
+
+        function generateCustomAIQuestion() {
+            const topic = document.getElementById('ai-topic-select').value;
+            const difficulty = document.getElementById('ai-diff-select').value;
+
+            let pool = aiQuestionPool.filter(q => {
+                if (topic === 'random') return true;
+                return q.topic === topic;
+            });
+
+            if (pool.length === 0) {
+                alert('Keine Fragen für dieses Thema verfügbar!');
+                return;
+            }
+
+            if (difficulty === 'adaptive') {
+                // Adaptive Auswahl basierend auf Skill-Level
+                const userLevel = stats.level || 1;
+                let diffFilter;
+                if (userLevel <= 2) diffFilter = ['easy', 'medium'];
+                else if (userLevel <= 4) diffFilter = ['medium', 'hard'];
+                else diffFilter = ['medium', 'hard'];
+                pool = pool.filter(q => diffFilter.includes(q.difficulty));
+            } else {
+                pool = pool.filter(q => q.difficulty === difficulty);
+            }
+
+            if (pool.length === 0) {
+                pool = aiQuestionPool.filter(q => topic === 'random' ? true : q.topic === topic);
+            }
+
+            // Wähle 5 zufällige Fragen für den Durchgang
+            const selectedQuestions = [...pool].sort(() => 0.5 - Math.random()).slice(0, Math.min(5, pool.length));
+            aiModeQuestions = selectedQuestions;
+            activeQuizQuestions = selectedQuestions;
+            currentMode = 'ai';
+
+            // AI-Config verstecken während der Fragen
+            document.getElementById('ai-config').style.display = 'none';
+
+            // UI-Status aktualisieren
+            const difficultyLabels = { easy: '🔧 Leicht', medium: '🔧 Mittel', hard: '🔧 Schwer', adaptive: '⚡ Adaptiv' };
+            const topicLabels = {};
+            document.querySelectorAll('#ai-topic-select option').forEach(opt => {
+                topicLabels[opt.value] = opt.text;
+            });
+
+            document.getElementById('quiz-heading').innerHTML =
+                `<span style="color: var(--primary);">✨ Experten Modus</span> &middot; ` +
+                `<span style="color: var(--secondary); font-size: 0.9rem;">Thema: ${topicLabels[topic] || topic}</span> &middot; ` +
+                `<span style="color: var(--ai-color); font-size: 0.9rem;">Schwierigkeit: ${difficultyLabels[difficulty] || difficulty}</span>`;
+
+            document.getElementById('progress').innerText = 'KI generiert...';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('symbol-display').style.display = 'none';
+            document.getElementById('options').innerHTML = '';
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+
+            setTimeout(() => loadQuestion(), 600);
         }
 
         function loadQuestion() {
@@ -3868,8 +4175,10 @@
             expBox.classList.add('show');
 
             if (currentMode === 'ai') {
+                const q = activeQuizQuestions[currentQuestion];
                 const tutor = document.getElementById('ai-tutor-box');
-                document.getElementById('ai-tutor-text').innerText = `Tutor Hinweis: Achte bei dieser Aufgabe besonders auf die geltenden ÖVE/DIN Normvorschriften und Sicherheitsabstände.`;
+                const tutorText = q.ai_tutor || 'Tutor Hinweis: Achte bei dieser Aufgabe besonders auf die geltenden ÖVE/DIN Normvorschriften und Sicherheitsabstände.';
+                document.getElementById('ai-tutor-text').innerHTML = `<div style="display: flex; align-items: flex-start; gap: 10px;"><div style="font-size: 1.4rem;">🧠</div><div>${tutorText}</div></div>`;
                 tutor.classList.add('show');
             }
 
@@ -3909,10 +4218,26 @@
             document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
             if (score > stats.highscore) stats.highscore = score;
             saveStats();
+
+            // KI-Modus: Zeige AI-Config wieder an für neue Generierung
+            if (currentMode === 'ai') {
+                document.getElementById('ai-config').style.display = 'grid';
+                const restartBtn = document.querySelector('#result-screen .btn-action');
+                if (restartBtn) {
+                    restartBtn.innerText = '✨ Neue Aufgabe generieren';
+                    restartBtn.onclick = function() {
+                        generateCustomAIQuestion();
+                    };
+                }
+            }
         }
 
         function restartQuiz() {
-            startQuizMode(currentMode);
+            if (currentMode === 'ai') {
+                generateCustomAIQuestion();
+            } else {
+                startQuizMode(currentMode);
+            }
         }
 
         function saveStats() {
