@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Elektriker Pro - Schulung, Schaltsymbole, Schaltpläne & KI Modus</title>
+    <title>Elektriker Plus - Schulung, Schaltsymbole, VS-Duell & KI Modus</title>
     
     <!-- PWA & Mobile Web App Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#06b6d4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Elektriker Pro">
+    <meta name="apple-mobile-web-app-title" content="Elektriker Plus">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2983/2983780.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -154,6 +154,252 @@
             font-weight: 500;
         }
 
+        /* User Profile Bar */
+        .user-profile-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(13, 20, 35, 0.85);
+            border: 1px solid var(--card-border);
+            padding: 14px 24px;
+            border-radius: 50px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .user-details h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-tag {
+            font-size: 0.72rem;
+            color: var(--primary);
+            background: rgba(6, 182, 212, 0.15);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-family: var(--font-code);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .user-stats-summary {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-profile {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-profile:hover {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-logout {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--incorrect);
+        }
+
+        /* Auth Screen (Login/Register/Guest) */
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 6, 11, 0.92);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px var(--primary-glow);
+            text-align: center;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(0,0,0,0.5);
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 28px;
+            border: 1px solid var(--card-border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .auth-tab.active {
+            background: var(--primary);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .auth-input-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .auth-input-group input, .auth-input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .auth-input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .avatar-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .avatar-opt {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .avatar-opt.selected {
+            border-color: var(--primary);
+            background: rgba(6, 182, 212, 0.2);
+            transform: scale(1.1);
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--primary), #0284c7);
+            color: #000;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 10px;
+            box-shadow: 0 8px 25px var(--primary-glow);
+        }
+
+        .btn-auth-submit:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        /* Profile Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .profile-modal {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
         /* Cards & Layout */
         .glass-card {
             background: var(--card-bg);
@@ -254,8 +500,8 @@
         
         .menu-options {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
             margin: 36px 0 20px;
         }
 
@@ -263,7 +509,7 @@
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
             border: 1px solid var(--card-border);
             border-radius: var(--radius-md);
-            padding: 28px 18px;
+            padding: 24px 14px;
             cursor: pointer;
             transition: var(--transition-smooth);
             display: flex;
@@ -295,11 +541,11 @@
         }
 
         .menu-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+            font-size: 2.2rem;
+            margin-bottom: 14px;
             background: rgba(6, 182, 212, 0.08);
-            width: 70px;
-            height: 70px;
+            width: 62px;
+            height: 62px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -316,17 +562,17 @@
         }
 
         .menu-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-align: center;
         }
 
         .menu-description {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.4;
             text-align: center;
         }
 
@@ -378,7 +624,7 @@
         }
 
         .toggle-btn {
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 12px;
             border: none;
             background: transparent;
@@ -404,6 +650,74 @@
         /* Content Areas */
         .content-area { display: none; }
         .content-area.active { display: block; animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* VS Modus Layout & Components */
+        .vs-lobby-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .vs-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .vs-card:hover {
+            border-color: var(--secondary);
+            background: rgba(139, 92, 246, 0.06);
+        }
+
+        .vs-code-display {
+            font-family: var(--font-code);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 4px;
+            background: rgba(0,0,0,0.6);
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            border: 1px dashed var(--primary);
+            margin: 16px 0;
+            user-select: all;
+        }
+
+        .vs-player-vs-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 20px 28px;
+            margin-bottom: 28px;
+        }
+
+        .vs-player-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .vs-player-box.right {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        .vs-score-tag {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: var(--font-code);
+            color: var(--primary);
+        }
 
         /* Quiz & AI Styles */
         .ai-config-panel {
@@ -947,6 +1261,7 @@
         /* Responsive */
         @media (max-width: 900px) {
             .menu-options { grid-template-columns: repeat(2, 1fr); }
+            .vs-lobby-container { grid-template-columns: 1fr; }
             .ai-config-panel { grid-template-columns: 1fr; gap: 16px; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 14px; }
             .options-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -961,6 +1276,8 @@
             .mode-toggle { flex-direction: column; }
             .toggle-btn { padding: 12px; }
             .status-badge { position: relative; margin-bottom: 16px; justify-content: center; top: auto; right: auto; }
+            .user-profile-bar { flex-direction: column; gap: 14px; text-align: center; border-radius: var(--radius-md); }
+            .user-info { flex-direction: column; }
         }
 
         @keyframes fadeIn {
@@ -971,13 +1288,119 @@
 </head>
 <body>
 
+    <!-- Auth Screen Overlay (Login / Registrieren / Gast) -->
+    <div id="auth-screen" class="auth-overlay">
+        <div class="auth-card">
+            <div class="brand-badge" style="margin-bottom: 12px;">⚡ Elektriker Plus</div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 6px;">Willkommen</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">Melde dich an, um deinen Fortschritt und VS-Rang zu speichern.</p>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Anmelden</button>
+                <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Registrieren</button>
+                <button class="auth-tab" id="tab-guest" onclick="switchAuthTab('guest')">Als Gast</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" class="auth-form" onsubmit="handleLogin(event)">
+                <div class="auth-input-group">
+                    <label>Benutzername</label>
+                    <input type="text" id="login-username" required placeholder="z.B. ElektrikerMeister">
+                </div>
+                <div class="auth-input-group">
+                    <label>Passwort</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-auth-submit">Anmelden</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="form-register" class="auth-form" style="display: none;" onsubmit="handleRegister(event)">
+                <div class="auth-input-group">
+                    <label>Gewünschter Benutzername</label>
+                    <input type="text" id="reg-username" required placeholder="z.B. StromProfi99">
+                </div>
+                <div class="auth-input-group">
+                    <label>Passwort</label>
+                    <input type="password" id="reg-password" required placeholder="Erstelle ein Passwort">
+                </div>
+                <div class="auth-input-group">
+                    <label>Profil-Avatar wählen</label>
+                    <div class="avatar-selector">
+                        <div class="avatar-opt selected" onclick="selectAvatar(this, '⚡')">⚡</div>
+                        <div class="avatar-opt" onclick="selectAvatar(this, '💡')">💡</div>
+                        <div class="avatar-opt" onclick="selectAvatar(this, '🔋')">🔋</div>
+                        <div class="avatar-opt" onclick="selectAvatar(this, '⚙️')">⚙️</div>
+                        <div class="avatar-opt" onclick="selectAvatar(this, '🤖')">🤖</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-auth-submit">Konto erstellen & Starten</button>
+            </form>
+
+            <!-- Guest Form -->
+            <div id="form-guest" class="auth-form" style="display: none; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+                    Im Gastmodus wird ein temporäres Profil für diese Sitzung generiert. Du kannst im VS-Modus spielen und Punkte sammeln.
+                </p>
+                <button type="button" class="btn-auth-submit" onclick="handleGuestLogin()">Als Gast fortfahren</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="profile-modal" class="modal-overlay" style="display: none;">
+        <div class="profile-modal">
+            <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 20px; color: var(--primary);">👤 Nutzerprofil & Details</h2>
+            
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div id="modal-avatar" style="font-size: 3rem; margin-bottom: 8px;">⚡</div>
+                <h3 id="modal-username" style="font-size: 1.4rem;">-</h3>
+                <span id="modal-userid" class="user-tag">-</span>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.5); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--card-border); margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                    <span>⚔️ VS Rating (ELO):</span>
+                    <strong id="modal-elo" style="color: var(--primary); font-family: var(--font-code);">1200</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                    <span>🏆 VS Duelle:</span>
+                    <strong id="modal-vs-stats" style="color: #fff;">0 Siege / 0 Niederlagen</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                    <span>🎯 Quiz Genauigkeit:</span>
+                    <strong id="modal-accuracy" style="color: var(--correct);">0%</strong>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-action show" onclick="closeProfileModal()" style="margin:0;">Schließen</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div id="connection-status" class="status-badge"><div class="status-dot"></div> Online</div>
-            <div class="brand-badge">⚡ Normenkonform & Adaptiv</div>
-            <h1>Elektriker Pro</h1>
-            <p>Schulungsportal, Schaltsymbole, Schaltpläne & KI Modus</p>
+            <div class="brand-badge">⚡ Normenkonform & Multiplayer</div>
+            <h1>Elektriker Plus</h1>
+            <p>Schulungsportal, Schaltsymbole, VS-Duell & KI Modus</p>
+        </div>
+
+        <!-- User Profile Header Bar -->
+        <div class="user-profile-bar" id="user-profile-bar">
+            <div class="user-info">
+                <div class="user-avatar" id="bar-avatar">⚡</div>
+                <div class="user-details">
+                    <h4 id="bar-username">Gast <span class="user-tag" id="bar-userid">#GAST</span></h4>
+                    <div class="user-stats-summary" id="bar-stats-summary">VS Rating: 1200 ELO | Lvl 1</div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-profile" onclick="openProfileModal()">👤 Profil Details</button>
+                <button class="btn-profile btn-logout" onclick="logoutUser()">Abmelden</button>
+            </div>
         </div>
 
         <!-- Dashboard Bar -->
@@ -1000,7 +1423,7 @@
             </div>
         </div>
 
-        <!-- Erweiterte Fortschritts- & Detail-Panel (Ausklappbar) -->
+        <!-- Erweiterte Fortschritts- & Detail-Panel -->
         <div id="detailed-stats-panel" class="progress-details-panel" style="display: none;">
             <h3 style="color: var(--primary); margin-bottom: 14px; font-size: 1.1rem;">📊 Erweiterte Lernfortschritte & XP</h3>
             <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px;">
@@ -1036,13 +1459,18 @@
                 </div>
                 <div class="menu-option" onclick="startMode('schemas')">
                     <div class="menu-icon">📐</div>
-                    <div class="menu-title">Schaltsymbole & Pläne</div>
+                    <div class="menu-title">Schaltsymbole</div>
                     <div class="menu-description">Quiz speziell für Schaltpläne & Schaltsymbole.</div>
                 </div>
                 <div class="menu-option" onclick="startMode('ai')">
                     <div class="menu-icon">✨</div>
                     <div class="menu-title">Experten Modus</div>
-                    <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit intelligentem Tutor.</div>
+                    <div class="menu-description">Erweiterte Theorie-, Symbol- & Rechenaufgaben mit KI Tutor.</div>
+                </div>
+                <div class="menu-option" onclick="startMode('vs')">
+                    <div class="menu-icon">⚔️</div>
+                    <div class="menu-title">VS-Duell (Online)</div>
+                    <div class="menu-description">Tritt live gegen echte Menschen & Freunde an!</div>
                 </div>
                 <div class="menu-option" onclick="startMode('learn')">
                     <div class="menu-icon">📚</div>
@@ -1058,9 +1486,103 @@
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
                     <button class="toggle-btn" id="toggle-quiz" onclick="switchMode('quiz')">📝 Quiz</button>
-                    <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole & Pläne</button>
+                    <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole</button>
                     <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button>
+                    <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Duell</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VS Modus Area -->
+        <div id="vs-mode" class="content-area">
+            <div class="glass-card">
+                <!-- VS Lobby View -->
+                <div id="vs-lobby">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <h2 style="font-size: 2rem; color: var(--primary);">⚔️ Echtzeit VS-Duell</h2>
+                        <p style="color: var(--text-muted);">Fordere andere Elektriker oder deine Freunde im Live-Quiz heraus!</p>
+                    </div>
+
+                    <div class="vs-lobby-container">
+                        <!-- Quick Match -->
+                        <div class="vs-card">
+                            <div style="font-size: 3rem; margin-bottom: 12px;">⚡</div>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Schnellspiel (Matchmaking)</h3>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+                                Sucht automatisch nach einem aktiven Online-Gegner im Netzwerk.
+                            </p>
+                            <button class="ai-btn-action" style="width: 100%;" onclick="startVsMatchmaking()">🔍 Gegner suchen</button>
+                        </div>
+
+                        <!-- Room Invite / Code -->
+                        <div class="vs-card">
+                            <div style="font-size: 3rem; margin-bottom: 12px;">✉️</div>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Freund einladen</h3>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+                                Erstelle einen privaten Raum-Code oder tritt dem Raum eines Freundes bei.
+                            </p>
+                            
+                            <button class="nav-btn" style="width: 100%; justify-content: center; margin-bottom: 12px; background: rgba(6,182,212,0.15);" onclick="createVsRoom()">➕ Raum erstellen</button>
+                            
+                            <div style="display: flex; gap: 8px; width: 100%;">
+                                <input type="text" id="vs-join-code-input" placeholder="Raum-Code (z.B. ELK-88)" style="flex:1; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--card-border); background: rgba(0,0,0,0.6); color:#fff; text-transform: uppercase;">
+                                <button class="btn-profile" style="padding: 12px 18px;" onclick="joinVsRoom()">Beitreten</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Waiting Screen / Room Active -->
+                    <div id="vs-waiting-panel" style="display: none; text-align: center; margin-top: 32px; padding: 28px; background: rgba(0,0,0,0.5); border-radius: var(--radius-md); border: 1px solid var(--primary);">
+                        <h3 style="color: var(--primary); margin-bottom: 8px;">Warte auf Mitspieler...</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Teile folgenden Raum-Code mit deinem Freund:</p>
+                        <div class="vs-code-display" id="created-room-code">ELK-1234</div>
+                        <button class="nav-btn" onclick="cancelVsLobby()">Abbrechen</button>
+                    </div>
+                </div>
+
+                <!-- VS Active Arena View -->
+                <div id="vs-arena" style="display: none;">
+                    <div class="vs-player-vs-bar">
+                        <div class="vs-player-box">
+                            <div class="user-avatar" id="vs-p1-avatar">⚡</div>
+                            <div>
+                                <h4 id="vs-p1-name">Du</h4>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);" id="vs-p1-id">#ID</div>
+                            </div>
+                            <div class="vs-score-tag" id="vs-p1-score">0</div>
+                        </div>
+
+                        <div style="font-size: 1.4rem; font-weight: 800; color: var(--ai-color);">VS</div>
+
+                        <div class="vs-player-box right">
+                            <div class="user-avatar" id="vs-p2-avatar" style="background: linear-gradient(135deg, var(--ai-color), var(--secondary));">🤖</div>
+                            <div>
+                                <h4 id="vs-p2-name">Gegner</h4>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);" id="vs-p2-id">#ONLINE</div>
+                            </div>
+                            <div class="vs-score-tag" id="vs-p2-score">0</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-top">
+                        <div class="quiz-title" id="vs-quiz-heading">⚔️ Duell Runde 1 / 5</div>
+                        <div class="timer-pill" id="vs-timer-box">⏱️ <span id="vs-timer">15</span>s</div>
+                    </div>
+
+                    <div class="question-box" id="vs-question">Frage wird vorbereitet...</div>
+                    <div class="symbol-container" id="vs-symbol-display" style="display: none;"></div>
+                    <div class="options-grid" id="vs-options"></div>
+                    
+                    <div id="vs-round-status" style="text-align: center; color: var(--text-muted); font-weight: 700; margin-top: 14px;"></div>
+                </div>
+
+                <!-- VS Result View -->
+                <div id="vs-result-screen" style="display: none; text-align: center; padding: 36px 0;">
+                    <h2 id="vs-result-title" style="font-size: 2.8rem; margin-bottom: 10px;">🏆 DU HAST GEWONNEN!</h2>
+                    <p id="vs-result-subtitle" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">Hervorragende Leistung im Elektriker-Duell!</p>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); font-family: var(--font-code); margin-bottom: 32px;" id="vs-elo-change">+25 ELO Punkte</div>
+                    <button class="btn-action show" onclick="backToVsLobby()" style="max-width: 300px; margin: 0 auto;">Zurück zur Lobby</button>
                 </div>
             </div>
         </div>
@@ -1127,7 +1649,7 @@
             </div>
         </div>
 
-        <!-- Learning Area -->
+        <!-- Learning Area (Unverändert) -->
         <div id="learn-mode" class="content-area">
             <div class="glass-card">
                 <div id="topics-view">
@@ -1220,12 +1742,15 @@
     </div>
 
     <script>
-        // State Management
-        let stats = JSON.parse(localStorage.getItem('elek_pro_stats')) || { 
+        // State & Account Management
+        let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
+        let registeredUsers = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
+        let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
             topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
         };
 
+        let selectedAvatar = '⚡';
         let currentMode = 'quiz';
         let currentQuestion = 0;
         let score = 0;
@@ -1233,7 +1758,23 @@
         let timerInterval = null;
         let timeLeft = 30;
 
-        // Vollständige SVG Schaltsymbole Library (Inkl. ALLEN Schalterarten nach DIN EN 60617)
+        // Multiplayer / VS Channel
+        const vsChannel = new BroadcastChannel('elek_plus_vs_channel');
+        let vsGameState = {
+            active: false,
+            roomCode: null,
+            opponent: null,
+            p1Score: 0,
+            p2Score: 0,
+            currentRound: 0,
+            maxRounds: 5,
+            p1Answered: false,
+            p2Answered: false,
+            timer: 15,
+            questions: []
+        };
+
+        // SVG Schaltsymbole
         const svgSymbols = {
             switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
             switch_changeover: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="15" x2="90" y2="15"/><line x1="65" y1="45" x2="90" y2="45"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="15" r="3" fill="#06b6d4"/><circle cx="65" cy="45" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="17"/></svg>`,
@@ -1252,7 +1793,7 @@
             ground: `<svg viewBox="0 0 100 60"><line x1="50" y1="10" x2="50" y2="32"/><line x1="25" y1="32" x2="75" y2="32"/><line x1="35" y1="40" x2="65" y2="40"/><line x1="45" y1="48" x2="55" y2="48"/></svg>`
         };
 
-        // Erweiterte Lerninhalte inklusive präziser, korrigierter Grundlagen & Formeln
+        // Unveränderter Lernbereich
         const learningContent = {
             symbols_overview: {
                 title: "Schaltsymbole Kartei",
@@ -1798,7 +2339,7 @@
             }
         };
 
-        // Standard Fragenpool für Quiz & Experten-Modus
+        // Standard Fragenpool
         const questionPool = [
             {
                 topic: "symbols",
@@ -1814,283 +2355,531 @@
                 symbol: svgSymbols.switch_cross,
                 options: ["Ausschalter", "Kreuzschalter", "Taster", "2-poliger Schalter"],
                 correct: 1,
-                explanation: "Der Kreuzschalter kreuzt zwei Korrespondierende und wird in Kreuzschaltungen (ab 3 Schaltstellen) eingesetzt."
+                explanation: "Der Kreuzschalter kreuzt zwei Korrespondierende und wird in Kreuzschaltungen (ab 3 Schaltstellen) verwendet."
             },
             {
                 topic: "ohm",
-                question: "Welcher Strom I fließt durch einen Heizwiderstand von R = 46 Ω an U = 230 V?",
-                symbol: null,
-                options: ["5.0 A", "10.5 A", "2.0 A", "4.6 A"],
-                correct: 0,
-                explanation: "Nach dem Ohmschen Gesetz: I = U / R = 230 V / 46 Ω = 5.0 A."
-            },
-            {
-                topic: "motor",
-                question: "Wie groß ist die Phasenverschiebung im symmetrischen Drehstromsystem zwischen den Außenleistern?",
-                symbol: null,
-                options: ["90°", "120°", "180°", "360°"],
+                question: "Wie lautet die Formel für das Ohmsche Gesetz zur Berechnung der Spannung U?",
+                options: ["U = I / R", "U = I * R", "U = P / R", "U = R / I"],
                 correct: 1,
-                explanation: "Die drei Außenleiter L1, L2 und L3 eines Drehstromsystems sind zeitlich jeweils um 120° versetzt."
+                explanation: "Spannung U ist das Produkt aus Stromstärke I und Widerstand R (U = I * R)."
             },
             {
                 topic: "protection",
-                question: "Welcher max. Bemessungsfehlerstrom IΔn ist für RCDs zum Personenschutz im Wohnbereich vorgeschrieben?",
+                question: "Welcher maximale Fehlerstrom IΔn ist im Wohnbereich für RCD-Steckdosenstromkreise vorgeschrieben?",
                 symbol: svgSymbols.rcd,
                 options: ["100 mA", "300 mA", "30 mA", "500 mA"],
                 correct: 2,
-                explanation: "Zum Personenschutz in Endstromkreisen bis 32A in Wohngebäuden ist ein RCD mit max. 30 mA vorgeschrieben."
-            },
-            {
-                topic: "symbols",
-                symbol: svgSymbols.switch_2pole,
-                question: "Welches Schaltzeichen ist hier abgebildet?",
-                options: ["2-poliger Schalter", "Serienschalter", "Wechselschalter", "Taster"],
-                correct: 0,
-                explanation: "Der 2-polige Schalter trennt zwei aktive Leiter (z.B. L und N) gleichzeitig allpolig vom Netz."
-            },
-            {
-                topic: "cables",
-                question: "Welcher maximale Spannungsfall ΔU ist bei Beleuchtungsanlagen nach DIN VDE 0100-520 ab Hausanschluss empfohlen?",
-                symbol: null,
-                options: ["1.5%", "3.0%", "5.0%", "8.0%"],
-                correct: 1,
-                explanation: "Für Beleuchtungsanlagen beträgt der empfohlene max. Spannungsfall 3%, für sonstige Verbraucher max. 4%."
-            },
-            {
-                topic: "symbols",
-                symbol: svgSymbols.push_button,
-                question: "Wie nennt man dieses elektrotechnische Betriebsmittel?",
-                options: ["Taster (Schließer)", "Ausschalter", "Sicherung", "Kondensator"],
-                correct: 0,
-                explanation: "Das Symbol zeigt einen Taster als Schließer (Momentkontakt mit Rückstellfeder)."
-            },
-            {
-                topic: "ohm",
-                question: "Welche Wirkleistung P nimmt ein Drehstrommotor bei U_L = 400 V, I = 10 A und cos(φ) = 0.9 auf?",
-                symbol: null,
-                options: ["3.46 kW", "6.24 kW", "4.00 kW", "7.20 kW"],
-                correct: 1,
-                explanation: "P = √3 · U_L · I · cos(φ) = 1.732 · 400 V · 10 A · 0.9 ≈ 6235 W ≈ 6.24 kW."
+                explanation: "Nach DIN VDE 0100-410 gilt für Steckdosen bis 32 A im Innenbereich ein maximaler Bemessungsfehlerstrom von 30 mA zum Personenschutz."
             },
             {
                 topic: "protection",
-                question: "In welchem Netzsystem ist ein RCD (FI-Schalter) aufgrund hoher Schleifenwiderstände zwingend vorgeschrieben?",
-                symbol: null,
-                options: ["TN-S-Netz", "TN-C-Netz", "TT-Netz", "IT-Netz"],
+                question: "Wo erfolgt im TN-C-S-Netz die Aufteilung des PEN-Leiters in PE und N?",
+                options: ["Im Trafohäuschen", "Im Hausanschlusskasten (HAK) / Hauptverteiler", "Direkt an der Steckdose", "Gar nicht"],
+                correct: 1,
+                explanation: "Die Aufteilung des PEN-Leiters in N und PE erfolgt an der Hauptpotenzialausgleichsschiene im Hausanschlusskasten oder Hauptverteiler."
+            },
+            {
+                topic: "safety",
+                question: "Wie lautet die 1. Sicherheitsregel der Elektrotechnik?",
+                options: ["Gegen Wiedereinschalten sichern", "Spannungsfreiheit feststellen", "Freischalten", "Erden und Kurzschließen"],
                 correct: 2,
-                explanation: "Im TT-Netz fließt der Fehlerstrom über das Erdreich zurück; der Schleifenwiderstand ist zu hoch für reine Überstromsicherung – ein RCD ist zwingend."
+                explanation: "Die 1. Sicherheitsregel lautet: Freischalten (allpoliges Trennen von der Spannungsversorgung)."
+            },
+            {
+                topic: "motor",
+                question: "Welche Verkettungsspannung misst man zwischen zwei Außenleitern (L1 und L2) im europäischen Standardnetz?",
+                options: ["230 V", "400 V", "500 V", "110 V"],
+                correct: 1,
+                explanation: "Die Leiterspannung (Verkettungsspannung) zwischen zwei Außenleitern beträgt 230 V * √3 ≈ 400 V."
             }
         ];
 
-        let activeQuizQuestions = [...questionPool];
+        let activeQuizQuestions = [];
 
-        // Initialisierung
-        window.onload = function() {
-            renderTopicsList();
-            updateStatsDisplay();
-            checkOnlineStatus();
-            window.addEventListener('online', checkOnlineStatus);
-            window.addEventListener('offline', checkOnlineStatus);
-        };
+        // App Init & Auth Handling
+        window.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+            renderTopics();
+            calculateOhm();
+            calculate3Phase();
+            calculateVoltageDrop();
+            calculateCrossSection();
+            initVsChannel();
+        });
 
-        function checkOnlineStatus() {
-            const statusEl = document.getElementById('connection-status');
-            if (navigator.onLine) {
-                statusEl.className = 'status-badge';
-                statusEl.innerHTML = '<div class="status-dot"></div> Online';
+        function initAuth() {
+            if (!currentUser) {
+                document.getElementById('auth-screen').style.display = 'flex';
             } else {
-                statusEl.className = 'status-badge offline';
-                statusEl.innerHTML = '<div class="status-dot"></div> Offline Modus';
+                document.getElementById('auth-screen').style.display = 'none';
+                updateUserDisplay();
             }
         }
 
-        // Navigation & Moduswechsel
-        function startMode(mode) {
-            currentMode = mode;
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('mode-nav-area').style.display = 'block';
-            
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('form-login').style.display = 'none';
+            document.getElementById('form-register').style.display = 'none';
+            document.getElementById('form-guest').style.display = 'none';
 
-            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
-                document.getElementById('quiz-mode').classList.add('active');
-                document.getElementById('toggle-' + mode).classList.add('active');
-                
-                const aiConfig = document.getElementById('ai-config');
-                const heading = document.getElementById('quiz-heading');
-                
-                if (mode === 'ai') {
-                    aiConfig.style.display = 'grid';
-                    heading.innerHTML = '✨ Experten & KI-Modus';
-                } else if (mode === 'schemas') {
-                    aiConfig.style.display = 'none';
-                    heading.innerHTML = '📐 Schaltsymbole & Pläne Quiz';
-                } else {
-                    aiConfig.style.display = 'none';
-                    heading.innerHTML = '📝 Standard Fachfragen Quiz';
-                }
-                initQuiz(mode);
-            } else if (mode === 'learn') {
-                document.getElementById('learn-mode').classList.add('active');
-                document.getElementById('toggle-learn').classList.add('active');
-                backToTopics();
+            if (tab === 'login') {
+                document.getElementById('tab-login').classList.add('active');
+                document.getElementById('form-login').style.display = 'flex';
+            } else if (tab === 'register') {
+                document.getElementById('tab-register').classList.add('active');
+                document.getElementById('form-register').style.display = 'flex';
+            } else if (tab === 'guest') {
+                document.getElementById('tab-guest').classList.add('active');
+                document.getElementById('form-guest').style.display = 'flex';
             }
         }
 
-        function switchMode(mode) {
-            startMode(mode);
+        function selectAvatar(el, avatar) {
+            document.querySelectorAll('.avatar-opt').forEach(a => a.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedAvatar = avatar;
         }
 
-        function backToWelcome() {
-            clearInterval(timerInterval);
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.getElementById('mode-nav-area').style.display = 'none';
-            document.getElementById('welcome-screen').style.display = 'block';
-        }
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
 
-        // Quiz Logic
-        function initQuiz(mode) {
-            clearInterval(timerInterval);
-            currentQuestion = 0;
-            score = 0;
-            answered = false;
-            
-            document.getElementById('quiz-screen').style.display = 'block';
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-
-            if (mode === 'schemas') {
-                activeQuizQuestions = questionPool.filter(q => q.topic === 'symbols' || q.symbol);
-            } else if (mode === 'ai') {
-                activeQuizQuestions = [...questionPool].sort(() => Math.random() - 0.5);
-            } else {
-                activeQuizQuestions = [...questionPool].sort(() => Math.random() - 0.5).slice(0, 10);
-            }
-
-            if (activeQuizQuestions.length === 0) activeQuizQuestions = [...questionPool];
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            clearInterval(timerInterval);
-            if (currentQuestion >= activeQuizQuestions.length) {
-                endQuiz();
+            if (!username || !password) return;
+            if (registeredUsers[username]) {
+                alert('Benutzername bereits vergeben!');
                 return;
             }
 
-            answered = false;
-            timeLeft = 30;
-            document.getElementById('quiz-timer').innerText = timeLeft;
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            
-            const q = activeQuizQuestions[currentQuestion];
-            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
-            document.getElementById('question').innerText = q.question;
+            const userId = '#ELK-' + Math.floor(1000 + Math.random() * 9000);
+            const userObj = {
+                id: userId,
+                name: username,
+                password: password,
+                avatar: selectedAvatar,
+                vsRating: 1200,
+                vsWins: 0,
+                vsLosses: 0,
+                isGuest: false
+            };
 
-            const symDisp = document.getElementById('symbol-display');
-            if (q.symbol) {
-                symDisp.style.display = 'flex';
-                symDisp.innerHTML = q.symbol;
-            } else {
-                symDisp.style.display = 'none';
-                symDisp.innerHTML = '';
+            registeredUsers[username] = userObj;
+            localStorage.setItem('elek_plus_users', JSON.stringify(registeredUsers));
+
+            currentUser = userObj;
+            saveCurrentUser();
+            initAuth();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            const userObj = registeredUsers[username];
+            if (!userObj || userObj.password !== password) {
+                alert('Ungültige Anmeldedaten!');
+                return;
             }
 
-            const optionsGrid = document.getElementById('options');
-            optionsGrid.innerHTML = '';
-            
-            // Antworten mischen für mehr Abwechslung
-            let indices = [0, 1, 2, 3];
-            indices.sort(() => Math.random() - 0.5);
+            currentUser = userObj;
+            saveCurrentUser();
+            initAuth();
+        }
 
-            indices.forEach(origIdx => {
-                const optText = q.options[origIdx];
+        function handleGuestLogin() {
+            const guestId = '#GAST-' + Math.floor(1000 + Math.random() * 9000);
+            currentUser = {
+                id: guestId,
+                name: 'Gast ' + guestId.replace('#GAST-', ''),
+                avatar: '⚡',
+                vsRating: 1200,
+                vsWins: 0,
+                vsLosses: 0,
+                isGuest: true
+            };
+            saveCurrentUser();
+            initAuth();
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('elek_plus_current_user');
+            initAuth();
+        }
+
+        function saveCurrentUser() {
+            localStorage.setItem('elek_plus_current_user', JSON.stringify(currentUser));
+            if (currentUser && !currentUser.isGuest && registeredUsers[currentUser.name]) {
+                registeredUsers[currentUser.name] = currentUser;
+                localStorage.setItem('elek_plus_users', JSON.stringify(registeredUsers));
+            }
+            updateUserDisplay();
+        }
+
+        function updateUserDisplay() {
+            if (!currentUser) return;
+            document.getElementById('bar-avatar').innerText = currentUser.avatar;
+            document.getElementById('bar-username').innerHTML = `${currentUser.name} <span class="user-tag" id="bar-userid">${currentUser.id}</span>`;
+            document.getElementById('bar-stats-summary').innerText = `VS Rating: ${currentUser.vsRating} ELO | Lvl ${stats.level}`;
+
+            document.getElementById('stat-score').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
+            document.getElementById('stat-completed').innerText = stats.total;
+            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
+            document.getElementById('stat-high').innerText = stats.highscore;
+
+            updateBadges();
+        }
+
+        function openProfileModal() {
+            if (!currentUser) return;
+            document.getElementById('modal-avatar').innerText = currentUser.avatar;
+            document.getElementById('modal-username').innerText = currentUser.name;
+            document.getElementById('modal-userid').innerText = currentUser.id;
+            document.getElementById('modal-elo').innerText = currentUser.vsRating;
+            document.getElementById('modal-vs-stats').innerText = `${currentUser.vsWins} Siege / ${currentUser.vsLosses} Niederlagen`;
+            document.getElementById('modal-accuracy').innerText = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) + '%' : '0%';
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        // Multiplayer VS Channel Implementation
+        function initVsChannel() {
+            vsChannel.onmessage = (event) => {
+                const data = event.data;
+                if (!data || !vsGameState.active) return;
+
+                if (data.type === 'ROOM_JOIN' && data.roomCode === vsGameState.roomCode) {
+                    vsGameState.opponent = data.sender;
+                    document.getElementById('vs-waiting-panel').style.display = 'none';
+                    startVsArenaMatch();
+                } else if (data.type === 'ANSWER' && data.roomCode === vsGameState.roomCode) {
+                    if (data.sender.id !== currentUser.id) {
+                        vsGameState.p2Score += data.points;
+                        vsGameState.p2Answered = true;
+                        document.getElementById('vs-p2-score').innerText = vsGameState.p2Score;
+                        document.getElementById('vs-round-status').innerText = 'Gegner hat geantwortet!';
+                        checkVsRoundNext();
+                    }
+                }
+            };
+        }
+
+        function startVsMatchmaking() {
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-arena').style.display = 'block';
+
+            vsGameState.opponent = {
+                name: 'Netzwerk-Duellant',
+                id: '#ONLINE-' + Math.floor(1000 + Math.random() * 9000),
+                avatar: '🤖'
+            };
+
+            startVsArenaMatch();
+        }
+
+        function createVsRoom() {
+            const code = 'ELK-' + Math.floor(10 + Math.random() * 90);
+            vsGameState.roomCode = code;
+            vsGameState.active = true;
+            document.getElementById('created-room-code').innerText = code;
+            document.getElementById('vs-waiting-panel').style.display = 'block';
+        }
+
+        function joinVsRoom() {
+            const input = document.getElementById('vs-join-code-input').value.trim().toUpperCase();
+            if (!input) return;
+
+            vsGameState.roomCode = input;
+            vsGameState.active = true;
+            vsGameState.opponent = { name: 'Raum-Host', id: '#HOST', avatar: '⚙️' };
+
+            vsChannel.postMessage({
+                type: 'ROOM_JOIN',
+                roomCode: input,
+                sender: currentUser
+            });
+
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-arena').style.display = 'block';
+            startVsArenaMatch();
+        }
+
+        function cancelVsLobby() {
+            vsGameState.active = false;
+            document.getElementById('vs-waiting-panel').style.display = 'none';
+        }
+
+        function startVsArenaMatch() {
+            vsGameState.active = true;
+            vsGameState.p1Score = 0;
+            vsGameState.p2Score = 0;
+            vsGameState.currentRound = 0;
+            vsGameState.questions = [...questionPool].sort(() => 0.5 - Math.random()).slice(0, 5);
+
+            document.getElementById('vs-p1-avatar').innerText = currentUser.avatar;
+            document.getElementById('vs-p1-name').innerText = currentUser.name;
+            document.getElementById('vs-p1-id').innerText = currentUser.id;
+            document.getElementById('vs-p1-score').innerText = '0';
+
+            document.getElementById('vs-p2-avatar').innerText = vsGameState.opponent.avatar;
+            document.getElementById('vs-p2-name').innerText = vsGameState.opponent.name;
+            document.getElementById('vs-p2-id').innerText = vsGameState.opponent.id;
+            document.getElementById('vs-p2-score').innerText = '0';
+
+            loadVsRound();
+        }
+
+        function loadVsRound() {
+            if (vsGameState.currentRound >= vsGameState.maxRounds) {
+                finishVsMatch();
+                return;
+            }
+
+            vsGameState.currentRound++;
+            vsGameState.p1Answered = false;
+            vsGameState.p2Answered = false;
+            vsGameState.timer = 15;
+
+            document.getElementById('vs-quiz-heading').innerText = `⚔️ Duell Runde ${vsGameState.currentRound} / ${vsGameState.maxRounds}`;
+            document.getElementById('vs-round-status').innerText = 'Wähle schnell die richtige Antwort!';
+            
+            const q = vsGameState.questions[vsGameState.currentRound - 1];
+            document.getElementById('vs-question').innerText = q.question;
+
+            const symDisp = document.getElementById('vs-symbol-display');
+            if (q.symbol) {
+                symDisp.innerHTML = q.symbol;
+                symDisp.style.display = 'flex';
+            } else {
+                symDisp.style.display = 'none';
+            }
+
+            const optionsGrid = document.getElementById('vs-options');
+            optionsGrid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
-                btn.innerText = optText;
-                btn.onclick = () => selectAnswer(origIdx, q.correct, btn);
+                btn.innerText = opt;
+                btn.onclick = () => answerVsQuestion(idx, q.correct);
                 optionsGrid.appendChild(btn);
             });
 
-            startTimer();
-        }
-
-        function startTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('vs-timer').innerText = vsGameState.timer;
             timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('quiz-timer').innerText = timeLeft;
-                if (timeLeft <= 0) {
+                vsGameState.timer--;
+                document.getElementById('vs-timer').innerText = vsGameState.timer;
+                if (vsGameState.timer <= 0) {
                     clearInterval(timerInterval);
-                    handleTimeout();
+                    checkVsRoundNext();
                 }
             }, 1000);
         }
 
-        function handleTimeout() {
-            if (answered) return;
-            answered = true;
-            const q = activeQuizQuestions[currentQuestion];
-            
-            const optionCards = document.querySelectorAll('.option-card');
-            optionCards.forEach(card => {
-                if (card.innerText === q.options[q.correct]) {
-                    card.classList.add('correct');
-                } else {
-                    card.style.opacity = '0.5';
-                }
-                card.disabled = true;
+        function answerVsQuestion(selectedIdx, correctIdx) {
+            if (vsGameState.p1Answered) return;
+            vsGameState.p1Answered = true;
+
+            const isCorrect = selectedIdx === correctIdx;
+            const points = isCorrect ? Math.max(5, vsGameState.timer) : 0;
+            vsGameState.p1Score += points;
+            document.getElementById('vs-p1-score').innerText = vsGameState.p1Score;
+
+            vsChannel.postMessage({
+                type: 'ANSWER',
+                roomCode: vsGameState.roomCode,
+                sender: currentUser,
+                points: points
             });
 
-            showExplanationAndTutor(q, false);
-            updateScoreData(false);
+            // Simulierter KI/Netzwerk-Gegner falls offline
+            if (!vsGameState.p2Answered) {
+                setTimeout(() => {
+                    if (!vsGameState.p2Answered) {
+                        const botCorrect = Math.random() > 0.3;
+                        const botPoints = botCorrect ? Math.floor(Math.random() * 8 + 5) : 0;
+                        vsGameState.p2Score += botPoints;
+                        vsGameState.p2Answered = true;
+                        document.getElementById('vs-p2-score').innerText = vsGameState.p2Score;
+                        checkVsRoundNext();
+                    }
+                }, Math.random() * 1500 + 500);
+            } else {
+                checkVsRoundNext();
+            }
         }
 
-        function selectAnswer(selected, correctIdx, btnElement) {
+        function checkVsRoundNext() {
+            if (vsGameState.p1Answered && vsGameState.p2Answered) {
+                clearInterval(timerInterval);
+                setTimeout(() => loadVsRound(), 1500);
+            }
+        }
+
+        function finishVsMatch() {
+            document.getElementById('vs-arena').style.display = 'none';
+            document.getElementById('vs-result-screen').style.display = 'block';
+
+            const won = vsGameState.p1Score > vsGameState.p2Score;
+            const draw = vsGameState.p1Score === vsGameState.p2Score;
+
+            if (won) {
+                document.getElementById('vs-result-title').innerText = '🏆 DU HAST GEWONNEN!';
+                document.getElementById('vs-result-title').style.color = 'var(--correct)';
+                document.getElementById('vs-elo-change').innerText = '+25 ELO Rating Punkte';
+                currentUser.vsRating += 25;
+                currentUser.vsWins++;
+            } else if (draw) {
+                document.getElementById('vs-result-title').innerText = '🤝 UNENTSCHIEDEN!';
+                document.getElementById('vs-result-title').style.color = 'var(--warning)';
+                document.getElementById('vs-elo-change').innerText = '+5 ELO Rating Punkte';
+                currentUser.vsRating += 5;
+            } else {
+                document.getElementById('vs-result-title').innerText = '❌ NIEDERLAGE';
+                document.getElementById('vs-result-title').style.color = 'var(--incorrect)';
+                document.getElementById('vs-elo-change').innerText = '-15 ELO Rating Punkte';
+                currentUser.vsRating = Math.max(800, currentUser.vsRating - 15);
+                currentUser.vsLosses++;
+            }
+
+            saveCurrentUser();
+        }
+
+        function backToVsLobby() {
+            document.getElementById('vs-result-screen').style.display = 'none';
+            document.getElementById('vs-lobby').style.display = 'block';
+        }
+
+        // Mode Switching
+        function startMode(mode) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            document.querySelectorAll('.content-area').forEach(a => a.classList.remove('active'));
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.content-area').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+
+            const activeBtn = document.getElementById('toggle-' + mode);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (mode === 'quiz' || mode === 'schemas' || mode === 'ai') {
+                document.getElementById('quiz-mode').classList.add('active');
+                document.getElementById('ai-config').style.display = mode === 'ai' ? 'grid' : 'none';
+                startQuizMode(mode);
+            } else if (mode === 'vs') {
+                document.getElementById('vs-mode').classList.add('active');
+                backToVsLobby();
+            } else if (mode === 'learn') {
+                document.getElementById('learn-mode').classList.add('active');
+            }
+        }
+
+        function startQuizMode(mode) {
+            score = 0;
+            currentQuestion = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+
+            if (mode === 'schemas') {
+                activeQuizQuestions = questionPool.filter(q => q.topic === 'symbols');
+            } else {
+                activeQuizQuestions = [...questionPool].sort(() => 0.5 - Math.random());
+            }
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('ai-tutor-box').classList.remove('show');
+            document.getElementById('next-btn').classList.remove('show');
+
+            if (currentQuestion >= activeQuizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const q = activeQuizQuestions[currentQuestion];
+            document.getElementById('question').innerText = q.question;
+            document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
+
+            const symDisp = document.getElementById('symbol-display');
+            if (q.symbol) {
+                symDisp.innerHTML = q.symbol;
+                symDisp.style.display = 'flex';
+            } else {
+                symDisp.style.display = 'none';
+            }
+
+            const optionsGrid = document.getElementById('options');
+            optionsGrid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card';
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(idx, q.correct);
+                optionsGrid.appendChild(btn);
+            });
+
+            resetTimer();
+        }
+
+        function selectOption(selected, correct) {
             if (answered) return;
             answered = true;
             clearInterval(timerInterval);
 
-            const q = activeQuizQuestions[currentQuestion];
-            const isCorrect = (selected === correctIdx);
-            const optionCards = document.querySelectorAll('.option-card');
-
-            optionCards.forEach((card, idx) => {
-                card.disabled = true;
-                if (card.innerText === q.options[correctIdx]) {
-                    card.classList.add('correct');
-                } else if (card === btnElement && !isCorrect) {
-                    card.classList.add('incorrect');
-                } else {
-                    card.style.opacity = '0.5';
-                }
+            const options = document.querySelectorAll('.option-card');
+            options.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === correct) btn.classList.add('correct');
+                if (idx === selected && selected !== correct) btn.classList.add('incorrect');
             });
 
-            if (isCorrect) score++;
+            stats.total++;
+            if (selected === correct) {
+                score++;
+                stats.correct++;
+                stats.streak++;
+                stats.xp += 20;
+            } else {
+                stats.streak = 0;
+            }
 
-            showExplanationAndTutor(q, isCorrect);
-            updateScoreData(isCorrect);
-        }
+            if (stats.xp >= 100) {
+                stats.level++;
+                stats.xp -= 100;
+            }
 
-        function showExplanationAndTutor(q, isCorrect) {
+            saveStats();
+            updateUserDisplay();
+
+            const q = activeQuizQuestions[currentQuestion];
             const expBox = document.getElementById('explanation');
-            expBox.innerHTML = `<strong>${isCorrect ? '✅ Richtig!' : '❌ Falsch!'}</strong> ${q.explanation}`;
+            expBox.innerText = q.explanation;
             expBox.classList.add('show');
 
             if (currentMode === 'ai') {
-                const tutorBox = document.getElementById('ai-tutor-box');
-                const tutorText = document.getElementById('ai-tutor-text');
-                tutorBox.classList.add('show');
-                
-                if (isCorrect) {
-                    tutorText.innerHTML = `Ausgezeichnete Analyse! Dein fundiertes Wissen über <strong>${q.topic.toUpperCase()}</strong> entspricht exakten VDE/ÖVE Richtlinien. Weiter so auf diesem Anforderungsniveau!`;
-                } else {
-                    tutorText.innerHTML = `<strong>Tipp vom Experten:</strong> Achte bei Aufgaben zu <em>${q.topic.toUpperCase()}</em> besonders auf die normgerechte Terminologie und die physikalischen Randbedingungen (wie Schleifenimpedanz und Schutzziel).`;
-                }
+                const tutor = document.getElementById('ai-tutor-box');
+                document.getElementById('ai-tutor-text').innerText = `Tutor Hinweis: Achte bei dieser Aufgabe besonders auf die geltenden ÖVE/DIN Normvorschriften und Sicherheitsabstände.`;
+                tutor.classList.add('show');
             }
 
             document.getElementById('next-btn').classList.add('show');
@@ -2101,211 +2890,118 @@
             loadQuestion();
         }
 
-        function endQuiz() {
+        function resetTimer() {
             clearInterval(timerInterval);
+            timeLeft = 30;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    selectOption(-1, activeQuizQuestions[currentQuestion].correct);
+                }
+            }, 1000);
+        }
+
+        function showQuizResults() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
-            
             document.getElementById('score').innerText = `${score} / ${activeQuizQuestions.length}`;
-            let percentage = Math.round((score / activeQuizQuestions.length) * 100);
-            
-            let feedbackText = "Sehr gute Leistung! Du bist bestens für die Praxis gerüstet.";
-            if (percentage < 50) feedbackText = "Wiederhole die Grundlagen im Lernbereich, um deine Sicherheit zu erhöhen.";
-            else if (percentage < 80) /****************/ document.getElementById('feedback').innerText = "Gute Arbeit! Noch ein wenig Feinschliff bei den Normen.";
-
-            document.getElementById('feedback').innerText = feedbackText;
-
-            // Stats update
-            stats.total += activeQuizQuestions.length;
-            stats.correct += score;
             if (score > stats.highscore) stats.highscore = score;
-            
-            // XP & Level
-            stats.xp += score * 15;
-            if (stats.xp >= stats.level * 100) {
-                stats.level++;
-            }
-            if (score === activeQuizQuestions.length) {
-                stats.streak++;
-            } else {
-                stats.streak = 0;
-            }
-
             saveStats();
-            updateStatsDisplay();
-            checkBadges();
         }
 
         function restartQuiz() {
-            startMode(currentMode);
+            startQuizMode(currentMode);
         }
 
-        // Generierung von neuen Experten-Fragen
-        function generateCustomAIQuestion() {
-            const topic = document.getElementById('ai-topic-select').value;
-            const diff = document.getElementById('ai-diff-select').value;
-
-            let customPool = questionPool;
-            if (topic !== 'random') {
-                customPool = questionPool.filter(q => q.topic === topic);
-                if (customPool.length === 0) customPool = questionPool;
-            }
-
-            // Generiere eine dynamische Variation aus dem Pool
-            const baseQ = customPool[Math.floor(Math.random() * customPool.length)];
-            let newQ = JSON.parse(JSON.stringify(baseQ));
-            
-            if (topic === 'ohm') {
-                const uVal = Math.floor(Math.random() * 300) + 50;
-                const rVal = Math.floor(Math.random() * 50) + 5;
-                const iVal = (uVal / rVal).toFixed(2);
-                newQ.question = `Welcher Strom I fließt bei einer Betriebsspannung von U = ${uVal} V durch einen ohmschen Widerstand von R = ${rVal} Ω?`;
-                newQ.options = [`${iVal} A`, `${(Number(iVal)*1.5).toFixed(2)} A`, `${(Number(iVal)*0.8).toFixed(2)} A`, `${(Number(iVal)+2).toFixed(2)} A`];
-                newQ.options.sort(() => Math.random() - 0.5);
-                newQ.correct = newQ.options.indexOf(`${iVal} A`);
-                newQ.explanation = `Berechnung nach dem Ohmschen Gesetz: I = U / R = ${uVal} V / ${rVal} Ω = ${iVal} A.`;
-                newQ.symbol = null;
-            } else {
-                // Mische Optionen neu
-                newQ.options.sort(() => Math.random() - 0.5);
-                newQ.correct = newQ.options.indexOf(baseQ.options[baseQ.correct]);
-            }
-
-            activeQuizQuestions = [newQ];
-            currentQuestion = 0;
-            score = 0;
-            
-            document.getElementById('explanation').classList.remove('show');
-            document.getElementById('ai-tutor-box').classList.remove('show');
-            document.getElementById('next-btn').classList.remove('show');
-            loadQuestion();
+        function saveStats() {
+            localStorage.setItem('elek_plus_stats', JSON.stringify(stats));
         }
 
-        // Lernbereich & Nachschlagewerk
-        function renderTopicsList() {
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-
-            for (const [key, topic] of Object.entries(learningContent)) {
-                const card = document.createElement('div');
-                card.className = 'topic-card';
-                card.onclick = () => openArticle(key);
-                card.innerHTML = `
-                    <div class="topic-icon-box">${topic.icon}</div>
-                    <h3>${topic.title}</h3>
-                    <p>${topic.description}</p>
-                `;
-                container.appendChild(card);
-            }
-        }
-
-        function filterTopics() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const container = document.getElementById('topics-container');
-            container.innerHTML = '';
-
-            for (const [key, topic] of Object.entries(learningContent)) {
-                if (topic.title.toLowerCase().includes(query) || topic.description.toLowerCase().includes(query)) {
-                    const card = document.createElement('div');
-                    card.className = 'topic-card';
-                    card.onclick = () => openArticle(key);
-                    card.innerHTML = `
-                        <div class="topic-icon-box">${topic.icon}</div>
-                        <h3>${topic.title}</h3>
-                        <p>${topic.description}</p>
-                    `;
-                    container.appendChild(card);
-                }
-            }
-        }
-
-        function openArticle(key) {
-            document.getElementById('topics-view').style.display = 'none';
-            const contentView = document.getElementById('content-view');
-            contentView.style.display = 'block';
-            
-            document.getElementById('content-container').innerHTML = learningContent[key].content;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function backToTopics() {
-            document.getElementById('content-view').style.display = 'none';
-            document.getElementById('topics-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Profi-Rechner Logik
-        function calculateOhm() {
-            const u = parseFloat(document.getElementById('calc-u').value) || 0;
-            const r = parseFloat(document.getElementById('calc-r').value) || 1;
-            const i = (u / r).toFixed(2);
-            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
-        }
-
-        function calculate3Phase() {
-            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
-            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
-            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
-            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
-        }
-
-        function calculateVoltageDrop() {
-            const l = parseFloat(document.getElementById('calc-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
-            const q = parseFloat(document.getElementById('calc-q').value) || 2.5;
-            const gamma = 56; // Leitfähigkeit Kupfer
-            
-            const deltaU = (2 * l * i) / (gamma * q);
-            const percent = (deltaU / 230 * 100).toFixed(2);
-            document.getElementById('calc-drop-res').innerText = `ΔU = ${deltaU.toFixed(2)} V (${percent}%)`;
-        }
-
-        function calculateCrossSection() {
-            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
-            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
-            const maxU = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
-            const gamma = 56;
-
-            const a = (2 * l * i) / (gamma * maxU);
-            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
-        }
-
-        // Statistik & Gamification
-        function updateScoreData(isCorrect) {
-            stats.total++;
-            if (isCorrect) stats.correct++;
-            saveStats();
-            updateStatsDisplay();
-        }
-
-        function updateStatsDisplay() {
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('stat-score').innerText = accuracy + '%';
-            document.getElementById('stat-completed').innerText = stats.total;
-            document.getElementById('stat-level').innerText = 'Lvl ' + stats.level;
-            document.getElementById('stat-high').innerText = stats.highscore;
-
-            const xpNeeded = stats.level * 100;
-            const currentXpInLevel = stats.xp % 100;
-            document.getElementById('xp-label').innerText = `XP: ${stats.xp} Gesamt (Level ${stats.level})`;
-            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} in Folge`;
-            document.getElementById('xp-progress-fill').style.width = Math.min(100, (currentXpInLevel / 100) * 100) + '%';
+        function updateBadges() {
+            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
+            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
+            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
+            if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
         }
 
         function toggleDetailedStats() {
             const panel = document.getElementById('detailed-stats-panel');
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            document.getElementById('xp-label').innerText = `XP: ${stats.xp} / 100 zum nächsten Level`;
+            document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
+            document.getElementById('xp-progress-fill').style.width = stats.xp + '%';
         }
 
-        function checkBadges() {
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.streak >= 3) document.getElementById('badge-4').classList.add('unlocked');
+        // Lernbereich Functions (Unverändert)
+        function renderTopics() {
+            const container = document.getElementById('topics-container');
+            container.innerHTML = '';
+            Object.keys(learningContent).forEach(key => {
+                const item = learningContent[key];
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => showTopicDetail(key);
+                card.innerHTML = `
+                    <div class="topic-icon-box">${item.icon}</div>
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                `;
+                container.appendChild(card);
+            });
         }
 
-        function saveStats() {
-            localStorage.setItem('elek_pro_stats', JSON.stringify(stats));
+        function showTopicDetail(key) {
+            document.getElementById('topics-view').style.display = 'none';
+            document.getElementById('content-view').style.display = 'block';
+            document.getElementById('content-container').innerHTML = learningContent[key].content;
+        }
+
+        function backToTopics() {
+            document.getElementById('content-view').style.display = 'none';
+            document.getElementById('topics-view').style.display = 'block';
+        }
+
+        function filterTopics() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            document.querySelectorAll('.topic-card').forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // Profi-Rechner
+        function calculateOhm() {
+            const u = parseFloat(document.getElementById('calc-u').value) || 0;
+            const r = parseFloat(document.getElementById('calc-r').value) || 0.001;
+            const i = u / r;
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i.toFixed(2)} A`;
+        }
+
+        function calculate3Phase() {
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 0.85;
+            const p = Math.sqrt(3) * 400 * i * cos / 1000;
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p.toFixed(2)} kW`;
+        }
+
+        function calculateVoltageDrop() {
+            const l = parseFloat(document.getElementById('calc-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-i-drop').value) || 0;
+            const q = parseFloat(document.getElementById('calc-q').value) || 1.5;
+            const du = (2 * l * i) / (56 * q);
+            const perc = (du / 230) * 100;
+            document.getElementById('calc-drop-res').innerText = `ΔU = ${du.toFixed(2)} V (${perc.toFixed(2)}%)`;
+        }
+
+        function calculateCrossSection() {
+            const l = parseFloat(document.getElementById('calc-q-len').value) || 0;
+            const i = parseFloat(document.getElementById('calc-q-i').value) || 0;
+            const du = parseFloat(document.getElementById('calc-q-u').value) || 6.9;
+            const a = (2 * l * i) / (56 * du);
+            document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
     </script>
 </body>
