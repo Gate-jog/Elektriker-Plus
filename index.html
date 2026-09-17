@@ -3003,6 +3003,349 @@
             const a = (2 * l * i) / (56 * du);
             document.getElementById('calc-q-res').innerText = `Mindestquerschnitt = ${a.toFixed(2)} mm²`;
         }
+    <script>
+        // State & Account Management
+        let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
+        let registeredUsers = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
+        let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
+            total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
+        };
+
+        let selectedAvatar = '⚡';
+        let currentMode = 'quiz';
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let timerInterval = null;
+        let timeLeft = 30;
+
+        // Multiplayer / VS Channel (Ermöglicht Tab-übergreifenden Multiplayer)
+        const vsChannel = new BroadcastChannel('elek_plus_vs_channel');
+        let vsGameState = {
+            active: false,
+            isHost: false,
+            roomCode: null,
+            opponent: null,
+            p1Score: 0,
+            p2Score: 0,
+            currentRound: 0,
+            maxRounds: 5,
+            p1Answered: false,
+            p2Answered: false,
+            timer: 15,
+            questions: []
+        };
+
+        // Komplettierung der SVG Schaltsymbole
+        const svgSymbols = {
+            switch_off: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="10"/></svg>`,
+            switch_changeover: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="15" x2="90" y2="15"/><line x1="65" y1="45" x2="90" y2="45"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="15" r="3" fill="#06b6d4"/><circle cx="65" cy="45" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="62" y2="17"/></svg>`,
+            push_button: `<svg viewBox="0 0 100 60"><line x1="10" y1="30" x2="35" y2="30"/><line x1="65" y1="30" x2="90" y2="30"/><circle cx="35" cy="30" r="3" fill="#06b6d4"/><circle cx="65" cy="30" r="3" fill="#06b6d4"/><line x1="35" y1="30" x2="65" y2="30" stroke-dasharray="2,2"/><line x1="50" y1="10" x2="50" y2="28"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`,
+            push_button_nc: `<svg viewBox="0 0 100 60"><line x1="10" y1="20" x2="35" y2="20"/><line x1="65" y1="40" x2="90" y2="40"/><circle cx="35" cy="20" r="3" fill="#06b6d4"/><circle cx="65" cy="40" r="3" fill="#06b6d4"/><line x1="35" y1="20" x2="65" y2="40"/><line x1="50" y1="10" x2="50" y2="30" stroke-dasharray="2,2"/><line x1="40" y1="10" x2="60" y2="10"/></svg>`
+        };
+
+        // Dummy Fragen-Datenbank
+        const questionsDb = [
+            { q: "Wie hoch ist die maximal zulässige Abschaltzeit im TN-System bei 230V Steckdosenstromkreisen?", options: ["0,4 Sekunden", "0,2 Sekunden", "5 Sekunden", "0,1 Sekunden"], a: 0 },
+            { q: "Welcher FI-Schutzschalter (RCD) Typ ist für Frequenzumrichter zwingend vorgeschrieben?", options: ["Typ A", "Typ B", "Typ AC", "Typ F"], a: 1 },
+            { q: "Wie lautet das Ohmsche Gesetz?", options: ["U = R / I", "I = U * R", "U = R * I", "R = U * P"], a: 2 },
+            { q: "Welches Schaltsymbol ist hier dargestellt?", symbol: "switch_changeover", options: ["Ausschalter", "Serienschalter", "Wechselschalter", "Kreuzschalter"], a: 2 },
+            { q: "Welche Farbe hat der Neutralleiter laut aktueller DIN VDE?", options: ["Grau", "Schwarz", "Blau", "Grün-Gelb"], a: 2 }
+        ];
+
+        // --- AUTH & INIT LOGIK ---
+        function initApp() {
+            if (currentUser) {
+                document.getElementById('auth-screen').style.display = 'none';
+                updateProfileBar();
+            } else {
+                document.getElementById('auth-screen').style.display = 'flex';
+            }
+        }
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('form-login').style.display = tab === 'login' ? 'flex' : 'none';
+            document.getElementById('form-register').style.display = tab === 'register' ? 'flex' : 'none';
+            document.getElementById('form-guest').style.display = tab === 'guest' ? 'block' : 'none';
+        }
+
+        function selectAvatar(el, icon) {
+            document.querySelectorAll('.avatar-opt').forEach(a => a.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedAvatar = icon;
+        }
+
+        function handleGuestLogin() {
+            currentUser = { username: 'Gast_' + Math.floor(Math.random()*1000), id: '#GAST', avatar: '⚡', elo: 1200 };
+            document.getElementById('auth-screen').style.display = 'none';
+            updateProfileBar();
+        }
+
+        function updateProfileBar() {
+            if(!currentUser) return;
+            document.getElementById('bar-username').innerText = currentUser.username;
+            document.getElementById('bar-userid').innerText = currentUser.id;
+            document.getElementById('bar-avatar').innerText = currentUser.avatar;
+            document.getElementById('bar-stats-summary').innerText = `VS Rating: ${currentUser.elo || 1200} ELO | Lvl ${stats.level}`;
+        }
+
+        // --- NAVIGATION ---
+        function startMode(mode) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('mode-nav-area').style.display = 'block';
+            switchMode(mode);
+        }
+
+        function backToWelcome() {
+            document.getElementById('welcome-screen').style.display = 'block';
+            document.getElementById('mode-nav-area').style.display = 'none';
+            document.querySelectorAll('.content-area').forEach(c => c.classList.remove('active'));
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.content-area').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const activeArea = document.getElementById(mode + '-mode');
+            if(activeArea) activeArea.classList.add('active');
+            
+            const activeToggle = document.getElementById('toggle-' + mode);
+            if(activeToggle) activeToggle.classList.add('active');
+
+            if(mode === 'vs') resetVsLobby();
+        }
+
+        // --- MULTIPLAYER: VS FREUNDE MODUS ---
+        
+        function resetVsLobby() {
+            document.querySelector('.vs-lobby-container').style.display = 'grid';
+            document.getElementById('vs-waiting-panel').style.display = 'none';
+            document.getElementById('vs-arena').style.display = 'none';
+            document.getElementById('vs-result-screen').style.display = 'none';
+            vsGameState.active = false;
+        }
+
+        // 1. Raum Erstellen (Host)
+        function createVsRoom() {
+            const code = 'ELK-' + Math.floor(1000 + Math.random() * 9000);
+            vsGameState.roomCode = code;
+            vsGameState.isHost = true;
+            vsGameState.active = true;
+            
+            document.querySelector('.vs-lobby-container').style.display = 'none';
+            document.getElementById('vs-waiting-panel').style.display = 'block';
+            document.getElementById('created-room-code').innerText = code;
+        }
+
+        // 2. Raum Beitreten (Gast)
+        function joinVsRoom() {
+            const code = document.getElementById('vs-join-code-input').value.trim().toUpperCase();
+            if(!code) return alert("Bitte einen gültigen Raum-Code eingeben!");
+            
+            // Sende Beitrittsanfrage über Broadcast Channel
+            vsChannel.postMessage({ 
+                type: 'JOIN_REQUEST', 
+                code: code, 
+                user: currentUser 
+            });
+        }
+
+        function cancelVsLobby() {
+            resetVsLobby();
+        }
+
+        // 3. Broadcast Channel Listener (Netzwerk Logik)
+        vsChannel.onmessage = (event) => {
+            const data = event.data;
+
+            // Host empfängt Beitrittsanfrage
+            if (data.type === 'JOIN_REQUEST' && vsGameState.isHost && data.code === vsGameState.roomCode) {
+                vsGameState.opponent = data.user;
+                // Generiere zufällige Fragen für das Duell
+                const gameQuestions = [...questionsDb].sort(() => 0.5 - Math.random()).slice(0, 5);
+                
+                // Sende Spielstart an Gast
+                vsChannel.postMessage({ 
+                    type: 'GAME_START', 
+                    code: vsGameState.roomCode, 
+                    host: currentUser, 
+                    questions: gameQuestions 
+                });
+                
+                startVsArena(gameQuestions, data.user);
+            }
+
+            // Gast empfängt Spielstart
+            if (data.type === 'GAME_START' && data.code === document.getElementById('vs-join-code-input').value.trim().toUpperCase()) {
+                vsGameState.isHost = false;
+                vsGameState.roomCode = data.code;
+                vsGameState.opponent = data.host;
+                startVsArena(data.questions, data.host);
+            }
+
+            // Gegner hat geantwortet
+            if (data.type === 'ANSWERED' && data.code === vsGameState.roomCode) {
+                if(vsGameState.isHost) vsGameState.p2Answered = true;
+                else vsGameState.p1Answered = true;
+                
+                document.getElementById('vs-round-status').innerText = `${vsGameState.opponent.username} hat geantwortet...`;
+                
+                // Wenn beide geantwortet haben, Runde auswerten
+                if(vsGameState.p1Answered && vsGameState.p2Answered) {
+                    setTimeout(() => evaluateVsRound(data.scoreDelta), 1000);
+                }
+            }
+        };
+
+        // 4. Arena Starten
+        function startVsArena(questions, opponent) {
+            document.getElementById('vs-lobby').style.display = 'none';
+            document.getElementById('vs-waiting-panel').style.display = 'none';
+            document.getElementById('vs-arena').style.display = 'block';
+
+            vsGameState.questions = questions;
+            vsGameState.currentRound = 0;
+            vsGameState.p1Score = 0;
+            vsGameState.p2Score = 0;
+
+            // Setze UI Namen
+            document.getElementById('vs-p1-name').innerText = currentUser.username;
+            document.getElementById('vs-p1-avatar').innerText = currentUser.avatar;
+            document.getElementById('vs-p2-name').innerText = opponent.username;
+            document.getElementById('vs-p2-avatar').innerText = opponent.avatar;
+
+            loadVsQuestion();
+        }
+
+        // 5. VS Frage laden
+        function loadVsQuestion() {
+            if(vsGameState.currentRound >= vsGameState.maxRounds) {
+                endVsGame();
+                return;
+            }
+
+            const q = vsGameState.questions[vsGameState.currentRound];
+            vsGameState.p1Answered = false;
+            vsGameState.p2Answered = false;
+            
+            document.getElementById('vs-quiz-heading').innerText = `⚔️ Duell Runde ${vsGameState.currentRound + 1} / ${vsGameState.maxRounds}`;
+            document.getElementById('vs-question').innerText = q.q;
+            document.getElementById('vs-round-status').innerText = 'Warte auf Antworten...';
+
+            if(q.symbol && svgSymbols[q.symbol]) {
+                document.getElementById('vs-symbol-display').style.display = 'flex';
+                document.getElementById('vs-symbol-display').innerHTML = svgSymbols[q.symbol];
+            } else {
+                document.getElementById('vs-symbol-display').style.display = 'none';
+            }
+
+            const optionsGrid = document.getElementById('vs-options');
+            optionsGrid.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-card';
+                btn.innerText = opt;
+                btn.onclick = () => handleVsAnswer(index, q.a, btn);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        // 6. Antwort im VS-Duell abgeben
+        function handleVsAnswer(selectedIndex, correctIndex, btnElement) {
+            if(vsGameState.isHost ? vsGameState.p1Answered : vsGameState.p2Answered) return; // Schon geantwortet
+
+            if(vsGameState.isHost) vsGameState.p1Answered = true;
+            else vsGameState.p2Answered = true;
+
+            const isCorrect = selectedIndex === correctIndex;
+            const scoreDelta = isCorrect ? 100 : 0;
+            
+            if(isCorrect) {
+                btnElement.classList.add('correct');
+                if(vsGameState.isHost) vsGameState.p1Score += 100;
+                else vsGameState.p1Score += 100; // Aus lokaler Sicht ist man immer p1Score im UI
+            } else {
+                btnElement.classList.add('incorrect');
+            }
+
+            document.getElementById('vs-p1-score').innerText = vsGameState.p1Score;
+            document.getElementById('vs-round-status').innerText = 'Warte auf Gegner...';
+
+            // Informiere den Gegner
+            vsChannel.postMessage({
+                type: 'ANSWERED',
+                code: vsGameState.roomCode,
+                scoreDelta: scoreDelta,
+                isCorrect: isCorrect
+            });
+
+            // Wenn der andere schon geantwortet hat
+            if(vsGameState.p1Answered && vsGameState.p2Answered) {
+                setTimeout(() => evaluateVsRound(scoreDelta), 1000);
+            }
+        }
+
+        function evaluateVsRound(opponentDelta) {
+            // Gegner-Punkte aktualisieren
+            if(opponentDelta > 0) {
+                vsGameState.p2Score += opponentDelta;
+                document.getElementById('vs-p2-score').innerText = vsGameState.p2Score;
+            }
+
+            setTimeout(() => {
+                vsGameState.currentRound++;
+                loadVsQuestion();
+            }, 2000);
+        }
+
+        function endVsGame() {
+            document.getElementById('vs-arena').style.display = 'none';
+            document.getElementById('vs-result-screen').style.display = 'block';
+
+            const title = document.getElementById('vs-result-title');
+            if(vsGameState.p1Score > vsGameState.p2Score) {
+                title.innerText = "🏆 DU HAST GEWONNEN!";
+                title.style.color = "var(--correct)";
+            } else if (vsGameState.p1Score < vsGameState.p2Score) {
+                title.innerText = "💀 VERLOREN!";
+                title.style.color = "var(--incorrect)";
+            } else {
+                title.innerText = "🤝 UNENTSCHIEDEN!";
+                title.style.color = "var(--warning)";
+            }
+        }
+
+        function backToVsLobby() {
+            resetVsLobby();
+            document.getElementById('vs-lobby').style.display = 'block';
+        }
+
+        // --- CALCULATION LOGIC (Lernbereich) ---
+        function calculateOhm() {
+            const u = parseFloat(document.getElementById('calc-u').value) || 0;
+            const r = parseFloat(document.getElementById('calc-r').value) || 1;
+            const i = (u / r).toFixed(2);
+            document.getElementById('calc-ohm-res').innerText = `Strom I = ${i} A`;
+        }
+
+        function calculate3Phase() {
+            const i = parseFloat(document.getElementById('calc-i3').value) || 0;
+            const cos = parseFloat(document.getElementById('calc-cos').value) || 1;
+            const p = (Math.sqrt(3) * 400 * i * cos / 1000).toFixed(2);
+            document.getElementById('calc-3p-res').innerText = `Leistung P = ${p} kW`;
+        }
+
+        // Initialize
+        window.onload = initApp;
+
     </script>
+</body>
+</html>
+
 </body>
 </html>
