@@ -1355,7 +1355,10 @@
             <div style="text-align: center; margin-bottom: 24px;">
                 <div id="modal-avatar" style="font-size: 3rem; margin-bottom: 8px;">⚡</div>
                 <h3 id="modal-username" style="font-size: 1.4rem;">-</h3>
-                <span id="modal-userid" class="user-tag">-</span>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;">
+                    <span id="modal-userid" class="user-tag">-</span>
+                    <button class="btn-profile" style="padding: 4px 10px; font-size: 0.7rem;" onclick="copyMyId()">🆔 Kopieren</button>
+                </div>
             </div>
 
             <div style="background: rgba(0,0,0,0.5); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--card-border); margin-bottom: 24px;">
@@ -1398,6 +1401,7 @@
                 </div>
             </div>
             <div class="profile-actions">
+                <button class="btn-profile" onclick="startMode('friends')">👥 Freunde</button>
                 <button class="btn-profile" onclick="openProfileModal()">👤 Profil Details</button>
                 <button class="btn-profile btn-logout" onclick="logoutUser()">Abmelden</button>
             </div>
@@ -1477,6 +1481,11 @@
                     <div class="menu-title">Lernbereich</div>
                     <div class="menu-description">Nachschlagewerk, RCDs, Taster, Netze & Profi-Rechner.</div>
                 </div>
+                <div class="menu-option" onclick="startMode('friends')">
+                    <div class="menu-icon">👥</div>
+                    <div class="menu-title">Freunde</div>
+                    <div class="menu-description">Verwalte deine Kontakte & fordere sie heraus.</div>
+                </div>
             </div>
         </div>
 
@@ -1489,6 +1498,7 @@
                     <button class="toggle-btn" id="toggle-schemas" onclick="switchMode('schemas')">📐 Symbole</button>
                     <button class="toggle-btn" id="toggle-ai" onclick="switchMode('ai')">✨ Experten Modus</button>
                     <button class="toggle-btn" id="toggle-vs" onclick="switchMode('vs')">⚔️ VS-Duell</button>
+                    <button class="toggle-btn" id="toggle-friends" onclick="switchMode('friends')">👥 Freunde</button>
                     <button class="toggle-btn" id="toggle-learn" onclick="switchMode('learn')">📚 Lernen & Rechner</button>
                 </div>
             </div>
@@ -1583,6 +1593,29 @@
                     <p id="vs-result-subtitle" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">Hervorragende Leistung im Elektriker-Duell!</p>
                     <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); font-family: var(--font-code); margin-bottom: 32px;" id="vs-elo-change">+25 ELO Punkte</div>
                     <button class="btn-action show" onclick="backToVsLobby()" style="max-width: 300px; margin: 0 auto;">Zurück zur Lobby</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Freunde Area -->
+        <div id="friends-mode" class="content-area">
+            <div class="glass-card">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <h2 style="font-size: 2rem; color: var(--primary);">👥 Meine Freunde</h2>
+                    <p style="color: var(--text-muted);">Verwalte deine Kontakte und starte direkte Duelle.</p>
+                </div>
+
+                <div class="ai-config-panel" style="grid-template-columns: 1fr auto; align-items: center;">
+                    <div class="config-group">
+                        <label>Freund hinzufügen (ID)</label>
+                        <input type="text" id="friend-id-input" class="config-select" placeholder="z.B. #ELK-1234" style="background: rgba(0,0,0,0.6); border: 1px solid var(--card-border);">
+                    </div>
+                    <button class="ai-btn-action" onclick="addFriend()">Hinzufügen</button>
+                </div>
+
+                <div id="friends-list" style="margin-top: 32px; display: grid; gap: 16px;">
+                    <!-- Freunde werden hier dynamisch eingefügt -->
+                    <p style="text-align: center; color: var(--text-muted); padding: 40px;">Noch keine Freunde hinzugefügt.</p>
                 </div>
             </div>
         </div>
@@ -1749,6 +1782,7 @@
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
             topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
         };
+        let friends = JSON.parse(localStorage.getItem('elek_plus_friends')) || [];
 
         let selectedAvatar = '⚡';
         let currentMode = 'quiz';
@@ -2414,6 +2448,7 @@
             } else {
                 document.getElementById('auth-screen').style.display = 'none';
                 updateUserDisplay();
+                renderFriendsList();
             }
         }
 
@@ -2530,6 +2565,17 @@
             document.getElementById('stat-high').innerText = stats.highscore;
 
             updateBadges();
+        }
+
+        function copyMyId() {
+            if (!currentUser) return;
+            const el = document.createElement('textarea');
+            el.value = currentUser.id;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("Deine ID " + currentUser.id + " wurde in die Zwischenablage kopiert!");
         }
 
         function openProfileModal() {
@@ -2784,6 +2830,9 @@
             } else if (mode === 'vs') {
                 document.getElementById('vs-mode').classList.add('active');
                 backToVsLobby();
+            } else if (mode === 'friends') {
+                document.getElementById('friends-mode').classList.add('active');
+                renderFriendsList();
             } else if (mode === 'learn') {
                 document.getElementById('learn-mode').classList.add('active');
             }
@@ -2933,6 +2982,95 @@
             document.getElementById('xp-label').innerText = `XP: ${stats.xp} / 100 zum nächsten Level`;
             document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
             document.getElementById('xp-progress-fill').style.width = stats.xp + '%';
+        }
+
+        // Freunde Logik
+        function addFriend() {
+            const idInput = document.getElementById('friend-id-input');
+            const id = idInput.value.trim().toUpperCase();
+            
+            if (!id) return;
+            if (id === currentUser.id) {
+                alert("Du kannst dich nicht selbst als Freund hinzufügen.");
+                return;
+            }
+            if (friends.find(f => f.id === id)) {
+                alert("Dieser Freund ist bereits in deiner Liste.");
+                return;
+            }
+
+            // Da wir kein Backend haben, suchen wir in den lokal registrierten Nutzern
+            let friendObj = null;
+            Object.keys(registeredUsers).forEach(key => {
+                if (registeredUsers[key].id === id) {
+                    friendObj = {
+                        id: registeredUsers[key].id,
+                        name: registeredUsers[key].name,
+                        avatar: registeredUsers[key].avatar,
+                        vsRating: registeredUsers[key].vsRating
+                    };
+                }
+            });
+
+            if (!friendObj) {
+                // Mock-Freund falls nicht gefunden (für Demo-Zwecke)
+                friendObj = {
+                    id: id,
+                    name: "Nutzer " + id,
+                    avatar: "👤",
+                    vsRating: 1200
+                };
+            }
+
+            friends.push(friendObj);
+            localStorage.setItem('elek_plus_friends', JSON.stringify(friends));
+            idInput.value = '';
+            renderFriendsList();
+        }
+
+        function removeFriend(id) {
+            friends = friends.filter(f => f.id !== id);
+            localStorage.setItem('elek_plus_friends', JSON.stringify(friends));
+            renderFriendsList();
+        }
+
+        function renderFriendsList() {
+            const list = document.getElementById('friends-list');
+            if (!list) return;
+            
+            if (friends.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 40px;">Noch keine Freunde hinzugefügt. Teile deine ID mit anderen!</p>';
+                return;
+            }
+
+            list.innerHTML = '';
+            friends.forEach(f => {
+                const item = document.createElement('div');
+                item.className = 'user-profile-bar';
+                item.style.marginBottom = '0';
+                item.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">${f.avatar}</div>
+                        <div class="user-details">
+                            <h4>${f.name} <span class="user-tag">${f.id}</span></h4>
+                            <div class="user-stats-summary">Rating: ${f.vsRating} ELO</div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-profile" onclick="challengeFriend('${f.id}')">⚔️ Fordern</button>
+                        <button class="btn-profile btn-logout" onclick="removeFriend('${f.id}')">Entfernen</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function challengeFriend(id) {
+            switchMode('vs');
+            // Automatisches Ausfüllen des Codes für VS Modus Simulation
+            const code = 'INV-' + id.replace('#', '');
+            document.getElementById('vs-join-code-input').value = code;
+            alert("Herausforderung an " + id + " gesendet! Dein Freund muss dem Raum '" + code + "' beitreten.");
         }
 
         // Lernbereich Functions (Unverändert)
