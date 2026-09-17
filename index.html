@@ -2285,6 +2285,74 @@
                             <div class="calc-result" id="calc-q-res">Mindestquerschnitt = 2.48 mm²</div>
                         </div>
 
+                         <!-- Leiterbelastbarkeit -->
+                         <div class="calc-box">
+                             <h3>Leiterbelastbarkeit (A) nach VDE</h3>
+                             <div class="input-field">
+                                 <label>Leiterquerschnitt A (mm²)</label>
+                                 <select id="calc-wire-cross" onchange="calculateWireLoad()">
+                                     <option value="1.5">1.5 mm²</option>
+                                     <option value="2.5" selected>2.5 mm²</option>
+                                     <option value="4">4.0 mm²</option>
+                                     <option value="6">6.0 mm²</option>
+                                     <option value="10">10.0 mm²</option>
+                                     <option value="16">16.0 mm²</option>
+                                 </select>
+                             </div>
+                             <div class="input-field">
+                                 <label>Installation</label>
+                                 <select id="calc-install-method" onchange="calculateWireLoad()">
+                                     <option value="1">In Schutzrohr (Luftkühlung)</option>
+                                     <option value="2">In Kabelkanal (Kopplungskühlung)</option>
+                                     <option value="3">Direktverlegt in Wand (Erdankopplung)</option>
+                                 </select>
+                             </div>
+                             <div class="calc-result" id="calc-wire-res">Max. Strom = 23 A</div>
+                         </div>
+
+                         <!-- Motor Berechnung -->
+                         <div class="calc-box">
+                             <h3>Motorparameter (P, I, cos φ)</h3>
+                             <div class="input-field">
+                                 <label>Motorleistung P (kW)</label>
+                                 <input type="number" id="calc-motor-p" value="1.5" step="0.1" oninput="calculateMotor()">
+                             </div>
+                             <div class="input-field">
+                                 <label>Leckstrom I (A) [Leerlauf]</label>
+                                 <input type="number" id="calc-motor-i" value="4.2" step="0.1" oninput="calculateMotor()">
+                             </div>
+                             <div class="input-field">
+                                 <label>Cos φ (Leistungsfaktor)</label>
+                                 <input type="number" id="calc-motor-cos" value="0.82" step="0.01" oninput="calculateMotor()">
+                                 <label style="margin-top: 6px;">Polpaarzahl</label>
+                                 <select id="calc-motor-poles" onchange="calculateMotor()">
+                                     <option value="1">1 (1500 U/min)</option>
+                                     <option value="2" selected>2 (1000 U/min)</option>
+                                     <option value="4">4 (750 U/min)</option>
+                                     <option value="6">6 (500 U/min)</option>
+                                 </select>
+                             </div>
+                             <div class="calc-result" id="calc-motor-res">Drehzahl n ≈ 2850 U/min, Leistungsfaktor cos φ = 0.82</div>
+                         </div>
+
+                         <!-- PV Leistung -->
+                         <div class="calc-box">
+                             <h3>PV-Anlage Leistung &amp; Ertrag</h3>
+                             <div class="input-field">
+                                 <label>Module (Stück)</label>
+                                 <input type="number" id="calc-pv-modules" value="10" oninput="calculatePV()">
+                             </div>
+                             <div class="input-field">
+                                 <label>Leistung pro Modul (W)</label>
+                                 <input type="number" id="calc-pv-wp" value="400" oninput="calculatePV()">
+                             </div>
+                             <div class="input-field">
+                                 <label>Jahresertrag (kWh/kWₚ)</label>
+                                 <input type="number" id="calc-pv-yield" value="900" oninput="calculatePV()">
+                             </div>
+                             <div class="calc-result" id="calc-pv-res">Nennleistung = 4.0 kW, Jahresertrag ≈ 3.600 kWh</div>
+                         </div>
+
                     </div>
                 </div>
 
@@ -2892,6 +2960,248 @@
                         <p><strong>5. Benachbarte, unter Spannung stehende Teile abdecken oder absperren.</strong></p>
                     </div>
                 `
+            },
+            installation_kabel: {
+                title: "Kabel, Leitungen & Installationsmethoden",
+                icon: "🔌",
+                description: "Kabeltypen, Installationswege, Verlegeung & Anschluss nach DIN VDE 0100",
+                content: `
+                    <h2>Kabel, Leitungen &amp; Installationsmethoden</h2>
+                    <p class="article-desc">Auswahl, Verlegung und Anschluss von Kabeln und Leitungen gemäß DIN VDE 0100 und ÖVE E 2700.</p>
+                    
+                    <div class="article-section">
+                        <h3>Kabeltypen im Vergleich</h3>
+                        <p>Wähle das richtige Kabel für jede Anwendung — Berücksichtige Spannung, Temperatur, mechanische Belastung und Umgebung:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Kabeltype</th><th>Anwendung</th><th>Merkmal</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>NYM-J / NYM-B</strong></td><td>Wand- und Deckeninstallationen, Keller, Kellerdecken</td><td>Papier-/Vliesisolierung, glattkabel, fadenbrechfrei</td></tr>
+                                <tr><td><strong>NKBA</strong></td><td>Schutzbrutschlauch, flexible Verlegung</td><td>Drahngeflecht + Kunststoff, biegsam, robust</td></tr>
+                                <tr><td><strong>Stromschiene (Kabel)</strong></td><td>Vertikal- & Horizontalverlegeung in Schächten</td><td>Eisen-/Edelstahlkonstruktion, besonders robuster</td></tr>
+                                <tr><td><strong>Adapterkabel</strong></td><td>Verbindung von Leitungen, T-Stücke, Übergänge</td><td>Schraubklemmen, Lüsterklemmen</td></tr>
+                                <tr><td><strong>Freileitungen (AC / AL)</strong></td><td>Hausanschluss, Außeninstallationen</td><td>Alu- (AL) oder Kupferader (AC) für Außenbereich</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Installationswege &amp; Schutzklassen</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schutzklasse</th><th>Schutzmaßnahme</th><th>Einsatzbereich</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Schutzklasse I</strong></td><td>Schutzleiter (PE) vorhanden</td><td>Mettler-Geräte: Kochen, Waschen, Heizen</td></tr>
+                                <tr><td><strong>Schutzklasse II</strong></td><td>Verstärkte oder doppelte Isolierung</td><td>Quadrat-im-Quadrat-Symbol: Bohrmaschine, Handgeräte</td></tr>
+                                <tr><td><strong>Schutzklasse III</strong></td><td>Sicherheitskleinspannung (SELV/PELV)</td><td>Beleuchtung, Türspione, 12/24V-Geräte</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-badge">
+                            <strong>Wichtig:</strong> In Feuchtrauminstallationen ist IPX4 oder höher zwingend. Schraubzwingen und Dichtmasse verwenden, um Wassereindringen zu verhindern.
+                        </div>
+                    </div>
+                `
+            },
+            photovoltaik: {
+                title: "Photovoltaik-Anlagen (PV)",
+                icon: "☀️",
+                description: "PV-Module, Wechselrichter, Stringverschaltung & Einspeisung nach VDE-AR-N 410.5",
+                content: `
+                    <h2>Photovoltaik-Anlagen (PV)</h2>
+                    <p class="article-desc">Planung, Installation und Wartung von Photovoltaik-Anlagen für Wohn- und Gewerberoofte.</p>
+                    
+                    <div class="article-section">
+                        <h3>Aufbau einer PV-Anlage</h3>
+                        <p>Eine photovoltaische Anlage besteht aus mehreren Komponenten, die alle richtig miteinander verbunden sein müssen:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Komponente</th><th>Funktion</th><th>Wichtig für die Prüfung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>PV-Module</strong></td><td>Wandeln Licht in Gleichstrom um (DC)</td><td>Modulspannung &lt; 1500V Gleichstrom, Temperaturkoeffizient beachten</td></tr>
+                                <tr><td><strong>StringBox (SMA)</strong></td><td>Sammelschiene für Stringanschlüsse mit Trennschalter</td><td>Jeder String max. 1000V, DC-Trennschalter muss manuell bedienbar sein</td></tr>
+                                <tr><td><strong>Wechselrichter</strong></td><td>Wandelt DC → AC (Wechselstrom)</td><td>Leistungsbereich 3–15 kW typical, MPPT-Tracker für maximale Leistung</td></tr>
+                                <tr><td><strong>Zählersummenanschluss</strong></td><td>Einspeisung ins Niederspannungsnetz</td><td>Zweirichtungszähler, Einspeisungsbegrenzung auf 70% der Lichtbereichsleistung</td></tr>
+                                <tr><td><strong>PE-Schiene / Nullungstrennung</strong></td><td>Schutzleiterpotential</td><td>PV-Anlage PE an Hauptpotentialausgleich anbinden, kein PEN-Freigabe</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Stringrechnung &amp; Einspeisung</h3>
+                        <p><strong>Stringverschaltung:</strong> Module werden in Reihe (String) geschaltet. Die Stringspannung darf 1000V (Wechselrichter) nicht überschreiten. Parallel geschaltete Strings erhöhen den Strom.</p>
+                        <p><strong>Einspeisungsbegrenzung:</strong> Bei PV-Anlagen bis 30 kW gilt: Die Leistung darf nicht 70% der Lichtbereichsleistung (bei 230V: max. ca. 9200W) überschreiten, sonst ist eine Last- und Spannungsregelung (LDA) nötig.</p>
+                        <svg viewBox="0 0 600 200" style="width:100%; max-width:600px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
+                            <text x="300" y="20" fill="#10b981" font-size="12" font-weight="bold" text-anchor="middle">PV-String (4 Module à 400W, 40V)</text>
+                            <line x1="50" y1="50" x2="100" y2="50" stroke="#f59e0b" stroke-width="3"/><text x="75" y="44" fill="#f59e0b" font-size="10" text-anchor="middle">L+</text>
+                            <line x1="100" y1="50" x2="150" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <rect x="105" y="42" width="40" height="16" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+                            <text x="125" y="54" fill="#10b981" font-size="9" text-anchor="middle">Modul</text>
+                            <line x1="150" y1="50" x2="200" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <rect x="155" y2="42" width="40" height="16" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+                            <text x="175" y="54" fill="#10b981" font-size="9" text-anchor="middle">Modul</text>
+                            <line x1="200" y1="50" x2="250" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <rect x="205" y="42" width="40" height="16" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+                            <text x="225" y="54" fill="#10b981" font-size="9" text-anchor="middle">Modul</text>
+                            <line x1="250" y1="50" x2="300" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <rect x="255" y="42" width="40" height="16" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+                            <text x="275" y="54" fill="#10b981" font-size="9" text-anchor="middle">Modul</text>
+                            <line x1="300" y1="35" x2="350" y2="35" stroke="#10b981" stroke-width="3"/>
+                            <line x1="300" y1="65" x2="350" y2="65" stroke="#10b981" stroke-width="3"/>
+                            <rect x="345" y="25" width="40" height="40" rx="5" fill="rgba(0,0,0,0.7)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="365" y="50" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">WR</text>
+                        </svg>
+                        <div class="info-badge">
+                            <strong>VDE-AR-N 410.5:</strong> PV-Anlagen müssen sicher vor Überspannung, Überstrom und Fehlstrom schützen. Ein Tageslicht-Schaltung (TTD) ist Pflicht!
+                        </div>
+                    </div>
+                `
+            },
+            ev_laden: {
+                title: "Ladenstationen (E-Mobilität)",
+                icon: "🚗",
+                description: "AC- und DC-Ladepunkte, Typ 2, CCS, Schutzmaßnahmen & VDE-AR-N 410.5",
+                content: `
+                    <h2>Ladestationen für Elektroautos (E-Mobilität)</h2>
+                    <p class="article-desc">AC- und DC-Ladepunkte, Anschluss an das Niederspannungsnetz, Typen 1, 2, CCS und Schutzmaßnahmen nach VDE-AR-N 410.5.</p>
+                    
+                    <div class="article-section">
+                        <h3>Ladeanschlüsse im Vergleich</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Ladetyp</th><th>Strom</th><th>Spannung</th><th>Bereich</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Typ 1 (J1772)</strong></td><td>AC 10–32 A</td><td>230 V</td><td>Personenkraftwagen (Japan)</td></tr>
+                                <tr><td><strong>Typ 2 (Mennekes)</strong></td><td>AC 16–63 A</td><td>230/400 V</td><td>Standard in Europa, 3,7–22 kW</td></tr>
+                                <tr><td><strong>CCS (Combo 2)</strong></td><td>AC + DC</td><td>400–800 V</td><td>Schnellladung bis 500 kW</td></tr>
+                                <tr><td><strong>CHAdeMO</strong></td><td>DC</td><td>500 V</td><td>Japanischer Schnelllade-Standard</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Schutzmaßnahmen &amp; VDE-Anforderungen</h3>
+                        <p><strong>Ladepunkt-Schutz:</strong> In der Nähe von Wasserdampf- und Feuchtraumbereichen ist der Schutz gegen Wassereindringen entscheidend (IPX4 in Feuchtraum, IPX5 in Außenbereich). Typ 2-Steckdose muss kindersichernd gelockt werden.</p>
+                        <p><strong>VDE-AR-N 410.5:</strong> Eine DC-Trennschaltung ist zwingend erforderlich, um bei Wartungsarbeiten gefährliche Gleichstromkreise zu trennen. Ein FI-Schalter Typ A oder B muss den Ladepunkt schützen.</p>
+                        <svg viewBox="0 0 500 180" style="width:100%; max-width:500px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
+                            <text x="250" y="20" fill="#ec4899" font-size="12" font-weight="bold" text-anchor="middle">AC-Ladepunkt (Wallbox) Schema</text>
+                            <line x1="30" y1="50" x2="30" y2="130" stroke="#10b981" stroke-width="3"/>
+                            <text x="25" y="145" fill="#10b981" font-size="9" text-anchor="middle">PE</text>
+                            <line x1="80" y1="50" x2="120" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="100" y="40" fill="#f59e0b" font-size="9" text-anchor="middle">L</text>
+                            <line x1="80" y1="65" x2="120" y2="65" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="100" y="78" fill="#3b82f6" font-size="9" text-anchor="middle">N</text>
+                            <line x1="80" y1="80" x2="120" y2="80" stroke="#10b981" stroke-width="3"/>
+                            <text x="100" y="93" fill="#10b981" font-size="9" text-anchor="middle">PE</text>
+                            <rect x="120" y="30" width="50" height="70" rx="5" fill="rgba(236,72,153,0.15)" stroke="#ec4899" stroke-width="2"/>
+                            <text x="145" y="70" fill="#ec4899" font-size="11" text-anchor="middle" font-weight="bold">FI Typ A</text>
+                            <rect x="180" y="40" width="60" height="50" rx="5" fill="rgba(0,0,0,0.7)" stroke="#64748b" stroke-width="2"/>
+                            <text x="210" y="68" fill="#94a3b8" font-size="10" text-anchor="middle">LS C10</text>
+                            <line x1="240" y1="50" x2="280" y2="50" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="260" y="40" fill="#f59e0b" font-size="9" text-anchor="middle">L</text>
+                            <line x1="240" y1="65" x2="280" y2="65" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="260" y="78" fill="#3b82f6" font-size="9" text-anchor="middle">N</text>
+                            <rect x="280" y="30" width="70" height="70" rx="5" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="315" y="55" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">Typ 2</text>
+                            <text x="315" y="70" fill="#06b6d4" font-size="8" text-anchor="middle">Steckdose</text>
+                            <line x1="380" y1="65" x2="450" y2="65" stroke="#10b981" stroke-width="3"/>
+                            <text x="415" y="78" fill="#10b981" font-size="9" text-anchor="middle">PE</text>
+                        </svg>
+                        <div class="info-badge">
+                            <strong>Wallbox-Anschluss:</strong> Typ 2 Wallbox benötigt mindestens 6mm² Kupferleitung (AC 32A), 16A FI Typ A oder B, LS C10–C16. In Gewerbe muss die Leistung registriert werden!
+                        </div>
+                    </div>
+                `
+            },
+            pruefung_vorbereitung: {
+                title: "Prüfung & Prüfmittel",
+                icon: "📋",
+                description: "Prüfverfahren, Messgeräte, Prüfprotokolle & Dokumentationspflichten",
+                content: `
+                    <h2>Vorbereitung auf die Elektrikerprüfung</h2>
+                    <p class="article-desc">Prüfmethoden, Messgeräte, Prüfprotokolle und Dokumentationspflichten für den Betrieb von elektrischen Anlagen.</p>
+                    
+                    <div class="article-section">
+                        <h3>Prüfverfahren &amp; Dokumentation</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Messgröße</th><th>Prüfgerät</th><th>Grenzwert</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Isolationswiderstand</strong></td><td>Isolationstester (500V-DC)</td><td>&gt; 1 MΩ bei 500V (neu), &gt; 0,5 MΩ (bestehend)</td></tr>
+                                <tr><td><strong>Erdkontrollwiderstand</strong></td><td>Erderwiderstandsmesser</td><td>&lt; 100 Ω (TN/TT), &lt; 10 Ω (Kurzschlussstrommessung)</td></tr>
+                                <tr><td><strong>Fehlerstrom IΔn</strong></td><td>Fehlerstromprüger</td><td>30 mA ± 15 mA (Test bei 10x IΔn)</td></tr>
+                                <tr><td><strong>Überträumer</strong></td><td>Strommesszange / Multimeter</td><td>Max. zulässiger Nennstrom des Kabels</td></tr>
+                                <tr><td><strong>Spannungsfreiheit</strong></td><td>SPG-PRÜFGERÄT (zweipolig)</td><td>0 V gemäß DIN EN 61243-3</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Dokumentationspflichten</h3>
+                        <p>Nach DIN VDE 0100-600 und VOB/B müssen folgende Dokumente zur Anlage vorliegen:</p>
+                        <ol>
+                            <li><strong>Planungsunterlagen:</strong> Schaltpläne, Verkabelungspläne, Lasten- und Spannungsreserve</li>
+                            <li><strong>Prüfprotokoll:</strong> Dokumentation aller durchgeführten Tests (Isolationswiderstand, Erdkontrolle, FI-Abfall)</li>
+                            <li><strong>Betriebssicherheitsordnung:</strong> Nach DGUV V3, insbesondere für Betriebe mit gefährdeten Bereichen</li>
+                            <li><strong>Elektroinstallationsdokumentation (EAD):</strong> Nach VDE 0100-600 Pflicht ab 2024 für alle Anlagen &gt; 50V</li>
+                        </ol>
+                        <div class="info-badge">
+                            <strong>Prüfintervall:</strong> Alle 10 Jahre muss eine bestehende Anlage von einem zugelassenen Elektrofachbetrieb (Nachweis Eintragung VDE) komplett neu geprüft werden. In Feuchträumen alle 3 Jahre!
+                        </div>
+                    </div>
+                `
+            },
+            leitungsschutz: {
+                title: "Leitungsschutz & Überlastschutz",
+                icon: "🛡️",
+                description: "Sicherungen, LS-Schalter, Kurzschlussstrom, Leiterbelastung nach VDE 0100",
+                content: `
+                    <h2>Leitungsschutz &amp; Überlastschutz</h2>
+                    <p class="article-desc">Auswahl und Berechnung von Sicherungen, LS-Schaltern (Leistungsschutzschaltern) und Kurzschlussströmen nach VDE 0100-410 und -540.</p>
+                    
+                    <div class="article-section">
+                        <h3>Schutzmaßnahmen im Vergleich</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Schutzart</th><th>Funktion</th><th>Einsatz</th><th>Auslösecharakteristik</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Sicherung (Kurzschluss)</strong></td><td>Überträger bei Kurzschlussstrom</td><td>Haupt- und Zweigverteiler</td><td>B, C, D (je nach Lasttyp)</td></tr>
+                                <tr><td><strong>LS-Schalter (LS)</strong></td><td>Automatische Abschaltung bei Überlastung</td><td>Steckdosen, Beleuchtung</td><td>B: 3–5x IN, C: 5–10x, D: 10–20x</td></tr>
+                                <tr><td><strong>Kombitaster (FI + LS)</strong></td><td>Fehlerstrom + Überlast in einem</td><td>Moderne Verteiler</td><td>Typ A/B + LS C10/C16</td></tr>
+                                <tr><td><strong>RCBO (Einpol)</strong></td><td>FI + LS Einpol, individuell</td><td>Steckdosenkreise</td><td>30mA + LS B10/B16</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Kurzschlussstrom &amp; Leiterspannung</h3>
+                        <p>Der Kurzschlussstrom an einem Verteilungspunkt bestimmt, welche Sicherung ausgelöst wird. Für die Berechnung gilt:</p>
+                        <p><strong>Ik = U / Z</strong> — Kurzschlussstrom = Spannung / Impedanz</p>
+                        <p>Der Leitungswiderstand ist bei Neuinstallationen typischerweise &lt; 0,1 Ω, was zu Kurzschlussströmen von mehreren Tausend Ampere führt.</p>
+                        <svg viewBox="0 0 550 150" style="width:100%; max-width:550px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(236,72,153,0.3);">
+                            <text x="275" y="20" fill="#ec4899" font-size="12" font-weight="bold" text-anchor="middle">LS-Auslösecharakteristik B/C/D</text>
+                            <line x1="30" y1="120" x2="520" y2="120" stroke="#94a3b8" stroke-width="2"/>
+                            <text x="30" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">0</text>
+                            <text x="100" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">5</text>
+                            <text x="200" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">10</text>
+                            <text x="300" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">15</text>
+                            <text x="420" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">20</text>
+                            <text x="520" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">Zeit (ms)</text>
+                            <polygon points="30,115 50,115 40,95" fill="#10b981" stroke="#10b981"/>
+                            <text x="40" y="90" fill="#10b981" font-size="9" text-anchor="middle">Typ B</text>
+                            <polygon points="30,115 120,105 100,95" fill="#3b82f6" stroke="#3b82f6"/>
+                            <text x="80" y="90" fill="#3b82f6" font-size="9" text-anchor="middle">Typ C</text>
+                            <polygon points="30,115 220,95 200,75" fill="#f59e0b" stroke="#f59e0b"/>
+                            <text x="140" y="90" fill="#f59e0b" font-size="9" text-anchor="middle">Typ D</text>
+                        </svg>
+                        <p><em>Typ B:</em> Schaltet bei 3–5-facher Belastungsstrom. Für Lampen, Heizstäbe. <em>Typ C:</em> 5–10-fach, Standard für Steckdosen. <em>Typ D:</em> 10–20-fach, für stark anlaufende Motoren.</p>
+                    </div>
+                `
             }
         };
 
@@ -2948,6 +3258,105 @@
                 options: ["230 V", "400 V", "500 V", "110 V"],
                 correct: 1,
                 explanation: "Die Leiterspannung (Verkettungsspannung) zwischen zwei Außenleitern beträgt 230 V * √3 ≈ 400 V."
+            },
+            {
+                topic: "protection",
+                question: "Welcher Schutzleiterwiderstand gilt als maximal zulässig für eine Steckdosenleitung im Innenbereich?",
+                options: ["10 Ohm", "1 Ohm", "0,1 Ohm", "100 Ohm"],
+                correct: 3,
+                explanation: "Der Schutzleiterwiderstand darf im privaten Niederspannungsbereich höchstens 100 Ohm betragen (DIN VDE 0100-410). Messung mit dem Erdungswiderstandsmesser."
+            },
+            {
+                topic: "safety",
+                question: "Wie lautet die korrekte Ablaufsequenz der 5 Sicherheitsregeln?",
+                options: ["Schalten → Trennen → Prüfen → Verriegeln → Erden", "Freischalten → Sichern → Spannungsfreiheit → Erden → Kurzschließen", "Freischalten → Verriegeln → Spannungsfreiheit → Erden/Kurzschließen → Nachbarn schützen", "Erden → Freischalten → Prüfen → Verriegeln → Sichern"],
+                correct: 2,
+                explanation: "Die richtige Reihenfolge: 1. Freischalten (allpolig trennen), 2. Gegen Wiedereinschalten sichern, 3. Spannungsfreiheit prüfen, 4. Erden und Kurzschließen, 5. Berührbare Spannungsteile der Nachbarn schützen."
+            },
+            {
+                topic: "protection",
+                question: "Ein 16 A Steckdosenkreis mit FI-Schutz: Welcher FI-Typ ist MINDESTENS erforderlich?",
+                options: ["FI Typ A, 30 mA", "FI Typ F, 300 mA", "FI Typ A, 30 mA oder 100 mA", "FI Typ B, 30 mA"],
+                correct: 2,
+                explanation: "Für Steckdosenkreise gilt: Mindestens FI Typ A 30mA (Personenschutz) oder 100mA (Zusatzschutz). Typ F für Waschgeräte mit Invertermotoren. Typ B nur für DC-Fehlerströme."
+            },
+            {
+                topic: "cables",
+                question: "Welcher Querschnitt ist MINDESTENS für eine 3,7 kW Wallbox (Einfamilienhaus, 230V, 16A) erforderlich?",
+                options: ["1,5 mm²", "2,5 mm²", "4 mm²", "6 mm²"],
+                correct: 2,
+                explanation: "Bei 230V und 16A: P=4600W. Der Verlust darf 3% des Nennwerts nicht überschreiten. Für Wallboxen gilt speziell: mind. 4mm² Kupfer (je nach Leitungsmasse und Länge). 2,5mm² ist für normale Steckdosen, nicht für Dauerlast!"
+            },
+            {
+                topic: "ohms",
+                question: "Ein 230V Stromkreis hat eine Last von 1150W. Wie groß ist die Stromstärke I?",
+                options: ["0,5 A", "2 A", "5 A", "10 A"],
+                correct: 2,
+                explanation: "I = P / U = 1150W / 230V = 5 A. Bei einem 10A Kreis ist die Last also zu ca. 50% belastet."
+            },
+            {
+                topic: "protection",
+                question: "In welchem Netzsystem ist ein RCD (FI-Schalter) ZWINGEND vorgeschrieben?",
+                options: ["TN-S", "TN-C-S", "TT", "Alle Netze"],
+                correct: 2,
+                explanation: "Im TT-Netz (Terre-Terre) ist der RCD gesetzlich vorgeschrieben (DIN VDE 0100-410), da der Schleifenwiderstand über die Erderverbindung zu hoch für eine Kurzschlussabschaltung sein kann. In TN-Netzen ist der RCD zusätzlicher Personenschutz."
+            },
+            {
+                topic: "symbols",
+                question: "Welches Symbol zeigt einen Taster mit Öffnerkontakt (NO-Öffner)?",
+                symbol: svgSymbols.push_button_nc,
+                options: ["Öffner-Taster (NC)", "Schließer-Taster (NO)", "Wechselschalter", "Serienschalter"],
+                correct: 0,
+                explanation: "Der Taster mit Öffnerkontakt (Normalöffner / NC) öffnet den Stromkreis bei Betätigung. Im Schahin zeigt der Strich vom Steller weg vom Kontakt."
+            },
+            {
+                topic: "motor",
+                question: "Welcher LS-Typ ist typisch für den Anlauf eines 3-phasigen Asynchronmotor?",
+                options: ["B 10", "C 10", "D 10", "C 16"],
+                correct: 2,
+                explanation: "Asynchronmotoren haben eine hohe Anlaufstromdreierung (10–14-fach Nennstrom). Ein LS Typ D (10–20x) oder zumindest C (5–10x) ist erforderlich. Bei höherer Leistung Typ D wählen."
+            },
+            {
+                topic: "safety",
+                question: "Was ist die korrekte Vorgehensweise beim Arbeiten an einer 230V-Anlage?",
+                options: ["Direkt mit Handschuhen arbeiten", "Zuerst Trennschalter ziehen, dann Spannung prüfen, dann kurzschließen", "Nur wenn jemand daneben steht", "Erst wenn die Lampe leuchtet"],
+                correct: 1,
+                explanation: "1. Freischalten (Trennschalter ziehen), 2. Gegen Wiedereinschalten verriegeln, 3. Spannungsfreiheit mit SPG-Prüger prüfen, 4. Kurzschließen. Arbeitshandschuhe allein reichen nicht aus!"
+            },
+            {
+                topic: "protection",
+                question: "Wie groß darf die Höchstfläche einer Steckdose im Feuchtraum (Badezimmer) maximal sein?",
+                options: ["1 Schutzklasse I", "Abstand &gt; 60cm vom Boden", "IPX4-Schutz", "Alle oben genannten"],
+                correct: 2,
+                explanation: "Im Badezimmer gelten besondere Schutzmaßnahmen: Steckdosen müssen IPX4 (Spritzwasser) haben. Schutzklasse I ist Pflicht, und der Abstand zum Boden ist ebenfalls relevant. Alle Faktoren zählen!"
+            },
+            {
+                topic: "ohms",
+                question: "Eine Glühbirne hat eine Leistung von 60W bei 230V. Wie groß ist ihr Widerstand R?",
+                options: ["1,2 Ohm", "883 Ohm", "0,26 Ohm", "230 Ohm"],
+                correct: 1,
+                explanation: "R = U²/P = 230²/60 = 52900/60 ≈ 883 Ω. Der Widerstand einer Glühbirne steigt bei Einschalten (durch Erhitung)!"
+            },
+            {
+                topic: "safety",
+                question: "Welch-Tool wird verwendet, um Spannungsfreiheit zu prüfen?",
+                options: ["Multimeter", "SPG-Prüger (Spannungsprüfer)", "Stromzähler", "Isolationsmessgerät"],
+                correct: 1,
+                explanation: "Ein SPG-Prüger (nach DIN EN 61243-3) ist ein zweipoliger Spannungsprüfer, der sicher überprüft, ob eine Anlage spannungsfrei ist. Ein Isolationsmessgerät misst hingegen den Isolationswiderstand."
+            },
+            {
+                topic: "cables",
+                question: "Ein Kabelverlauf hat eine Länge von 50m. Welche Formel berechnet den Spannungsfall?",
+                options: ["ΔU = 2 · l · I / (γ · A)", "ΔU = l · I / A", "ΔU = I · R", "ΔU = U · I"],
+                correct: 0,
+                explanation: "ΔU = 2 · [l / (γ · A)] · I — Faktor 2 für Hin- und Rückleiter. γ≈56 m/(Ω·mm²) für Kupfer."
+            },
+            {
+                topic: "protection",
+                question: "Was passiert bei einem FI-Auslösung im FI-Typ A?",
+                options: ["Abschaltung bei 30mA Fehlerstrom + Gleichanteil", "Nur bei Wechselstrom", "Nicht bei Gleichströmen", "Nur bei 300mA"],
+                correct: 0,
+                explanation: "Ein FI Typ A löst aus bei Wechsel- und gleichgerichteten Fehlerströmen (Gleichanteil). Wichtig für Geräte mit Brückenkreisplatine (z.B. moderne Heizstäbe, Bügeleisen)."
             }
         ];
 
@@ -3753,6 +4162,51 @@
             }
         }
         document.addEventListener('DOMContentLoaded', enhanceQuizFeedback);
+
+        // ===== Prüfungsvorbereitung: Zusätzliche Taschenrechner =====
+
+        // Leitungsbelastbarkeit (nach VDE-Tabellenwerte)
+        function calculateWireLoad() {
+            var cross = parseFloat(document.getElementById('calc-wire-cross').value) || 2.5;
+            var method = parseInt(document.getElementById('calc-install-method').value) || 1;
+            var table = {
+                1: {1.5: 13, 2.5: 20, 4: 26, 6: 34, 10: 50, 16: 70},
+                2: {1.5: 11, 2.5: 16, 4: 22, 6: 28, 10: 40, 16: 55},
+                3: {1.5: 15, 2.5: 24, 4: 33, 6: 41, 10: 58, 16: 76}
+            };
+            var amps = (table[method] && table[method][cross]) || 0;
+            document.getElementById('calc-wire-res').innerText = 'Max. Strom = ' + amps + ' A (' + cross + 'mm², ' + (method === 1 ? 'Schutzrohr' : method === 2 ? 'Kabelkanal' : 'Erdankopplung') + ')';
+        }
+
+        // Motorparameter
+        function calculateMotor() {
+            var p = parseFloat(document.getElementById('calc-motor-p').value) || 1.5;
+            var i = parseFloat(document.getElementById('calc-motor-i').value) || 4.2;
+            var cos = parseFloat(document.getElementById('calc-motor-cos').value) || 0.82;
+            var poles = parseInt(document.getElementById('calc-motor-poles').value) || 2;
+            var freq = 50;
+            var nMax = (120 * freq) / poles;
+            var n = Math.round(nMax * 0.95);
+            document.getElementById('calc-motor-res').innerText = 'Drehzahl n ≈ ' + n + ' U/min (' + poles + '-polig), P = ' + p + 'kW, I = ' + i + 'A, cos φ = ' + cos;
+        }
+
+        // PV-Leistung & Ertrag
+        function calculatePV() {
+            var modules = parseFloat(document.getElementById('calc-pv-modules').value) || 10;
+            var wp = parseFloat(document.getElementById('calc-pv-wp').value) || 400;
+            var yieldPerKW = parseFloat(document.getElementById('calc-pv-yield').value) || 900;
+            var totalW = modules * wp;
+            var totalKW = totalW / 1000;
+            var annualKWh = totalKW * yieldPerKW;
+            document.getElementById('calc-pv-res').innerText = 'Nennleistung = ' + totalKW.toFixed(1) + ' kW, Jahresertrag ≈ ' + annualKWh.toFixed(0) + ' kWh';
+        }
+
+        // Init new calculators on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('calc-wire-res')) calculateWireLoad();
+            if (document.getElementById('calc-motor-res')) calculateMotor();
+            if (document.getElementById('calc-pv-res')) calculatePV();
+        });
     </script>
 </body>
 </html>
