@@ -2826,7 +2826,118 @@
                         <div class="info-badge">
                             Bemessungsfehlerstrom IΔn im Wohnbereich beträgt maximal <strong>30 mA</strong>. Die monatliche Betätigung der Prüftaste wird empfohlen.
                         </div>
-                    </div>
+                     </div>
+
+                     <div class="article-section">
+                         <h3>Schaltbare RCD-Varianten & Sicherungskasten-Integration</h3>
+                         <p>RCDs (FI-Schalter) werden in verschiedenen Baugrößen und Polungszahlen eingebaut. Die Wahl hängt von der Schaltungstiefe, dem Lastenstrom und der Netzform ab:</p>
+                         <table class="custom-table">
+                             <thead>
+                                 <tr><th>Bauform</th><th>Polung</th><th>Einsatz</th><th>Vorteil</th></tr>
+                             </thead>
+                             <tbody>
+                                 <tr><td><strong>1-polig (Einzelstück)</strong></td><td>2-polig einphasig</td><td>Einzelne Stromkreise (z.B. Badezimmer, Küche)</td><td>Individuelle Abschaltung, gezielt Einfluss auf Fehlerstrom</td></tr>
+                                 <tr><td><strong>4-polig (Vierpolig)</strong></td><td>3×L + N + PE (5 Pole)</td><td>Hauptverteiler, 3-phasige Anlagen</td><td>Schützt alle Phasen gleichzeitig, inkl. Neutralleiter</td></tr>
+                                 <tr><td><strong>2-polig (Zweistück)</strong></td><td>2× Einzel-RCD</td><td>Trennung von Stark- und Schwachlastkreisen</td><td>Keine Kreuzkontamination, selektive Abschaltung</td></tr>
+                                 <tr><td><strong>RCBO (Baustein)</strong></td><td>1×L + N + PE</td><td>Einzelne Steckkreise</td><td>Kombiniert FI + LS, höchste Sicherheit pro Kreis</td></tr>
+                             </tbody>
+                         </table>
+                         <div class="info-badge">
+                             <strong>Verkabelung:</strong> Der RCD muss immer im <strong>Schutzleiterpotentialausgleich</strong> (Hauptpotentialausgleich) eingebunden sein. Der PE-Anschluss am RCD darf nicht über einen separaten Potentialausgleichsbereich geführt werden!
+                         </div>
+
+                         <svg viewBox="0 0 620 340" style="width:100%; max-width:620px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(6,182,212,0.3);">
+                             <text x="310" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">SCHALTSCHEMA: RCD IN SICHERUNGSKASTEN (TN-C-S)</text>
+
+                             <!-- HAK / Hauptverteiler -->
+                             <rect x="50" y="80" width="200" height="220" rx="8" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="2"/>
+                             <text x="150" y="95" fill="#94a3b8" font-size="11" text-anchor="middle" font-weight="bold">Hauptanschlusskasten (HAK)</text>
+
+                             <!-- Hauptzähler -->
+                             <circle cx="100" cy="110" r="25" fill="rgba(236,72,153,0.1)" stroke="#ec4899" stroke-width="2"/>
+                             <text x="100" y="113" fill="#ec4899" font-size="9" text-anchor="middle">Haupt-</text>
+                             <text x="100" y="123" fill="#ec4899" font-size="9" text-anchor="middle">zähler</text>
+
+                             <!-- PEN → N/PE Trennung -->
+                             <line x1="150" y1="135" x2="220" y2="135" stroke="#10b981" stroke-width="4" stroke-dasharray="8,4"/>
+                             <text x="185" y="128" fill="#10b981" font-size="9" text-anchor="middle">PEN</text>
+                             <rect x="220" y="125" width="25" height="20" rx="3" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="1"/>
+                             <text x="232" y="140" fill="#fff" font-size="8" text-anchor="middle">Trenn-</text>
+
+                             <!-- Haupt-Schutzleiterpotentialausgleich -->
+                             <line x1="150" y1="160" x2="300" y2="160" stroke="#10b981" stroke-width="3"/>
+                             <text x="225" y="155" fill="#10b981" font-size="9">PE</text>
+
+                             <!-- RCD 4-polig -->
+                             <rect x="310" y="100" width="80" height="120" rx="6" fill="rgba(6,182,212,0.08)" stroke="#06b6d4" stroke-width="2"/>
+                             <text x="350" y="115" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">RCD</text>
+                             <text x="350" y="130" fill="#06b6d4" font-size="9" text-anchor="middle">4-polig</text>
+                             <text x="350" y="145" fill="#94a3b8" font-size="8" text-anchor="middle">IΔn=30mA</text>
+                             <text x="350" y="160" fill="#94a3b8" font-size="8" text-anchor="middle">Typ A</text>
+                             <line x1="310" y1="190" x2="390" y2="190" stroke="#f59e0b" stroke-width="2"/>
+                             <text x="350" y="205" fill="#f59e0b" font-size="9" text-anchor="middle">L1</text>
+                             <line x1="310" y1="205" x2="390" y2="205" stroke="#d97706" stroke-width="2"/>
+                             <text x="350" y="220" fill="#d97706" font-size="9" text-anchor="middle">L2</text>
+                             <line x1="310" y1="220" x2="390" y2="220" stroke="#b45309" stroke-width="2"/>
+                             <text x="350" y="235" fill="#b45309" font-size="9" text-anchor="middle">L3</text>
+                             <line x1="310" y1="235" x2="390" y2="235" stroke="#3b82f6" stroke-width="2"/>
+                             <text x="320" y="248" fill="#3b82f6" font-size="8">N</text>
+                             <line x1="310" y1="250" x2="390" y2="250" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2"/>
+                             <text x="320" y="263" fill="#10b981" font-size="8">PE</text>
+                             <text x="350" y="275" fill="#ef4444" font-size="8" text-anchor="middle">Prüf-</text>
+                             <text x="350" y="285" fill="#ef4444" font-size="8" text-anchor="middle">taste</text>
+
+                             <!-- Ausgangsleiter zum Verbraucher -->
+                             <line x1="390" y1="120" x2="500" y2="120" stroke="#f59e0b" stroke-width="3"/><text x="445" y="113" fill="#f59e0b" font-size="9">L1</text>
+                             <line x1="390" y1="150" x2="500" y2="150" stroke="#3b82f6" stroke-width="3"/><text x="445" y="143" fill="#3b82f6" font-size="9">N</text>
+
+                             <!-- LS-Schalter -->
+                             <rect x="500" y="100" width="60" height="50" rx="4" fill="rgba(0,0,0,0.6)" stroke="#64748b" stroke-width="2"/>
+                             <text x="530" y="128" fill="#94a3b8" font-size="10" text-anchor="middle">LS</text>
+                             <text x="530" y="140" fill="#94a3b8" font-size="9" text-anchor="middle">C16</text>
+
+                             <line x1="560" y1="125" x2="590" y2="125" stroke="#f59e0b" stroke-width="3"/><text x="575" y="118" fill="#f59e0b" font-size="8">L</text>
+
+                             <!-- Verbraucher -->
+                             <rect x="500" y="180" width="80" height="90" rx="6" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                             <text x="540" y="205" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">Steck-</text>
+                             <text x="540" y="220" fill="#06b6d4" font-size="10" text-anchor="middle">dosen</text>
+                             <text x="540" y="250" fill="#94a3b8" font-size="9" text-anchor="middle">Bereich</text>
+
+                             <!-- Erder -->
+                             <line x1="350" y1="280" x2="350" y2="300" stroke="#10b981" stroke-width="2"/>
+                             <line x1="340" y1="300" x2="360" y2="300" stroke="#10b981" stroke-width="2"/>
+                             <text x="350" y="318" fill="#10b981" font-size="8" text-anchor="middle">Anlagenerder</text>
+
+                             <!-- Legende -->
+                             <rect x="50" y="310" width="500" height="22" rx="4" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                             <circle cx="70" cy="322" r="4" fill="#f59e0b"/><text x="80" y="326" fill="#f59e0b" font-size="9">L = Außenleiter (Orange)</text>
+                             <circle cx="180" cy="322" r="4" fill="#3b82f6"/><text x="190" y="326" fill="#3b82f6" font-size="9">N = Neutralleiter (Blau)</text>
+                             <circle cx="300" cy="322" r="4" fill="#10b981"/><text x="310" y="326" fill="#10b981" font-size="9">PE = Schutzleiter (Grün-Gelb)</text>
+                             <circle cx="420" cy="322" r="4" fill="#06b6d4"/><text x="430" y="326" fill="#06b6d4" font-size="9">RCD = Fehlerstromschutzschalter</text>
+                             <circle cx="530" cy="322" r="4" fill="#94a3b8"/><text x="540" y="326" fill="#94a3b8" font-size="9">LS = Lastschutzschalter</text>
+                         </svg>
+                     </div>
+
+                     <div class="article-section">
+                         <h3>RCD-Fehlerdiagnose & Prüfprotokoll</h3>
+                         <p>Bei einem ausgelösten FI-Schalter ist systematisches Vorgehen entscheidend. Nach der Sicherstellung der Spannungsfreiheit folgt die Fehleranalyse:</p>
+                         <table class="custom-table">
+                             <thead>
+                                 <tr><th>Schritt</th><th>Maßnahme</th><th>Werkzeug</th></tr>
+                             </thead>
+                             <tbody>
+                                 <tr><td><strong>1. Abschaltung</strong></td><td>Hauptlast abziehen, alle Sicherungen aufschlagen</td><td>Stromzählerabrechnungszähler, Schraubenzieher</td></tr>
+                                 <tr><td><strong>2. Lastenreduktion</strong></td><td>Alle Verbraucher trennen, nach und nach wieder anstellen</td><td>Keine</td></tr>
+                                 <tr><td><strong>3. FI-Test</strong></td><td>Prüftaste betätigen, Messung des Auslösestroms</td><td>FI-Prüfjoker, Messzange</td></tr>
+                                 <tr><td><strong>4. Isolationsmessung</strong></tr><td>Isolationswiderstand aller Leitungen zur Erde messen</td><td>Isolationstester 500V</td></tr>
+                                 <tr><td><strong>5. Fehlerstrommessung</strong></td><td>Aktive Differenzstrommessung mit Frequenzfilter</td><td>Differenzstrommessgerät</td></tr>
+                             </tbody>
+                         </table>
+                         <div class="info-badge">
+                             <strong>Hinweis:</strong> Ein wiederholtes oder ungewolltes FI-Auslösen deutet häufig auf feuchte Leitungen, fehlerhafte Geräte oder Alterung von Kabeln hin. Dokumentieren Sie jeden Auslösefall mit Datum und Uhrzeit!
+                         </div>
+                     </div>
                 `
             },
             netzsysteme: {
