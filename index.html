@@ -683,6 +683,11 @@
             box-shadow: 0 30px 50px -10px var(--primary-glow);
         }
 
+        .menu-option:focus-within {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+        }
+
         .menu-option:hover::before {
             opacity: 0.7;
         }
@@ -798,6 +803,11 @@
         .toggle-btn:hover {
             color: var(--text-main);
             background: rgba(255, 255, 255, 0.05);
+        }
+
+        .toggle-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
         .toggle-btn.active {
@@ -974,6 +984,21 @@
             gap: 8px;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .quiz-topic-indicator {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(56, 189, 248, 0.12);
+            padding: 2px 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+        }
+
+        #quiz-topic-filter {
+            backdrop-filter: blur(10px);
         }
 
         .timer-pill {
@@ -1700,6 +1725,99 @@
             border-image: linear-gradient(135deg, var(--ai-color), var(--primary)) 1;
         }
 
+        /* Toast-Benachrichtigungen */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        .toast-notification {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: linear-gradient(145deg, rgba(0,0,0,0.85), rgba(0,0,0,0.75));
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateX(300px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            max-width: 360px;
+        }
+
+        .toast-notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 1.4rem;
+        }
+
+        /* VS-Score-Animation */
+        .vs-score-animated {
+            transition: all 0.9s cubic-bezier(0.18, 0.87, 0.42, 1.97);
+        }
+
+        .vs-score-bounce {
+            animation: scoreBounce 0.9s ease;
+        }
+
+        @keyframes scoreBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5) !important; filter: brightness(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        /* AI-Loading-Spinner */
+        .ai-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            gap: 20px;
+        }
+
+        .ai-loading-spinner {
+            width: 56px;
+            height: 56px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .ai-loading-text {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Topic progress bar colors */
+        .topic-progress-good { border-left: 4px solid #10b981; }
+        .topic-progress-medium { border-left: 4px solid #f59e0b; }
+        .topic-progress-low { border-left: 4px solid #ef4444; }
+
         /* Enhanced detailed stats panel */
         .progress-details-panel {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
@@ -1959,10 +2077,21 @@
             <div class="progress-bar-container">
                 <div class="progress-bar-fill" id="xp-progress-fill"></div>
             </div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 16px;">
                 💡 <strong>Adaptiver Modus aktiv:</strong> Fragen passen sich automatisch an deine Fehlerschwerpunkte an!
             </div>
+            <div id="topic-progress-container" style="margin-top: 18px;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">📚 Themen-Fortschritt</div>
+                <div id="topic-progress-bars" style="display: grid; gap: 10px;"></div>
+            </div>
         </div>
+
+        <div id="ai-loading-overlay" class="ai-loading-overlay" style="display: none;">
+            <div class="ai-loading-spinner"></div>
+            <div class="ai-loading-text">🧠 KI analysiert deine Lernfortschritte...</div>
+        </div>
+
+        <div id="toast-container" class="toast-container"></div>
 
         <!-- Erfolgs-Badges -->
         <div class="achievements-bar">
@@ -1970,6 +2099,8 @@
             <div class="badge-item" id="badge-2">🔥 10 Richtige</div>
             <div class="badge-item" id="badge-3">🧠 Meister-Mind</div>
             <div class="badge-item" id="badge-4">⏱️ Schnell-Denker</div>
+            <div class="badge-item" id="badge-5">🎯 25 Richtige</div>
+            <div class="badge-item" id="badge-6">🏆 Highscore-Meister</div>
         </div>
 
         <!-- Welcome View -->
@@ -2082,7 +2213,7 @@
                                 <h4 id="vs-p1-name">Du</h4>
                                 <div style="font-size: 0.75rem; color: var(--text-muted);" id="vs-p1-id">#ID</div>
                             </div>
-                            <div class="vs-score-tag" id="vs-p1-score">0</div>
+                            <div class="vs-score-tag" id="vs-p1-score" aria-label="Dein Score">0</div>
                         </div>
 
                         <div style="font-size: 1.4rem; font-weight: 800; color: var(--ai-color);">VS</div>
@@ -2093,7 +2224,7 @@
                                 <h4 id="vs-p2-name">Gegner</h4>
                                 <div style="font-size: 0.75rem; color: var(--text-muted);" id="vs-p2-id">#ONLINE</div>
                             </div>
-                            <div class="vs-score-tag" id="vs-p2-score">0</div>
+                            <div class="vs-score-tag" id="vs-p2-score" aria-label="Gegner-Score">0</div>
                         </div>
                     </div>
 
@@ -2170,12 +2301,26 @@
                             <option value="hard">Schwer (Meister/Techniker)</option>
                         </select>
                     </div>
-                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()">✨ Neue Aufgabe Generieren</button>
+                    <button class="ai-btn-action" onclick="generateCustomAIQuestion()" aria-label="KI generiert 5 maßgeschneiderte Fragen">✨ Neue Aufgabe Generieren</button>
                 </div>
 
                 <div id="quiz-screen">
                     <div class="quiz-top">
-                        <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <div class="quiz-title" id="quiz-heading">⚡ Wissenstest</div>
+                            <span class="quiz-topic-indicator" id="quiz-topic-indicator" style="display: none; font-size: 0.75rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 10px;">📐 Symbole</span>
+                            <select id="quiz-topic-filter" onchange="applyTopicFilter()" aria-label="Quiz-Themen-Filter" style="display: none; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 6px 10px; color: var(--text-secondary); font-size: 0.85rem;">
+                                <option value="all">Alle Themen</option>
+                                <option value="symbols">📐 Symbole</option>
+                                <option value="ohm">⚡ Ohm's Law</option>
+                                <option value="motor">🔄 Motoren</option>
+                                <option value="protection">🛡️ Schutz</option>
+                                <option value="cables">🔌 Kabel</option>
+                                <option value="solar">☀️ Solar</option>
+                                <option value="ev">⚡ E-Auto</option>
+                                <option value="safety">🦺 Sicherheit</option>
+                            </select>
+                        </div>
                         <div style="display: flex; gap: 10px;">
                             <div class="timer-pill" id="timer-box">⏱️ <span id="quiz-timer">30</span>s</div>
                             <div class="progress-pill" id="progress">Frage 1 / 10</div>
@@ -2373,7 +2518,19 @@
         let registeredUsers = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
         let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
             total: 0, correct: 0, highscore: 0, level: 1, xp: 0, streak: 0,
-            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1 }
+            topicSkills: { symbols: 1, ohm: 1, motor: 1, protection: 1, cables: 1, ip: 1, solar: 1, ev: 1, safety: 1, installation: 1 },
+            topicStats: {
+                symbols: { total: 0, correct: 0, highestStreak: 0 },
+                ohm: { total: 0, correct: 0, highestStreak: 0 },
+                motor: { total: 0, correct: 0, highestStreak: 0 },
+                protection: { total: 0, correct: 0, highestStreak: 0 },
+                cables: { total: 0, correct: 0, highestStreak: 0 },
+                solar: { total: 0, correct: 0, highestStreak: 0 },
+                ev: { total: 0, correct: 0, highestStreak: 0 },
+                safety: { total: 0, correct: 0, highestStreak: 0 },
+                installation: { total: 0, correct: 0, highestStreak: 0 }
+            },
+            unlockedBadges: []
         };
         let friends = JSON.parse(localStorage.getItem('elek_plus_friends')) || [];
 
@@ -3298,7 +3455,7 @@
                 explanation: "Bei 230V und 16A: P=4600W. Der Verlust darf 3% des Nennwerts nicht überschreiten. Für Wallboxen gilt speziell: mind. 4mm² Kupfer (je nach Leitungsmasse und Länge). 2,5mm² ist für normale Steckdosen, nicht für Dauerlast!"
             },
             {
-                topic: "ohms",
+                topic: "ohm",
                 question: "Ein 230V Stromkreis hat eine Last von 1150W. Wie groß ist die Stromstärke I?",
                 options: ["0,5 A", "2 A", "5 A", "10 A"],
                 correct: 2,
@@ -3341,7 +3498,7 @@
                 explanation: "Im Badezimmer gelten besondere Schutzmaßnahmen: Steckdosen müssen IPX4 (Spritzwasser) haben. Schutzklasse I ist Pflicht, und der Abstand zum Boden ist ebenfalls relevant. Alle Faktoren zählen!"
             },
             {
-                topic: "ohms",
+                topic: "ohm",
                 question: "Eine Glühbirne hat eine Leistung von 60W bei 230V. Wie groß ist ihr Widerstand R?",
                 options: ["1,2 Ohm", "883 Ohm", "0,26 Ohm", "230 Ohm"],
                 correct: 1,
@@ -3762,12 +3919,30 @@
                     if (data.sender.id !== currentUser.id) {
                         vsGameState.p2Score += data.points;
                         vsGameState.p2Answered = true;
-                        document.getElementById('vs-p2-score').innerText = vsGameState.p2Score;
+                        animateVsScore('vs-p2-score', vsGameState.p2Score);
                         document.getElementById('vs-round-status').innerText = 'Gegner hat geantwortet!';
                         checkVsRoundNext();
                     }
                 }
             };
+        }
+
+        function animateVsScore(elementId, newValue) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.classList.add('vs-score-bounce');
+            el.innerText = newValue;
+            setTimeout(() => el.classList.remove('vs-score-bounce'), 900);
+        }
+
+        function showAILoading() {
+            const overlay = document.getElementById('ai-loading-overlay');
+            if (overlay) overlay.style.display = 'flex';
+        }
+
+        function hideAILoading() {
+            const overlay = document.getElementById('ai-loading-overlay');
+            if (overlay) overlay.style.display = 'none';
         }
 
         function startVsMatchmaking() {
@@ -3895,7 +4070,7 @@
             const isCorrect = selectedIdx === correctIdx;
             const points = isCorrect ? Math.max(5, vsGameState.timer) : 0;
             vsGameState.p1Score += points;
-            document.getElementById('vs-p1-score').innerText = vsGameState.p1Score;
+            animateVsScore('vs-p1-score', vsGameState.p1Score);
 
             vsChannel.postMessage({
                 type: 'ANSWER',
@@ -3912,7 +4087,7 @@
                         const botPoints = botCorrect ? Math.floor(Math.random() * 8 + 5) : 0;
                         vsGameState.p2Score += botPoints;
                         vsGameState.p2Answered = true;
-                        document.getElementById('vs-p2-score').innerText = vsGameState.p2Score;
+                        animateVsScore('vs-p2-score', vsGameState.p2Score);
                         checkVsRoundNext();
                     }
                 }, Math.random() * 1500 + 500);
@@ -4024,8 +4199,28 @@
                 return;
             }
 
+            // Topic filter: show for quiz mode, hide for schemas mode
+            const topicFilterEl = document.getElementById('quiz-topic-filter');
+            const topicIndicatorEl = document.getElementById('quiz-topic-indicator');
+
             if (mode === 'schemas') {
                 activeQuizQuestions = questionPool.filter(q => q.topic === 'symbols');
+            } else if (mode === 'quiz') {
+                let selectedTopic = 'all';
+                if (topicFilterEl) {
+                    selectedTopic = topicFilterEl.value;
+                    if (mode === 'quiz') {
+                        topicFilterEl.style.display = 'flex';
+                    } else {
+                        topicFilterEl.style.display = 'none';
+                    }
+                }
+                if (topicIndicatorEl) topicIndicatorEl.style.display = 'none';
+                if (selectedTopic === 'all') {
+                    activeQuizQuestions = [...questionPool].sort(() => 0.5 - Math.random());
+                } else {
+                    activeQuizQuestions = questionPool.filter(q => q.topic === selectedTopic).sort(() => 0.5 - Math.random());
+                }
             } else {
                 activeQuizQuestions = [...questionPool].sort(() => 0.5 - Math.random());
             }
@@ -4034,6 +4229,8 @@
         }
 
         function generateCustomAIQuestion() {
+            showAILoading();
+
             const topic = document.getElementById('ai-topic-select').value;
             const difficulty = document.getElementById('ai-diff-select').value;
 
@@ -4093,6 +4290,7 @@
             document.getElementById('ai-tutor-box').classList.remove('show');
             document.getElementById('next-btn').classList.remove('show');
 
+            hideAILoading();
             setTimeout(() => loadQuestion(), 600);
         }
 
@@ -4109,6 +4307,17 @@
 
             const q = activeQuizQuestions[currentQuestion];
             document.getElementById('question').innerText = q.question;
+            // Update topic indicator in quiz heading
+            const topicLabels = {
+                symbols: '📐 Symbole', ohm: '⚡ Ohm\'s Law', motor: '🔄 Motoren',
+                protection: '🛡️ Schutz', cables: '🔌 Kabel', solar: '☀️ Solar',
+                ev: '⚡ E-Auto', safety: '🦺 Sicherheit', installation: '🔧 Installation'
+            };
+            const topicEl = document.getElementById('quiz-topic-indicator');
+            if (topicEl && q.topic) {
+                topicEl.innerText = topicLabels[q.topic] || q.topic;
+                topicEl.style.display = 'inline-block';
+            }
             document.getElementById('progress').innerText = `Frage ${currentQuestion + 1} / ${activeQuizQuestions.length}`;
 
             const symDisp = document.getElementById('symbol-display');
@@ -4126,7 +4335,25 @@
                 const btn = document.createElement('button');
                 btn.className = 'option-card';
                 btn.innerText = opt;
+                btn.setAttribute('aria-label', 'Antwortmöglichkeit ' + (idx + 1) + ': ' + opt);
+                btn.tabIndex = 0;
                 btn.onclick = () => selectOption(idx, q.correct);
+                btn.onkeydown = (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectOption(idx, q.correct);
+                    }
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const next = btn.parentElement.children[idx + 1];
+                        if (next) next.focus();
+                    }
+                    if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prev = btn.parentElement.children[idx - 1];
+                        if (prev) prev.focus();
+                    }
+                };
                 optionsGrid.appendChild(btn);
             });
 
@@ -4150,6 +4377,19 @@
                     btn.style.transform = 'scale(1.03)';
                 }
             });
+
+            // Themen-spezifischer Fortschritt
+            const q = activeQuizQuestions[currentQuestion];
+            const topicKey = q.topic || 'symbols';
+            if (stats.topicStats[topicKey]) {
+                stats.topicStats[topicKey].total++;
+                if (selected === correct) {
+                    stats.topicStats[topicKey].correct++;
+                }
+                if (stats.streak > stats.topicStats[topicKey].highestStreak) {
+                    stats.topicStats[topicKey].highestStreak = stats.streak;
+                }
+            }
 
             stats.total++;
             if (selected === correct) {
@@ -4232,6 +4472,17 @@
             }
         }
 
+        function applyTopicFilter() {
+            // The topic filter only applies at quiz start. Restart with selected topic.
+            const filter = document.getElementById('quiz-topic-filter');
+            if (filter) {
+                filter.style.display = 'none';
+                const indicator = document.getElementById('quiz-topic-indicator');
+                if (indicator) indicator.style.display = 'none';
+            }
+            startQuizMode('quiz');
+        }
+
         function restartQuiz() {
             if (currentMode === 'ai') {
                 generateCustomAIQuestion();
@@ -4245,10 +4496,26 @@
         }
 
         function updateBadges() {
-            if (stats.total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-            if (stats.correct >= 10) document.getElementById('badge-2').classList.add('unlocked');
-            if (stats.level >= 3) document.getElementById('badge-3').classList.add('unlocked');
-            if (stats.streak >= 5) document.getElementById('badge-4').classList.add('unlocked');
+            const badgeDefs = [
+                { id: 'badge-1', condition: () => stats.total >= 1, name: '⚡ Einsteiger', icon: '⚡' },
+                { id: 'badge-2', condition: () => stats.correct >= 10, name: '🔥 10 Richtige', icon: '🔥' },
+                { id: 'badge-3', condition: () => stats.level >= 3, name: '🧠 Meister-Mind', icon: '🧠' },
+                { id: 'badge-4', condition: () => stats.streak >= 5, name: '⏱️ Schnell-Denker', icon: '⏱️' },
+                { id: 'badge-5', condition: () => stats.correct >= 25, name: '🎯 Genießer', icon: '🎯' },
+                { id: 'badge-6', condition: () => stats.highscore >= 8, name: '🏆 Highscore-Meister', icon: '🏆' }
+            ];
+
+            badgeDefs.forEach(badge => {
+                const el = document.getElementById(badge.id);
+                if (el && badge.condition() && !stats.unlockedBadges.includes(badge.id)) {
+                    stats.unlockedBadges.push(badge.id);
+                    showToast('Neuer Badge freigeschaltet!', badge.icon + ' ' + badge.name);
+                }
+                if (el && badge.condition()) {
+                    el.classList.add('unlocked');
+                }
+            });
+            saveStats();
         }
 
         function toggleDetailedStats() {
@@ -4257,6 +4524,53 @@
             document.getElementById('xp-label').innerText = `XP: ${stats.xp} / 100 zum nächsten Level`;
             document.getElementById('streak-label').innerText = `🔥 Streak: ${stats.streak} richtig in Folge`;
             document.getElementById('xp-progress-fill').style.width = stats.xp + '%';
+            renderTopicProgress();
+        }
+
+        function renderTopicProgress() {
+            const container = document.getElementById('topic-progress-bars');
+            if (!container || !stats.topicStats) return;
+            container.innerHTML = '';
+            const topicLabels = {
+                symbols: '📐 Symbole',
+                ohm: '⚡ Ohm\'s Law',
+                motor: '🔄 Motoren',
+                protection: '🛡️ Schutz',
+                cables: '🔌 Kabel',
+                solar: '☀️ Solar',
+                ev: '⚡ E-Auto',
+                safety: '🦺 Sicherheit',
+                installation: '🔧 Installation'
+            };
+            Object.entries(stats.topicStats).forEach(([key, data]) => {
+                const pct = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+                const label = topicLabels[key] || key;
+                const div = document.createElement('div');
+                div.innerHTML = `<div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px;">
+                    <span>${label}</span>
+                    <span>${data.correct}/${data.total} (${pct}%)</span>
+                </div>
+                <div class="progress-bar-container" style="margin-bottom: 6px;">
+                    <div class="progress-bar-fill" style="width: ${pct}%; background: ${pct >= 85 ? '#10b981' : pct >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+                </div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function showToast(message, icon = '✨') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-text">${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
 
         // Freunde Logik
