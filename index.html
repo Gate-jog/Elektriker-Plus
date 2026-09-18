@@ -4409,6 +4409,7 @@
             saveStats();
             updateUserDisplay();
 
+            const q = activeQuizQuestions[currentQuestion];
             const expBox = document.getElementById('explanation');
             expBox.innerText = q.explanation;
             expBox.classList.add('show');
