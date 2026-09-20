@@ -4,7 +4,7 @@
   "description": "Schulungsportal & KI-Prüfungssimulator für Elektrotechnik",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#070a12",
+  "background_color": "#050a14",
   "theme_color": "#06b6d4",
   "orientation": "portrait",
   "icons": [
