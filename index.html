@@ -740,6 +740,7 @@
         #stat-level .stat-icon { color: var(--secondary); text-shadow: 0 0 12px var(--secondary-glow); }
         #stat-high .stat-icon { color: var(--warning); text-shadow: 0 0 12px var(--warning-glow); }
 
+        /* Achievements Bar Enhancement */
         .achievements-bar {
             display: flex;
             gap: 12px;
@@ -766,6 +767,7 @@
             backdrop-filter: blur(12px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transform-origin: center bottom;
+            cursor: help;
         }
 
         .badge-item:hover {
@@ -2231,6 +2233,17 @@
 
         /* Result Box Enhancement */
 
+        /* Level Up Animation */
+        @keyframes levelUpPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(6, 182, 212, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+        }
+
+        .level-up-highlight {
+            animation: levelUpPulse 1s ease-out;
+        }
+
         /* Enhanced search bar */
         .search-bar {
             width: 100%;
@@ -2288,7 +2301,7 @@
             .menu-options { grid-template-columns: 1fr; max-width: 360px; }
             .mode-nav { flex-direction: column; align-items: stretch; }
             .mode-toggle { flex-direction: column; }
-            .toggle-btn { padding: 12px; }
+            .toggle-btn { padding: 14px; min-height: 48px; }
             .status-badge { position: relative; margin-bottom: 16px; justify-content: center; top: auto; right: auto; }
             .user-profile-bar { flex-direction: column; gap: 14px; text-align: center; border-radius: var(--radius-md); }
             .user-info { flex-direction: column; }
@@ -2300,9 +2313,17 @@
             .vs-player-vs-bar { flex-direction: column; gap: var(--space-md); text-align: center; }
             .vs-player-box.right { flex-direction: row; text-align: center; }
             .quiz-top { flex-direction: column; align-items: stretch; }
-            .timer-pill, .progress-pill { justify-content: center; }
+            .timer-pill, .progress-pill { justify-content: center; min-height: 44px; }
             .ai-config-panel { grid-template-columns: 1fr; }
             .friends-mode .ai-config-panel { grid-template-columns: 1fr; }
+            /* Größere Touch-Zones für Optionen */
+            .option-card { padding: 18px; min-height: 56px; }
+            .menu-option { padding: var(--space-md) var(--space-sm); min-height: 100px; }
+            .menu-icon { width: 64px; height: 64px; font-size: 2rem; }
+            .btn-profile { padding: 12px 18px; min-height: 44px; }
+            .nav-btn { padding: 12px 18px; min-height: 44px; }
+            .btn-auth-submit { padding: 16px; min-height: 48px; }
+            .stat-card { padding: 18px 10px; min-height: 90px; }
         }
 
         @media (max-width: 400px) {
@@ -2314,6 +2335,104 @@
             .topic-card { padding: var(--space-md); }
             .calc-box { padding: var(--space-md); }
             .symbol-card { padding: 16px 12px; }
+        }
+
+        /* Toast Notification System */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 400px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--card-bg-strong);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            color: var(--text-bright);
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            border-left-color: var(--incorrect);
+        }
+
+        .toast.success {
+            border-left-color: var(--correct);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        .toast.info {
+            border-left-color: var(--primary);
+        }
+
+        .toast-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .toast-message {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-bright);
+        }
+
+        /* Respect prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            body::after,
+            body::before {
+                animation: none !important;
+            }
         }
 
         /* Custom Scrollbar */
@@ -2390,9 +2509,32 @@
             outline-offset: 3px;
             border-radius: 4px;
         }
+
+        /* Skip link for keyboard navigation */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 0 0 var(--radius-sm) 0;
+            font-weight: 800;
+            z-index: 10000;
+            text-decoration: none;
+            transition: top 0.3s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
     <!-- Auth Screen Overlay (Login / Registrieren / Gast) -->
     <div id="auth-screen" class="auth-overlay">
@@ -2448,6 +2590,12 @@
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
                     Im Gastmodus wird ein temporäres Profil für diese Sitzung generiert. Du kannst im VS-Modus spielen und Punkte sammeln.
                 </p>
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 20px;">
+                    <p style="font-size: 0.8rem; color: var(--warning); margin: 0;">
+                        ⚠️ <strong>Hinweis:</strong> Im Gastmodus werden deine Fortschritte nicht dauerhaft gespeichert. 
+                        Für den vollen Zugang (ELO-Rang, Erfolge, Freunde) registriere dich bitte.
+                    </p>
+                </div>
                 <button type="button" class="btn-auth-submit" onclick="handleGuestLogin()">Als Gast fortfahren</button>
             </div>
         </div>
@@ -2488,7 +2636,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="main-content" role="main">
         <!-- Header -->
         <div class="header">
             <div class="floating-element">⚡</div>
@@ -2569,6 +2717,17 @@
             <h2>Wähle deinen Modus</h2>
             <p style="color: var(--text-muted); margin-top: 10px; font-size: 1.05rem;">Bereite dich optimal auf Prüfungs- und Praxissituationen vor.</p>
 
+            <!-- Quick Start Hinweis -->
+            <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(126, 34, 206, 0.05)); border: 1px solid var(--card-border); border-radius: var(--radius-md); padding: var(--space-lg); margin: 24px 0 16px; text-align: left;">
+                <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1rem;">💡 Empfohlener Einstieg:</h4>
+                <ol style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8; padding-left: 20px; margin: 0;">
+                    <li><strong>Standard Quiz</strong> — Teste dein Grundwissen mit 10 zufälligen Fragen</li>
+                    <li><strong>Schaltsymbole</strong> — Übe die Erkennung von Schaltzeichen nach DIN EN 60617</li>
+                    <li><strong>Lernbereich</strong> — Durchsuche das Nachschlagewerk mit Formeln, Schaltplänen & Berechnern</li>
+                    <li><strong>VS-Duell</strong> — Fordere andere Elektriker zum Wettstreit heraus</li>
+                </ol>
+            </div>
+
             <div class="menu-options">
                 <div class="menu-option" onclick="startMode('quiz')">
                     <div class="menu-icon">📝</div>
@@ -2604,7 +2763,7 @@
         </div>
 
         <!-- Navigation Bar -->
-        <div id="mode-nav-area" style="display: none;">
+        <div id="mode-nav-area" style="display: none;" role="navigation" aria-label="Modus Navigation">
             <div class="mode-nav">
                 <button class="nav-btn" onclick="backToWelcome()">← Hauptmenü</button>
                 <div class="mode-toggle">
@@ -2660,8 +2819,9 @@
                     <div id="vs-waiting-panel" style="display: none; text-align: center; margin-top: 32px; padding: 28px; background: rgba(0,0,0,0.5); border-radius: var(--radius-md); border: 1px solid var(--primary);">
                         <h3 style="color: var(--primary); margin-bottom: 8px;">Warte auf Mitspieler...</h3>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">Teile folgenden Raum-Code mit deinem Freund:</p>
-                        <div class="vs-code-display" id="created-room-code">ELK-1234</div>
-                        <button class="nav-btn" onclick="cancelVsLobby()">Abbrechen</button>
+                        <div class="vs-code-display" id="created-room-code" aria-live="polite">ELK-1234</div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Der Mitspieler tritt dem Raum bei, sobald er den Code eingegeben hat.</p>
+                        <button class="nav-btn" onclick="cancelVsLobby()" style="margin-top: 16px;">Abbrechen</button>
                     </div>
                 </div>
 
@@ -2960,7 +3120,44 @@
     </div>
 
     <script>
-        // State & Account Management
+        // ===== Toast Notification System =====
+        function showToast(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.info}</span>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // Auto remove
+            if (duration > 0) {
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 400);
+                }, duration);
+            }
+
+            return toast;
+        }
+
+        // ===== State & Account Management =====
         let currentUser = JSON.parse(localStorage.getItem('elek_plus_current_user')) || null;
         let registeredUsers = JSON.parse(localStorage.getItem('elek_plus_users')) || {};
         let stats = JSON.parse(localStorage.getItem('elek_plus_stats')) || { 
@@ -4339,9 +4536,20 @@
             const username = document.getElementById('reg-username').value.trim();
             const password = document.getElementById('reg-password').value;
 
-            if (!username || !password) return;
+            if (!username || !password) {
+                showToast('Bitte fülle alle Pflichtfelder aus!', 'error');
+                return;
+            }
+            if (username.length < 3) {
+                showToast('Der Benutzername muss mindestens 3 Zeichen lang sein.', 'error');
+                return;
+            }
+            if (password.length < 4) {
+                showToast('Das Passwort muss mindestens 4 Zeichen lang sein.', 'error');
+                return;
+            }
             if (registeredUsers[username]) {
-                alert('Benutzername bereits vergeben!');
+                showToast('Benutzername bereits vergeben!', 'error');
                 return;
             }
 
@@ -4362,6 +4570,7 @@
 
             currentUser = userObj;
             saveCurrentUser();
+            showToast('Konto erfolgreich erstellt! Willkommen, ' + username + '!', 'success');
             initAuth();
         }
 
@@ -4370,14 +4579,20 @@
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
 
+            if (!username || !password) {
+                showToast('Bitte fülle alle Pflichtfelder aus!', 'error');
+                return;
+            }
+
             const userObj = registeredUsers[username];
             if (!userObj || userObj.password !== password) {
-                alert('Ungültige Anmeldedaten!');
+                showToast('Ungültige Anmeldedaten!', 'error');
                 return;
             }
 
             currentUser = userObj;
             saveCurrentUser();
+            showToast('Willkommen zurück, ' + username + '!', 'success');
             initAuth();
         }
 
@@ -4399,6 +4614,7 @@
         function logoutUser() {
             currentUser = null;
             localStorage.removeItem('elek_plus_current_user');
+            showToast('Du bist nun abgemeldet.', 'info');
             initAuth();
         }
 
@@ -4439,12 +4655,20 @@
             const levelEl = document.getElementById('stat-level');
             const highEl = document.getElementById('stat-high');
 
+            const prevLevel = parseInt(levelEl ? levelEl.innerText.replace('Lvl ', '') : '1');
+
             if (scoreEl) {
                 const targetScore = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
                 animateValue(scoreEl, 0, targetScore, 900, '%');
             }
             if (completedEl) animateValue(completedEl, 0, stats.total, 900);
-            if (levelEl) levelEl.innerText = 'Lvl ' + stats.level;
+            if (levelEl) {
+                levelEl.innerText = 'Lvl ' + stats.level;
+                if (stats.level > prevLevel) {
+                    levelEl.classList.add('level-up-highlight');
+                    setTimeout(() => levelEl.classList.remove('level-up-highlight'), 1000);
+                }
+            }
             if (highEl) animateValue(highEl, 0, stats.highscore, 900);
 
             updateBadges();
@@ -4458,7 +4682,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert("Deine ID " + currentUser.id + " wurde in die Zwischenablage kopiert!");
+            showToast("Deine ID " + currentUser.id + " wurde in die Zwischenablage kopiert!", 'success');
         }
 
         function openProfileModal() {
@@ -4508,6 +4732,7 @@
                 avatar: '🤖'
             };
 
+            showToast('Suche nach einem Gegner im Netzwerk...', 'info', 2000);
             startVsArenaMatch();
         }
 
@@ -4517,11 +4742,19 @@
             vsGameState.active = true;
             document.getElementById('created-room-code').innerText = code;
             document.getElementById('vs-waiting-panel').style.display = 'block';
+            showToast('Raum ' + code + ' erstellt! Teile den Code mit deinem Freund.', 'success');
         }
 
         function joinVsRoom() {
             const input = document.getElementById('vs-join-code-input').value.trim().toUpperCase();
-            if (!input) return;
+            if (!input) {
+                showToast('Bitte gib einen Raum-Code ein!', 'warning');
+                return;
+            }
+            if (input.length < 4) {
+                showToast('Der Raum-Code muss mindestens 4 Zeichen lang sein.', 'warning');
+                return;
+            }
 
             vsGameState.roomCode = input;
             vsGameState.active = true;
@@ -4535,12 +4768,14 @@
 
             document.getElementById('vs-lobby').style.display = 'none';
             document.getElementById('vs-arena').style.display = 'block';
+            showToast('Beitreten des Raums ' + input + '...', 'info', 2000);
             startVsArenaMatch();
         }
 
         function cancelVsLobby() {
             vsGameState.active = false;
             document.getElementById('vs-waiting-panel').style.display = 'none';
+            showToast('Warte-Raum verlassen.', 'info');
         }
 
         function startVsArenaMatch() {
@@ -4672,17 +4907,20 @@
                 document.getElementById('vs-elo-change').innerText = '+25 ELO Rating Punkte';
                 currentUser.vsRating += 25;
                 currentUser.vsWins++;
+                showToast('Duell gewonnen! +25 ELO', 'success');
             } else if (draw) {
                 document.getElementById('vs-result-title').innerText = '🤝 UNENTSCHIEDEN!';
                 document.getElementById('vs-result-title').style.color = 'var(--warning)';
                 document.getElementById('vs-elo-change').innerText = '+5 ELO Rating Punkte';
                 currentUser.vsRating += 5;
+                showToast('Unentschieden! +5 ELO', 'warning');
             } else {
                 document.getElementById('vs-result-title').innerText = '❌ NIEDERLAGE';
                 document.getElementById('vs-result-title').style.color = 'var(--incorrect)';
                 document.getElementById('vs-elo-change').innerText = '-15 ELO Rating Punkte';
                 currentUser.vsRating = Math.max(800, currentUser.vsRating - 15);
                 currentUser.vsLosses++;
+                showToast('Niederlage! -15 ELO', 'error');
             }
 
             saveCurrentUser();
@@ -4774,7 +5012,7 @@
             });
 
             if (pool.length === 0) {
-                alert('Keine Fragen für dieses Thema verfügbar!');
+                showToast('Keine Fragen für dieses Thema verfügbar!', 'warning');
                 return;
             }
 
@@ -4802,6 +5040,24 @@
 
             // AI-Config verstecken während der Fragen
             document.getElementById('ai-config').style.display = 'none';
+
+            // Zeige Ladeindikator
+            const optionsEl = document.getElementById('options');
+            optionsEl.innerHTML = `
+                <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px; animation: spin 1s linear infinite;">✨</div>
+                    <p style="font-size: 1.05rem; font-weight: 600;">KI generiert deine persönlichen Fragen...</p>
+                    <p style="font-size: 0.85rem; margin-top: 8px; opacity: 0.7;">Thema: ${topicLabels[topic] || topic} | Schwierigkeit: ${difficultyLabels[difficulty] || difficulty}</p>
+                </div>
+            `;
+
+            // Add spin animation if not exists
+            if (!document.getElementById('spin-style')) {
+                const style = document.createElement('style');
+                style.id = 'spin-style';
+                style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+                document.head.appendChild(style);
+            }
 
             // UI-Status aktualisieren
             const difficultyLabels = { easy: '🔧 Leicht', medium: '🔧 Mittel', hard: '🔧 Schwer', adaptive: '⚡ Adaptiv' };
@@ -4888,13 +5144,20 @@
                 stats.correct++;
                 stats.streak++;
                 stats.xp += 20;
+                if (selected >= 0) {
+                    showToast('Richtig! +20 XP', 'success', 1500);
+                }
             } else {
                 stats.streak = 0;
+                if (selected >= 0) {
+                    showToast('Leider falsch. Die richtige Antwort wird angezeigt.', 'error', 1500);
+                }
             }
 
             if (stats.xp >= 100) {
                 stats.level++;
                 stats.xp -= 100;
+                showToast('🎉 Level Up! Du bist jetzt Level ' + stats.level + '!', 'success', 3000);
             }
 
             saveStats();
@@ -4950,6 +5213,20 @@
             if (score > stats.highscore) stats.highscore = score;
             saveStats();
 
+            const accuracy = activeQuizQuestions.length > 0 ? Math.round((score / activeQuizQuestions.length) * 100) : 0;
+            const feedbackEl = document.getElementById('feedback');
+            
+            if (score === activeQuizQuestions.length) {
+                feedbackEl.innerHTML = `<span style="color: var(--correct); font-weight: 800;">🎉 Perfekte Bewertung! Alle Fragen richtig beantwortet!</span>`;
+                showToast('Perfekt! Alle Fragen richtig!', 'success', 3000);
+            } else if (accuracy >= 80) {
+                feedbackEl.innerHTML = `<span style="color: var(--primary); font-weight: 800;">⭐ Hervorragende Leistung! ${accuracy}% Richtige.</span>`;
+            } else if (accuracy >= 60) {
+                feedbackEl.innerHTML = `<span style="color: var(--warning); font-weight: 800;">👍 Gute Arbeit! ${accuracy}% Richtige. Noch ein bisschen üben.</span>`;
+            } else {
+                feedbackEl.innerHTML = `<span style="color: var(--text-muted);">💪 ${accuracy}% Richtige. Schau dir die Erklärungen an und versuche es erneut!</span>`;
+            }
+
             // KI-Modus: Zeige AI-Config wieder an für neue Generierung
             if (currentMode === 'ai') {
                 document.getElementById('ai-config').style.display = 'grid';
@@ -4996,13 +5273,20 @@
             const idInput = document.getElementById('friend-id-input');
             const id = idInput.value.trim().toUpperCase();
             
-            if (!id) return;
+            if (!id) {
+                showToast('Bitte gib eine Freund-ID ein!', 'warning');
+                return;
+            }
+            if (!id.startsWith('#')) {
+                showToast('Die ID muss mit # beginnen (z.B. #ELK-1234)', 'warning');
+                return;
+            }
             if (id === currentUser.id) {
-                alert("Du kannst dich nicht selbst als Freund hinzufügen.");
+                showToast('Du kannst dich nicht selbst als Freund hinzufügen!', 'warning');
                 return;
             }
             if (friends.find(f => f.id === id)) {
-                alert("Dieser Freund ist bereits in deiner Liste.");
+                showToast('Dieser Freund ist bereits in deiner Liste.', 'warning');
                 return;
             }
 
@@ -5033,12 +5317,17 @@
             localStorage.setItem('elek_plus_friends', JSON.stringify(friends));
             idInput.value = '';
             renderFriendsList();
+            showToast(friendObj.name + ' wurde zu deinen Freunden hinzugefügt!', 'success');
         }
 
         function removeFriend(id) {
+            const friend = friends.find(f => f.id === id);
             friends = friends.filter(f => f.id !== id);
             localStorage.setItem('elek_plus_friends', JSON.stringify(friends));
             renderFriendsList();
+            if (friend) {
+                showToast(friend.name + ' wurde entfernt.', 'info');
+            }
         }
 
         function renderFriendsList() {
@@ -5046,7 +5335,21 @@
             if (!list) return;
             
             if (friends.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 40px;">Noch keine Freunde hinzugefügt. Teile deine ID mit anderen!</p>';
+                list.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                        <div style="font-size: 4rem; margin-bottom: 16px; opacity: 0.5;">👥</div>
+                        <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Noch keine Freunde</h3>
+                        <p style="font-size: 0.9rem; line-height: 1.6; max-width: 360px; margin: 0 auto;">
+                            Füge Freunde durch ihre ID hinzu (z.B. <code style="color: var(--primary);">#ELK-1234</code>), 
+                            um Duelle zu spielen und dich mit anderen zu vergleichen.
+                        </p>
+                        <div style="margin-top: 20px; padding: 16px; background: rgba(6, 182, 212, 0.08); border-radius: var(--radius-sm); border: 1px dashed var(--card-border); max-width: 320px; margin-left: auto; margin-right: auto;">
+                            <p style="font-size: 0.85rem; color: var(--primary); margin: 0;">
+                                💡 <strong>Tipp:</strong> Teile deine Profil-ID (oben rechts in deinem Profil) mit anderen Elektrikern!
+                            </p>
+                        </div>
+                    </div>
+                `;
                 return;
             }
 
@@ -5077,7 +5380,7 @@
             // Automatisches Ausfüllen des Codes für VS Modus Simulation
             const code = 'INV-' + id.replace('#', '');
             document.getElementById('vs-join-code-input').value = code;
-            alert("Herausforderung an " + id + " gesendet! Dein Freund muss dem Raum '" + code + "' beitreten.");
+            showToast("Herausforderung an " + id + " gesendet! Dein Freund muss dem Raum '" + code + "' beitreten.", 'info');
         }
 
         // Lernbereich Functions (Unverändert)
