@@ -3641,28 +3641,28 @@
                                 <tr><th>Netzsystem</th><th>PEN/PE/N</th><th>Fehlerstrom</th><th>Mindest-FI</th><th>Vorteil</th><th>Nachteil</th><th>Typische Anwendung</th></tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                    <tr>
                                     <td><strong>TN-C</strong></td>
                                     <td>PEN-durchgehend (kombiniert)</td>
-                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>Kurzschlussstrom über PEN</td>
                                     <td>30 mA (ergänzend)</td>
                                     <td>Einfache Verkabelung, niedriger Schleifenwiderstand</td>
-                                    <td>PEN-Unterbrechung = Körperberührbar mit Vvolle! (vgl. Regelwerk)</td>
+                                    <td>PEN-Unterbrechung = Körperberührbar mit Netzspannung! (vgl. Regelwerk)</td>
                                     <td>Ältere Anlagen, Industrie (selten neu)</td>
                                 </tr>
-                                <tr>
+                                    <tr>
                                     <td><strong>TN-S</strong></td>
                                     <td>PE und N strikt getrennt</td>
-                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>Kurzschlussstrom über PE</td>
                                     <td>30 mA (ergänzend)</td>
                                     <td>Keine vagabundierenden Ströme, EMV-freundlich</td>
                                     <td>PE/N-Trennung erfordert mehr Leitungsenden</td>
                                     <td>Industrie, Krankenhäuser, Datenzentren</td>
                                 </tr>
-                                <tr>
+                                    <tr>
                                     <td><strong>TN-C-S</strong></td>
                                     <td>PEN → N + PE im HAK</td>
-                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>Kurzschlussstrom über PE (nach HAK)</td>
                                     <td>30 mA (ergänzend)</td>
                                     <td>Standard-Wohnungsnetz, kostengünstig</td>
                                     <td>PEN-Unterbrechung im Versorgungsnetz gefährlich</td>
@@ -3681,9 +3681,9 @@
                                     <td><strong>IT</strong></td>
                                     <td>Alle Leiter gegen Erde isoliert</td>
                                     <td>Kein direkter Fehlerstromfluss (1. Fehler)</td>
-                                    <td>30 mA (zusätzlich), Isolationwandler nötig</td>
+                                    <td>30 mA (zusätzlich), IM nötig</td>
                                     <td>Kein Stromausfall beim 1. Fehler, hohe Verfügbarkeit</td>
-                                    <td>Aufwändige Überwachung, teure Isolationwandler</td>
+                                    <td>Isolationsüberwachung, teure IM</td>
                                     <td>OP-Räume, Intensivstationen, kritische Prozesse</td>
                                 </tr>
                             </tbody>
@@ -3702,7 +3702,7 @@
                             </div>
                             <div style="flex: 1; min-width: 180px; background: rgba(213,132,0,0.1); border: 2px solid #d58400; border-radius: 12px; padding: 16px; text-align: center;">
                                 <div style="width: 50px; height: 50px; border-radius: 50%; background: #d58400; margin: 0 auto 10px; box-shadow: 0 0 15px #d58400;"></div>
-                                <h4 style="color: #d58400; margin: 0 0 6px;">L2 (Orange)</h4>
+                                <h4 style="color: #d58400; margin: 0 0 6px;">L2 (Schwarz)</h4>
                                 <p style="font-size: 0.82rem; color: var(--text-muted);">Außenleiter 2 — Drehstrom</p>
                             </div>
                             <div style="flex: 1; min-width: 180px; background: rgba(173,83,9,0.1); border: 2px solid #ad5309; border-radius: 12px; padding: 16px; text-align: center;">
@@ -3711,8 +3711,8 @@
                                 <p style="font-size: 0.82rem; color: var(--text-muted);">Außenleiter 3 — Drehstrom</p>
                             </div>
                             <div style="flex: 1; min-width: 180px; background: rgba(59,130,246,0.1); border: 2px solid #3b82f6; border-radius: 12px; padding: 16px; text-align: center;">
-                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #3b82f6; margin: 0 auto 10px; box-shadow: 0 0 15px #3b82f6;"></div>
-                                <h4 style="color: #3b82f6; margin: 0 0 6px;">N (Blau/LILA)</h4>
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #3b82f6; margin: 0 auto 10px;"></div>
+                                <h4 style="color: #3b82f6; margin: 0 0 6px;">N (Blau)</h4>
                                 <p style="font-size: 0.82rem; color: var(--text-muted);">Neutralleiter — für Nicht-Außenleiter</p>
                             </div>
                             <div style="flex: 1; min-width: 180px; background: rgba(16,185,129,0.1); border: 2px solid #10b981; border-radius: 12px; padding: 16px; text-align: center;">
@@ -3739,7 +3739,7 @@
                                 <tr><td><strong>Industriegebäude</strong></td><td>–</td><td>⭐ bevorzugt</td><td>✓ möglich</td><td>–</td></tr>
                                 <tr><td><strong>Schule / Krankenhaus</strong></td><td>–</td><td>✓ möglich</td><td>–</td><td>OP-Raum: ⭐</td></tr>
                                 <tr><td><strong>Photovoltaik-Anlage</strong></td><td>✓</td><td>⭐ (empfohlen)</td><td>✓</td><td>✓ (mit DCF)</td></tr>
-                                <tr><td><strong>E-Mobile Wallbox</strong></td><td>✓</td><td>✓</td><td>✓ (mit FI B)</td><td>✓ (mit Isolationswandler)</td></tr>
+                                <tr><td><strong>E-Mobile Wallbox</strong></td><td>✓</td><td>✓</td><td>✓ (mit FI B)</td>                                <td>✓ (mit IM)</td></tr>
                                 <tr><td><strong>Land / Scheune</strong></td><td>–</td><td>–</td><td>⭐ oft einziger Weg</td><td>–</td></tr>
                                 <tr><td><strong>OP-Raum (Kritisch)</strong></td><td>–</td><td>–</td><td>–</td><td>⭐ Pflicht</td></tr>
                                 <tr><td><strong>Datenzentrum</strong></td><td>–</td><td>⭐ (EMV)</td><td>✓</td><td>–</td></tr>
@@ -3765,7 +3765,7 @@
                                 <li>1. Prüfe die Netzform am Hausanschluss (PEN vorhanden → TN-C-S)</li>
                                 <li>2. Bestimme, ob ein Schutzleiterpotentialausgleich möglich ist</li>
                                 <li>3. Bei fehlendem PE/Schutzleiter → TT-Netz mit RCD nötig</li>
-                                <li>4. Bei kritischer Versorgungssicherheit → IT-Netz mit Isolationswandler</li>
+                                <li>4. Bei kritischer Versorgungssicherheit → IT-Netz mit IM (Isolationsüberwachung)</li>
                                 <li>5. Immer FI-Schalter (min. 30 mA) für Personenschutz einplanen</li>
                             </ul>
                         </div>
@@ -3789,14 +3789,14 @@
                                 </tr>
                                 <tr>
                                     <td><strong>TT-System</strong></td>
-                    <td>FI 30 mA zwingend (Personenschutz)</td>
-                    <td>Erdkontrollwiderstand ≤ 1000 Ω</td>
-                    <td>FI 30 mA (Typ A/B)</td>
-                    <td>Erder muss separat gebildet werden (mind. 2 Erder, 10 m Abstand)</td>
-                </tr>
+                                    <td>FI 30 mA zwingend (Personenschutz)</td>
+                                    <td>Lehrstromwiderstand (RA) ≤ 100 Ω</td>
+                                    <td>FI 30 mA (mind. Typ A)</td>
+                                    <td>Erder muss separat gebildet werden (mind. 2 Erder, 10 m Abstand)</td>
+                                </tr>
                                 <tr>
                                     <td><strong>IT-System</strong></td>
-                                    <td>Isolationswandler 30 mA + Lastspeisung</td>
+                                    <td>IM (Isolationsüberwachung) + 30 mA FI</td>
                                     <td>Isolationsüberwachung (1. Fehler Info)</td>
                                     <td>FI 30 mA (Typ A)</td>
                                     <td>Isolationswiderstand ≥ 1 MΩ, Alarm bei 1. Fehler nicht abstellen</td>
@@ -3813,7 +3813,7 @@
                             <text x="20" y="88" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
 
                             <rect x="80" y="100" width="60" height="40" rx="4" fill="rgba(236,72,153,0.15)" stroke="#ec4899" stroke-width="2"/>
-                            <text x="110" y="125" fill="#ec4899" font-size="10" text-anchor="middle" font-weight="bold">FI-Brand</text>
+                            <text x="110" y="125" fill="#ec4899" font-size="10" text-anchor="middle" font-weight="bold">FI-Schalter</text>
                             <text x="110" y="140" fill="#ec4899" font-size="9" text-anchor="middle">30 mA Typ A</text>
 
                             <line x1="140" y1="115" x2="580" y2="115" stroke="#f59e0b" stroke-width="3"/>
@@ -3862,7 +3862,7 @@
                             <line x1="240" y1="100" x2="500" y2="100" stroke="#10b981" stroke-width="3"/>
                             <text x="370" y="92" fill="#10b981" font-size="10" font-weight="bold">PE (PAS)</text>
 
-                            <rect x="500" y="40" width="80" y2="120" height="120" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="2"/>
+                            <rect x="500" y="40" width="80" height="120" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="2"/>
                             <text x="540" y="60" fill="#10b981" font-size="10" text-anchor="middle" font-weight="bold">PV-Wechselrichter</text>
 
                             <line x1="500" y1="140" x2="580" y2="140" stroke="#10b981" stroke-width="3"/>
@@ -3875,7 +3875,7 @@
                             <text x="310" y="225" fill="#94a3b8" font-size="9" text-anchor="middle">PE-Potentialausgleich: Alle PE-Leiter (inkl. PV-Anlage) an einem Punkt verbinden!</text>
                         </svg>
                         <div class="info-badge">
-                            <strong>VDE-AR-N 410.5:</strong> PV-Anlagen bis 30 kW dürfen mit einem 30 mA FI Typ A geschützt sein. Für DC-Seiten gilt: Trennschalter, Überspannungsableitung (ÜSS) und FI-Bereichsschutz erforderlich.
+                            <strong>VDE-AR-N 410.5:</strong> PV-Anlagen bis 30 kW dürfen in TN-C-S/TN-S Netzen mit einem 30 mA FI Typ A geschützt sein. In TT-Netzen ist jedoch ein FI Typ B zwingend erforderlich, da transformatorlose Wechselrichter DC-Fehlerströme erzeugen können.
                         </div>
                     </div>`
             },
@@ -4453,7 +4453,7 @@
                 question: "Welcher Querschnitt ist MINDESTENS für eine 3,7 kW Wallbox (Einfamilienhaus, 230V, 16A) erforderlich?",
                 options: ["1,5 mm²", "2,5 mm²", "4 mm²", "6 mm²"],
                 correct: 2,
-                explanation: "Bei 230V und 16A: P=4600W. Der Verlust darf 3% des Nennwerts nicht überschreiten. Für Wallboxen gilt speziell: mind. 4mm² Kupfer (je nach Leitungsmasse und Länge). 2,5mm² ist für normale Steckdosen, nicht für Dauerlast!"
+                explanation: "Bei 230V und 16A: P ≈ 3,7kW. Für Dauerlast bei Wallboxen: mind. 4mm² Kupfer. 2,5mm² reicht nur für Kurzlast, nicht für Dauerstrom!"
             },
             {
                 topic: "ohms",
@@ -4527,13 +4527,6 @@
                 explanation: "Ein FI Typ A löst aus bei Wechsel- und gleichgerichteten Fehlerströmen (Gleichanteil). Wichtig für Geräte mit Brückenkreisplatine (z.B. moderne Heizstäbe, Bügeleisen)."
             },
             {
-                topic: "protection",
-                question: "In welchem Netzsystem ist ein RCD (FI-Schalter) gesetzlich vorgeschrieben?",
-                options: ["TN-C-S", "TN-S", "TT", "Alle Netze"],
-                correct: 2,
-                explanation: "Im TT-Netz (Terre-Terre) ist der RCD gesetzlich vorgeschrieben (DIN VDE 0100-410/A1), da der Schleifenwiderstand über die Erderverbindung zu hoch für eine Kurzschlussabschaltung sein kann."
-            },
-            {
                 topic: "cables",
                 question: "Welche Leitungsfarbe hat der Schutzleiter (PE) nach EN 60446?",
                 symbol: svgSymbols.ground,
@@ -4550,10 +4543,10 @@
             },
             {
                 topic: "safety",
-                question: "Wie groß darf der maximale Schutzleiterwiderstand für eine TT-Anlage sein?",
-                options: ["100 Ohm", "10 Ohm", "1 Ohm", "1000 Ohm"],
+                question: "Wie groß darf der maximale Fehlerstrompfad-Widerstand (Schleifenwiderstand) für eine TT-Anlage mit 30mA-FI sein?",
+                options: ["1000 Ω", "100 Ω", "10 Ω", "10000 Ω"],
                 correct: 0,
-                explanation: "Bei TT-Netzen mit 30 mA FI: Der Schleifenwiderstand (L1→PE→Erder) darf höchstens U/IΔn = 230V/0,03A ≈ 7667Ω betragen. Praktisch gilt: max. 1000Ω für 0,4s-Auslösung."
+                explanation: "Der Schleifenwiderstand (L1→Verbraucher→PE→Erder) darf bei 30mA-FI höchstens 1000Ω betragen, damit der FI innerhalb von 0,4s bei 10·In auslöst (230V/0,03A≈7667Ω theoretisch, praktisch 1000Ω begrenzt)."
             },
             {
                 topic: "protection",
@@ -4694,11 +4687,11 @@
             {
                 topic: "cables",
                 difficulty: "medium",
-                question: "Was ist der richtige Querschnitt für eine 3,7kW-Wallbox?",
+                question: "Was ist der empfohlene Querschnitt für eine 3,7kW-Wallbox mit 16A LS?",
                 options: ["2,5mm²", "4mm²", "6mm²", "10mm²"],
-                correct: 2,
-                explanation: "3,7kW @ 230V → I = 3700/230 ≈ 16A. Bei 30A Schutz: mind. 6mm² empfohlen (VDE-AR-N 4105).",
-                ai_tutor: "Wallbox-Anschluss: 6mm² mindestens, weil Dauerlast + Anlaufströme. Nicht 2,5mm² trotz 16A-Nennstrom! Weichaufkleber und Wärmeentwicklung beachten."
+                correct: 1,
+                explanation: "3,7kW @ 230V → I = 3700/230 ≈ 16A. Mindestens 4mm² Kupfer für Dauerlast. 6mm² empfohlen für zukünftige Erweiterung auf 7,4kW.",
+                ai_tutor: "Wallbox-Anschluss: 4mm² Mindestquerschnitt für 3,7kW. Nicht 2,5mm² wegen Dauerlast! 6mm² für zukünftige 7,4kW-Aufrüstung. Kriechende Lasten und Wärmeentwicklung beachten."
             },
             {
                 topic: "cables",
@@ -4723,7 +4716,7 @@
                 topic: "solar",
                 difficulty: "medium",
                 question: "Wie groß ist die Jahreserzeugung einer 8kW-PV-Anlage in Österreich?",
-                options: ["ca. 850 kWh", "ca. 8.500 kWh", "ca. 8500 kWh", "ca. 10.000 kWh"],
+                options: ["ca. 850 kWh", "ca. 8.500 kWh", "ca. 9.500 kWh", "ca. 10.000 kWh"],
                 correct: 1,
                 explanation: "8kW × ~1000 kWh/kWₚ Jahresertrag in Österreich = ca. 8.000–8.500 kWh.",
                 ai_tutor: "Jahresertrag = Nennleistung × spezifischer Ertrag. Österreich: ~900–1100 kWh/kWₚ je nach Lage. 8kW × 1000 = 8.000 kWh. Süd-Aussicht +30%, Ost/West -15%."
@@ -4816,11 +4809,11 @@
             {
                 topic: "ev",
                 difficulty: "hard",
-                question: "Eine 22kW-Wallbox an TN-C-S: Welche Leitung ist für DC-Fehlerströme relevant?",
-                options: ["Nur L und N", "Nur PE", "L, N und PE", "Keine, Wallbox hat keine DC-Teile"],
-                correct: 2,
-                explanation: "Wallboxes erzeugen intern DC-Leerlaufströme. Diese fließen über die PE-Leitung zurück. Im TT-Netz ist daher zwingend FI Typ B. Im TN-C-S kann Typ A ausreichen, muss aber geprüft werden.",
-                ai_tutor: "AC-Wallboxen erzeugen kleine DC-Leerlaufströme (<1mA). Diese fließen über PE. Im TN-C-S: Typ A oft ausreichend. Im TT-Netz: Typ B zwingend! Bei DC-Ladestationen (CCS/Schnellladung): immer Typ B. DC-Fehlerströme können FI Typ A nicht erkennen!"
+                question: "Eine 22kW-AC-Wallbox an TN-C-S: Welche Leitung führt DC-Fehlerströme zurück?",
+                options: ["Nur PE", "Nur L", "L, N und PE", "Keine, AC-Wallbox hat keine DC-Teile"],
+                correct: 0,
+                explanation: "AC-Wallboxen erzeugen kleine DC-Leerlaufströme aus der Schaltlogik. Diese fließen über die PE-Leitung zum Schutzleiterpotentialausgleich. Im TN-C-S ist FI-Typ A in der Regel ausreichend (IEC 61851-1); bei DC-Ladestationen (Mode 4) ist Typ B zwingend.",
+                ai_tutor: "AC-Wallboxen (Mode 2/3) erzeugen kleine DC-Anteile (<3,5mA). Diese fließen über PE. Typ A ist für AC-Ladepunkte üblich. BEI DC-Ladestationen (CCS/Schnellladung): immer Typ B erforderlich — DC-Fehlerströme können Typ A nicht erkennen!"
             }
         ];
 
