@@ -2528,6 +2528,19 @@
         .skip-link:focus {
             top: 0;
         }
+
+        /* Keyboard accessibility focus styles */
+        .keyboard-focusable {
+            outline: 2px solid transparent;
+            outline-offset: 3px;
+            transition: outline-color 0.2s ease;
+        }
+
+        .keyboard-focusable:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -3619,7 +3632,252 @@
                         </svg>
                         <p><em>Einsatzgebiet:</em> Krankenhaus-OP-Räume, Intensivstationen und Industrieanlagen, bei denen der Ausfall der Stromversorgung bei einem 1. Isolationsfehler eine Gefahr darstellen würde.</p>
                     </div>
-                `
+
+                    <div class="article-section">
+                        <h3>Vergleichstabelle: Alle Netzsysteme im Check</h3>
+                        <p>Mit dieser Übersicht hast du alle fünf Netzformen nach IEC 60364 / DIN VDE 0100-300 auf einen Blick — von den Eigenschaften über die Schutzmaßnahmen bis hin zu typischen Anwendungsbereichen:</p>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Netzsystem</th><th>PEN/PE/N</th><th>Fehlerstrom</th><th>Mindest-FI</th><th>Vorteil</th><th>Nachteil</th><th>Typische Anwendung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>TN-C</strong></td>
+                                    <td>PEN-durchgehend (kombiniert)</td>
+                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>30 mA (ergänzend)</td>
+                                    <td>Einfache Verkabelung, niedriger Schleifenwiderstand</td>
+                                    <td>PEN-Unterbrechung = Körperberührbar mit Vvolle! (vgl. Regelwerk)</td>
+                                    <td>Ältere Anlagen, Industrie (selten neu)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TN-S</strong></td>
+                                    <td>PE und N strikt getrennt</td>
+                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>30 mA (ergänzend)</td>
+                                    <td>Keine vagabundierenden Ströme, EMV-freundlich</td>
+                                    <td>PE/N-Trennung erfordert mehr Leitungsenden</td>
+                                    <td>Industrie, Krankenhäuser, Datenzentren</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TN-C-S</strong></td>
+                                    <td>PEN → N + PE im HAK</td>
+                                    <td>Schutzleiter Potentialausgleich möglich</td>
+                                    <td>30 mA (ergänzend)</td>
+                                    <td>Standard-Wohnungsnetz, kostengünstig</td>
+                                    <td>PEN-Unterbrechung im Versorgungsnetz gefährlich</td>
+                                    <td>Wohneinheiten, Einfamilienhäuser (Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TT</strong></td>
+                                    <td>PE über lokalen Erder</td>
+                                    <td>Hoher Schleifenwiderstand über Erder</td>
+                                    <td><strong>30 mA zwingend</strong> (Personenschutz)</td>
+                                    <td>Einfacher Erder, unabhängig vom Versorger</td>
+                                    <td>Schleifenstrom nicht zuverlässig → RCD zwingend nötig</td>
+                                    <td>Land, Altbauten, Sonderanlagen, Carport</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IT</strong></td>
+                                    <td>Alle Leiter gegen Erde isoliert</td>
+                                    <td>Kein direkter Fehlerstromfluss (1. Fehler)</td>
+                                    <td>30 mA (zusätzlich), Isolationwandler nötig</td>
+                                    <td>Kein Stromausfall beim 1. Fehler, hohe Verfügbarkeit</td>
+                                    <td>Aufwändige Überwachung, teure Isolationwandler</td>
+                                    <td>OP-Räume, Intensivstationen, kritische Prozesse</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Leitungsfarben &amp; Identifikation (EN 60446 / VDE 0105-100)</h3>
+                        <p>Die Farbcodierung der Leitungen ist gesetzlich vorgegeben und darf <strong>nur</strong> so verwendet werden:</p>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0;">
+                            <div style="flex: 1; min-width: 180px; background: rgba(245,158,11,0.1); border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #f59e0b; margin: 0 auto 10px; box-shadow: 0 0 15px #f59e0b;"></div>
+                                <h4 style="color: #f59e0b; margin: 0 0 6px;">L1 (Braun)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Außenleiter 1 — Primärleiter</p>
+                            </div>
+                            <div style="flex: 1; min-width: 180px; background: rgba(213,132,0,0.1); border: 2px solid #d58400; border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #d58400; margin: 0 auto 10px; box-shadow: 0 0 15px #d58400;"></div>
+                                <h4 style="color: #d58400; margin: 0 0 6px;">L2 (Orange)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Außenleiter 2 — Drehstrom</p>
+                            </div>
+                            <div style="flex: 1; min-width: 180px; background: rgba(173,83,9,0.1); border: 2px solid #ad5309; border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #ad5309; margin: 0 auto 10px; box-shadow: 0 0 15px #ad5309;"></div>
+                                <h4 style="color: #ad5309; margin: 0 0 6px;">L3 (Grau)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Außenleiter 3 — Drehstrom</p>
+                            </div>
+                            <div style="flex: 1; min-width: 180px; background: rgba(59,130,246,0.1); border: 2px solid #3b82f6; border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: #3b82f6; margin: 0 auto 10px; box-shadow: 0 0 15px #3b82f6;"></div>
+                                <h4 style="color: #3b82f6; margin: 0 0 6px;">N (Blau/LILA)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Neutralleiter — für Nicht-Außenleiter</p>
+                            </div>
+                            <div style="flex: 1; min-width: 180px; background: rgba(16,185,129,0.1); border: 2px solid #10b981; border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45%, #10b981, #39d35e); margin: 0 auto 10px; box-shadow: 0 0 15px #10b981;"></div>
+                                <h4 style="color: #10b981; margin: 0 0 6px;">PE (Grün-Gelb)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Schutzleiter — Streifen GEGENLÄUFIG!</p>
+                            </div>
+                        </div>
+                        <div class="info-badge">
+                            <strong>Wichtig:</strong> Die Farben gelten <em>nur</em> für Kabel im Auslieferungszustand. Bei Umbauten/Änderungen gelten die Farben der bestehenden Anlage. PE darf nur grün-gelb mit STREIFEN in Gegenrichtung sein — niemals einheitlich gefärbt!
+                        </div>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Praktischer Leitfaden: Netzsystem-Auswahl</h3>
+                        <p>Welches Netzsystem ist das richtige für deinen Anwendungsfall? Dieser Entscheidungsbaum hilft dir bei der Planung:</p>
+
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Anforderung</th><th>TN-C-S</th><th>TN-S</th><th>TT</th><th>IT</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Wohneinheit (Standard)</strong></td><td>⭐ Standard</td><td>✓ möglich</td><td>–</td><td>–</td></tr>
+                                <tr><td><strong>Industriegebäude</strong></td><td>–</td><td>⭐ bevorzugt</td><td>✓ möglich</td><td>–</td></tr>
+                                <tr><td><strong>Schule / Krankenhaus</strong></td><td>–</td><td>✓ möglich</td><td>–</td><td>OP-Raum: ⭐</td></tr>
+                                <tr><td><strong>Photovoltaik-Anlage</strong></td><td>✓</td><td>⭐ (empfohlen)</td><td>✓</td><td>✓ (mit DCF)</td></tr>
+                                <tr><td><strong>E-Mobile Wallbox</strong></td><td>✓</td><td>✓</td><td>✓ (mit FI B)</td><td>✓ (mit Isolationswandler)</td></tr>
+                                <tr><td><strong>Land / Scheune</strong></td><td>–</td><td>–</td><td>⭐ oft einziger Weg</td><td>–</td></tr>
+                                <tr><td><strong>OP-Raum (Kritisch)</strong></td><td>–</td><td>–</td><td>–</td><td>⭐ Pflicht</td></tr>
+                                <tr><td><strong>Datenzentrum</strong></td><td>–</td><td>⭐ (EMV)</td><td>✓</td><td>–</td></tr>
+                            </tbody>
+                        </table>
+
+                        <svg viewBox="0 0 600 200" style="width:100%; max-width:600px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:20px 0; border:1px solid rgba(6,182,212,0.3);">
+                            <text x="300" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">ENTSCHEIDUNGSHILFE NETZSYSTEM</text>
+                            <polygon points="50,60 200,40 200,80" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+                            <text x="125" y="70" fill="#10b981" font-size="10" text-anchor="middle">Wohnungs-</text>
+                            <text x="125" y="85" fill="#10b981" font-size="10" text-anchor="middle">anlage</text>
+                            <polygon points="200,40 350,60 350,100 200,80" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+                            <text x="275" y="70" fill="#3b82f6" font-size="10" text-anchor="middle">Industrie</text>
+                            <text x="275" y="85" fill="#3b82f6" font-size="10" text-anchor="middle">/Gewerbe</text>
+                            <polygon points="350,60 500,40 500,80" fill="rgba(126,34,206,0.15)" stroke="#7e22ce" stroke-width="1.5"/>
+                            <text x="425" y="70" fill="#7e22ce" font-size="10" text-anchor="middle">Sonder-</text>
+                            <text x="425" y="85" fill="#7e22ce" font-size="10" text-anchor="middle">anwendung</text>
+                        </svg>
+
+                        <div class="info-badge">
+                            <strong>Checkliste Netzsystemwahl:</strong>
+                            <ul style="margin-top: 8px; line-height: 1.8; font-size: 0.92rem;">
+                                <li>1. Prüfe die Netzform am Hausanschluss (PEN vorhanden → TN-C-S)</li>
+                                <li>2. Bestimme, ob ein Schutzleiterpotentialausgleich möglich ist</li>
+                                <li>3. Bei fehlendem PE/Schutzleiter → TT-Netz mit RCD nötig</li>
+                                <li>4. Bei kritischer Versorgungssicherheit → IT-Netz mit Isolationswandler</li>
+                                <li>5. Immer FI-Schalter (min. 30 mA) für Personenschutz einplanen</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Schutzkonzepte je Netzsystem</h3>
+                        <p>Der Schutz vor elektrischen Schlägen hängt von der Netzform ab. Hier die passenden Maßnahmen für jedes System:</p>
+
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>Netzsystem</th><th>Haupt-LC</th><th>Zusatz-LC</th><th>Fehlerstromschutz</th><th>Besondere Anforderung</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>TN-Systeme</strong></td>
+                                    <td>Leckstrom ≤ 30 mA (PE-Überprüfung)</td>
+                                    <td>Automatische Trennung PEN/N</td>
+                                    <td>FI 30 mA (Typ A/F)</td>
+                                    <td>PEN-Leiter darf im Haus nicht getrennt werden (außer HAK)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TT-System</strong></td>
+                    <td>FI 30 mA zwingend (Personenschutz)</td>
+                    <td>Erdkontrollwiderstand ≤ 1000 Ω</td>
+                    <td>FI 30 mA (Typ A/B)</td>
+                    <td>Erder muss separat gebildet werden (mind. 2 Erder, 10 m Abstand)</td>
+                </tr>
+                                <tr>
+                                    <td><strong>IT-System</strong></td>
+                                    <td>Isolationswandler 30 mA + Lastspeisung</td>
+                                    <td>Isolationsüberwachung (1. Fehler Info)</td>
+                                    <td>FI 30 mA (Typ A)</td>
+                                    <td>Isolationswiderstand ≥ 1 MΩ, Alarm bei 1. Fehler nicht abstellen</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <svg viewBox="0 0 620 260" style="width:100%; max-width:620px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:20px 0; border:1px solid rgba(6,182,212,0.3);">
+                            <text x="310" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">TT-NETZ MIT LOKALEN ERDDERN</text>
+
+                            <line x1="40" y1="55" x2="580" y2="55" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="20" y="58" fill="#f59e0b" font-size="10" font-weight="bold">L1</text>
+                            <line x1="40" y1="85" x2="580" y2="85" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="20" y="88" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
+
+                            <rect x="80" y="100" width="60" height="40" rx="4" fill="rgba(236,72,153,0.15)" stroke="#ec4899" stroke-width="2"/>
+                            <text x="110" y="125" fill="#ec4899" font-size="10" text-anchor="middle" font-weight="bold">FI-Brand</text>
+                            <text x="110" y="140" fill="#ec4899" font-size="9" text-anchor="middle">30 mA Typ A</text>
+
+                            <line x1="140" y1="115" x2="580" y2="115" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="360" y="108" fill="#f59e0b" font-size="9">L1 → Verbraucher</text>
+                            <line x1="140" y1="135" x2="400" y2="135" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="270" y="128" fill="#3b82f6" font-size="9">N → Verbraucher</text>
+
+                            <rect x="400" y="95" width="180" height="70" rx="6" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2"/>
+                            <text x="490" y="115" fill="#06b6d4" font-size="10" text-anchor="middle" font-weight="bold">Verbraucher</text>
+                            <text x="490" y="130" fill="#94a3b8" font-size="9" text-anchor="middle">Klasse I (mit PE)</text>
+
+                            <line x1="430" y1="165" x2="430" y2="195" stroke="#10b981" stroke-width="3"/>
+                            <line x1="420" y1="195" x2="440" y2="195" stroke="#10b981" stroke-width="3"/>
+                            <line x1="425" y1="200" x2="435" y2="200" stroke="#10b981" stroke-width="2"/>
+                            <text x="430" y="215" fill="#10b981" font-size="9" text-anchor="middle">RA (lokaler Erder 1)</text>
+
+                            <line x1="530" y1="165" x2="530" y2="195" stroke="#10b981" stroke-width="3"/>
+                            <line x1="520" y1="195" x2="540" y2="195" stroke="#10b981" stroke-width="3"/>
+                            <line x1="525" y1="200" x2="535" y2="200" stroke="#10b981" stroke-width="2"/>
+                            <text x="530" y="215" fill="#10b981" font-size="9" text-anchor="middle">RA (lokaler Erder 2)</text>
+
+                            <rect x="30" y="200" width="540" height="50" rx="5" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                            <text x="300" y="215" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">TT-Netz: Lokaler Erder + 30mA FI = Personenschutz (kein PE-Loop)</text>
+                            <text x="300" y="232" fill="#94a3b8" font-size="9" text-anchor="middle">Bei Körperschluss: FI über Diffberstärker auslösen. Schleifenstrom über Erder ist sekundär.</text>
+                        </svg>
+                    </div>
+
+                    <div class="article-section">
+                        <h3>Praxis: PV-Anlage im TN-C-S Netz</h3>
+                        <p>Photovoltaik-Anlagen erfordern besondere Aufmerksamkeit bei der Netzintegration. Wichtig: Der PE-Leiter der PV-Anlage muss mit dem Hauptpotentialausgleich (PAS) des Gebäudes verbunden werden.</p>
+                        <svg viewBox="0 0 620 240" style="width:100%; max-width:620px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:16px 0; border:1px solid rgba(16,185,129,0.4);">
+                            <text x="310" y="25" fill="#10b981" font-size="13" font-weight="bold" text-anchor="middle">PV-Anlage: TN-C-S HAK-Anbindung</text>
+
+                            <rect x="50" y="40" width="120" height="170" rx="8" fill="rgba(255,255,255,0.03)" stroke="#64748b" stroke-width="1.5"/>
+                            <text x="110" y="60" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">Hausanschlusskasten</text>
+
+                            <line x1="50" y1="90" x2="580" y2="90" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8,4"/>
+                            <text x="90" y="82" fill="#f59e0b" font-size="9" font-weight="bold">PEN</text>
+
+                            <rect x="200" y="70" width="40" height="40" rx="4" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="1"/>
+                            <text x="220" y="95" fill="#fff" font-size="9" text-anchor="middle">Trenn-</text>
+                            <text x="220" y="107" fill="#fff" font-size="9" text-anchor="middle">stelle</text>
+
+                            <line x1="240" y1="80" x2="500" y2="80" stroke="#3b82f6" stroke-width="3"/>
+                            <text x="370" y="72" fill="#3b82f6" font-size="10" font-weight="bold">N</text>
+                            <line x1="240" y1="100" x2="500" y2="100" stroke="#10b981" stroke-width="3"/>
+                            <text x="370" y="92" fill="#10b981" font-size="10" font-weight="bold">PE (PAS)</text>
+
+                            <rect x="500" y="40" width="80" y2="120" height="120" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="2"/>
+                            <text x="540" y="60" fill="#10b981" font-size="10" text-anchor="middle" font-weight="bold">PV-Wechselrichter</text>
+
+                            <line x1="500" y1="140" x2="580" y2="140" stroke="#10b981" stroke-width="3"/>
+                            <text x="540" y="132" fill="#10b981" font-size="9" text-anchor="middle">PE → PAS</text>
+
+                            <line x1="330" y1="175" x2="330" y2="200" stroke="#10b981" stroke-width="2"/>
+                            <line x1="320" y1="200" x2="340" y2="200" stroke="#10b981" stroke-width="2"/>
+
+                            <rect x="40" y="210" width="560" height="30" rx="4" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                            <text x="310" y="225" fill="#94a3b8" font-size="9" text-anchor="middle">PE-Potentialausgleich: Alle PE-Leiter (inkl. PV-Anlage) an einem Punkt verbinden!</text>
+                        </svg>
+                        <div class="info-badge">
+                            <strong>VDE-AR-N 410.5:</strong> PV-Anlagen bis 30 kW dürfen mit einem 30 mA FI Typ A geschützt sein. Für DC-Seiten gilt: Trennschalter, Überspannungsableitung (ÜSS) und FI-Bereichsschutz erforderlich.
+                        </div>
+                    </div>`
             },
             fehlerschutz: {
                 title: "Fehlerschutzmaßnahmen (Netzabhängig & Netzunabhängig)",
@@ -4267,6 +4525,42 @@
                 options: ["Abschaltung bei 30mA Fehlerstrom + Gleichanteil", "Nur bei Wechselstrom", "Nicht bei Gleichströmen", "Nur bei 300mA"],
                 correct: 0,
                 explanation: "Ein FI Typ A löst aus bei Wechsel- und gleichgerichteten Fehlerströmen (Gleichanteil). Wichtig für Geräte mit Brückenkreisplatine (z.B. moderne Heizstäbe, Bügeleisen)."
+            },
+            {
+                topic: "protection",
+                question: "In welchem Netzsystem ist ein RCD (FI-Schalter) gesetzlich vorgeschrieben?",
+                options: ["TN-C-S", "TN-S", "TT", "Alle Netze"],
+                correct: 2,
+                explanation: "Im TT-Netz (Terre-Terre) ist der RCD gesetzlich vorgeschrieben (DIN VDE 0100-410/A1), da der Schleifenwiderstand über die Erderverbindung zu hoch für eine Kurzschlussabschaltung sein kann."
+            },
+            {
+                topic: "cables",
+                question: "Welche Leitungsfarbe hat der Schutzleiter (PE) nach EN 60446?",
+                symbol: svgSymbols.ground,
+                options: ["Blau", "Braun", "Grün mit Gelbstreifen", "Schwarz"],
+                correct: 2,
+                explanation: "Der Schutzleiter PE ist grün mit einem gelben Streifen in Gegenrichtung (DIN VDE 0105-100). Der Streifen darf nicht die ganze Länge bedecken und muss kontinuierlich verlaufen."
+            },
+            {
+                topic: "safety",
+                question: "TN-C-S: Wo erfolgt die Aufteilung des PEN-Leiters in N und PE?",
+                options: ["Im Schutzrohr", "Im Hausanschlusskasten (HAK)", "An der Wanddose", "Gar nicht"],
+                correct: 1,
+                explanation: "Die Aufteilung des PEN-Leiters in N und PE erfolgt im Hausanschlusskasten (HAK) oder im Hauptverteiler. Danach dürfen N und PE an keiner Stelle mehr verbunden werden!"
+            },
+            {
+                topic: "safety",
+                question: "Wie groß darf der maximale Schutzleiterwiderstand für eine TT-Anlage sein?",
+                options: ["100 Ohm", "10 Ohm", "1 Ohm", "1000 Ohm"],
+                correct: 0,
+                explanation: "Bei TT-Netzen mit 30 mA FI: Der Schleifenwiderstand (L1→PE→Erder) darf höchstens U/IΔn = 230V/0,03A ≈ 7667Ω betragen. Praktisch gilt: max. 1000Ω für 0,4s-Auslösung."
+            },
+            {
+                topic: "protection",
+                question: "Welches Netzsystem verwendet alle Leiter gegen Erde isoliert?",
+                options: ["TN-C", "TN-S", "TT", "IT"],
+                correct: 3,
+                explanation: "Im IT-Netz (Isolé-Terre) sind alle aktiven Leiter gegen Erde isoliert oder über eine hohe Impedanz geerdet. Dadurch tritt bei einem 1. Isolationsfehler kein Kurzschlussstrom zu, was den betriebsablässigen Betrieb ermöglicht."
             }
         ];
 
@@ -4480,6 +4774,53 @@
                 correct: 0,
                 explanation: "IP67 = Staubdicht (6) + geschützt gegen temporäre Eintauchen bis 1m (7). Höchster Schutz.",
                 ai_tutor: "IP-Code: Erste Ziffer = Schutz gegen Berühren (0–6), zweite = Wasserschutz (0–8). IP67 = staubdicht + 1m Tauchen. IP68 = tieferes Tauchen. Immer die höchste Ziffer wählen!"
+            },
+            // === NETZSYSTEME ===
+            {
+                topic: "protection",
+                difficulty: "easy",
+                question: "In welchem Netzsystem ist der FI-Schalter gesetzlich Pflicht?",
+                symbol: svgSymbols.rcd,
+                options: ["TN-C-S", "TN-S", "TT", "Alle"],
+                correct: 2,
+                explanation: "Im TT-Netz ist der FI-Schalter (RCD) gesetzlich vorgeschrieben, da der Erder-Widerstand allein nicht ausreicht, um Kurzschlussströme zu erzeugen.",
+                ai_tutor: "TT-Netze benötigen einen FI zur Sicherheit, weil der Schleifenwiderstand über den lokalen Erder zu hoch ist. Ohne FI wäre ein Körperschluss nicht mit hoher Sicherheit abgeschaltet. Immer 30 mA Typ A verwenden!"
+            },
+            {
+                topic: "cables",
+                difficulty: "medium",
+                question: "TN-C-S: Was passiert, wenn der PEN-Leiter unterbrochen ist?",
+                options: ["Nichts", "Alle Phasen gehen aus", "Schutzleiter wird zum Neutralleiter", "Kurzschluss"],
+                correct: 2,
+                explanation: "Bei PEN-Unterbrechung im TN-C-S-System wird der Schutzleiter (PE) zum Neutralleiter. Dadurch werden alle Metallteile auf Netzpotential (230V) potenziert!",
+                ai_tutor: "Ein Unterbrochener PEN-Leiter im TN-C-S ist eine tödliche Gefahr! Alle berührbaren Metallteile steigen auf 230V an. Daher: PEN-Leiter niemals unterbrechen, und im HAK immer ordnungsgemäß trennen. Im Zweifel: TT- Umbau prüfen."
+            },
+            {
+                topic: "protection",
+                difficulty: "hard",
+                question: "IT-Netz: Wie hoch darf der Isolationswiderstand im Leerlauf sein?",
+                options: ["≥ 1 MΩ", "≥ 100 kΩ", "≥ 10 MΩ", "≥ 0,5 MΩ"],
+                correct: 0,
+                explanation: "Bei IT-Systemen muss der Isolationswiderstand mindestens 1 MΩ betragen (nach VDE 0100-410). Bei Unterschreitung löst die Isolationsüberwachung aus.",
+                ai_tutor: "IT-Netze überwachen kontinuierlich den Isolationswiderstand. Bei 50 Hz: Mindestens 1 MΩ zur Erde. Die Isolationsüberwachung meldet den ersten Fehler, ohne abzuschalten. Bei zweitem Fehler: sofortiges Abschalten über FI erforderlich!"
+            },
+            {
+                topic: "solar",
+                difficulty: "medium",
+                question: "Eine 10kW-PV-Anlage an TT-Netz: Welcher FI-Typ ist erforderlich?",
+                options: ["FI Typ A 30mA", "FI Typ B 30mA", "FI Typ A 300mA", "Kein FI nötig"],
+                correct: 1,
+                explanation: "PV-Wechselrichter können Gleichströme im Fehlerfall erzeugen (DC-Fehlerströme). Im TT-Netz ist daher ein FI Typ B (für gleich- und wechselstromseitige Fehlerströme) zwingend erforderlich.",
+                ai_tutor: "PHOTOVOLTAIK + TT-NETZ = FI-Typ B! PV-Wechselrichter erzeugen durch Schutzleiterschutzimpedien (SEMs) gefährliche Gleichstromanteile. Typ A reicht nicht aus! Typ B erkennt glatte Gleichströme. Plus: DC-Trennschalter und Überspannungsableitung!"
+            },
+            {
+                topic: "ev",
+                difficulty: "hard",
+                question: "Eine 22kW-Wallbox an TN-C-S: Welche Leitung ist für DC-Fehlerströme relevant?",
+                options: ["Nur L und N", "Nur PE", "L, N und PE", "Keine, Wallbox hat keine DC-Teile"],
+                correct: 2,
+                explanation: "Wallboxes erzeugen intern DC-Leerlaufströme. Diese fließen über die PE-Leitung zurück. Im TT-Netz ist daher zwingend FI Typ B. Im TN-C-S kann Typ A ausreichen, muss aber geprüft werden.",
+                ai_tutor: "AC-Wallboxen erzeugen kleine DC-Leerlaufströme (<1mA). Diese fließen über PE. Im TN-C-S: Typ A oft ausreichend. Im TT-Netz: Typ B zwingend! Bei DC-Ladestationen (CCS/Schnellladung): immer Typ B. DC-Fehlerströme können FI Typ A nicht erkennen!"
             }
         ];
 
@@ -4729,7 +5070,8 @@
             vsGameState.opponent = {
                 name: 'Netzwerk-Duellant',
                 id: '#ONLINE-' + Math.floor(1000 + Math.random() * 9000),
-                avatar: '🤖'
+                avatar: '🤖',
+                vsRating: 1100 + Math.floor(Math.random() * 250)
             };
 
             showToast('Suche nach einem Gegner im Netzwerk...', 'info', 2000);
@@ -4901,26 +5243,47 @@
             const won = vsGameState.p1Score > vsGameState.p2Score;
             const draw = vsGameState.p1Score === vsGameState.p2Score;
 
+            const opponentRating = vsGameState.opponent && vsGameState.opponent.vsRating ? vsGameState.opponent.vsRating : 1200;
+            const myRating = currentUser.vsRating || 1200;
+
+            // ELO expected score: E = 1 / (1 + 10^((R_opp - R_self) / 400))
+            const expectedScore = 1 / (1 + Math.pow(10, (opponentRating - myRating) / 400));
+
+            // K-factor: höher für neue/ niedrig bewertete Spieler, niedriger für Profis
+            const kFactor = myRating < 1400 ? 40 : myRating < 1800 ? 32 : 24;
+
+            const actualScore = won ? 1 : draw ? 0.5 : 0;
+            let eloChange = Math.round(kFactor * (actualScore - expectedScore));
+
+            // Gewinn-Garantie: Mindest +5 beim Sieg, maximal -15 beim Verlust
+            if (won) {
+                eloChange = Math.max(eloChange, 5);
+            } else if (!draw) {
+                eloChange = Math.max(eloChange, -15);
+            } else {
+                eloChange = Math.max(eloChange, 0);
+            }
+
             if (won) {
                 document.getElementById('vs-result-title').innerText = '🏆 DU HAST GEWONNEN!';
                 document.getElementById('vs-result-title').style.color = 'var(--correct)';
-                document.getElementById('vs-elo-change').innerText = '+25 ELO Rating Punkte';
-                currentUser.vsRating += 25;
+                document.getElementById('vs-elo-change').innerText = eloChange > 0 ? `+${eloChange} ELO Rating Punkte` : 'ELO Rating Punkte';
+                currentUser.vsRating = Math.round(myRating + eloChange);
                 currentUser.vsWins++;
-                showToast('Duell gewonnen! +25 ELO', 'success');
+                showToast('Duell gewonnen! +' + eloChange + ' ELO', 'success');
             } else if (draw) {
                 document.getElementById('vs-result-title').innerText = '🤝 UNENTSCHIEDEN!';
                 document.getElementById('vs-result-title').style.color = 'var(--warning)';
-                document.getElementById('vs-elo-change').innerText = '+5 ELO Rating Punkte';
-                currentUser.vsRating += 5;
-                showToast('Unentschieden! +5 ELO', 'warning');
+                document.getElementById('vs-elo-change').innerText = eloChange >= 0 ? `+${eloChange} ELO Rating Punkte` : `${eloChange} ELO Rating Punkte`;
+                currentUser.vsRating = Math.round(myRating + eloChange);
+                showToast('Unentschieden! +' + eloChange + ' ELO', 'warning');
             } else {
                 document.getElementById('vs-result-title').innerText = '❌ NIEDERLAGE';
                 document.getElementById('vs-result-title').style.color = 'var(--incorrect)';
-                document.getElementById('vs-elo-change').innerText = '-15 ELO Rating Punkte';
-                currentUser.vsRating = Math.max(800, currentUser.vsRating - 15);
+                document.getElementById('vs-elo-change').innerText = `${eloChange} ELO Rating Punkte`;
+                currentUser.vsRating = Math.max(800, Math.round(myRating + eloChange));
                 currentUser.vsLosses++;
-                showToast('Niederlage! -15 ELO', 'error');
+                showToast('Niederlage! ' + eloChange + ' ELO', 'error');
             }
 
             saveCurrentUser();
@@ -5583,6 +5946,63 @@
             if (document.getElementById('calc-motor-res')) calculateMotor();
             if (document.getElementById('calc-pv-res')) calculatePV();
         });
+
+        // ===== Keyboard Accessibility =====
+        // Adds tabindex + role + Enter/Space keyboard support to all elements
+        // that have inline onclick handlers but are not native buttons.
+        function initKeyboardAccessibility() {
+            const clickableSelectors = [
+                '.menu-option', '.topic-card', '.stat-card', '.symbol-card',
+                '.avatar-opt', '.badge-item', '.calc-box'
+            ];
+
+            const elements = document.querySelectorAll(clickableSelectors.join(', '));
+            elements.forEach(el => {
+                if (el.getAttribute('role') === 'button') return;
+
+                // Make focusable
+                if (!el.hasAttribute('tabindex')) {
+                    el.setAttribute('tabindex', '0');
+                }
+
+                // Prevent scroll-jump on Space and trigger click
+                el.addEventListener('keydown', (e) => {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        // Dispatch a click event so the inline onclick fires
+                        el.click();
+                    }
+                });
+            });
+
+            // Also make stat-card and topic-card show proper cursor hint
+            const style = document.createElement('style');
+            style.textContent = `
+                .menu-option[tabindex], .topic-card[tabindex],
+                .stat-card[tabindex], .symbol-card[tabindex], .calc-box[tabindex] {
+                    cursor: pointer;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initKeyboardAccessibility);
+        } else {
+            initKeyboardAccessibility();
+        }
+
+        // Re-init after dynamic content (friends list, topics) is rendered
+        const _origRenderTopics = renderTopics;
+        window.renderTopics = function() {
+            _origRenderTopics();
+            setTimeout(initKeyboardAccessibility, 100);
+        };
+        const _origRenderFriends = renderFriendsList;
+        window.renderFriendsList = function() {
+            _origRenderFriends();
+            setTimeout(initKeyboardAccessibility, 100);
+        };
     </script>
 </body>
 </html>
