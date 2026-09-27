@@ -1908,6 +1908,23 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--ai-color));
             opacity: 0.4;
         }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            border-radius: var(--radius-sm);
+        }
+        .table-wrapper::-webkit-scrollbar { height: 6px; }
+        .table-wrapper::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.3); border-radius: 3px; }
+
+        .custom-table {
+            min-width: 600px;
+            font-size: 0.9rem;
+        }
+        .custom-table th, .custom-table td {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+        }
         
         .custom-table tr:last-child td { border-bottom: none; }
         .custom-table tr:hover td { 
@@ -3469,7 +3486,7 @@
                 description: "TN-C, TN-C-S, TN-S, TT und IT Netze inkl. hochauflösender, farbkodierter Schaltpläne",
                 content: `
                     <h2>Netzformen nach IEC 60364 / DIN VDE 0100-300</h2>
-                    <p class="article-desc">Hochauflösende grafische Schaltpläne der Netzsysteme. Farbcodierung: L1/L2/L3 (Kupfer/Orange), N (Blau), PE / PEN (Grün-Gelb).</p>
+                    <p class="article-desc">Hochauflösende grafische Schaltpläne der Netzsysteme. SVG-Farben: L1/L2/L3 (Kupfer/Orange), N (Blau), PE / PEN (Grün-Gelb). Reale Leitungsfarben siehe unten.</p>
                     
                     <div class="article-section">
                         <h3>1. TN-C-Netz (Terre Neutre - Combiné)</h3>
@@ -3636,58 +3653,60 @@
                     <div class="article-section">
                         <h3>Vergleichstabelle: Alle Netzsysteme im Check</h3>
                         <p>Mit dieser Übersicht hast du alle fünf Netzformen nach IEC 60364 / DIN VDE 0100-300 auf einen Blick — von den Eigenschaften über die Schutzmaßnahmen bis hin zu typischen Anwendungsbereichen:</p>
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Netzsystem</th><th>PEN/PE/N</th><th>Fehlerstrom</th><th>Mindest-FI</th><th>Vorteil</th><th>Nachteil</th><th>Typische Anwendung</th></tr>
-                            </thead>
-                            <tbody>
+                        <div class="table-wrapper">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr><th>Netzsystem</th><th>PEN/PE/N</th><th>Fehlerstrom</th><th>Mindest-FI</th><th>Vorteil</th><th>Nachteil</th><th>Typische Anwendung</th></tr>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                    <td><strong>TN-C</strong></td>
-                                    <td>PEN-durchgehend (kombiniert)</td>
-                                    <td>Kurzschlussstrom über PEN</td>
-                                    <td>30 mA (ergänzend)</td>
-                                    <td>Einfache Verkabelung, niedriger Schleifenwiderstand</td>
-                                    <td>PEN-Unterbrechung = Körperberührbar mit Netzspannung! (vgl. Regelwerk)</td>
-                                    <td>Ältere Anlagen, Industrie (selten neu)</td>
-                                </tr>
+                                        <td><strong>TN-C</strong></td>
+                                        <td>PEN-durchgehend (kombiniert)</td>
+                                        <td>Kurzschlussstrom über PEN</td>
+                                        <td>30 mA (ergänzend)</td>
+                                        <td>Einfache Verkabelung, niedriger Schleifenwiderstand</td>
+                                        <td>PEN-Unterbrechung = Körperberührbar mit Netzspannung! (vgl. Regelwerk)</td>
+                                        <td>Ältere Anlagen, Industrie (selten neu)</td>
+                                    </tr>
                                     <tr>
-                                    <td><strong>TN-S</strong></td>
-                                    <td>PE und N strikt getrennt</td>
-                                    <td>Kurzschlussstrom über PE</td>
-                                    <td>30 mA (ergänzend)</td>
-                                    <td>Keine vagabundierenden Ströme, EMV-freundlich</td>
-                                    <td>PE/N-Trennung erfordert mehr Leitungsenden</td>
-                                    <td>Industrie, Krankenhäuser, Datenzentren</td>
-                                </tr>
+                                        <td><strong>TN-S</strong></td>
+                                        <td>PE und N strikt getrennt</td>
+                                        <td>Kurzschlussstrom über PE</td>
+                                        <td>30 mA (ergänzend)</td>
+                                        <td>Keine vagabundierenden Ströme, EMV-freundlich</td>
+                                        <td>PE/N-Trennung erfordert mehr Leitungsenden</td>
+                                        <td>Industrie, Krankenhäuser, Datenzentren</td>
+                                    </tr>
                                     <tr>
-                                    <td><strong>TN-C-S</strong></td>
-                                    <td>PEN → N + PE im HAK</td>
-                                    <td>Kurzschlussstrom über PE (nach HAK)</td>
-                                    <td>30 mA (ergänzend)</td>
-                                    <td>Standard-Wohnungsnetz, kostengünstig</td>
-                                    <td>PEN-Unterbrechung im Versorgungsnetz gefährlich</td>
-                                    <td>Wohneinheiten, Einfamilienhäuser (Standard)</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>TT</strong></td>
-                                    <td>PE über lokalen Erder</td>
-                                    <td>Hoher Schleifenwiderstand über Erder</td>
-                                    <td><strong>30 mA zwingend</strong> (Personenschutz)</td>
-                                    <td>Einfacher Erder, unabhängig vom Versorger</td>
-                                    <td>Schleifenstrom nicht zuverlässig → RCD zwingend nötig</td>
-                                    <td>Land, Altbauten, Sonderanlagen, Carport</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>IT</strong></td>
-                                    <td>Alle Leiter gegen Erde isoliert</td>
-                                    <td>Kein direkter Fehlerstromfluss (1. Fehler)</td>
-                                    <td>30 mA (zusätzlich), IM nötig</td>
-                                    <td>Kein Stromausfall beim 1. Fehler, hohe Verfügbarkeit</td>
-                                    <td>Isolationsüberwachung, teure IM</td>
-                                    <td>OP-Räume, Intensivstationen, kritische Prozesse</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <td><strong>TN-C-S</strong></td>
+                                        <td>PEN → N + PE im HAK</td>
+                                        <td>Kurzschlussstrom über PE (nach HAK)</td>
+                                        <td>30 mA (ergänzend)</td>
+                                        <td>Standard-Wohnungsnetz, kostengünstig</td>
+                                        <td>PEN-Unterbrechung im Versorgungsnetz gefährlich</td>
+                                        <td>Wohneinheiten, Einfamilienhäuser (Standard)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TT</strong></td>
+                                        <td>PE über lokalen Erder</td>
+                                        <td>Hoher Schleifenwiderstand über Erder</td>
+                                        <td><strong>30 mA zwingend</strong> (Personenschutz)</td>
+                                        <td>Einfacher Erder, unabhängig vom Versorger</td>
+                                        <td>Schleifenstrom nicht zuverlässig → RCD zwingend nötig</td>
+                                        <td>Land, Altbauten, Sonderanlagen, Carport</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT</strong></td>
+                                        <td>Alle Leiter gegen Erde isoliert</td>
+                                        <td>Kein direkter Fehlerstromfluss (1. Fehler)</td>
+                                        <td>30 mA (zusätzlich), IM nötig</td>
+                                        <td>Kein Stromausfall beim 1. Fehler, hohe Verfügbarkeit</td>
+                                        <td>Isolationsüberwachung, teure IM</td>
+                                        <td>OP-Räume, Intensivstationen, kritische Prozesse</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="article-section">
@@ -3730,21 +3749,23 @@
                         <h3>Praktischer Leitfaden: Netzsystem-Auswahl</h3>
                         <p>Welches Netzsystem ist das richtige für deinen Anwendungsfall? Dieser Entscheidungsbaum hilft dir bei der Planung:</p>
 
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Anforderung</th><th>TN-C-S</th><th>TN-S</th><th>TT</th><th>IT</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>Wohneinheit (Standard)</strong></td><td>⭐ Standard</td><td>✓ möglich</td><td>–</td><td>–</td></tr>
-                                <tr><td><strong>Industriegebäude</strong></td><td>–</td><td>⭐ bevorzugt</td><td>✓ möglich</td><td>–</td></tr>
-                                <tr><td><strong>Schule / Krankenhaus</strong></td><td>–</td><td>✓ möglich</td><td>–</td><td>OP-Raum: ⭐</td></tr>
-                                <tr><td><strong>Photovoltaik-Anlage</strong></td><td>✓</td><td>⭐ (empfohlen)</td><td>✓</td><td>✓ (mit DCF)</td></tr>
-                                <tr><td><strong>E-Mobile Wallbox</strong></td><td>✓</td><td>✓</td><td>✓ (mit FI B)</td>                                <td>✓ (mit IM)</td></tr>
-                                <tr><td><strong>Land / Scheune</strong></td><td>–</td><td>–</td><td>⭐ oft einziger Weg</td><td>–</td></tr>
-                                <tr><td><strong>OP-Raum (Kritisch)</strong></td><td>–</td><td>–</td><td>–</td><td>⭐ Pflicht</td></tr>
-                                <tr><td><strong>Datenzentrum</strong></td><td>–</td><td>⭐ (EMV)</td><td>✓</td><td>–</td></tr>
-                            </tbody>
-                        </table>
+                        <div class="table-wrapper">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr><th>Anforderung</th><th>TN-C-S</th><th>TN-S</th><th>TT</th><th>IT</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><strong>Wohneinheit (Standard)</strong></td><td>⭐ Standard</td><td>✓ möglich</td><td>–</td><td>–</td></tr>
+                                    <tr><td><strong>Industriegebäude</strong></td><td>–</td><td>⭐ bevorzugt</td><td>✓ möglich</td><td>–</td></tr>
+                                    <tr><td><strong>Schule / Krankenhaus</strong></td><td>–</td><td>✓ möglich</td><td>–</td><td>OP-Raum: ⭐</td></tr>
+                                    <tr><td><strong>Photovoltaik-Anlage</strong></td><td>✓</td><td>⭐ (empfohlen)</td><td>✓</td><td>✓ (mit IM)</td></tr>
+                                    <tr><td><strong>E-Mobile Wallbox</strong></td><td>✓</td><td>✓</td><td>✓ (mit FI B)</td><td>✓ (mit IM)</td></tr>
+                                    <tr><td><strong>Land / Scheune</strong></td><td>–</td><td>–</td><td>⭐ oft einziger Weg</td><td>–</td></tr>
+                                    <tr><td><strong>OP-Raum (Kritisch)</strong></td><td>–</td><td>–</td><td>–</td><td>⭐ Pflicht</td></tr>
+                                    <tr><td><strong>Datenzentrum</strong></td><td>–</td><td>⭐ (EMV)</td><td>✓</td><td>–</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <svg viewBox="0 0 600 200" style="width:100%; max-width:600px; background:rgba(15,23,42,0.9); border-radius:12px; padding:16px; margin:20px 0; border:1px solid rgba(6,182,212,0.3);">
                             <text x="300" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">ENTSCHEIDUNGSHILFE NETZSYSTEM</text>
@@ -3775,34 +3796,36 @@
                         <h3>Schutzkonzepte je Netzsystem</h3>
                         <p>Der Schutz vor elektrischen Schlägen hängt von der Netzform ab. Hier die passenden Maßnahmen für jedes System:</p>
 
-                        <table class="custom-table">
-                            <thead>
-                                <tr><th>Netzsystem</th><th>Haupt-LC</th><th>Zusatz-LC</th><th>Fehlerstromschutz</th><th>Besondere Anforderung</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>TN-Systeme</strong></td>
-                                    <td>Leckstrom ≤ 30 mA (PE-Überprüfung)</td>
-                                    <td>Automatische Trennung PEN/N</td>
-                                    <td>FI 30 mA (Typ A/F)</td>
-                                    <td>PEN-Leiter darf im Haus nicht getrennt werden (außer HAK)</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>TT-System</strong></td>
-                                    <td>FI 30 mA zwingend (Personenschutz)</td>
-                                    <td>Lehrstromwiderstand (RA) ≤ 100 Ω</td>
-                                    <td>FI 30 mA (mind. Typ A)</td>
-                                    <td>Erder muss separat gebildet werden (mind. 2 Erder, 10 m Abstand)</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>IT-System</strong></td>
-                                    <td>IM (Isolationsüberwachung) + 30 mA FI</td>
-                                    <td>Isolationsüberwachung (1. Fehler Info)</td>
-                                    <td>FI 30 mA (Typ A)</td>
-                                    <td>Isolationswiderstand ≥ 1 MΩ, Alarm bei 1. Fehler nicht abstellen</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-wrapper">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr><th>Netzsystem</th><th>Haupt-LC</th><th>Zusatz-LC</th><th>Fehlerstromschutz</th><th>Besondere Anforderung</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>TN-Systeme</strong></td>
+                                        <td>Leckstrom ≤ 30 mA (PE-Überprüfung)</td>
+                                        <td>Automatische Trennung PEN/N</td>
+                                        <td>FI 30 mA (Typ A/F)</td>
+                                        <td>PEN-Leiter darf im Haus nicht getrennt werden (außer HAK)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TT-System</strong></td>
+                                        <td>FI 30 mA zwingend (Personenschutz)</td>
+                                        <td>Lehrstromwiderstand (RA) ≤ 100 Ω</td>
+                                        <td>FI 30 mA (mind. Typ A)</td>
+                                        <td>Erder muss separat gebildet werden (mind. 2 Erder, 10 m Abstand)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT-System</strong></td>
+                                        <td>IM (Isolationsüberwachung) + 30 mA FI</td>
+                                        <td>Isolationsüberwachung (1. Fehler Info)</td>
+                                        <td>FI 30 mA (Typ A)</td>
+                                        <td>Isolationswiderstand ≥ 1 MΩ, Alarm bei 1. Fehler nicht abstellen</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <svg viewBox="0 0 620 260" style="width:100%; max-width:620px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; margin:20px 0; border:1px solid rgba(6,182,212,0.3);">
                             <text x="310" y="25" fill="#06b6d4" font-size="13" font-weight="bold" text-anchor="middle">TT-NETZ MIT LOKALEN ERDDERN</text>
